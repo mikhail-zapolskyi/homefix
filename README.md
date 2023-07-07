@@ -19,7 +19,7 @@
    • Create wireframes and mock-ups to visualize the application's layout and flow.
    • Ensure the design is intuitive and user-friendly.
 2. Set Up Next.js Project:
-   • Create a new Next.js project using TypeScript.
+   • Create a new Next.js project using TypeScript.(Completed)
    • Set up the necessary configurations and dependencies.
 3. Database Design:
    • Determine the database structure and schema based on the application's requirements.
@@ -27,6 +27,9 @@
 4. User Registration and Authentication:
    • Implement user registration and authentication functionality.
    • Use secure practices such as password hashing and token-based authentication.
+   • Add Google authentication option (Completed)
+   • Add Facebook authentication option
+   • Add Use secure practices such as password hashing and token-based authentication.
 5. Service Listing and Professional Profiles:
    • Create database models and APIs for service listings and professional profiles.
    • Implement CRUD operations to manage services and professional information.

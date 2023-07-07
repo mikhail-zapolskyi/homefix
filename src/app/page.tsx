@@ -1,58 +1,28 @@
 // HOME PAGE
 "use client";
-import Image from "next/image";
-import styles from "./page.module.css";
 
-export default function Home() {
+import { Button } from "@mui/material";
+import { signIn, signOut, useSession } from "next-auth/react";
+
+const ButtonAuth = () => {
+	const { data: session, status } = useSession();
+
+	if (session && status === "authenticated") {
+		return (
+			<pre>
+				{JSON.stringify(session)};
+				<Button onClick={() => signOut()}>Sign Out</Button>
+			</pre>
+		);
+	}
+
+	return <Button onClick={() => signIn()}>Sign In</Button>;
+};
+
+export default async function Home() {
 	return (
-		<main className={styles.main}>
-			<div className={styles.description}>
-				<p>
-					Get started by editing&nbsp;
-					<code className={styles.code}>src/app/page.tsx</code>
-				</p>
-				<div>
-					<a
-						href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						By{" "}
-						<Image
-							src="/vercel.svg"
-							alt="Vercel Logo"
-							className={styles.vercelLogo}
-							width={100}
-							height={24}
-							priority
-						/>
-					</a>
-				</div>
-			</div>
-
-			<div className={styles.center}>
-				<Image
-					className={styles.logo}
-					src="/next.svg"
-					alt="Next.js Logo"
-					width={180}
-					height={37}
-					priority
-				/>
-			</div>
-
-			<div className={styles.grid}>
-				<a
-					href="/login"
-					className={styles.card}
-					rel="noopener noreferrer"
-				>
-					<h2>
-						Templates <span>-&gt;</span>
-					</h2>
-					<p>Explore the Next.js 13 playground.</p>
-				</a>
-			</div>
+		<main>
+			<ButtonAuth />
 		</main>
 	);
 }
