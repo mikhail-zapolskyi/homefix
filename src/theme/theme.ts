@@ -21,6 +21,7 @@ export const pt = PT_Sans({
 
 const theme = createTheme({
 	palette: {
+		mode: 'light',
 		primary: {
 			main: "#009FFD",
 			light: "#FBFEF9",
@@ -87,9 +88,16 @@ const theme = createTheme({
 			fontFamily: pt.style.fontFamily,
 			fontWeight: 400,
 		},
-
-
 	},
+	components: {
+		// Don't need any styles for now
+		// Structure should be:
+		// Component : {
+		//   styleOverrides: {}
+		//	 defaultProps: {}
+		//   variants: {} 
+		//}
+	}
 });
 
 export default theme;
