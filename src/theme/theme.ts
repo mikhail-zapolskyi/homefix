@@ -1,7 +1,19 @@
 import { Nunito, PT_Sans } from "next/font/google";
 import { createTheme } from "@mui/material";
 import { red } from "@mui/material/colors";
-
+declare module '@mui/material/styles' {
+	interface BreakpointOverrides {
+		xs: false; // removes the `xs` breakpoint
+		sm: false;
+		md: false;
+		lg: false;
+		xl: false;
+		mobile: true; // adds the `mobile` breakpoint
+		tablet: true;
+		laptop: true;
+		desktop: true;
+	}
+}
 
 // Main fonts will be nunito light + pt sans regular
 
@@ -97,7 +109,16 @@ const theme = createTheme({
 		//	 defaultProps: {}
 		//   variants: {} 
 		//}
-	}
+	},
+	breakpoints: {
+		values: {
+			mobile: 0,
+			tablet: 640,
+			laptop: 1024,
+			desktop: 1200,
+		},
+	},
+	transitions: {}
 });
 
 export default theme;
