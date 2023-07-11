@@ -1,5 +1,3 @@
-// SIGN IN PAGE
-
 "use client";
 
 import React, { useState } from "react";
@@ -20,17 +18,16 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { GoogleSigninButton } from "@/components";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-const SignIn = () => {
+export default function SignUp() {
+    const [showPassword, setShowPassword] = useState(false);
     const { data: session, status } = useSession();
 
     if (session && status === "authenticated") {
         redirect("/");
     }
-
-    const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (
@@ -43,12 +40,15 @@ const SignIn = () => {
         const data = new FormData(event.currentTarget);
         const email = data.get("email");
         const password = data.get("password");
+        const confirmPassword = data.get("confirmPassword");
 
-        if (!email || !password) {
+        if (!email || !password || !confirmPassword) {
             console.log("Please fill all fields");
         }
 
-        signIn("credentials", { email, password });
+        if (password !== confirmPassword) {
+            console.log("password doesn't match");
+        }
     };
 
     return (
@@ -62,7 +62,7 @@ const SignIn = () => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Sign up / Create Your Account
                 </Typography>
                 <Box
                     component="form"
@@ -77,7 +77,7 @@ const SignIn = () => {
                                 name="email"
                                 fullWidth
                                 id="email"
-                                label="Email"
+                                label="Email (Required)"
                                 autoFocus
                             />
                         </Grid>
@@ -87,7 +87,7 @@ const SignIn = () => {
                                 sx={{ width: "100%" }}
                             >
                                 <InputLabel htmlFor="password">
-                                    Password
+                                    Password (Required)
                                 </InputLabel>
                                 <OutlinedInput
                                     id="password"
@@ -117,6 +117,62 @@ const SignIn = () => {
                                 />
                             </FormControl>
                         </Grid>
+                        <Grid item mobile={12}>
+                            <FormControl
+                                variant="outlined"
+                                sx={{ width: "100%" }}
+                            >
+                                <InputLabel htmlFor="confirmPassword">
+                                    Confirm Password (Required)
+                                </InputLabel>
+                                <OutlinedInput
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type={showPassword ? "text" : "password"}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={
+                                                    handleClickShowPassword
+                                                }
+                                                onMouseDown={
+                                                    handleMouseDownPassword
+                                                }
+                                                edge="end"
+                                            >
+                                                {showPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    label="Password"
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid item mobile={12}>
+                            <Typography>Your password must:</Typography>
+                            <Typography component={"ul"}>
+                                <Typography component={"li"}>
+                                    Minimum length of 8 characters
+                                </Typography>
+                                <Typography component={"li"}>
+                                    Must include uppercase letters
+                                </Typography>
+                                <Typography component={"li"}>
+                                    Must include lowercase letters
+                                </Typography>
+                                <Typography component={"li"}>
+                                    Must include numbers
+                                </Typography>
+                                <Typography component={"li"}>
+                                    Must include special characters
+                                </Typography>
+                            </Typography>
+                        </Grid>
                     </Grid>
                     <Button
                         type="submit"
@@ -124,12 +180,12 @@ const SignIn = () => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Sign In
+                        Sign Up
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="signup" variant="body2">
-                                Don’t have an account? Sign up.
+                            <Link href="signin" variant="body2">
+                                Already have an account? Sign in
                             </Link>
                         </Grid>
                     </Grid>
@@ -146,6 +202,4 @@ const SignIn = () => {
             </Box>
         </Container>
     );
-};
-
-export default SignIn;
+}
