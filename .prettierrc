@@ -1,0 +1,17 @@
+{
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": "*.prisma",
+            "options": {
+                "parser": "prisma",
+                "semi": true,
+                "singleQuote": true,
+                "trailingComma": "all"
+            }
+        }
+    ]
+}
