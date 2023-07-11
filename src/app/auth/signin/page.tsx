@@ -47,11 +47,7 @@ const SignIn = () => {
             <CssBaseline />
             <Box
                 sx={{
-                    width: {
-                        mobile: '320px',
-                        tablet: '400px',
-                        laptop: '600px',
-                    },
+                    width: { xs: '320px', sm: '400px', md: '600px' },
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -59,7 +55,7 @@ const SignIn = () => {
                     p: 5,
                     borderRadius: 1,
                     boxShadow: {
-                        mobile: 'rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px',
+                        sm: 'rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px',
                     },
                 }}
             >
@@ -70,10 +66,7 @@ const SignIn = () => {
                     name="email"
                     size="small"
                     variant="standard"
-                    sx={{
-                        width: { mobile: 280, tablet: 320 },
-                        marginBottom: 2,
-                    }}
+                    sx={{ width: { xs: 280, sm: 320 }, marginBottom: 2 }}
                     onChange={changeAuthValue}
                     value={authValue.email}
                     autoFocus={true}
@@ -85,20 +78,14 @@ const SignIn = () => {
                     size="small"
                     variant="standard"
                     type="password"
-                    sx={{
-                        width: { mobile: 280, tablet: 320 },
-                        marginBottom: 2,
-                    }}
+                    sx={{ width: { xs: 280, sm: 320 }, marginBottom: 2 }}
                     value={authValue.password}
                     onChange={changeAuthValue}
                 />
                 <Button
                     variant="contained"
                     size="large"
-                    sx={{
-                        width: { mobile: 200, tablet: 320 },
-                        marginBottom: 2,
-                    }}
+                    sx={{ width: { xs: 200, sm: 320 }, marginBottom: 2 }}
                     onClick={() => signIn('credentials', authValue)}
                 >
                     Sign In
