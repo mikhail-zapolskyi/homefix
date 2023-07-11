@@ -20,16 +20,15 @@
    • Ensure the design is intuitive and user-friendly.
 2. Set Up Next.js Project:
    • Create a new Next.js project using TypeScript.(Completed)
-   • Set up the necessary configurations and dependencies.
+   • Set up the necessary configurations and dependencies. (Completed)
 3. Database Design:
    • Determine the database structure and schema based on the application's requirements.
-   • Choose a suitable database system (e.g., PostgreSQL, MongoDB) and set it up.
+   • Choose a suitable database system (e.g., PostgreSQL, MongoDB) and set it up. (Completed)
 4. User Registration and Authentication:
-   • Implement user registration and authentication functionality.
-   • Use secure practices such as password hashing and token-based authentication.
+   • Implement user registration and authentication functionality. (Completed)
+   • Use secure practices such as password hashing and token-based authentication. (Completed)
    • Add Google authentication option (Completed)
    • Add Facebook authentication option
-   • Add Use secure practices such as password hashing and token-based authentication.
 5. Service Listing and Professional Profiles:
    • Create database models and APIs for service listings and professional profiles.
    • Implement CRUD operations to manage services and professional information.
@@ -55,3 +54,24 @@
 12. Ongoing Maintenance and Support:
     • Plan for ongoing maintenance, bug fixes, and feature updates.
     • Provide user support
+
+## Install Dependencies:
+
+`npm i or npm install`
+
+## Run application in dev mode:
+
+You will need to add the following environment variables to your .env.local file
+
+-    `MONGODB_URI="mongodb+srv://your_db_username:your_db_password@cluster0.leoka.mongodb.net/your_db_name?retryWrites=true&w=majority"`
+-    `GOOGLE_CLIENT_ID="your google client id"`
+-    `GOOGLE_CLIENT_SECRET="your google client secret"`
+-    `PROVIDER_SECRET="your secret"`
+
+`npm run dev` - it will generate Prisma Client and runs the server after
+
+## Tech Stack
+
+**Client:** NextJS, Typescript, MaterialUI, Prisma
+
+**Server:** NextJS, MongoDB
