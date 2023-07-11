@@ -2,7 +2,8 @@
 
 import theme from "@/theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography, CssBaseline } from "@mui/material";
+import { CssBaseline } from "@mui/material";
+import { NavigationBar } from "@/components";
 import Providers from "../lib/auth/Providers";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -11,7 +12,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 			<body>
 				<ThemeProvider theme={theme}>
 					<CssBaseline>
-						<Typography variant="h1">Testing </Typography>
+						<NavigationBar />
 						<Providers>{children}</Providers>
 					</CssBaseline>
 				</ThemeProvider>

@@ -34,17 +34,17 @@ const SignIn = () => {
 	}
 
 	return (
-		<Container
-			component="main"
+		<Box
+			// component="main"
 			sx={{
-				width: "100vw",
-				height: "100vh",
+				width: "100%",
+				height: "92vh",
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
+				backgroundColor: "primary.light"
 			}}
 		>
-			<CssBaseline />
 			<Box
 				sx={{
 					width: { xs: "320px", sm: "400px", md: "600px" },
@@ -66,7 +66,7 @@ const SignIn = () => {
 					name="email"
 					size="small"
 					variant="standard"
-					sx={{ width: { xs: 280, sm: 320 }, marginBottom: 2 }}
+					sx={{ width: { sx: 280, sm: 320 }, marginBottom: 2 }}
 					onChange={changeAuthValue}
 					value={authValue.email}
 					autoFocus={true}
@@ -100,7 +100,7 @@ const SignIn = () => {
 				</Divider>
 				<GoogleSigninButton />
 			</Box>
-		</Container>
+		</Box>
 	);
 };
 
