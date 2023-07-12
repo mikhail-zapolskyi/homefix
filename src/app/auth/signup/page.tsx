@@ -20,6 +20,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { GoogleSigninButton } from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import axios from "axios";
 
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +50,15 @@ export default function SignUp() {
         if (password !== confirmPassword) {
             console.log("password doesn't match");
         }
+
+        axios
+            .post("/api/users", { email, password })
+            .then((res) => {
+                if (res.status === 201) {
+                    redirect("/");
+                }
+            })
+            .catch((error) => console.log(error));
     };
 
     return (
