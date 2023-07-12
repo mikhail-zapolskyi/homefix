@@ -58,7 +58,7 @@ export default function SignUp() {
                     redirect("/");
                 }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.error(error));
     };
 
     return (
