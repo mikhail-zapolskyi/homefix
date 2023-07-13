@@ -17,7 +17,7 @@ import {
     Divider,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { GoogleSigninButton } from "@/components";
+import { GoogleSigninButton, FacebookSigninButton } from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import axios from "axios";
@@ -209,6 +209,7 @@ export default function SignUp() {
                     </Typography>
                 </Divider>
                 <GoogleSigninButton />
+                <FacebookSigninButton />
             </Box>
         </Container>
     );
