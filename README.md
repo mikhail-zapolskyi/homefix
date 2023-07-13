@@ -63,12 +63,17 @@
 
 You will need to add the following environment variables to your .env.local file
 
--    `MONGODB_URI="mongodb+srv://your_db_username:your_db_password@cluster0.leoka.mongodb.net/your_db_name?retryWrites=true&w=majority"`
--    `GOOGLE_CLIENT_ID="your google client id"`
--    `GOOGLE_CLIENT_SECRET="your google client secret"`
--    `PROVIDER_SECRET="your secret"`
+-   `MONGODB_URI="mongodb+srv://your_db_username:your_db_password@cluster0.leoka.mongodb.net/your_db_name?retryWrites=true&w=majority"`
+-   `GOOGLE_CLIENT_ID="your google client id"`
+-   `GOOGLE_CLIENT_SECRET="your google client secret"`
+-   `PROVIDER_SECRET="your secret"`
 
 `npm run dev` - it will generate Prisma Client and runs the server after
+
+Incase having errors with db, please run these command first:
+
+npx prisma generate - It will generate prisma
+npx prisma db push - It will push constraints to db
 
 ## Tech Stack
 
