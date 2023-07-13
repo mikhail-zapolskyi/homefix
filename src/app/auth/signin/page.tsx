@@ -19,7 +19,7 @@ import {
     Divider,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { GoogleSigninButton } from "@/components";
+import { GoogleSigninButton, FacebookSigninButton } from "@/components";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
@@ -143,6 +143,7 @@ const SignIn = () => {
                     </Typography>
                 </Divider>
                 <GoogleSigninButton />
+                <FacebookSigninButton />
             </Box>
         </Container>
     );
