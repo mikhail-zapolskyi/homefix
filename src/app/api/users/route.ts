@@ -34,7 +34,6 @@ export async function POST(req: Request) {
         const user = await prisma.user.create({ data });
         return NextResponse.json(user);
     } catch (error) {
-        console.log(error);
-        return NextResponse.error();
+        return console.error(error);
     }
 }
