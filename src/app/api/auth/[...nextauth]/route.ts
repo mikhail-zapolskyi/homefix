@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
                         email: email,
                     },
                 });
-                console.log(user);
+
                 if (!user || !user.password) {
                     throw new Error("No user found");
                 }
