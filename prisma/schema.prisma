@@ -82,7 +82,7 @@ model ServiceProfile {
   employees         Int @default(1)
   hiredTimes        Int @default(0)
   bgChecked         Boolean?
-  paymentMethods       String[]
+  paymentMethods    String[]
   schedualPolicy    String?
   businessHours     Day[] 
   reviews           Review[]

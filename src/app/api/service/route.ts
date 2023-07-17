@@ -11,14 +11,20 @@ const getServiceProfile = async (req: NextRequest) => {
     for (const [key, value] of Array.from(searchParams.entries())) {
         paramsObject[key] = value;
     }
-    const { city, postalCode } = paramsObject;
+    const { name, city, postalCode, address, country, phone, rating } =
+        paramsObject;
+
     let query;
 
     if (paramsObject) {
         console.log("query");
         query = {
+            name,
             city,
             postalCode,
+            address,
+            country,
+            phone,
         };
     }
 
