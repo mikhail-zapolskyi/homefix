@@ -131,3 +131,4 @@ model Post {
 
   service ServiceProfile? @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
 }
+

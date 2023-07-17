@@ -1,6 +1,6 @@
 "use client";
 
-import theme from "@/theme/theme";
+import theme from "../theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import Providers from "../lib/auth/Providers";

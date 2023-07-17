@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "../../../lib/prisma/prisma";
 
 const getServiceProfile = async (req: NextRequest) => {
     // This block gets query params
@@ -15,7 +15,6 @@ const getServiceProfile = async (req: NextRequest) => {
         paramsObject;
 
     let query;
-
     if (paramsObject) {
         console.log("query");
         query = {
@@ -25,6 +24,7 @@ const getServiceProfile = async (req: NextRequest) => {
             address,
             country,
             phone,
+            rating: Number(rating) || undefined,
         };
     }
 
