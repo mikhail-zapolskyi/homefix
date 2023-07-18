@@ -7,7 +7,6 @@ const nextConfig = {
             "@auth/prisma-adapter",
             "@types/bcrypt",
             "bcrypt",
-            "mongoose",
         ],
     },
 };

@@ -9,7 +9,7 @@ datasource db {
 
 model Account {
   id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String @db.ObjectId
+  userId             String  @db.ObjectId
   type               String
   provider           String
   providerAccountId  String
@@ -22,32 +22,32 @@ model Account {
   session_state      String?
 
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken      String   @unique
-  userId            String   @db.ObjectId
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken      String    @unique
+  userId            String    @db.ObjectId
   expires           DateTime
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                String            @id @default(auto()) @map("_id") @db.ObjectId
   name              String?
-  email             String   @unique
-  emailVerified     Boolean? @map("email_verified")
+  email             String            @unique
+  emailVerified     Boolean?          @map("email_verified")
   password          String?
   image             String?
   accounts          Account[]
   sessions          Session[]
   serviceProfile    ServiceProfile[]
-  type              UserType @default(USER)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  type              UserType          @default(USER)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 }
 
 enum UserType {
@@ -57,30 +57,30 @@ enum UserType {
 }
 
 model VerificationToken {
-id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+id                  String    @id @default(auto()) @map("_id") @db.ObjectId
   identifier        String
-  token             String      @unique
-  expires           DateTime    @map("expiresAt")
+  token             String    @unique
+  expires           DateTime  @map("expiresAt")
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
 
 model ServiceProfile {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String @db.ObjectId
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @db.ObjectId
   name              String? 
   address           String?
   city              String?
   postalCode        String?
   country           String?
   phone             String?
-  rating            Int? @default(0)
+  rating            Int?      @default(0)
   introduction      String?
   bio               String?
   specialtiesDo     String[]
   specialtiesNo     String[]
-  employees         Int @default(1)
-  hiredTimes        Int @default(0)
+  employees         Int       @default(1)
+  hiredTimes        Int       @default(0)
   bgChecked         Boolean?
   paymentMethods    String[]
   schedualPolicy    String?
@@ -88,20 +88,20 @@ model ServiceProfile {
   reviews           Review[]
   posts             Post[]
   categories        String[]
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Day {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
-  servicePorfileId  String @db.ObjectId
+  id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  servicePorfileId  String         @db.ObjectId
   type              DayType
   from              DateTime
   to                DateTime
-  service ServiceProfile @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
+  service           ServiceProfile  @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
 }
 
 model Category {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
   name              String
 }
 
@@ -116,19 +116,19 @@ enum DayType {
 }
 
 model Review {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  servicePorfileId  String @db.ObjectId
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  servicePorfileId  String           @db.ObjectId
   rating            Int?
   comment           String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  service ServiceProfile? @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  service           ServiceProfile?  @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
 }
 
 model Post {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  servicePorfileId  String @db.ObjectId
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  servicePorfileId  String           @db.ObjectId
 
-  service ServiceProfile? @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
+  service           ServiceProfile?  @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
 }
 
