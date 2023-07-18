@@ -3,26 +3,27 @@
 
 import { Button } from "@mui/material";
 import { signIn, signOut, useSession } from "next-auth/react";
+import SearchBar from "@/components/SearchBar";
 
 const ButtonAuth = () => {
-	const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
-	if (session && status === "authenticated") {
-		return (
-			<pre>
-				{JSON.stringify(session)};
-				<Button onClick={() => signOut()}>Sign Out</Button>
-			</pre>
-		);
-	}
+  if (session && status === "authenticated") {
+    return (
+      <pre>
+        {JSON.stringify(session)};
+        <Button onClick={() => signOut()}>Sign Out</Button>
+      </pre>
+    );
+  }
 
-	return <Button onClick={() => signIn()}>Sign In</Button>;
+  return <Button onClick={() => signIn()}>Sign In</Button>;
 };
-
 export default async function Home() {
-	return (
-		<main>
-			<ButtonAuth />
-		</main>
-	);
+  return (
+    <main>
+      <ButtonAuth />
+      <SearchBar />
+    </main>
+  );
 }
