@@ -2,8 +2,8 @@ import NextAuth, { NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
-import Password from "@/utils/bcrypt";
-import prisma from "@/lib/prisma/prisma";
+import Password from "../../../../utils/bcrypt";
+import prisma from "../../../../lib/prisma/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { Adapter } from "next-auth/adapters";
 
