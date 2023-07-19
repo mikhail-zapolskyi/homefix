@@ -17,6 +17,9 @@ export async function GET() {
             where: {
                 email: session?.user?.email,
             },
+            select: {
+                serviceProfile: true,
+            },
         });
         return NextResponse.json(users);
     } catch (error) {
@@ -32,7 +35,7 @@ export async function POST(req: Request) {
 
     try {
         const user = await prisma.user.create({ data });
-        return NextResponse.json(user);
+        return NextResponse.json(user, { status: 201 });
     } catch (error) {
         return console.error(error);
     }

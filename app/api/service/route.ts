@@ -6,8 +6,8 @@ import prisma from "../../../lib/prisma/prisma";
 
 const getServiceProfile = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
-    console.log(searchParams);
 
+    // Get all evailable query valuy by extracting it as key, value and to array of objects
     const paramsObject = [];
     for (const [key, value] of Array.from(searchParams.entries())) {
         if (key === "rating") {
@@ -16,11 +16,11 @@ const getServiceProfile = async (req: NextRequest) => {
             paramsObject.push({ [key]: value });
         }
     }
-    console.log(paramsObject);
+
     let query = {
         where: {},
     };
-
+    // Check if paramsObject array has query. If YES change query
     if (paramsObject.length !== 0) {
         query = {
             where: {
