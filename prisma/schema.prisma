@@ -45,6 +45,7 @@ model User {
   accounts          Account[]
   sessions          Session[]
   serviceProfile    ServiceProfile[]
+  reviews           Review[]
   type              UserType          @default(USER)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
@@ -74,14 +75,14 @@ model ServiceProfile {
   postalCode        String?
   country           String?
   phone             String?
-  rating            Int?      @default(0)
+  rating            Float?      @default(0) @db.Double
   introduction      String?
   bio               String?
   specialtiesDo     String[]
   specialtiesNo     String[]
   employees         Int       @default(1)
   hiredTimes        Int       @default(0)
-  bgChecked         Boolean?
+  bgChecked         Boolean?  @default(false)
   paymentMethods    String[]
   schedualPolicy    String?
   businessHours     Day[] 
@@ -93,11 +94,11 @@ model ServiceProfile {
 
 model Day {
   id                String         @id @default(auto()) @map("_id") @db.ObjectId
-  servicePorfileId  String         @db.ObjectId
+  serviceProfileId  String         @db.ObjectId
   type              DayType
   from              DateTime
   to                DateTime
-  service           ServiceProfile  @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
+  service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
 model Category {
@@ -117,18 +118,21 @@ enum DayType {
 
 model Review {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  servicePorfileId  String           @db.ObjectId
   rating            Int?
   comment           String?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
-  service           ServiceProfile?  @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
+
+  serviceProfileId  String           @db.ObjectId
+  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  userId            String           @db.ObjectId
+  user              User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  servicePorfileId  String           @db.ObjectId
+  serviceProfileId  String           @db.ObjectId
 
-  service           ServiceProfile?  @relation(fields: [servicePorfileId], references: [id], onDelete: Cascade)
+  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 

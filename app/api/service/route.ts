@@ -3,31 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma/prisma";
+import { buildQueryObject } from "@/utils";
 
 const getServiceProfile = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
-
-    // Get all evailable query valuy by extracting it as key, value and to array of objects
-    const paramsObject = [];
-    for (const [key, value] of Array.from(searchParams.entries())) {
-        if (key === "rating") {
-            paramsObject.push({ [key]: Number(value) });
-        } else {
-            paramsObject.push({ [key]: value });
-        }
-    }
-
-    let query = {
-        where: {},
-    };
-    // Check if paramsObject array has query. If YES change query
-    if (paramsObject.length !== 0) {
-        query = {
-            where: {
-                OR: paramsObject,
-            },
-        };
-    }
+    const query = buildQueryObject(searchParams);
 
     const serviceProfiles = await prisma?.serviceProfile.findMany(query);
 
