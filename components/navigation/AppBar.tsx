@@ -10,10 +10,15 @@ import {
     Typography,
     MenuItem,
     Menu,
+    Divider,
+    ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import Settings from "@mui/icons-material/Settings";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { PrimaryButton, SlideMenu } from "@/components";
 import { useRouter } from "next/navigation";
@@ -58,27 +63,38 @@ const PrimaryAppBar = () => {
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-            }}
+            id="account-menu"
             open={isMenuOpen}
             onClose={handleMenuClose}
+            onClick={handleMenuClose}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Service Profile</MenuItem>
+            <Divider />
+            <MenuItem onClick={handleMenuClose}>
+                <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                Add service Profile
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <ListItemIcon>
+                    <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+            </MenuItem>
             <MenuItem
                 onClick={() => {
                     signOut();
                     handleMenuClose();
                 }}
             >
-                SignOut
+                <ListItemIcon>
+                    <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
             </MenuItem>
         </Menu>
     );
@@ -198,12 +214,16 @@ const PrimaryAppBar = () => {
                                 aria-haspopup="true"
                                 onClick={handleProfileMenuOpen}
                                 color="inherit"
+                                disableRipple={true}
                             >
                                 <Avatar
                                     alt={`${session?.user.name}`}
                                     src={`${session?.user.image}`}
                                     sx={{ width: 30, height: 30 }}
                                 />
+                                <Typography sx={{ padding: ".5rem" }}>
+                                    {session?.user.name}
+                                </Typography>
                             </IconButton>
                         ) : (
                             renderAuthButtons
