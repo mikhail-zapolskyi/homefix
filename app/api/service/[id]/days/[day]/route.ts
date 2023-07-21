@@ -1,8 +1,28 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "../../../../auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma/prisma";
+
+// Get a day by id
+export const GET = async (
+    req: NextRequest,
+    {
+        params,
+    }: {
+        params: { day: string };
+    }
+) => {
+    const { day } = params;
+    try {
+        const days = await prisma.day.findUnique({
+            where: { id: day },
+        });
+        return NextResponse.json(days, { status: 200 });
+    } catch (error: any) {
+        return NextResponse.json({ error: error }, { status: 500 });
+    }
+};
 
 // Update a day by id
 export const PUT = async (
@@ -10,10 +30,10 @@ export const PUT = async (
     {
         params,
     }: {
-        params: { id: string };
+        params: { day: string };
     }
 ) => {
-    const { id } = params;
+    const { day } = params;
     const data = await req.json();
     const session = await getServerSession(authOptions);
 
@@ -24,12 +44,12 @@ export const PUT = async (
     try {
         const updatedDay = await prisma.day.update({
             where: {
-                id,
+                id: day,
             },
             data,
         });
 
-        return NextResponse.json(updatedDay, { status: 201 });
+        return NextResponse.json(updatedDay, { status: 200 });
     } catch (error: any) {
         return NextResponse.json({ error: error }, { status: 500 });
     }
@@ -37,9 +57,9 @@ export const PUT = async (
 
 export const DELETE = async (
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: { day: string } }
 ) => {
-    const { id } = params;
+    const { day } = params;
 
     const session = await getServerSession(authOptions);
 
@@ -50,13 +70,13 @@ export const DELETE = async (
     try {
         const deletedDay = await prisma.day.delete({
             where: {
-                id,
+                id: day,
             },
             select: {
                 id: true,
             },
         });
-        return NextResponse.json(deletedDay, { status: 201 });
+        return NextResponse.json(deletedDay, { status: 200 });
     } catch (error: any) {
         return NextResponse.json({ error: error }, { status: 500 });
     }
