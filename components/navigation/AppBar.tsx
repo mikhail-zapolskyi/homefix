@@ -21,11 +21,13 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { PrimaryButton, SlideMenu } from "@/components";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const PrimaryAppBar = () => {
     const { data: session, status } = useSession();
     const { push } = useRouter();
+    const pathname = usePathname();
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         useState<null | HTMLElement>(null);
@@ -58,7 +60,7 @@ const PrimaryAppBar = () => {
     const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-
+    console.log(pathname);
     const menuId = "primary-search-account-menu";
     const renderMenu = (
         <Menu
@@ -70,16 +72,29 @@ const PrimaryAppBar = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-            <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Service Profile</MenuItem>
-            <Divider />
-            <MenuItem onClick={handleMenuClose}>
-                <ListItemIcon>
-                    <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                Add service Profile
+            <MenuItem
+                onClick={() => {
+                    handleMenuClose();
+                    push("/dashboard");
+                }}
+            >
+                My Profile
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem
+                onClick={() => {
+                    handleMenuClose();
+                    push("/service");
+                }}
+            >
+                Service Profile
+            </MenuItem>
+            <Divider />
+            <MenuItem
+                onClick={() => {
+                    handleMenuClose();
+                    push("/settings");
+                }}
+            >
                 <ListItemIcon>
                     <Settings fontSize="small" />
                 </ListItemIcon>
