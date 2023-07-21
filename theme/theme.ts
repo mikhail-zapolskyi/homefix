@@ -1,53 +1,63 @@
-import { Nunito, PT_Sans } from 'next/font/google'
-import { createTheme } from '@mui/material'
-import { red } from '@mui/material/colors'
-declare module '@mui/material/styles' {
-    interface BreakpointOverrides {
-        xs: false // removes the `xs` breakpoint
-        sm: false
-        md: false
-        lg: false
-        xl: false
-        mobile: true // adds the `mobile` breakpoint
-        tablet: true
-        laptop: true
-        desktop: true
+import { Nunito, PT_Sans } from "next/font/google";
+import { createTheme } from "@mui/material";
+import { red } from "@mui/material/colors";
+
+export const nunito = Nunito({
+    weight: ["300", "400", "500", "700"],
+    subsets: ["latin"],
+    display: "swap",
+    fallback: ["Helvetica", "Arial", "sans-serif"],
+});
+
+export const pt = PT_Sans({
+    weight: ["400", "700"],
+    subsets: ["latin"],
+    display: "swap",
+    fallback: ["Helvetica", "Arial", "sans-serif"],
+});
+
+declare module "@mui/material/styles" {
+    interface Palette {
+        neutral: Palette["primary"];
+    }
+    interface PaletteOptions {
+        neutral: PaletteOptions["primary"];
     }
 }
 
-// Main fonts will be nunito light + pt sans regular
+declare module "@mui/material/AppBar" {
+    interface AppBarPropsColorOverrides {
+        neutral: true;
+    }
+}
 
-export const nunito = Nunito({
-    weight: ['300', '400', '500', '700'],
-    subsets: ['latin'],
-    display: 'swap',
-    fallback: ['Helvetica', 'Arial', 'sans-serif'],
-})
-
-export const pt = PT_Sans({
-    weight: ['400', '700'],
-    subsets: ['latin'],
-    display: 'swap',
-    fallback: ['Helvetica', 'Arial', 'sans-serif'],
-})
+declare module "@mui/material/ToolBar" {
+    interface ToolBarPropsColorOverrides {
+        neutral: true;
+    }
+}
 
 const theme = createTheme({
     palette: {
-        mode: 'light',
+        mode: "light",
         primary: {
-            main: '#009FFD',
-            light: '#FBFEF9',
-            dark: '#252627',
+            main: "#009FFD",
+            light: "#FBFEF9",
+            dark: "#252627",
         },
         secondary: {
-            main: '#837A75',
+            main: "#837A75",
+        },
+        neutral: {
+            main: "#ffffff",
+            contrastText: "#000000",
         },
         error: {
             main: red.A400,
         },
     },
     typography: {
-        fontFamily: [nunito.style.fontFamily, pt.style.fontFamily].join(','),
+        fontFamily: [nunito.style.fontFamily, pt.style.fontFamily].join(","),
         h1: {
             fontFamily: nunito.style.fontFamily,
             fontWeight: 300,
@@ -110,15 +120,6 @@ const theme = createTheme({
         //   variants: {}
         //}
     },
-    breakpoints: {
-        values: {
-            mobile: 0,
-            tablet: 640,
-            laptop: 1024,
-            desktop: 1200,
-        },
-    },
-    transitions: {},
-})
+});
 
-export default theme
+export default theme;
