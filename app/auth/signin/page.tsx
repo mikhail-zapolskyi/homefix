@@ -52,7 +52,7 @@ const SignIn = () => {
     };
 
     return (
-        <Container component="main" maxWidth={"tablet"}>
+        <Container component="main" maxWidth={"md"}>
             <Box
                 sx={{
                     marginTop: 8,
@@ -71,7 +71,7 @@ const SignIn = () => {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item mobile={12}>
+                        <Grid item sm={12}>
                             <TextField
                                 autoComplete="given-name"
                                 name="email"
@@ -81,7 +81,7 @@ const SignIn = () => {
                                 autoFocus
                             />
                         </Grid>
-                        <Grid item mobile={12}>
+                        <Grid item sm={12}>
                             <FormControl
                                 variant="outlined"
                                 sx={{ width: "100%" }}

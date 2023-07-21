@@ -62,7 +62,7 @@ export default function SignUp() {
     };
 
     return (
-        <Container component="main" maxWidth={"tablet"}>
+        <Container component="main" maxWidth={"md"}>
             <Box
                 sx={{
                     marginTop: 8,
@@ -81,7 +81,7 @@ export default function SignUp() {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item mobile={12}>
+                        <Grid item sm={12}>
                             <TextField
                                 autoComplete="given-name"
                                 name="email"
@@ -91,7 +91,7 @@ export default function SignUp() {
                                 autoFocus
                             />
                         </Grid>
-                        <Grid item mobile={12}>
+                        <Grid item sm={12}>
                             <FormControl
                                 variant="outlined"
                                 sx={{ width: "100%" }}
@@ -127,7 +127,7 @@ export default function SignUp() {
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid item mobile={12}>
+                        <Grid item sm={12}>
                             <FormControl
                                 variant="outlined"
                                 sx={{ width: "100%" }}
@@ -163,7 +163,7 @@ export default function SignUp() {
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid item mobile={12}>
+                        <Grid item sm={12}>
                             <Typography>Your password must:</Typography>
                             <Typography component={"ul"}>
                                 <Typography component={"li"}>
