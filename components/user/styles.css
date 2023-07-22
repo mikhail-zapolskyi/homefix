@@ -1,0 +1,38 @@
+.wrapper {
+    margin-inline: auto;
+    margin-top: 1em;
+    border: 0.5px solid #ccc;
+    padding-inline: 8em;
+    margin: 2rem;
+
+    height: fit-content;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.gap {
+    gap: 1em;
+}
+
+.margin-bottom {
+    margin-bottom: 4em;
+}
+
+input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 2em;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+    gap: 6em;
+}
+
+.rounded {
+    border-radius: 50%;
+}
