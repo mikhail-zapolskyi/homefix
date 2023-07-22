@@ -75,7 +75,7 @@ const PrimaryAppBar = () => {
             <MenuItem
                 onClick={() => {
                     handleMenuClose();
-                    push("/dashboard");
+                    push("/user-dashboard");
                 }}
             >
                 My Profile
@@ -83,7 +83,7 @@ const PrimaryAppBar = () => {
             <MenuItem
                 onClick={() => {
                     handleMenuClose();
-                    push("/service");
+                    push("/service-dashboard");
                 }}
             >
                 Service Profile

@@ -42,6 +42,11 @@ model User {
   emailVerified     Boolean?          @map("email_verified")
   password          String?
   image             String?
+  address           String?
+  city              String?
+  postalCode        String?
+  country           String?
+  phone             String?
   accounts          Account[]
   sessions          Session[]
   serviceProfile    ServiceProfile[]
@@ -88,6 +93,7 @@ model ServiceProfile {
   businessHours     Day[] 
   reviews           Review[]
   posts             Post[]
+  clients           String[]
   categories        String[]
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
