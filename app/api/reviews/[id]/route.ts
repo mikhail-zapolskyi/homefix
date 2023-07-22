@@ -20,7 +20,13 @@ const updateServiceProfiles = async (
         redirect("/api/auth/signin");
     }
 
-    data.userId = id;
+    const review = await prisma.review.findUnique({
+        where: { id },
+    });
+
+    if (review?.userId !== session.user.id) {
+        return NextResponse.json("incorrect user");
+    }
 
     const serviceProfiles = await prisma.review.update({
         where: {
@@ -42,6 +48,14 @@ const deleteServiceProfile = async (
 
     if (!session?.user?.email) {
         redirect("/api/auth/signin");
+    }
+
+    const review = await prisma.review.findUnique({
+        where: { id },
+    });
+
+    if (review?.userId !== session.user.id) {
+        return NextResponse.json("incorrect user");
     }
 
     try {
