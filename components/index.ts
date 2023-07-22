@@ -4,3 +4,4 @@ export { default as AppBar } from "./navigation/AppBar";
 export { default as PrimaryButton } from "./button/PrimaryButton";
 export { default as SlideMenu } from "./navigation/SlideMenu";
 export { default as UserAccount } from "./user/UserAccount";
+export { default as UserServices } from "./user/UserServices";

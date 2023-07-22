@@ -1,5 +1,4 @@
 .wrapper {
-    margin-inline: auto;
     margin-top: 1em;
     border: 0.5px solid #ccc;
     padding-inline: 8em;
@@ -14,7 +13,7 @@
 }
 
 .gap {
-    gap: 1em;
+    gap: 2em;
 }
 
 .margin-bottom {
@@ -30,9 +29,22 @@ input {
 .flex-start {
     display: flex;
     justify-content: flex-start;
-    gap: 6em;
 }
 
 .rounded {
     border-radius: 50%;
+}
+
+/* services component */
+.serviceCard {
+    border: 0.5px solid #ccc;
+    margin: 2rem;
+}
+
+.image-center {
+    margin-top: 1.5em;
+}
+
+.flex {
+    display: flex;
 }

@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -33,15 +32,15 @@ const UserAccount = () => {
                 </section>
 
                 <section>
-                    <div className="flex-start">
+                    <div className="flex-start gap">
                         <input type="tel" placeholder="your phone number" />
                         <input type="email" placeholder="Your email" />
                     </div>
-                    <div className="flex-start">
+                    <div className="flex-start gap">
                         <input type="text" placeholder="Address" />
                         <input type="text" placeholder="City" />
                     </div>
-                    <div className="flex-start">
+                    <div className="flex-start gap">
                         <input type="text" placeholder="Postal code" />
                         <input type="text" placeholder="Country" />
                     </div>
