@@ -83,24 +83,27 @@ export const authOptions: NextAuthOptions = {
 
             return true;
         },
-        async session({ session, token }) {
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    id: token.id,
-                },
-            };
-        },
         jwt: ({ token, user }) => {
             if (user) {
                 const u = user as unknown as any;
                 return {
                     ...token,
                     id: u.id,
+                    type: u.type,
                 };
             }
             return token;
+        },
+        async session({ session, token }) {
+            console.log(token);
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: token.id,
+                    type: token.type,
+                },
+            };
         },
     },
     secret: process.env.PROVIDER_SECRET,
