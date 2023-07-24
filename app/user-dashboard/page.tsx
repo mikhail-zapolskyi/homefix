@@ -1,11 +1,10 @@
 "use client";
 
-import { UserAccount, UserServices } from "@/components/index";
+import { Account } from "@/components";
 export const UserDashboard = () => {
     return (
         <div>
-            <UserAccount />
-            <UserServices />
+            <Account />
         </div>
     );
 };
