@@ -7,7 +7,7 @@ import ProfilePic from "@/public/test.jpg";
 
 const Account = () => {
     return (
-        <Card sx={{ minWidth: 275, maxWidth: 1600 }} className="wrapper">
+        <Card sx={{ minWidth: 275 }} className="wrapper">
             <CardContent>
                 <section className="flex-between margin-bottom">
                     <div className="flex-between gap">
