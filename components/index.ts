@@ -3,5 +3,6 @@ export { default as FacebookSigninButton } from "./button/FacebookSigninButton";
 export { default as AppBar } from "./navigation/AppBar";
 export { default as PrimaryButton } from "./button/PrimaryButton";
 export { default as SlideMenu } from "./navigation/SlideMenu";
-export { default as UserAccount } from "./user/UserAccount";
-export { default as UserServices } from "./user/UserServices";
+export { default as Account } from "./user/Account";
+export { default as Services } from "./user/Services";
+export { default as Reviews } from "./user/Reviews";
