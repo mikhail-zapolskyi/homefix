@@ -12,21 +12,23 @@ import {
     Menu,
     Divider,
     ListItemIcon,
+    useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Settings from "@mui/icons-material/Settings";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { PrimaryButton, SlideMenu } from "@/components";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 const PrimaryAppBar = () => {
     const { data: session, status } = useSession();
-    const { push } = useRouter();
     const pathname = usePathname();
+    const theme = useTheme();
+    const { push } = useRouter();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -60,7 +62,7 @@ const PrimaryAppBar = () => {
     const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-    console.log(pathname);
+
     const menuId = "primary-search-account-menu";
     const renderMenu = (
         <Menu
@@ -71,22 +73,18 @@ const PrimaryAppBar = () => {
             onClick={handleMenuClose}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            elevation={2}
         >
             <MenuItem
                 onClick={() => {
                     handleMenuClose();
-                    push("/user-dashboard");
+                    push("/dashboard");
                 }}
             >
-                My Profile
-            </MenuItem>
-            <MenuItem
-                onClick={() => {
-                    handleMenuClose();
-                    push("/service-dashboard");
-                }}
-            >
-                Service Profile
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                Dashboard
             </MenuItem>
             <Divider />
             <MenuItem
@@ -148,14 +146,30 @@ const PrimaryAppBar = () => {
                     size="large"
                     aria-label="show 4 new mails"
                     color="inherit"
+                    onClick={() => push("/dashboard")}
                 >
                     <Avatar
                         alt={`${session?.user.name}`}
                         src={`${session?.user.image}`}
-                        sx={{ width: 30, height: 30 }}
+                        sx={{ width: 25, height: 25 }}
                     />
                 </IconButton>
-                <p>Profile</p>
+                <Typography variant="body1">{session?.user.name}</Typography>
+            </MenuItem>
+            <MenuItem
+                onClick={() => {
+                    push("/dashboard");
+                    handleMobileMenuClose();
+                }}
+            >
+                <IconButton
+                    size="large"
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                >
+                    <DashboardIcon sx={{ width: 30, height: 30 }} />
+                </IconButton>
+                <p>Dashboard</p>
             </MenuItem>
             <MenuItem onClick={() => signOut()}>
                 <IconButton
@@ -176,30 +190,33 @@ const PrimaryAppBar = () => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
                 position="static"
-                color="neutral"
                 elevation={0}
                 sx={{
-                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
+                    boxShadow: 1,
+                    backgroundColor: theme.palette.background.default,
+                    color: theme.palette.text.primary,
                 }}
             >
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{ mr: 2 }}
-                        onClick={handleslideMenuOpen}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    {status === "authenticated" &&
+                        pathname === "/dashboard" && (
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                sx={{ mr: 2 }}
+                                onClick={handleslideMenuOpen}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        )}
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
                         sx={{
                             display: {
-                                xs: "none",
                                 sm: "block",
                                 cursor: "pointer",
                             },
@@ -236,7 +253,12 @@ const PrimaryAppBar = () => {
                                     src={`${session?.user.image}`}
                                     sx={{ width: 30, height: 30 }}
                                 />
-                                <Typography sx={{ padding: ".5rem" }}>
+                                <Typography
+                                    sx={{
+                                        padding: ".5rem",
+                                        color: theme.palette.text.primary,
+                                    }}
+                                >
                                     {session?.user.name}
                                 </Typography>
                             </IconButton>
