@@ -12,9 +12,11 @@ import BusinessIcon from "@mui/icons-material/Business";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import GroupIcon from "@mui/icons-material/Group";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { MenuOption } from "@/components";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -38,7 +40,8 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
 }) => {
     const { data: session } = useSession();
     const pathname = usePathname();
-    console.log(pathname);
+    const { push } = useRouter();
+
     return (
         <>
             {pathname === "/dashboard" && (
@@ -96,6 +99,13 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                             text="Reviews"
                             icon={<ReviewsIcon />}
                             onClick={handleslideMenuClose}
+                        />
+                        <MenuOption
+                            text="Go Main Page"
+                            icon={<ExitToAppIcon />}
+                            onClick={() => {
+                                push("/");
+                            }}
                         />
                     </List>
                 </Drawer>

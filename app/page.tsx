@@ -1,12 +1,12 @@
 // HOME PAGE
 "use client";
 
-import SearchBar from "@/components/SearchBar";
+import { ProductHero } from "@/components";
 
 export default async function Home() {
     return (
         <main>
-            <SearchBar />
+            <ProductHero />
         </main>
     );
 }

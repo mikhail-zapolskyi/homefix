@@ -146,14 +146,30 @@ const PrimaryAppBar = () => {
                     size="large"
                     aria-label="show 4 new mails"
                     color="inherit"
+                    onClick={() => push("/dashboard")}
                 >
                     <Avatar
                         alt={`${session?.user.name}`}
                         src={`${session?.user.image}`}
-                        sx={{ width: 30, height: 30 }}
+                        sx={{ width: 25, height: 25 }}
                     />
                 </IconButton>
-                <p>Profile</p>
+                <Typography variant="body1">{session?.user.name}</Typography>
+            </MenuItem>
+            <MenuItem
+                onClick={() => {
+                    push("/dashboard");
+                    handleMobileMenuClose();
+                }}
+            >
+                <IconButton
+                    size="large"
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                >
+                    <DashboardIcon sx={{ width: 30, height: 30 }} />
+                </IconButton>
+                <p>Dashboard</p>
             </MenuItem>
             <MenuItem onClick={() => signOut()}>
                 <IconButton
@@ -201,7 +217,6 @@ const PrimaryAppBar = () => {
                         component="div"
                         sx={{
                             display: {
-                                xs: "none",
                                 sm: "block",
                                 cursor: "pointer",
                             },
