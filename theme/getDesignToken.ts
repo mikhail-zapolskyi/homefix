@@ -62,7 +62,8 @@ const getDesignToken = (mode: PaletteMode) => ({
         fontFamily: [nunito.style.fontFamily, pt.style.fontFamily].join(","),
         h1: {
             fontFamily: nunito.style.fontFamily,
-            fontWeight: 300,
+            fontWeight: 500,
+            fontSize: "3rem",
         },
         h2: {
             fontFamily: nunito.style.fontFamily,
