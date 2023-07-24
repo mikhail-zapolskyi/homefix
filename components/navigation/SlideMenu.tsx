@@ -78,7 +78,9 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                             <MenuOption
                                 text="Businesses"
                                 icon={<BusinessIcon />}
-                                onClick={handleslideMenuClose}
+                                onClick={() => {
+                                    push("/dashboard/businesses");
+                                }}
                             />
                         )}
                         {session?.user.type === "USER" && (
@@ -98,7 +100,9 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                         <MenuOption
                             text="Reviews"
                             icon={<ReviewsIcon />}
-                            onClick={handleslideMenuClose}
+                            onClick={() => {
+                                push("/dashboard/reviews");
+                            }}
                         />
                         <MenuOption
                             text="Go Main Page"
