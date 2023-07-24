@@ -1,6 +1,6 @@
 "use client";
-import { styled, Paper, Typography } from "@mui/material";
-import { TextAnimation } from "@/components";
+import { styled, Paper, Typography, Box, Container } from "@mui/material";
+import { SearchInput, TextAnimation } from "@/components";
 import { useEffect, useState } from "react";
 
 const StyledWrapper = styled(Paper)(({ theme }) => ({
@@ -33,11 +33,34 @@ export const ProductHeroMainCard = () => {
     }, []);
     return (
         <StyledWrapper>
-            <StyledTypography variant="h1">
-                Home <TextAnimation text={service[wordIndex]} />
-                <br />
-                made easy.
-            </StyledTypography>
+            <div>
+                <StyledTypography variant="h1">
+                    Home <TextAnimation text={service[wordIndex]} />,
+                    <br />
+                    made easy.
+                </StyledTypography>
+            </div>
+            <Box sx={{ display: "flex" }}>
+                <Typography
+                    variant="h5"
+                    color="primary.main"
+                    sx={{ padding: "0 1rem" }}
+                >
+                    Find a Pro
+                </Typography>
+                <Typography
+                    variant="h5"
+                    color="primary.main"
+                    sx={{ padding: "0 1rem" }}
+                >
+                    Find a Customer
+                </Typography>
+            </Box>
+            <SearchInput />
+            <Typography variant="body2" color="secondary.main">
+                Try to find a pros, <strong>plumber</strong>,{" "}
+                <strong>electrician</strong>
+            </Typography>
         </StyledWrapper>
     );
 };

@@ -1,13 +1,12 @@
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React from "react";
-import MuiButton from "@mui/material/Button";
 
 interface IPrimaryButton {
     text: string;
     onClick: () => void;
 }
-const StyledButton = styled(MuiButton)(({ theme }) => ({
+const StyledButton = styled(Button)(({ theme }) => ({
     width: "5rem",
     marginLeft: "1rem",
     borderRadius: "1rem",

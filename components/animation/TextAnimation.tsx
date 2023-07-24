@@ -1,6 +1,6 @@
 "use client";
 import { keyframes, styled } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface TextAnimationProps {
     text: string;
@@ -14,8 +14,8 @@ const generateChildDelay = (letters: number) => {
     let animationCss: { [key: string]: React.CSSProperties } = {};
     const period = 2 * Math.PI;
     for (let i = 1; i <= letters; i++) {
-        const time = 0.5 + 0.5 * Math.sin((i / letters) * period); // Smooth sine function-based delay
-        console.log(time);
+        const time = 0.5 + 0.5 * Math.sin((i / letters) * period);
+
         animationCss[`&:nth-of-type(${i})`] = {
             animationDelay: `${time}s`,
         };
@@ -49,12 +49,21 @@ const TextAnimationWrapper = styled("span")<StyledSpanProps>(
 
 const TextAnimation: React.FC<TextAnimationProps> = ({ text }) => {
     const letterArray = text.split("");
+    const [lettersRendered, setLettersRendered] = useState<Array<JSX.Element>>(
+        []
+    );
+
+    useEffect(() => {
+        const renderedLetters = letterArray.map((item, index) => (
+            <span key={index}>{item}</span>
+        ));
+
+        setLettersRendered(renderedLetters);
+    }, [text]);
 
     return (
         <TextAnimationWrapper numLetters={letterArray.length}>
-            {letterArray.map((item, index) => (
-                <span key={index}>{item}</span>
-            ))}
+            {lettersRendered}
         </TextAnimationWrapper>
     );
 };
