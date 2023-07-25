@@ -15,6 +15,6 @@ export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
 export { default as SearchInput } from "./inputs/SearchInput";
 // User Dashboard
-export { default as Account } from "./user/Account";
-export { default as Reviews } from "./user/Reviews";
-export { default as Services } from "./user/Services";
+export { default as Account } from "./views/user/Account";
+export { default as Reviews } from "./views/user/Reviews";
+export { default as Services } from "./views/user/Services";
