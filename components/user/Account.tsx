@@ -4,8 +4,10 @@ import Button from "@mui/material/Button";
 import "./styles.css";
 import Image from "next/image";
 import ProfilePic from "@/public/test.jpg";
+import { useSession } from "next-auth/react";
 
 const Account = () => {
+    const { data: session } = useSession();
     return (
         <Card sx={{ minWidth: 275 }} className="wrapper">
             <CardContent>
@@ -14,14 +16,14 @@ const Account = () => {
                         <div>
                             <Image
                                 className="rounded"
-                                src={ProfilePic}
+                                src={session?.user.image || ProfilePic}
                                 width={90}
                                 height={90}
                                 alt="profile picture"
                             />
                         </div>
                         <div>
-                            <p>name</p>
+                            <p>{session?.user.name}</p>
                             <Button size="small">Upload Photo</Button>
                         </div>
                     </div>
