@@ -9,7 +9,7 @@ const StyledWrapper = styled(Paper)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
         left: "5rem",
     },
-    background: "none",
+    backgroundColor: "rgba(255, 255, 255, .6)",
     boxShadow: "none",
 }));
 
