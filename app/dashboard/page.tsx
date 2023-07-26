@@ -1,8 +1,8 @@
 "use client";
-import { Account } from "@/components";
+import { ProfileCard } from "@/components";
 
 export const ServiceAccountDashboard = () => {
-    return <Account />;
+    return <ProfileCard />;
 };
 
 export default ServiceAccountDashboard;

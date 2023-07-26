@@ -14,7 +14,9 @@ export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
 export { default as SearchInput } from "./inputs/SearchInput";
+export { default as DropDown } from "./inputs/DropDown";
 // User Dashboard
-export { default as Account } from "./views/user/Account";
-export { default as Reviews } from "./views/user/Reviews";
-export { default as Services } from "./views/user/Services";
+export { default as ListCard } from "./cards/ListCard";
+export { default as DetailsCard } from "./cards/DetailsCard";
+export { default as ProfileCard } from "./cards/ProfileCard";
+export { default as ReviewCard } from "./cards/ReviewCard";
