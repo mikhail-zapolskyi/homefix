@@ -30,7 +30,7 @@ const UserReviews = () => {
         <>
             <Card sx={{ margin: "2rem", height: "5rem" }}>
                 <CardContent>
-                    <SearchBar />
+                    <SearchBar title="Find a Review" />
                 </CardContent>
             </Card>
             <Grid container spacing={2}>

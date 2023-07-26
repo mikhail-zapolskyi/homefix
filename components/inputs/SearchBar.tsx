@@ -2,7 +2,7 @@ import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const SearchBar = () => {
+const SearchBar = ({ title }: { title: string }) => {
     return (
         <Paper
             component="form"
@@ -17,8 +17,8 @@ const SearchBar = () => {
             </IconButton>
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Find a Review"
-                inputProps={{ "aria-label": "find a review" }}
+                placeholder={title}
+                inputProps={{ "aria-label": `${title}` }}
             />
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
                 <ClearIcon />
