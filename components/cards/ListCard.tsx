@@ -3,9 +3,9 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 const ListCard = ({ data }: { data: Array<{}> }) => {
     return (
-        <Grid container margin={2}>
+        <Grid container>
             <Grid xs={12}>
-                <Card>
+                <Card elevation={4} sx={{ borderRadius: "1rem" }}>
                     <CardContent>
                         {data.map((item: any) => (
                             <Grid key={item.id}>

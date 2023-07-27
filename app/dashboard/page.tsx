@@ -5,9 +5,10 @@ import {
     ListCard,
     ReviewCard,
     SearchBar,
+    SlideMenu,
 } from "@/components";
-import { Card, CardContent } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Box, Card, CardContent, Container, Grid } from "@mui/material";
+
 import { useState } from "react";
 
 interface Components {
@@ -41,21 +42,34 @@ const data = [
 const components: Components = {
     profile: <ProfileCard />,
     reviews: (
-        <>
-            <Card sx={{ margin: "2rem", height: "5rem" }}>
-                <CardContent>
-                    <SearchBar title="Find a Review" />
-                </CardContent>
-            </Card>
-            <Grid container spacing={2}>
-                <Grid xs={12} md={3}>
-                    <ListCard data={data} />
-                </Grid>
-                <Grid xs={12} md={9}>
-                    <ReviewCard />
-                </Grid>
+        <Grid
+            container
+            xs={12}
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={0}
+            gap={"1rem"}
+        >
+            <Grid item xs={12}>
+                <Card
+                    sx={{
+                        height: "5rem",
+                        borderRadius: "1rem",
+                    }}
+                    elevation={4}
+                >
+                    <CardContent>
+                        <SearchBar title="Find a Review" />
+                    </CardContent>
+                </Card>
             </Grid>
-        </>
+            <Grid item xs={12} md={3}>
+                <ListCard data={data} />
+            </Grid>
+            <Grid item xs={12} md={7}>
+                <ReviewCard />
+            </Grid>
+        </Grid>
     ),
     services: (
         <Grid container spacing={2}>
@@ -89,7 +103,18 @@ export const ServiceAccountDashboard = () => {
                     reviews
                 </button>
             </div>
-            <div>{components[selectedComponent]}</div>
+            <Box
+                sx={{
+                    xs: { p: "0" },
+                    sm: { p: "1rem" },
+                    md: { p: "5rem" },
+
+                    width: "98%",
+                    mx: "auto",
+                }}
+            >
+                {components[selectedComponent]}
+            </Box>
         </>
     );
 };

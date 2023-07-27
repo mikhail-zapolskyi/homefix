@@ -5,8 +5,9 @@ import {
     CardContent,
     TextField,
     Typography,
+    Grid,
 } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+
 import MessageIcon from "@mui/icons-material/Message";
 import DropDown from "../inputs/DropDown";
 
@@ -17,9 +18,9 @@ const reviewText =
 
 const ReviewCard = () => {
     return (
-        <Grid container margin={2}>
+        <Grid container>
             <Grid xs={12}>
-                <Card>
+                <Card sx={{ borderRadius: "1rem" }} elevation={4}>
                     <CardContent>
                         <Grid>
                             <Grid
@@ -27,7 +28,7 @@ const ReviewCard = () => {
                                 alignItems="center"
                                 justifyContent={"space-between"}
                             >
-                                <Grid container xs={5} sm={6}>
+                                <Grid container item xs={6}>
                                     <Grid xs={6} sm={3}>
                                         <Avatar
                                             src={`${"image"}`}
@@ -47,18 +48,18 @@ const ReviewCard = () => {
 
                                 <Grid
                                     container
+                                    item
+                                    spacing={2}
                                     xs={6}
-                                    sm={5}
-                                    md={3}
                                     alignItems={"center"}
                                 >
-                                    <Grid xs={12} sm={6}>
+                                    <Grid item xs={12} sm={6} md={4}>
                                         <DropDown
                                             name="Rating"
                                             values={ratings}
                                         />
                                     </Grid>
-                                    <Grid xs={12} sm={6}>
+                                    <Grid item xs={12} sm={6} md={4}>
                                         <Button
                                             variant="outlined"
                                             endIcon={<MessageIcon />}

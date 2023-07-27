@@ -10,6 +10,7 @@ const SearchBar = ({ title }: { title: string }) => {
                 display: "flex",
                 alignItems: "center",
                 width: "100%",
+                borderRadius: "1rem",
             }}
         >
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">

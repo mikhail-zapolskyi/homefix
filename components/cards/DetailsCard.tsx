@@ -3,7 +3,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 const DetailsCard = () => {
     return (
-        <Grid container margin={2}>
+        <Grid container>
             <Grid xs={12}>
                 <Card>
                     <CardContent>
