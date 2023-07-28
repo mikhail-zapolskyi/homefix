@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Divider, Grid } from "@mui/material";
+import { Box, Button, Divider, Grid } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SecondaryButton, SelectFiled } from "@/components";
+import { SelectFiled } from "@/components";
 
 const request = {
     cities: ["Calgary", "Boston", "Kiev", "New York"],
@@ -60,8 +60,8 @@ const SearchBar = () => {
                     </Grid>
                 </Grid>
                 <Divider
-                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
-                />
+                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                ></Divider>
                 <Grid item xs={12}>
                     <SelectFiled
                         id="city"
@@ -74,8 +74,8 @@ const SearchBar = () => {
                     />
                 </Grid>
                 <Divider
-                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
-                />
+                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                ></Divider>
                 <Grid item xs={12}>
                     <SelectFiled
                         id="postalCode"
@@ -88,8 +88,8 @@ const SearchBar = () => {
                     />
                 </Grid>
                 <Divider
-                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
-                />
+                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                ></Divider>
                 <Grid item xs={12}>
                     <SelectFiled
                         id="category"
@@ -102,8 +102,8 @@ const SearchBar = () => {
                     />
                 </Grid>
                 <Divider
-                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
-                />
+                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                ></Divider>
                 <Grid item xs={12}>
                     <SelectFiled
                         id="rating"
@@ -115,12 +115,9 @@ const SearchBar = () => {
                         }}
                     />
                 </Grid>
-                <Divider
-                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
-                />
 
-                <Grid item xs={4}>
-                    <SecondaryButton text="Search"></SecondaryButton>
+                <Grid container item xs={12} sx={{ justifyContent: "end" }}>
+                    <Button size="large">Search a Pro</Button>
                 </Grid>
             </Grid>
         </Box>

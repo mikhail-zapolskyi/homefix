@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import {
     Box,
     FormControl,
@@ -14,6 +15,12 @@ interface SelectFieldProps {
     onChange: (e: SelectChangeEvent<string | unknown | number>) => void;
     array?: string[] | number[];
 }
+
+const StyledSelect = styled(Select)(() => ({
+    ".MuiSelect-select": {
+        padding: ".4rem",
+    },
+}));
 
 export const SelectField: React.FC<SelectFieldProps> = ({
     emptyValue,
@@ -34,14 +41,29 @@ export const SelectField: React.FC<SelectFieldProps> = ({
         }
     };
     return (
-        <Box sx={{ width: "100%", "& fieldset": { border: "none" } }}>
-            <FormControl fullWidth>
-                <Select id={id} value={value} onChange={onChange} displayEmpty>
+        <Box
+            sx={{
+                width: "100%",
+                "& fieldset": { border: "none" },
+            }}
+        >
+            <FormControl
+                fullWidth
+                sx={{
+                    padding: "0",
+                }}
+            >
+                <StyledSelect
+                    id={id}
+                    value={value}
+                    onChange={onChange}
+                    displayEmpty
+                >
                     <MenuItem value="">
                         <em>{emptyValue}</em>
                     </MenuItem>
                     {renderOptions(array)}
-                </Select>
+                </StyledSelect>
             </FormControl>
         </Box>
     );
