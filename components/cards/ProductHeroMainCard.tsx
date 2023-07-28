@@ -4,6 +4,7 @@ import { SearchInput, TextAnimation } from "@/components";
 import { useEffect, useState } from "react";
 
 const StyledWrapper = styled(Paper)(({ theme }) => ({
+    maxWidth: "32rem",
     position: "absolute",
     padding: "2rem",
     [theme.breakpoints.up("sm")]: {
@@ -11,6 +12,7 @@ const StyledWrapper = styled(Paper)(({ theme }) => ({
     },
     backgroundColor: "rgba(255, 255, 255, .6)",
     boxShadow: "none",
+    borderRadius: "1rem",
 }));
 
 const StyledTypography = styled(Typography)(() => ({
@@ -33,13 +35,13 @@ export const ProductHeroMainCard = () => {
     }, []);
     return (
         <StyledWrapper>
-            <div>
+            <Box sx={{ overflow: "hidden" }}>
                 <StyledTypography variant="h1">
                     Home <TextAnimation text={service[wordIndex]} />,
                     <br />
                     made easy.
                 </StyledTypography>
-            </div>
+            </Box>
             <Box sx={{ display: "flex" }}>
                 <Typography
                     variant="h5"

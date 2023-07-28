@@ -1,79 +1,129 @@
 "use client";
 
-import { Box, CircularProgress, TextField, styled } from "@mui/material";
-import { ServiceProfile } from "@prisma/client";
-import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Box, Divider, Grid } from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SecondaryButton, SelectFiled } from "@/components";
 
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { PrimaryButton } from "..";
-import { useRouter } from "next/navigation";
-
-const initState: ServiceProfile[] = [];
+const request = {
+    cities: ["Calgary", "Boston", "Kiev", "New York"],
+    postalCodes: ["T3M1N8", "90210"],
+    categories: ["Plumbers", "Cleaners"],
+    countries: ["Canada", "US", "Ukraine"],
+};
 
 const SearchBar = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [result, setResult] = useState(initState);
-    const [isLoading, setisLoading] = useState(false);
-    const [category, setCategory] = useState("");
-    const push = useRouter();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const [country, setCountry] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [postalCode, setPostalCode] = useState<string>("");
+    const [category, setCategory] = useState<string>("");
+    const [rating, setRating] = useState<string>("");
 
-    const onSearch = async () => {
-        setisLoading(true);
-        console.log({ params: { [category]: searchQuery } });
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const text = data.get("text") as string;
+        const category = data.get("category") as string;
+
+        // If query exists, pass it to as params
+        let params = "";
+        if (text && category) {
+            const newUrlParams = new URLSearchParams(searchParams.toString());
+            newUrlParams.set(`${category}`, text);
+            params = `?${newUrlParams}`;
+        }
+
+        router.push(`/services${params}`);
     };
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setCategory(event.target.value);
-    };
-
-    const Categories = [
-        { value: "name", label: "Name" },
-        { value: "city", label: "City" },
-        { value: "country", label: "Country" },
-        { value: "postalCode", label: "Postal Code" },
-        { value: "address", label: "Address" },
-        { value: "phone", label: "Phone" },
-        { value: "rating", label: "Rating" },
-    ];
 
     return (
-        <>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FormControl sx={{ m: 1, minWidth: 110 }}>
-                    <InputLabel id="demo-simple-select-autowidth-label">
-                        Category
-                    </InputLabel>
-                    <Select
-                        labelId="demo-simple-select-autowidth-label"
-                        id="demo-simple-select-autowidth"
-                        value={category}
-                        onChange={handleChange}
-                        autoWidth
-                        label="Category"
-                    >
-                        {Categories.map((category) => (
-                            <MenuItem
-                                key={category.value}
-                                value={category.value}
-                            >
-                                {category.label}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <TextField
-                    type="text"
-                    placeholder="What's on your mind?"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+        <Box
+            component="form"
+            noValidate
+            sx={{ display: "flex", alignItems: "center" }}
+            onSubmit={handleSubmit}
+        >
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="country"
+                            emptyValue="Select Country"
+                            value={country}
+                            array={request.countries}
+                            onChange={(e) => {
+                                setCountry(e.target.value as string);
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+                <Divider
+                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
                 />
-                <PrimaryButton text="Search" onClick={onSearch} />
-            </Box>
-        </>
+                <Grid item xs={12}>
+                    <SelectFiled
+                        id="city"
+                        emptyValue="Select City"
+                        value={city}
+                        array={request.cities}
+                        onChange={(e) => {
+                            setCity(e.target.value as string);
+                        }}
+                    />
+                </Grid>
+                <Divider
+                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
+                />
+                <Grid item xs={12}>
+                    <SelectFiled
+                        id="postalCode"
+                        emptyValue="Select Postal Code"
+                        value={postalCode}
+                        array={request.postalCodes}
+                        onChange={(e) => {
+                            setPostalCode(e.target.value as string);
+                        }}
+                    />
+                </Grid>
+                <Divider
+                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
+                />
+                <Grid item xs={12}>
+                    <SelectFiled
+                        id="category"
+                        emptyValue="Select Category"
+                        value={category}
+                        array={request.categories}
+                        onChange={(e) => {
+                            setCategory(e.target.value as string);
+                        }}
+                    />
+                </Grid>
+                <Divider
+                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
+                />
+                <Grid item xs={12}>
+                    <SelectFiled
+                        id="rating"
+                        emptyValue="Select Rating"
+                        value={rating}
+                        array={[1, 2, 3, 4, 5]}
+                        onChange={(e) => {
+                            setRating(e.target.value as string);
+                        }}
+                    />
+                </Grid>
+                <Divider
+                    sx={{ width: "95%", mx: "auto", bgcolor: "primary.main" }}
+                />
+
+                <Grid item xs={4}>
+                    <SecondaryButton text="Search"></SecondaryButton>
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
 
