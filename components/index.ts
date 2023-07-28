@@ -10,12 +10,15 @@ export { default as MenuOption } from "./navigation/MenuOption";
 export { default as ProductHero } from "./views/ProductHero";
 // Cards
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
+export { default as SearchCard } from "./cards/SearchCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
-export { default as SearchInput } from "./inputs/SearchInput";
+
 export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
+export { default as SelectFiled } from "./inputs/SelectField";
+
 // User Dashboard
 export { default as ListCard } from "./cards/ListCard";
 export { default as DetailsCard } from "./cards/DetailsCard";

@@ -10,6 +10,10 @@ const HeroContainer = styled("div")(({ theme }) => ({
     maxWidth: "100%",
     alignItems: "center",
     height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
+    "@media (min-width:0px)": {
+        "@media (orientation: landscape)": { height: "calc(100vh - 48px)" },
+    },
+    "@media (min-width:600px)": { height: "calc(100vh - 64px)" },
     maxHeight: "100%",
 }));
 

@@ -190,7 +190,7 @@ const PrimaryAppBar = () => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
                 position="static"
-                elevation={0}
+                elevation={1}
                 sx={{
                     boxShadow: 1,
                     backgroundColor: theme.palette.background.default,
