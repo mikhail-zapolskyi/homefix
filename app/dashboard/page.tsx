@@ -1,7 +1,8 @@
-import React from "react";
+"use client";
+import { Account } from "@/components";
 
 export const ServiceAccountDashboard = () => {
-    return <div>ServiceAccountDashboard</div>;
+    return <Account />;
 };
 
 export default ServiceAccountDashboard;

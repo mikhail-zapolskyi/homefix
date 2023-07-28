@@ -9,6 +9,9 @@ const nextConfig = {
             "bcrypt",
         ],
     },
+    images: {
+        domains: ["res.cloudinary.com"],
+    },
 };
 
 module.exports = nextConfig;
