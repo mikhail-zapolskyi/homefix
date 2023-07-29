@@ -2,7 +2,7 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
     const paramsObject = [];
     for (const [key, value] of Array.from(searchParams.entries())) {
         if (key === "rating") {
-            paramsObject.push({ [key]: Number(value) });
+            paramsObject.push({ [key]: { gte: Number(value) } });
         } else {
             paramsObject.push({ [key]: value });
         }

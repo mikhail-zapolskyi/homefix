@@ -82,6 +82,7 @@ model ServiceProfile {
   phone             String?
   rating            Float?      @default(0) @db.Double
   introduction      String?
+  experience        String?
   bio               String?
   specialtiesDo     String[]
   specialtiesNo     String[]

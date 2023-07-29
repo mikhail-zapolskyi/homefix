@@ -3,8 +3,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface Services {
+    id: string;
     name: string;
-    cit: string;
+    city: string;
 }
 
 export const Services = () => {
@@ -16,8 +17,6 @@ export const Services = () => {
     }, []);
 
     const getServicesBySearchParams = async () => {
-        console.log(searchParams);
-
         try {
             const response = await fetch(
                 `http://localhost:3000/api/service?${searchParams}`,
@@ -35,7 +34,7 @@ export const Services = () => {
     return (
         <div>
             {services.map((service) => (
-                <p>{service.name}</p>
+                <p key={service.id}>{service.name}</p>
             ))}
         </div>
     );

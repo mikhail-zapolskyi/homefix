@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, Divider, Grid } from "@mui/material";
+import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SelectFiled } from "@/components";
 
@@ -12,30 +12,42 @@ const request = {
     countries: ["Canada", "US", "Ukraine"],
 };
 
+const initialParams = {
+    country: "",
+    city: "",
+    postalCode: "",
+    category: "",
+    rating: "",
+};
+
 const SearchBar = () => {
-    const searchParams = useSearchParams();
     const router = useRouter();
-    const [country, setCountry] = useState<string>("");
-    const [city, setCity] = useState<string>("");
-    const [postalCode, setPostalCode] = useState<string>("");
-    const [category, setCategory] = useState<string>("");
-    const [rating, setRating] = useState<string>("");
+    const [formData, setFormData] = useState(initialParams);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        const text = data.get("text") as string;
-        const category = data.get("category") as string;
+        let query = "?";
+        const params = new URLSearchParams();
 
-        // If query exists, pass it to as params
-        let params = "";
-        if (text && category) {
-            const newUrlParams = new URLSearchParams(searchParams.toString());
-            newUrlParams.set(`${category}`, text);
-            params = `?${newUrlParams}`;
+        Object.keys(formData).forEach((key) => {
+            console.log(formData[key as keyof typeof formData]);
+            if (formData[key as keyof typeof formData]) {
+                params.set(key, formData[key as keyof typeof formData]);
+            }
+        });
+
+        const queryString = params.toString();
+        if (queryString) {
+            query = query + queryString;
         }
+        router.push(`/services${query}`);
+    };
 
-        router.push(`/services${params}`);
+    const handleSelectOnChange = (
+        e: SelectChangeEvent<unknown | string | number>
+    ) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
     return (
@@ -47,17 +59,14 @@ const SearchBar = () => {
         >
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                    <Grid item xs={12}>
-                        <SelectFiled
-                            id="country"
-                            emptyValue="Select Country"
-                            value={country}
-                            array={request.countries}
-                            onChange={(e) => {
-                                setCountry(e.target.value as string);
-                            }}
-                        />
-                    </Grid>
+                    <SelectFiled
+                        id="country"
+                        name="country"
+                        emptyValue="Select Country"
+                        value={formData.country}
+                        array={request.countries}
+                        onChange={handleSelectOnChange}
+                    />
                 </Grid>
                 <Divider
                     sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
@@ -65,40 +74,37 @@ const SearchBar = () => {
                 <Grid item xs={12}>
                     <SelectFiled
                         id="city"
+                        name="city"
                         emptyValue="Select City"
-                        value={city}
+                        value={formData.city}
                         array={request.cities}
-                        onChange={(e) => {
-                            setCity(e.target.value as string);
-                        }}
+                        onChange={handleSelectOnChange}
                     />
                 </Grid>
                 <Divider
                     sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                 ></Divider>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <SelectFiled
                         id="postalCode"
+                        name="postalCode"
                         emptyValue="Select Postal Code"
-                        value={postalCode}
+                        value={formData.postalCode}
                         array={request.postalCodes}
-                        onChange={(e) => {
-                            setPostalCode(e.target.value as string);
-                        }}
+                        onChange={handleSelectOnChange}
                     />
                 </Grid>
                 <Divider
                     sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
+                ></Divider> */}
                 <Grid item xs={12}>
                     <SelectFiled
                         id="category"
+                        name="category"
                         emptyValue="Select Category"
-                        value={category}
+                        value={formData.category}
                         array={request.categories}
-                        onChange={(e) => {
-                            setCategory(e.target.value as string);
-                        }}
+                        onChange={handleSelectOnChange}
                     />
                 </Grid>
                 <Divider
@@ -107,17 +113,18 @@ const SearchBar = () => {
                 <Grid item xs={12}>
                     <SelectFiled
                         id="rating"
+                        name="rating"
                         emptyValue="Select Rating"
-                        value={rating}
+                        value={formData.rating}
                         array={[1, 2, 3, 4, 5]}
-                        onChange={(e) => {
-                            setRating(e.target.value as string);
-                        }}
+                        onChange={handleSelectOnChange}
                     />
                 </Grid>
 
                 <Grid container item xs={12} sx={{ justifyContent: "end" }}>
-                    <Button size="large">Search a Pro</Button>
+                    <Button size="large" type="submit">
+                        Search a Pro
+                    </Button>
                 </Grid>
             </Grid>
         </Box>

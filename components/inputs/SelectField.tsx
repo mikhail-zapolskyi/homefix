@@ -10,6 +10,7 @@ import React from "react";
 
 interface SelectFieldProps {
     id: string;
+    name: string;
     emptyValue?: string;
     value: string | number;
     onChange: (e: SelectChangeEvent<string | unknown | number>) => void;
@@ -28,6 +29,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
     value,
     onChange,
     array,
+    name,
 }) => {
     const renderOptions = (options: string[] | number[] | undefined) => {
         if (options === undefined) {
@@ -55,6 +57,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
             >
                 <StyledSelect
                     id={id}
+                    name={name}
                     value={value}
                     onChange={onChange}
                     displayEmpty

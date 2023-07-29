@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const StyledWrapper = styled(Paper)(({ theme }) => ({
     maxWidth: "32rem",
-    padding: "3rem",
+    padding: "2rem",
     [theme.breakpoints.up("sm")]: {
         left: "5rem",
     },
@@ -28,27 +28,29 @@ const StyledTypography = styled(Typography)(() => ({
 
 export const ProductHeroMainCard = () => {
     const [wordIndex, setWordIndex] = useState(0);
-    const service = ["plumbing", "cleaning", "painting", "roofing"];
+    const service = ["plumbing", "cleaning", "painting", "flooring"];
 
-    const changeWords = () => {
+    const changeWordIndex = () => {
         setWordIndex((prevIndex) => (prevIndex + 1) % service.length);
     };
-    const time = parseInt(service[wordIndex].length + "000");
 
     useEffect(() => {
-        const interval = setInterval(() => [changeWords()], time);
+        const interval = setInterval(() => {
+            changeWordIndex();
+        }, 6000);
+        return () => clearInterval(interval);
+    }, [wordIndex]);
 
-        () => clearInterval(interval);
-    }, []);
     return (
         <StyledWrapper>
-            <Box sx={{ overflow: "hidden", margin: "1rem 0" }}>
+            <Box>
                 <StyledTypography variant="h1">
                     Home <TextAnimation text={service[wordIndex]} />,
                     <br />
-                    just easy
+                    just easy.
                 </StyledTypography>
             </Box>
+
             <SearchCard />
         </StyledWrapper>
     );
