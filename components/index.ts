@@ -24,3 +24,6 @@ export { default as ListCard } from "./cards/ListCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
 export { default as ProfileCard } from "./cards/ProfileCard";
 export { default as ReviewCard } from "./cards/ReviewCard";
+
+// Loaders
+import { default as Loader } from "./loaders/Loader";

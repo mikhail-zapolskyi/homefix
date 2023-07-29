@@ -21,11 +21,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { PrimaryButton, SlideMenu } from "@/components";
-import {
-    usePathname,
-    useRouter,
-    useSelectedLayoutSegments,
-} from "next/navigation";
+import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 
 const PrimaryAppBar = () => {

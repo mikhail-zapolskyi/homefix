@@ -19,7 +19,7 @@ const reviewText =
 const ReviewCard = () => {
     return (
         <Grid container>
-            <Grid xs={12}>
+            <Grid item xs={12}>
                 <Card sx={{ borderRadius: "1rem" }} elevation={4}>
                     <CardContent>
                         <Grid>
@@ -29,14 +29,14 @@ const ReviewCard = () => {
                                 justifyContent={"space-between"}
                             >
                                 <Grid container item xs={6}>
-                                    <Grid xs={6} sm={3}>
+                                    <Grid item xs={6} sm={3}>
                                         <Avatar
                                             src={`${"image"}`}
                                             alt={`${"name"}`}
                                             sx={{ width: 55, height: 55 }}
                                         />
                                     </Grid>
-                                    <Grid xs={6} sm={9}>
+                                    <Grid item xs={6} sm={9}>
                                         <Typography variant="body1">
                                             {"name"}
                                         </Typography>
@@ -69,7 +69,7 @@ const ReviewCard = () => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid xs={12} pt={2}>
+                            <Grid item xs={12} pt={2}>
                                 <TextField
                                     id="outlined-multiline-static"
                                     label="Review"

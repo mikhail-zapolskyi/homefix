@@ -64,11 +64,13 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                     <ChevronLeftIcon />
                 </IconButton>
             </DrawerHeader>
-            <List>
+            <List onClick={handleslideMenuClose}>
                 <MenuOption
-                    text="Acconut"
+                    text="Profile"
                     icon={<ManageAccountsIcon />}
-                    onClick={handleslideMenuClose}
+                    onClick={() => {
+                        push("/dashboard/profile");
+                    }}
                 />
                 {session?.user.type === "USER" && (
                     <MenuOption
@@ -84,12 +86,16 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                         <MenuOption
                             text="Business Profile"
                             icon={<BusinessCenterIcon />}
-                            onClick={handleslideMenuClose}
+                            onClick={() => {
+                                push("/dashboard/business-profile");
+                            }}
                         />
                         <MenuOption
                             text="Customers"
                             icon={<GroupIcon />}
-                            onClick={handleslideMenuClose}
+                            onClick={() => {
+                                push("/dashboard/customers");
+                            }}
                         />
                     </>
                 )}

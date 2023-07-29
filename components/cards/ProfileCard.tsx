@@ -7,17 +7,16 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 const ProfileCard = async () => {
     const { data: session } = useSession();
-
-    const getUser = async () => {
-        if (!session) return;
-        const res = await fetch(`api/users/${session?.user.id}`, {
-            method: "GET",
-        });
-
-        return res.json();
+    const user = {
+        name: "Misha",
+        image: "",
+        phone: "92384992374",
+        email: "email@email.com",
+        address: "address",
+        city: "Cidty",
+        postalCode: "T4T4Y5",
+        country: "country",
     };
-
-    const user = await getUser();
 
     return (
         <Card sx={{ minWidth: 275, margin: "2rem" }}>
