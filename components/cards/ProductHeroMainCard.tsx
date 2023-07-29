@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 const StyledWrapper = styled(Paper)(({ theme }) => ({
     maxWidth: "32rem",
+    minWidth: "25rem",
+    minHeight: "25rem",
     padding: "2rem",
     [theme.breakpoints.up("sm")]: {
         left: "5rem",
@@ -43,14 +45,13 @@ export const ProductHeroMainCard = () => {
 
     return (
         <StyledWrapper>
-            <Box>
+            <Box sx={{ marginBottom: "1rem" }}>
                 <StyledTypography variant="h1">
                     Home <TextAnimation text={service[wordIndex]} />,
                     <br />
                     just easy.
                 </StyledTypography>
             </Box>
-
             <SearchCard />
         </StyledWrapper>
     );

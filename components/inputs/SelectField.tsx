@@ -14,7 +14,7 @@ interface SelectFieldProps {
     emptyValue?: string;
     value: string | number;
     onChange: (e: SelectChangeEvent<string | unknown | number>) => void;
-    array?: string[] | number[];
+    array?: string[] | number[] | undefined;
 }
 
 const StyledSelect = styled(Select)(() => ({
@@ -65,7 +65,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
                     <MenuItem value="">
                         <em>{emptyValue}</em>
                     </MenuItem>
-                    {renderOptions(array)}
+                    {!undefined && renderOptions(array)}
                 </StyledSelect>
             </FormControl>
         </Box>

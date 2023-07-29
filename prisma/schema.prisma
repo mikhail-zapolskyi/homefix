@@ -82,8 +82,9 @@ model ServiceProfile {
   phone             String?
   rating            Float?      @default(0) @db.Double
   introduction      String?
-  experience        String?
+  experience        Int?
   bio               String?
+  image             String?
   specialtiesDo     String[]
   specialtiesNo     String[]
   employees         Int       @default(1)
@@ -95,7 +96,7 @@ model ServiceProfile {
   reviews           Review[]
   posts             Post[]
   clients           String[]
-  categories        String[]
+  categories        Category[]
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -110,7 +111,9 @@ model Day {
 
 model Category {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  name              String
+  title             String
+  serviceProfileId  String         @db.ObjectId
+  service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
 enum DayType {
@@ -127,8 +130,8 @@ model Review {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
   rating            Int?
   comment           String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  createdAt         DateTime?         @default(now())
+  updatedAt         DateTime?         @updatedAt
 
   serviceProfileId  String           @db.ObjectId
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)

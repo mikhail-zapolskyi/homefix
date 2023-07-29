@@ -16,7 +16,7 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
     if (paramsObject.length !== 0) {
         query = {
             where: {
-                OR: paramsObject,
+                AND: paramsObject,
             },
         };
     }

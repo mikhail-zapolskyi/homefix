@@ -1,14 +1,16 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Container, Grid, Paper } from "@mui/material";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface Services {
     id: string;
     name: string;
     city: string;
+    rating: number;
 }
 
-export const Services = () => {
+export const ViewServices = () => {
     const searchParams = useSearchParams().toString();
     const [services, setServices] = useState<Services[]>([]);
 
@@ -30,14 +32,23 @@ export const Services = () => {
             console.error(error);
         }
     };
-    console.log(services);
+
     return (
-        <div>
-            {services.map((service) => (
-                <p key={service.id}>{service.name}</p>
-            ))}
-        </div>
+        <Container>
+            <Grid container>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={10}>
+                    {services.map((service) => (
+                        <Paper key={service.id}>
+                            <p>{service.name}</p>
+                            <p>{service.city}</p>
+                            <p>{service.rating}</p>
+                        </Paper>
+                    ))}
+                </Grid>
+            </Grid>
+        </Container>
     );
 };
 
-export default Services;
+export default ViewServices;

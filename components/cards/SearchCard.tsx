@@ -2,15 +2,13 @@
 
 import React, { useState } from "react";
 import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { SelectFiled } from "@/components";
+import useSWR from "swr";
+import { URL } from "url";
+import { GridLoader } from "react-spinners";
 
-const request = {
-    cities: ["Calgary", "Boston", "Kiev", "New York"],
-    postalCodes: ["T3M1N8", "90210"],
-    categories: ["Plumbers", "Cleaners"],
-    countries: ["Canada", "US", "Ukraine"],
-};
+const fetcher = (url: URL) => fetch(url).then(async (res) => await res.json());
 
 const initialParams = {
     country: "",
@@ -23,6 +21,12 @@ const initialParams = {
 const SearchBar = () => {
     const router = useRouter();
     const [formData, setFormData] = useState(initialParams);
+    const { data, isLoading, error } = useSWR(
+        "http://localhost:3000/api/service/searchdata",
+        fetcher
+    );
+
+    if (error) console.log(error);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,7 +34,6 @@ const SearchBar = () => {
         const params = new URLSearchParams();
 
         Object.keys(formData).forEach((key) => {
-            console.log(formData[key as keyof typeof formData]);
             if (formData[key as keyof typeof formData]) {
                 params.set(key, formData[key as keyof typeof formData]);
             }
@@ -54,37 +57,49 @@ const SearchBar = () => {
         <Box
             component="form"
             noValidate
-            sx={{ display: "flex", alignItems: "center" }}
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
             onSubmit={handleSubmit}
         >
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="country"
-                        name="country"
-                        emptyValue="Select Country"
-                        value={formData.country}
-                        array={request.countries}
-                        onChange={handleSelectOnChange}
-                    />
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="city"
-                        name="city"
-                        emptyValue="Select City"
-                        value={formData.city}
-                        array={request.cities}
-                        onChange={handleSelectOnChange}
-                    />
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                {/* <Grid item xs={12}>
+            {isLoading ? (
+                <GridLoader
+                    size={10}
+                    cssOverride={{
+                        marginTop: "3rem",
+                    }}
+                />
+            ) : (
+                <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="country"
+                            name="country"
+                            emptyValue="Select Country"
+                            value={formData.country}
+                            array={data.countries}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="city"
+                            name="city"
+                            emptyValue="Select City"
+                            value={formData.city}
+                            array={data.cities}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    {/* <Grid item xs={12}>
                     <SelectFiled
                         id="postalCode"
                         name="postalCode"
@@ -97,36 +112,37 @@ const SearchBar = () => {
                 <Divider
                     sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                 ></Divider> */}
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="category"
-                        name="category"
-                        emptyValue="Select Category"
-                        value={formData.category}
-                        array={request.categories}
-                        onChange={handleSelectOnChange}
-                    />
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="rating"
-                        name="rating"
-                        emptyValue="Select Rating"
-                        value={formData.rating}
-                        array={[1, 2, 3, 4, 5]}
-                        onChange={handleSelectOnChange}
-                    />
-                </Grid>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="category"
+                            name="category"
+                            emptyValue="Select Category"
+                            value={formData.category}
+                            array={data.categories}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="rating"
+                            name="rating"
+                            emptyValue="Select Rating"
+                            value={formData.rating}
+                            array={[1, 2, 3, 4, 5]}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
 
-                <Grid container item xs={12} sx={{ justifyContent: "end" }}>
-                    <Button size="large" type="submit">
-                        Search a Pro
-                    </Button>
+                    <Grid container item xs={12} sx={{ justifyContent: "end" }}>
+                        <Button size="large" type="submit">
+                            Search a Pro
+                        </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
+            )}
         </Box>
     );
 };

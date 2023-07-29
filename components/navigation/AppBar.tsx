@@ -74,6 +74,7 @@ const PrimaryAppBar = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             elevation={2}
+            sx={{ ".MuiPaper-root": { borderRadius: "1rem" } }}
         >
             <MenuItem
                 onClick={() => {
@@ -140,6 +141,8 @@ const PrimaryAppBar = () => {
             }}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
+            elevation={4}
+            sx={{ ".MuiPaper-root": { borderRadius: "1rem" } }}
         >
             <MenuItem>
                 <IconButton
