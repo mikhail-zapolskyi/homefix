@@ -8,7 +8,6 @@ import {
     SlideMenu,
 } from "@/components";
 import { Box, Card, CardContent, Container, Grid } from "@mui/material";
-
 import { useState } from "react";
 
 interface Components {

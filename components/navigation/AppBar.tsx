@@ -21,12 +21,16 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { PrimaryButton, SlideMenu } from "@/components";
-import { usePathname, useRouter } from "next/navigation";
+import {
+    usePathname,
+    useRouter,
+    useSelectedLayoutSegments,
+} from "next/navigation";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 
 const PrimaryAppBar = () => {
     const { data: session, status } = useSession();
-    const pathname = usePathname();
+    const segment = useSelectedLayoutSegments();
     const theme = useTheme();
     const { push } = useRouter();
 
@@ -202,7 +206,7 @@ const PrimaryAppBar = () => {
             >
                 <Toolbar>
                     {status === "authenticated" &&
-                        pathname === "/dashboard" && (
+                        "/dashboard" === `/${segment[0]}` && (
                             <IconButton
                                 size="large"
                                 edge="start"

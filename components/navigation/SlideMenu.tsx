@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
-import { useTheme } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import IconButton from "@mui/material/IconButton";
@@ -15,7 +14,6 @@ import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { MenuOption } from "@/components";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -39,82 +37,78 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
     handleslideMenuClose,
 }) => {
     const { data: session } = useSession();
-    const pathname = usePathname();
+
     const { push } = useRouter();
 
     return (
-        <>
-            {pathname === "/dashboard" && (
-                <Drawer
-                    variant="persistent"
-                    anchor="left"
-                    open={slideMenuState}
-                    PaperProps={{
-                        elevation: 2,
-                    }}
-                    sx={{
-                        width: drawerWidth,
-                        flexShrink: 0,
-                        "& .MuiDrawer-paper": {
-                            width: drawerWidth,
-                            boxSizing: "border-box",
-                            borderRadius: "1rem",
-                            border: "none",
-                        },
-                    }}
-                >
-                    <DrawerHeader>
-                        <IconButton onClick={handleslideMenuClose}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </DrawerHeader>
-                    <List>
+        <Drawer
+            variant="persistent"
+            anchor="left"
+            open={slideMenuState}
+            PaperProps={{
+                elevation: 2,
+            }}
+            sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                "& .MuiDrawer-paper": {
+                    width: drawerWidth,
+                    boxSizing: "border-box",
+                    borderRadius: "1rem",
+                    border: "none",
+                },
+            }}
+        >
+            <DrawerHeader>
+                <IconButton onClick={handleslideMenuClose}>
+                    <ChevronLeftIcon />
+                </IconButton>
+            </DrawerHeader>
+            <List>
+                <MenuOption
+                    text="Acconut"
+                    icon={<ManageAccountsIcon />}
+                    onClick={handleslideMenuClose}
+                />
+                {session?.user.type === "USER" && (
+                    <MenuOption
+                        text="Businesses"
+                        icon={<BusinessIcon />}
+                        onClick={() => {
+                            push("/dashboard/businesses");
+                        }}
+                    />
+                )}
+                {session?.user.type === "PRO" && (
+                    <>
                         <MenuOption
-                            text="Acconut"
-                            icon={<ManageAccountsIcon />}
+                            text="Business Profile"
+                            icon={<BusinessCenterIcon />}
                             onClick={handleslideMenuClose}
                         />
-                        {session?.user.type === "USER" && (
-                            <MenuOption
-                                text="Businesses"
-                                icon={<BusinessIcon />}
-                                onClick={() => {
-                                    push("/dashboard/businesses");
-                                }}
-                            />
-                        )}
-                        {session?.user.type === "USER" && (
-                            <>
-                                <MenuOption
-                                    text="Business Profile"
-                                    icon={<BusinessCenterIcon />}
-                                    onClick={handleslideMenuClose}
-                                />
-                                <MenuOption
-                                    text="Customers"
-                                    icon={<GroupIcon />}
-                                    onClick={handleslideMenuClose}
-                                />
-                            </>
-                        )}
                         <MenuOption
-                            text="Reviews"
-                            icon={<ReviewsIcon />}
-                            onClick={() => {
-                                push("/dashboard/reviews");
-                            }}
+                            text="Customers"
+                            icon={<GroupIcon />}
+                            onClick={handleslideMenuClose}
                         />
-                        <MenuOption
-                            text="Go Main Page"
-                            icon={<ExitToAppIcon />}
-                            onClick={() => {
-                                push("/");
-                            }}
-                        />
-                    </List>
-                </Drawer>
-            )}
-        </>
+                    </>
+                )}
+                <MenuOption
+                    text="Reviews"
+                    icon={<ReviewsIcon />}
+                    onClick={() => {
+                        push("/dashboard/reviews");
+                    }}
+                />
+                <MenuOption
+                    text="Go Main Page"
+                    icon={<ExitToAppIcon />}
+                    onClick={() => {
+                        push("/");
+                    }}
+                />
+            </List>
+        </Drawer>
     );
 };
 

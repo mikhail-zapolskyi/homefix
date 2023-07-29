@@ -1,3 +1,3 @@
-export { default as buildQueryObject } from "./buildQueryObject";
-export { default as Password } from "./bcrypt";
-export { default as calcualteAverage } from "./calculateAverage";
+export { default as buildQueryObject } from "./helpers/buildQueryObject";
+export { default as Password } from "./helpers/bcrypt";
+export { default as calcualteAverage } from "./helpers/calculateAverage";
