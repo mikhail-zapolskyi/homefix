@@ -2,7 +2,7 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
     const paramsObject = [];
     for (const [key, value] of Array.from(searchParams.entries())) {
         if (key === "rating") {
-            paramsObject.push({ [key]: Number(value) });
+            paramsObject.push({ [key]: { gte: Number(value) } });
         } else {
             paramsObject.push({ [key]: value });
         }
@@ -16,7 +16,7 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
     if (paramsObject.length !== 0) {
         query = {
             where: {
-                OR: paramsObject,
+                AND: paramsObject,
             },
         };
     }

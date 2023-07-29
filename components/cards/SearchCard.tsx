@@ -1,125 +1,148 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, Divider, Grid } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { SelectFiled } from "@/components";
+import useSWR from "swr";
+import { URL } from "url";
+import { GridLoader } from "react-spinners";
 
-const request = {
-    cities: ["Calgary", "Boston", "Kiev", "New York"],
-    postalCodes: ["T3M1N8", "90210"],
-    categories: ["Plumbers", "Cleaners"],
-    countries: ["Canada", "US", "Ukraine"],
+const fetcher = (url: URL) => fetch(url).then(async (res) => await res.json());
+
+const initialParams = {
+    country: "",
+    city: "",
+    postalCode: "",
+    category: "",
+    rating: "",
 };
 
 const SearchBar = () => {
-    const searchParams = useSearchParams();
     const router = useRouter();
-    const [country, setCountry] = useState<string>("");
-    const [city, setCity] = useState<string>("");
-    const [postalCode, setPostalCode] = useState<string>("");
-    const [category, setCategory] = useState<string>("");
-    const [rating, setRating] = useState<string>("");
+    const [formData, setFormData] = useState(initialParams);
+    const { data, isLoading, error } = useSWR(
+        "http://localhost:3000/api/service/searchdata",
+        fetcher
+    );
+
+    if (error) console.log(error);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        const text = data.get("text") as string;
-        const category = data.get("category") as string;
+        let query = "?";
+        const params = new URLSearchParams();
 
-        // If query exists, pass it to as params
-        let params = "";
-        if (text && category) {
-            const newUrlParams = new URLSearchParams(searchParams.toString());
-            newUrlParams.set(`${category}`, text);
-            params = `?${newUrlParams}`;
+        Object.keys(formData).forEach((key) => {
+            if (formData[key as keyof typeof formData]) {
+                params.set(key, formData[key as keyof typeof formData]);
+            }
+        });
+
+        const queryString = params.toString();
+        if (queryString) {
+            query = query + queryString;
         }
+        router.push(`/services${query}`);
+    };
 
-        router.push(`/services${params}`);
+    const handleSelectOnChange = (
+        e: SelectChangeEvent<unknown | string | number>
+    ) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
     return (
         <Box
             component="form"
             noValidate
-            sx={{ display: "flex", alignItems: "center" }}
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
             onSubmit={handleSubmit}
         >
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
+            {isLoading ? (
+                <GridLoader
+                    size={10}
+                    cssOverride={{
+                        marginTop: "3rem",
+                    }}
+                />
+            ) : (
+                <Grid container spacing={1}>
                     <Grid item xs={12}>
                         <SelectFiled
                             id="country"
+                            name="country"
                             emptyValue="Select Country"
-                            value={country}
-                            array={request.countries}
-                            onChange={(e) => {
-                                setCountry(e.target.value as string);
-                            }}
+                            value={formData.country}
+                            array={data.countries}
+                            onChange={handleSelectOnChange}
                         />
                     </Grid>
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="city"
-                        emptyValue="Select City"
-                        value={city}
-                        array={request.cities}
-                        onChange={(e) => {
-                            setCity(e.target.value as string);
-                        }}
-                    />
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                <Grid item xs={12}>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="city"
+                            name="city"
+                            emptyValue="Select City"
+                            value={formData.city}
+                            array={data.cities}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    {/* <Grid item xs={12}>
                     <SelectFiled
                         id="postalCode"
+                        name="postalCode"
                         emptyValue="Select Postal Code"
-                        value={postalCode}
+                        value={formData.postalCode}
                         array={request.postalCodes}
-                        onChange={(e) => {
-                            setPostalCode(e.target.value as string);
-                        }}
+                        onChange={handleSelectOnChange}
                     />
                 </Grid>
                 <Divider
                     sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="category"
-                        emptyValue="Select Category"
-                        value={category}
-                        array={request.categories}
-                        onChange={(e) => {
-                            setCategory(e.target.value as string);
-                        }}
-                    />
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider>
-                <Grid item xs={12}>
-                    <SelectFiled
-                        id="rating"
-                        emptyValue="Select Rating"
-                        value={rating}
-                        array={[1, 2, 3, 4, 5]}
-                        onChange={(e) => {
-                            setRating(e.target.value as string);
-                        }}
-                    />
-                </Grid>
+                ></Divider> */}
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="category"
+                            name="category"
+                            emptyValue="Select Category"
+                            value={formData.category}
+                            array={data.categories}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    <Grid item xs={12}>
+                        <SelectFiled
+                            id="rating"
+                            name="rating"
+                            emptyValue="Select Rating"
+                            value={formData.rating}
+                            array={[1, 2, 3, 4, 5]}
+                            onChange={handleSelectOnChange}
+                        />
+                    </Grid>
 
-                <Grid container item xs={12} sx={{ justifyContent: "end" }}>
-                    <Button size="large">Search a Pro</Button>
+                    <Grid container item xs={12} sx={{ justifyContent: "end" }}>
+                        <Button size="large" type="submit">
+                            Search a Pro
+                        </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
+            )}
         </Box>
     );
 };
