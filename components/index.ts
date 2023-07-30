@@ -11,6 +11,7 @@ export { default as ProductHero } from "./views/ProductHero";
 // Cards
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as SearchCard } from "./cards/SearchCard";
+export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
@@ -18,6 +19,7 @@ export { default as TextAnimation } from "./animation/TextAnimation";
 export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectFiled } from "./inputs/SelectField";
+export { default as CustomTextField } from "./inputs/CustomTextField";
 
 // User Dashboard
 export { default as ListCard } from "./cards/ListCard";

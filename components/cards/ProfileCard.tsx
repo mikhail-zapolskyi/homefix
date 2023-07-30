@@ -1,105 +1,89 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import { useSession } from "next-auth/react";
-import { Avatar, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+"use client";
 
-const ProfileCard = async () => {
-    const { data: session } = useSession();
-    const user = {
-        name: "Misha",
-        image: "",
-        phone: "92384992374",
-        email: "email@email.com",
-        address: "address",
-        city: "Cidty",
-        postalCode: "T4T4Y5",
-        country: "country",
+import React, { useState } from "react";
+import { Avatar, Typography, Button, Grid } from "@mui/material";
+import { CustomTextField, CustomDashboardCard } from "@/components";
+import { useSession } from "next-auth/react";
+
+const initialState = {
+    name: "Misha",
+    image: "",
+    phone: "92384992374",
+    email: "email@email.com",
+    address: "address",
+    city: "Cidty",
+    postalCode: "T4T4Y5",
+    country: "country",
+};
+
+const ProfileCard = () => {
+    const [userData, setUserData] = useState(initialState);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserData({ ...userData, [e.target.name]: e.target.value });
     };
 
-    return (
-        <Card sx={{ minWidth: 275, margin: "2rem" }}>
-            <CardContent>
-                <Grid container spacing={2} marginBottom={2}>
-                    <Grid xs={12} sm={6}>
-                        <Grid container alignItems="center" spacing={2}>
-                            <Grid>
-                                <Avatar
-                                    src={`${user?.image}`}
-                                    alt={`${user?.name}`}
-                                    sx={{ width: 90, height: 90 }}
-                                />
-                            </Grid>
-                            <Grid>
-                                <Typography variant="body1">
-                                    {user?.name}
-                                </Typography>
-                                <Button size="small">Upload Photo</Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid xs={12} sm={6}>
-                        <Grid container justifyContent="flex-end">
-                            <Button size="small">Message</Button>
-                            <Button size="small">Save</Button>
-                        </Grid>
-                    </Grid>
-                </Grid>
+    const renderFields = Object.entries(userData).map(([key, value]) => (
+        <Grid item xs={12} sm={6} key={key}>
+            <CustomTextField name={key} value={value} onChange={handleChange} />
+        </Grid>
+    ));
 
-                <Grid container spacing={2} sx={{ maxWidth: 600 }}>
-                    <Grid xs={12} sm={6}>
-                        <Grid container direction="column" rowGap={2}>
-                            <TextField
-                                fullWidth
-                                type="tel"
-                                placeholder={`${user?.phone}`}
-                            />
-                            <TextField
-                                fullWidth
-                                type="email"
-                                placeholder={`${user?.email}`}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid xs={12} sm={6}>
-                        <Grid container direction="column" rowGap={2}>
-                            <TextField
-                                fullWidth
-                                type="text"
-                                placeholder={`${user?.address}`}
-                            />
-                            <TextField
-                                fullWidth
-                                type="text"
-                                placeholder={`${user?.city}`}
+    return (
+        <Grid item xs={12}>
+            <CustomDashboardCard>
+                <Grid container sx={{ marginBottom: "2rem" }} spacing={1}>
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        sm={6}
+                        sx={{ alignItems: "center", justifyContent: "start" }}
+                    >
+                        <Grid container item xs={5} md={3} lg={2}>
+                            <Avatar
+                                src={`${userData?.image}`}
+                                alt={`${userData?.name}`}
+                                sx={{ width: 90, height: 90 }}
                             />
                         </Grid>
-                    </Grid>
-                    <Grid xs={12} sm={6}>
-                        <Grid container direction="column" rowGap={2}>
-                            <TextField
-                                fullWidth
-                                type="text"
-                                placeholder={`${user?.postalCode}`}
-                            />
-                            <TextField
-                                fullWidth
-                                type="text"
-                                placeholder={`${user?.country}`}
-                            />
+                        <Grid item xs={7} md={9} lg={10}>
+                            <Typography
+                                variant="body1"
+                                sx={{ marginLeft: 0.8 }}
+                            >
+                                {userData?.name}
+                            </Typography>
+                            <Button size="small">Upload Photo</Button>
                         </Grid>
                     </Grid>
-                    <Grid xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="password"
-                            placeholder="•••••••••••"
-                        />
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        sm={6}
+                        sx={{
+                            margin: "2rem auto",
+                            alignItems: { xs: "center" },
+                            justifyContent: { xs: "space-around", sm: "end" },
+                        }}
+                    >
+                        <Button size="small">Message</Button>
+                        <Button size="small">Save</Button>
                     </Grid>
                 </Grid>
-            </CardContent>
-        </Card>
+                <Grid
+                    container
+                    item
+                    xs={12}
+                    lg={6}
+                    spacing={2}
+                    sx={{ maxWidth: 600 }}
+                >
+                    {renderFields}
+                </Grid>
+            </CustomDashboardCard>
+        </Grid>
     );
 };
 

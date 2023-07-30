@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "npx prisma generate & npx prisma db push & next dev --turbo",
+        "dev": "npx prisma generate & npx prisma db push & next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint npx prettier --write"
