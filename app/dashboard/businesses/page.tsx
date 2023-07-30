@@ -1,7 +1,7 @@
 "use client";
 
 import { DetailsCard, ListCard } from "@/components";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Grid } from "@mui/material";
 
 const data = [
     {
@@ -27,10 +27,10 @@ const data = [
 const Businesses = () => {
     return (
         <Grid container spacing={2}>
-            <Grid xs={12} md={3}>
+            <Grid item xs={12} sm={6} md={4}>
                 <ListCard data={data} />
             </Grid>
-            <Grid xs={12} md={9}>
+            <Grid item xs={12} sm={6} md={8}>
                 <DetailsCard />
             </Grid>
         </Grid>
