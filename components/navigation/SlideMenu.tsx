@@ -84,10 +84,10 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                 {session?.user.type === "PRO" && (
                     <>
                         <MenuOption
-                            text="Business Profile"
+                            text="Service Profile"
                             icon={<BusinessCenterIcon />}
                             onClick={() => {
-                                push("/dashboard/business-profile");
+                                push("/dashboard/service-profile");
                             }}
                         />
                         <MenuOption
