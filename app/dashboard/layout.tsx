@@ -4,11 +4,10 @@ import { Grid } from "@mui/material";
 import { styled } from "@mui/material";
 
 const StyledWrapper = styled(Grid)(({ theme }) => ({
-    maxWidth: "100%",
     [theme.breakpoints.up("sm")]: {
         padding: "2rem",
     },
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up("xl")]: {
         width: "65vw",
         margin: "0 auto",
     },

@@ -6,8 +6,10 @@ import {
     TextField,
     Typography,
     Grid,
+    Box,
 } from "@mui/material";
 
+import { CustomDashboardCard } from "@/components";
 import MessageIcon from "@mui/icons-material/Message";
 import DropDown from "../inputs/DropDown";
 
@@ -18,72 +20,63 @@ const reviewText =
 
 const ReviewCard = () => {
     return (
-        <Grid container>
-            <Grid item xs={12}>
-                <Card sx={{ borderRadius: "1rem" }} elevation={4}>
-                    <CardContent>
-                        <Grid>
-                            <Grid
-                                container
-                                alignItems="center"
-                                justifyContent={"space-between"}
-                            >
-                                <Grid container item xs={6}>
-                                    <Grid item xs={6} sm={3}>
-                                        <Avatar
-                                            src={`${"image"}`}
-                                            alt={`${"name"}`}
-                                            sx={{ width: 55, height: 55 }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6} sm={9}>
-                                        <Typography variant="body1">
-                                            {"name"}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            {"email"}
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-
-                                <Grid
-                                    container
-                                    item
-                                    spacing={2}
-                                    xs={6}
-                                    alignItems={"center"}
-                                >
-                                    <Grid item xs={12} sm={6} md={4}>
-                                        <DropDown
-                                            name="Rating"
-                                            values={ratings}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={4}>
-                                        <Button
-                                            variant="outlined"
-                                            endIcon={<MessageIcon />}
-                                        >
-                                            Message
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={12} pt={2}>
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Review"
-                                    multiline
-                                    rows={4}
-                                    defaultValue={reviewText}
-                                    sx={{ width: "100%" }}
-                                />
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Card>
+        <CustomDashboardCard>
+            <Grid container xs={12} spacing={2}>
+                <Grid container item xs={12}>
+                    <Grid
+                        item
+                        container
+                        xs={12}
+                        sm={6}
+                        sx={{ alignItems: "center", justifyContent: "start" }}
+                    >
+                        <Box>
+                            <Avatar
+                                src={`${"image"}`}
+                                alt={`${"name"}`}
+                                sx={{
+                                    width: 55,
+                                    height: 55,
+                                    marginRight: "1rem",
+                                }}
+                            />
+                        </Box>
+                        <Box>
+                            <Typography variant="body1">{"name"}</Typography>
+                            <Typography variant="body2">{"email"}</Typography>
+                        </Box>
+                    </Grid>
+                    <Grid
+                        item
+                        container
+                        xs={12}
+                        sm={6}
+                        sx={{
+                            alignItems: "center",
+                            justifyContent: {
+                                xs: "space-around",
+                                md: "center",
+                            },
+                        }}
+                    >
+                        <DropDown name="Rating" values={ratings} />
+                        <Button variant="outlined" endIcon={<MessageIcon />}>
+                            Message
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="Review"
+                        multiline
+                        rows={4}
+                        defaultValue={reviewText}
+                        sx={{ width: "100%" }}
+                    />
+                </Grid>
             </Grid>
-        </Grid>
+        </CustomDashboardCard>
     );
 };
 

@@ -4,23 +4,22 @@ import { CustomDashboardCard } from "@/components";
 const ListCard = ({ data }: { data: Array<{}> }) => {
     return (
         <CustomDashboardCard>
-            <Grid container xs={12} spacing={1}>
+            <Grid container xs={12} rowSpacing={3}>
                 {data.map((item: any) => (
                     <Grid
                         container
                         item
                         xs={12}
                         key={item.id}
-                        sx={{ alignItems: "center", justifyContent: "center" }}
+                        sx={{ alignItems: "center", justifyContent: "start" }}
+                        columnSpacing={2}
                     >
-                        <Grid item xs={4} sm={4} md={4} lg={2}>
-                            <Avatar
-                                src={`${item?.image}`}
-                                alt={`${item?.name}`}
-                                sx={{ width: 55, height: 55 }}
-                            />
-                        </Grid>
-                        <Grid container item xs={8} sm={8} md={8} lg={10}>
+                        <Avatar
+                            src={`${item?.image}`}
+                            alt={`${item?.name}`}
+                            sx={{ width: 55, height: 55 }}
+                        />
+                        <Grid container item xs={8} sm={8} md={8} lg={9}>
                             <Grid item xs={12}>
                                 <Typography variant="body1">
                                     {item.name}

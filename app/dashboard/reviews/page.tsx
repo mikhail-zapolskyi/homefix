@@ -1,8 +1,12 @@
 "use client";
 
-import { ListCard, ReviewCard, SearchBar } from "@/components";
-import { Card, CardContent } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import {
+    CustomDashboardCard,
+    ListCard,
+    ReviewCard,
+    SearchBar,
+} from "@/components";
+import { Card, CardContent, Grid } from "@mui/material";
 
 const data = [
     {
@@ -27,21 +31,21 @@ const data = [
 
 const UserReviews = () => {
     return (
-        <>
-            <Card sx={{ margin: "2rem", height: "5rem" }}>
-                <CardContent>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <CustomDashboardCard>
                     <SearchBar title="Find a Review" />
-                </CardContent>
-            </Card>
-            <Grid container spacing={2}>
-                <Grid xs={12} md={3}>
+                </CustomDashboardCard>
+            </Grid>
+            <Grid item container xs={12} spacing={2}>
+                <Grid item xs={12} md={4}>
                     <ListCard data={data} />
                 </Grid>
-                <Grid xs={12} md={9}>
+                <Grid item xs={12} md={8}>
                     <ReviewCard />
                 </Grid>
             </Grid>
-        </>
+        </Grid>
     );
 };
 

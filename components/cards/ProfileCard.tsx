@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Avatar, Typography, Button, Grid } from "@mui/material";
+import { Avatar, Typography, Button, Grid, Box } from "@mui/material";
 import { CustomTextField, CustomDashboardCard } from "@/components";
 import { useSession } from "next-auth/react";
 
@@ -30,8 +30,8 @@ const ProfileCard = () => {
     ));
 
     return (
-        <Grid item xs={12}>
-            <CustomDashboardCard>
+        <CustomDashboardCard>
+            <Grid item xs={12}>
                 <Grid container sx={{ marginBottom: "2rem" }} spacing={1}>
                     <Grid
                         container
@@ -40,14 +40,18 @@ const ProfileCard = () => {
                         sm={6}
                         sx={{ alignItems: "center", justifyContent: "start" }}
                     >
-                        <Grid container item xs={5} md={3} lg={2}>
+                        <Box>
                             <Avatar
                                 src={`${userData?.image}`}
                                 alt={`${userData?.name}`}
-                                sx={{ width: 90, height: 90 }}
+                                sx={{
+                                    width: 90,
+                                    height: 90,
+                                    marginRight: "1rem",
+                                }}
                             />
-                        </Grid>
-                        <Grid item xs={7} md={9} lg={10}>
+                        </Box>
+                        <Box>
                             <Typography
                                 variant="body1"
                                 sx={{ marginLeft: 0.8 }}
@@ -55,7 +59,7 @@ const ProfileCard = () => {
                                 {userData?.name}
                             </Typography>
                             <Button size="small">Upload Photo</Button>
-                        </Grid>
+                        </Box>
                     </Grid>
                     <Grid
                         container
@@ -82,8 +86,8 @@ const ProfileCard = () => {
                 >
                     {renderFields}
                 </Grid>
-            </CustomDashboardCard>
-        </Grid>
+            </Grid>
+        </CustomDashboardCard>
     );
 };
 

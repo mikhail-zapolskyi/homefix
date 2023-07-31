@@ -1,25 +1,28 @@
-import { Avatar, CardContent, Typography, Grid } from "@mui/material";
+import { Avatar, CardContent, Typography, Grid, Box } from "@mui/material";
 import { CustomDashboardCard } from "@/components";
 
 const DetailsCard = () => {
     return (
         <CustomDashboardCard>
-            <Grid
-                container
-                xs={12}
-                sx={{ alignItems: "center", justifyContent: "center" }}
-            >
-                <Grid item xs={4} md={2} lg={1}>
+            <Grid container xs={12}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        gap: 1,
+                        alignItems: "center",
+                        justifyContent: "start",
+                    }}
+                >
                     <Avatar
                         src={`${"image"}`}
                         alt={`${"name"}`}
                         sx={{ width: 55, height: 55 }}
                     />
-                </Grid>
-                <Grid item xs={8} md={10} lg={11}>
-                    <Typography variant="body1">{"name"}</Typography>
-                    <Typography variant="body2">{"email"}</Typography>
-                </Grid>
+                    <Box>
+                        <Typography variant="body1">{"name"}</Typography>
+                        <Typography variant="body2">{"email"}</Typography>
+                    </Box>
+                </Box>
             </Grid>
 
             <Grid container xs={12} marginTop={2}>
