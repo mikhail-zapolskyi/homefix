@@ -8,7 +8,7 @@ const StyledWrapper = styled(Grid)(({ theme }) => ({
         padding: "2rem",
     },
     [theme.breakpoints.up("xl")]: {
-        width: "65vw",
+        width: "85vw",
         margin: "0 auto",
     },
 }));

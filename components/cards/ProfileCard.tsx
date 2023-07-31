@@ -31,41 +31,44 @@ const ProfileCard = () => {
 
     return (
         <CustomDashboardCard>
-            <Grid item xs={12}>
-                <Grid container sx={{ marginBottom: "2rem" }} spacing={1}>
+            <Grid container xs={12} rowSpacing={3}>
+                <Grid container item xs={12}>
                     <Grid
                         container
                         item
-                        xs={12}
-                        sm={6}
+                        sm={8}
                         sx={{ alignItems: "center", justifyContent: "start" }}
+                        columnSpacing={2}
                     >
-                        <Box>
+                        <Grid item>
                             <Avatar
                                 src={`${userData?.image}`}
                                 alt={`${userData?.name}`}
                                 sx={{
-                                    width: 90,
-                                    height: 90,
-                                    marginRight: "1rem",
+                                    width: 70,
+                                    height: 70,
                                 }}
                             />
-                        </Box>
-                        <Box>
-                            <Typography
-                                variant="body1"
-                                sx={{ marginLeft: 0.8 }}
-                            >
-                                {userData?.name}
-                            </Typography>
-                            <Button size="small">Upload Photo</Button>
-                        </Box>
+                        </Grid>
+                        <Grid container item xs={8}>
+                            <Grid item xs={12}>
+                                <Typography
+                                    variant="body1"
+                                    sx={{ marginLeft: 0.8 }}
+                                >
+                                    {userData?.name}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button size="small">Upload Photo</Button>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid
                         container
                         item
                         xs={12}
-                        sm={6}
+                        sm={4}
                         sx={{
                             margin: "2rem auto",
                             alignItems: { xs: "center" },
@@ -80,7 +83,7 @@ const ProfileCard = () => {
                     container
                     item
                     xs={12}
-                    lg={6}
+                    lg={8}
                     spacing={2}
                     sx={{ maxWidth: 600 }}
                 >
