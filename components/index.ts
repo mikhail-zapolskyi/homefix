@@ -18,7 +18,7 @@ export { default as TextAnimation } from "./animation/TextAnimation";
 
 export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
-export { default as SelectFiled } from "./inputs/SelectField";
+export { default as SelectField } from "./inputs/SelectField";
 export { default as CustomTextField } from "./inputs/CustomTextField";
 
 // User Dashboard

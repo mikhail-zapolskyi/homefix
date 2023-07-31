@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { SelectFiled } from "@/components";
+import { SelectField } from "@/components";
 import useSWR from "swr";
 import { URL } from "url";
 import { GridLoader } from "react-spinners";
@@ -74,7 +74,7 @@ const SearchBar = () => {
             ) : (
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
-                        <SelectFiled
+                        <SelectField
                             id="country"
                             name="country"
                             emptyValue="Select Country"
@@ -87,7 +87,7 @@ const SearchBar = () => {
                         sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                     ></Divider>
                     <Grid item xs={12}>
-                        <SelectFiled
+                        <SelectField
                             id="city"
                             name="city"
                             emptyValue="Select City"
@@ -100,7 +100,7 @@ const SearchBar = () => {
                         sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                     ></Divider>
                     {/* <Grid item xs={12}>
-                    <SelectFiled
+                    <SelectField
                         id="postalCode"
                         name="postalCode"
                         emptyValue="Select Postal Code"
@@ -113,7 +113,7 @@ const SearchBar = () => {
                     sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                 ></Divider> */}
                     <Grid item xs={12}>
-                        <SelectFiled
+                        <SelectField
                             id="category"
                             name="category"
                             emptyValue="Select Category"
@@ -126,7 +126,7 @@ const SearchBar = () => {
                         sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                     ></Divider>
                     <Grid item xs={12}>
-                        <SelectFiled
+                        <SelectField
                             id="rating"
                             name="rating"
                             emptyValue="Select Rating"

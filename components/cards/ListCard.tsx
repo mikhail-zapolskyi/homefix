@@ -11,15 +11,21 @@ const ListCard = ({ data }: { data: Array<{}> }) => {
                         item
                         xs={12}
                         key={item.id}
-                        sx={{ alignItems: "center", justifyContent: "start" }}
+                        sx={{
+                            width: "100%",
+                            alignItems: "center",
+                            justifyContent: "start",
+                        }}
                         columnSpacing={2}
                     >
-                        <Avatar
-                            src={`${item?.image}`}
-                            alt={`${item?.name}`}
-                            sx={{ width: 55, height: 55 }}
-                        />
-                        <Grid container item xs={8} sm={8} md={8} lg={9}>
+                        <Grid item>
+                            <Avatar
+                                src={`${item?.image}`}
+                                alt={`${item?.name}`}
+                                sx={{ width: 55, height: 55 }}
+                            />
+                        </Grid>
+                        <Grid container item xs={8}>
                             <Grid item xs={12}>
                                 <Typography variant="body1">
                                     {item.name}

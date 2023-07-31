@@ -13,7 +13,7 @@ const SearchBar = ({ title }: { title: string }) => {
                 borderRadius: "1rem",
             }}
         >
-            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+            <IconButton type="button" aria-label="search">
                 <SearchIcon />
             </IconButton>
             <InputBase
@@ -21,7 +21,7 @@ const SearchBar = ({ title }: { title: string }) => {
                 placeholder={title}
                 inputProps={{ "aria-label": `${title}` }}
             />
-            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+            <IconButton type="button" aria-label="search">
                 <ClearIcon />
             </IconButton>
         </Paper>
