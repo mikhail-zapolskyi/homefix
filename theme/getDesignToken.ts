@@ -84,6 +84,7 @@ const getDesignToken = (mode: PaletteMode) => ({
         h6: {
             fontFamily: nunito.style.fontFamily,
             fontWeight: 300,
+            fontSize: 18
         },
         subtitle1: {
             fontFamily: pt.style.fontFamily,
