@@ -1,5 +1,7 @@
 "use client";
 import { Container, Grid, Paper } from "@mui/material";
+import Typography from '@mui/material/Typography';
+
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -40,9 +42,9 @@ export const ViewServices = () => {
                 <Grid item xs={10}>
                     {services.map((service) => (
                         <Paper key={service.id}>
-                            <p>{service.name}</p>
-                            <p>{service.city}</p>
-                            <p>{service.rating}</p>
+                            <Typography>{service.name}</Typography>
+                            <Typography>{service.city}</Typography>
+                            <Typography>{service.rating}</Typography>
                         </Paper>
                     ))}
                 </Grid>
