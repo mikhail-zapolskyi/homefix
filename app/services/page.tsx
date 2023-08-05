@@ -42,22 +42,22 @@ export const ViewServices = () => {
         <Container >
             <Grid container>
                 <Grid item xs={2}></Grid>
-                <Grid item xs={10}>
+                <Grid item xs={10} md={8} >
                     {services.map((service) => (
-                        <Paper key={service.id} sx={{ mt: '3rem', borderRadius: '1rem', border: 1, borderColor: 'secondary.dark', display: 'flex', flexDirection: 'row' }}>
+                        <Grid container key={service.id} sx={{ mt: '3rem', borderRadius: '1rem', border: 1, borderColor: 'secondary.dark', display: 'flex', flexDirection: 'row' }}>
                             <Image loader={myLoader} alt="thumbnail" src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU"} width={200} height={200} style={{ borderRadius: '50px' }} />
-                            <Box sx={{ display: 'flex', flexDirection: 'column', ml: '3rem'}}>
+                            <Grid item xs={2} sx={{ display: 'flex', flexDirection: 'column', ml: '3rem'}}>
                                 <Typography variant="h4" sx={{ mb: '0.1rem', mt: '1rem', color: 'primary.main' }}>{service.name}</Typography>
                                 <Typography sx={{ mb: '1rem' }}>{service.city}</Typography>
                                 <Typography variant="h6" sx={{ fontWeight: '500' }}>{service.rating}<BiStar style={{ fontSize: 18 }} /></Typography>
                                 <Box sx={{ mb: '1rem', pt: '1rem' }}>
                                     <Typography>Description for each </Typography>
                                 </Box>
+                            </Grid>
+                            <Box sx={{ml: '10rem'}}>
+                                <Divider orientation="vertical" sx={{ height: '100%'}}/>
                             </Box>
-                            <Box sx={{ml: '10rem', height: 'auto'}}>
-                                <Divider orientation="vertical" sx={{ height: '13rem'}}/>
-                            </Box>
-                        </Paper>
+                        </Grid>
                     ))}
                 </Grid>
             </Grid>
