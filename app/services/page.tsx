@@ -1,5 +1,5 @@
 "use client";
-import { Container, Grid, Paper, Box, Typography } from "@mui/material";
+import { Container, Grid, Paper, Box, Typography, Divider } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BiStar } from "react-icons/bi";
@@ -39,20 +39,23 @@ export const ViewServices = () => {
         return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU"
     }
     return (
-        <Container>
+        <Container >
             <Grid container>
                 <Grid item xs={2}></Grid>
                 <Grid item xs={10}>
                     {services.map((service) => (
-                        <Paper key={service.id} sx={{ mt: '3rem', borderRadius: '10px', border: 1, borderColor: 'secondary.dark', display: 'flex', flexDirection: 'row' }}>
+                        <Paper key={service.id} sx={{ mt: '3rem', borderRadius: '1rem', border: 1, borderColor: 'secondary.dark', display: 'flex', flexDirection: 'row' }}>
                             <Image loader={myLoader} alt="thumbnail" src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU"} width={200} height={200} style={{ borderRadius: '50px' }} />
-                            <Box sx={{ display: 'flex', flexDirection: 'column', ml: '3rem' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', ml: '3rem'}}>
                                 <Typography variant="h4" sx={{ mb: '0.1rem', mt: '1rem', color: 'primary.main' }}>{service.name}</Typography>
                                 <Typography sx={{ mb: '1rem' }}>{service.city}</Typography>
                                 <Typography variant="h6" sx={{ fontWeight: '500' }}>{service.rating}<BiStar style={{ fontSize: 18 }} /></Typography>
                                 <Box sx={{ mb: '1rem', pt: '1rem' }}>
                                     <Typography>Description for each </Typography>
                                 </Box>
+                            </Box>
+                            <Box sx={{ml: '10rem', height: 'auto'}}>
+                                <Divider orientation="vertical" sx={{ height: '13rem'}}/>
                             </Box>
                         </Paper>
                     ))}
