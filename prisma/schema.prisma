@@ -49,7 +49,7 @@ model User {
   phone             String?
   accounts          Account[]
   sessions          Session[]
-  serviceProfile    ServiceProfile[]
+  serviceProfile    ServiceProfile?
   reviews           Review[]
   type              UserType          @default(USER)
   createdAt         DateTime          @default(now())
@@ -73,7 +73,6 @@ id                  String    @id @default(auto()) @map("_id") @db.ObjectId
 
 model ServiceProfile {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @db.ObjectId
   name              String? 
   address           String?
   city              String?
@@ -99,6 +98,7 @@ model ServiceProfile {
   categories        Category[]
   location          Location?
 
+  userId            String     @db.ObjectId @unique 
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -156,7 +156,7 @@ model Location {
   postal            String
   long              String
   lat               String
-  
+
   serviceProfileId  String           @db.ObjectId @unique
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
