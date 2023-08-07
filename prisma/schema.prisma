@@ -21,9 +21,7 @@ model Account {
   id_token           String?
   session_state      String?
 
-
   user User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 
@@ -54,6 +52,7 @@ model User {
   type              UserType          @default(USER)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+  location          Location?
 }
 
 enum UserType {
@@ -150,13 +149,17 @@ model Post {
 
 model Location {
   id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  address           String
-  city              String
-  country           String
-  postal            String
-  long              String
-  lat               String
+  address           String?
+  city              String?
+  state             String?
+  country           String?
+  postalCode        String?
+  long              String?
+  lat               String?
 
-  serviceProfileId  String           @db.ObjectId @unique
+  serviceProfileId  String?           @db.ObjectId @unique
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+
+  userId            String?           @db.ObjectId @unique
+  user              User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
