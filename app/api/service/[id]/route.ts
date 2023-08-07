@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/prisma/client";
 
 const updateServiceProfiles = async (
     req: NextRequest,

@@ -15,6 +15,7 @@ interface SelectFieldProps {
     value: string | number;
     onChange: (e: SelectChangeEvent<string | unknown | number>) => void;
     array?: string[] | number[] | undefined;
+    fieldState?: boolean;
 }
 
 const StyledSelect = styled(Select)(() => ({
@@ -30,6 +31,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
     onChange,
     array,
     name,
+    fieldState = true,
 }) => {
     const renderOptions = (options: string[] | number[] | undefined) => {
         if (options === undefined) {
@@ -61,6 +63,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
                     value={value}
                     onChange={onChange}
                     displayEmpty
+                    disabled={fieldState}
                 >
                     <MenuItem value="">
                         <em>{emptyValue}</em>

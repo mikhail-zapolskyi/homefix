@@ -76,6 +76,7 @@ model ServiceProfile {
   address           String?
   city              String?
   postalCode        String?
+  state             String?
   country           String?
   phone             String?
   rating            Float?      @default(0) @db.Double
@@ -154,7 +155,7 @@ model Location {
   state             String?
   country           String?
   postalCode        String?
-  long              String?
+  lng               String?
   lat               String?
 
   serviceProfileId  String?           @db.ObjectId @unique

@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/prisma/client";
 import { buildQueryObject } from "@/utils";
 
 const getServiceProfile = async (req: NextRequest) => {
@@ -19,6 +19,7 @@ const createServiceProfile = async (req: NextRequest) => {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
+        console.log("Opps");
         redirect("/api/auth/signin");
     }
 
@@ -33,7 +34,7 @@ const createServiceProfile = async (req: NextRequest) => {
                         address: data.address,
                         city: data.city,
                         country: data.country,
-                        postal: data.postalCode,
+                        postalCode: data.postalCode,
                         long: data.long,
                         lat: data.lat,
                     },
