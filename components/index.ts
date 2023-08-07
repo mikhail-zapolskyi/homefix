@@ -12,6 +12,8 @@ export { default as ProductHero } from "./views/ProductHero";
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as SearchCard } from "./cards/SearchCard";
 export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
+export { default as SearchResultServiceProfileCard } from "./cards/SearchResultServiceProfileCard";
+ 
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs

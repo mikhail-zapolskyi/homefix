@@ -23,12 +23,6 @@ const SignInButton: React.FC<IPrimaryButton> = ({ onClick, text }) => {
     );
 };
 
-export const ViewProfileButton: React.FC<IPrimaryButton> = ({ onClick, text }) => {
-    return (
-        <StyledButton variant="contained" size="small" onClick={onClick} sx={{mt: '5rem', p: '0.4rem', display: {xs: 'none', lg: 'inline'}, width: {xs: '6rem', lg: '8rem'}}}>
-            {text}
-        </StyledButton>
-    );
-};
+
 
 export default SignInButton;
