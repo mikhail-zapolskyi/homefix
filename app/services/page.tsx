@@ -15,6 +15,9 @@ interface Services {
     rating: number;
     image: string;
     skill: number;
+    fixerImage: string;
+    fixerDescription: string;
+    serviceDescription: string;
 }
 
 
@@ -25,7 +28,10 @@ const initialServiceProfiles = [
         city: 'Calgary',
         rating: 5,
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU",
-        skill: 2
+        skill: 2,
+        fixerImage: '',
+        fixerDescription: 'Marcus Applewood - Plumber',
+        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis. Duis congue, enim eu dignissim placerat, mauris turpis semper velit, sit amet gravida arcu lacus nec diam. Proin consequat dui sed ante imperdiet, id volutpat arcu aliquam.'
 
     },
     {
@@ -34,8 +40,10 @@ const initialServiceProfiles = [
         city: 'Edmonton',
         rating: 4,
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU",
-        skill: 3
-
+        skill: 3,
+        fixerImage: '',
+        fixerDescription: 'Jason Manson - Handyman',
+        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis. Duis congue, enim eu dignissim placerat, mauris turpis semper velit, sit amet gravida arcu lacus nec diam. Proin consequat dui sed ante imperdiet, id volutpat arcu aliquam.'
     },
 ]
 
@@ -56,7 +64,7 @@ export const ViewServices = () => {
         <Container sx={{pb: '10rem'}}>
             <Grid container spacing={2}>
                 {services.map((service) => (
-                    <Grid item key={service.id}>
+                    <Grid item key={service.id} sx={{mt: '2rem', width: '100%'}}>
                         <SearchResultServiceProfileCard
                             onClick={handleViewProfile}
                             id={service.id}
@@ -65,6 +73,9 @@ export const ViewServices = () => {
                             rating={service.rating}
                             image={service.image}
                             skill={service.skill}
+                            fixerImage={service.fixerImage}
+                            fixerDescription={service.fixerDescription}
+                            serviceDescription={service.serviceDescription}
                         />
                     </Grid>
 
