@@ -97,6 +97,8 @@ model ServiceProfile {
   posts             Post[]
   clients           String[]
   categories        Category[]
+  location          Location?
+
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -141,7 +143,20 @@ model Review {
 
 model Post {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  serviceProfileId  String           @db.ObjectId
 
+  serviceProfileId  String           @db.ObjectId
+  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+}
+
+model Location {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  address           String
+  city              String
+  country           String
+  postal            String
+  long              String
+  lat               String
+  
+  serviceProfileId  String           @db.ObjectId @unique
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
