@@ -31,7 +31,7 @@ const initialServiceProfiles = [
         skill: 2,
         fixerImage: '',
         fixerDescription: 'Marcus Applewood - Plumber',
-        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis. Duis congue, enim eu dignissim placerat, mauris turpis semper velit, sit amet gravida arcu lacus nec diam. Proin consequat dui sed ante imperdiet, id volutpat arcu aliquam.'
+        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis.'
 
     },
     {
@@ -43,7 +43,7 @@ const initialServiceProfiles = [
         skill: 3,
         fixerImage: '',
         fixerDescription: 'Jason Manson - Handyman',
-        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis. Duis congue, enim eu dignissim placerat, mauris turpis semper velit, sit amet gravida arcu lacus nec diam. Proin consequat dui sed ante imperdiet, id volutpat arcu aliquam.'
+        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis.'
     },
 ]
 
@@ -57,9 +57,6 @@ export const ViewServices = () => {
         
     }
     
-
-
-
     return (
         <Container sx={{pb: '10rem'}}>
             <Grid container spacing={2}>

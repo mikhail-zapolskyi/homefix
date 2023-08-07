@@ -23,43 +23,37 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                 <Avatar 
                     src={image}
                     alt={name}
-                    sx={{ width: 200, height: 200,}}
+                    sx={{ width: {xs: 100, lg: 200}, height: {xs: 100, lg: 200},}}
                     variant="square"
                     />
                 <Grid item xs={3} sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    ml: '3rem',
-                    width: '30rem'
+                    ml: {xs: '1rem', lg: '3rem'},
+                    width: {xs: '10rem', lg: '30rem'}
                 }}>
 
                     <Typography variant="h4" sx={{
                         mb: '0.1rem',
-                        mt: '1rem',
+                        mt: {lg: '1rem'},
                         color: 'primary.main',
                         fontWeight: 'bold',
-                        width: '10rem',
+                        width: {xs: '5rem', lg: '10rem'},
                     }}>
                         {name}
                     </Typography>
 
                     <Typography sx={{
-                        mb: '1rem',
+                        mb: {lg: '1rem'},
                         fontWeight: 'bold'
                     }}>
                         {city}
                     </Typography>
 
-                    <Typography variant="h6"
-                        sx={{
-                            fontWeight: '500'
-                    }}>
-                        {/* {makeStars(service.rating)} */}
-                        <Rating defaultValue={rating} readOnly/>
-                    </Typography>
+                    <Rating defaultValue={rating} size="small" readOnly/>
 
                     <Typography variant="subtitle1"
-                        sx={{fontWeight: 'bold'}}
+                        sx={{fontWeight: 'bold', width: '100rem'}}
                     >
                         Skill Level: {skill} years
                     </Typography>
@@ -76,7 +70,7 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
 
                 </Grid>
                 <Grid item xs={1} sx={{ml: '8rem'}}>
-                    <Divider orientation="vertical" sx={{ height: '100%'}}/>
+                    <Divider orientation="vertical" sx={{ height: '100%', display: {xs: 'none', lg: 'inline'}}}/>
                 </Grid>
                 <Grid item xs={2} 
                     sx={{
@@ -84,7 +78,7 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                         ml: {xs: '0.5rem', md: '1rem', lg: '1.5rem'}
                     }}>
                     {/* This is in place of the company logo */}
-                    <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', maxWidth: '20rem', m: "0"}}>
+                    <Box sx={{display: {xs: 'none', lg: 'flex'}, flexDirection: 'row', width: '100%', maxWidth: '20rem', m: "0",}}>
                         <Avatar                     
                         alt={name}
                         src={fixerImage}
