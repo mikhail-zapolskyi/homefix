@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Typography, Divider, Avatar, Rating} from "@mui/material";
+import { Grid, Box, Typography, Divider, Avatar, Rating, Button} from "@mui/material";
 import { BiStar } from "react-icons/bi";
 import { CustomDashboardCard, PrimaryButton } from "..";
 
@@ -20,7 +20,7 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                 <Avatar 
                     src={image}
                     alt={name}
-                    sx={{ width: 200, height: 200}}
+                    sx={{ width: 200, height: 200,}}
                     variant="square"
                     />
                 <Grid item xs={2} sx={{
@@ -79,10 +79,28 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                     }}>
                     {/* This is in place of the company logo */}
                     <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                        <Avatar></Avatar>
+                        <Avatar                     
+                        alt={name}
+                        sx={{ m: '1rem'}}
+                        />
                         <Typography>About the fixer profile description</Typography>
                     </Box>
-                    <PrimaryButton text="View Profile" onClick={onClick} />
+                    <Button onClick={onClick} sx={{    
+                        marginLeft: "1rem",
+                        borderRadius: "1rem",
+                        fontSize: ".8rem",
+                        padding: ".2rem",
+                        textTransform: "inherit",
+                        mt: '5rem',
+                        p: '0.4rem',
+                        display: {xs: 'none', lg: 'inline'},
+                        width: {xs: '6rem', lg: '8rem'}
+                    }}
+                        variant="contained"
+                        size="small"
+                    >
+                        View Profile 
+                    </Button>
                 </Grid>
             </Grid>
         </CustomDashboardCard>
