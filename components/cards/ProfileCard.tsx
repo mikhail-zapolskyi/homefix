@@ -31,7 +31,7 @@ const ProfileCard = () => {
 
     return (
         <CustomDashboardCard>
-            <Grid container xs={12} rowSpacing={3}>
+            <Grid container rowSpacing={3}>
                 <Grid container item xs={12}>
                     <Grid
                         container

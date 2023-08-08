@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { SelectField } from "@/components";
 import useSWR from "swr";
 import { URL } from "url";
+import Loader from "@/components/loaders/Loader";
 
 const GridLoaderClient = dynamic(() => import("react-spinners/GridLoader"), {
     ssr: false,
@@ -76,7 +77,7 @@ const SearchBar = () => {
             setFormData({ ...formData, [name]: value });
         }
     };
-    console.log(formData);
+
     return (
         <Box
             component="form"
@@ -89,12 +90,7 @@ const SearchBar = () => {
             onSubmit={handleSubmit}
         >
             {isLoading ? (
-                <GridLoaderClient
-                    size={10}
-                    cssOverride={{
-                        marginTop: "3rem",
-                    }}
-                />
+                <Loader />
             ) : (
                 <Grid container spacing={1}>
                     <Grid item xs={12}>

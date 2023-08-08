@@ -40,8 +40,6 @@ const getLocations = async (locationDir: string, params: ParamsObject) => {
                             i.state_name === params.state
                     )
                     .map((i: { name: string }) => i.name);
-            } else {
-                locations.cities = [];
             }
         }
     } catch (error) {

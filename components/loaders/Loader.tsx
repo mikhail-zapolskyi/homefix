@@ -1,8 +1,12 @@
-import { GridLoader } from "react-spinners";
+import dynamic from "next/dynamic";
+
+const GridLoaderClient = dynamic(() => import("react-spinners/GridLoader"), {
+    ssr: false,
+});
 
 const Loader = () => {
     return (
-        <GridLoader
+        <GridLoaderClient
             size={10}
             cssOverride={{
                 position: "absolute",
