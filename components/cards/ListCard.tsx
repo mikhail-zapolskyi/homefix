@@ -4,7 +4,7 @@ import { CustomDashboardCard } from "@/components";
 const ListCard = ({ data }: { data: Array<{}> }) => {
     return (
         <CustomDashboardCard>
-            <Grid container xs={12} rowSpacing={3}>
+            <Grid container rowSpacing={3}>
                 {data.map((item: any) => (
                     <Grid
                         container

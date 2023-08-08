@@ -34,7 +34,7 @@ const ReviewCard = () => {
     };
     return (
         <CustomDashboardCard>
-            <Grid container xs={12} rowSpacing={4}>
+            <Grid container rowSpacing={4}>
                 <Grid container item xs={12} rowSpacing={2}>
                     <Grid
                         item

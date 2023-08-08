@@ -19,10 +19,11 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { GoogleSigninButton, FacebookSigninButton } from "@/components";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function SignUp() {
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const { data: session, status } = useSession();
 
@@ -54,8 +55,10 @@ export default function SignUp() {
         axios
             .post("/api/users", { email, password })
             .then((res) => {
+                console.log(res.status);
                 if (res.status === 201) {
-                    redirect("/");
+                    console.log("works");
+                    router.push("/auth/signin");
                 }
             })
             .catch((error) => console.error(error));

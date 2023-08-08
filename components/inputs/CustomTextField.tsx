@@ -4,6 +4,7 @@ import { Box, FormControl, TextField } from "@mui/material";
 import React from "react";
 
 interface TextFieldProps {
+    type?: string;
     name: string;
     placeholder?: string;
     value?: string | number;
@@ -21,6 +22,7 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
     placeholder,
     onChange,
     value,
+    type = "text",
 }) => {
     return (
         <Box
@@ -41,7 +43,7 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                     id={name}
                     name={name}
                     placeholder={placeholder}
-                    type="text"
+                    type={type}
                     value={value}
                     onChange={onChange}
                 />
