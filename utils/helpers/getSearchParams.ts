@@ -1,4 +1,4 @@
-interface ParamsObject {
+export interface ParamsObject {
     [key: string]: string;
 }
 
