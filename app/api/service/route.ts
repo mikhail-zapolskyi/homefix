@@ -4,12 +4,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { buildQueryObject } from "@/utils";
+import { Prisma } from "@prisma/client";
 
 const getServiceProfile = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const query = buildQueryObject(searchParams);
-
-    const serviceProfiles = await prisma?.serviceProfile.findMany(query);
+    const serviceProfiles = await prisma.location.findMany(query);
 
     return NextResponse.json(serviceProfiles);
 };
@@ -22,28 +22,32 @@ const createServiceProfile = async (req: NextRequest) => {
         redirect("/api/auth/signin");
     }
 
-    data.userId = session?.user.id;
+    if (session.user.type === "USER") {
+        return NextResponse.json(
+            "You are not authorized to create Service Profile. Please register as PRO user"
+        );
+    }
+
+    data.userId = session.user.id;
 
     try {
         const serviceProfiles = await prisma.serviceProfile.create({
-            data: {
-                ...data,
-                location: {
-                    create: {
-                        address: data.address,
-                        city: data.city,
-                        country: data.country,
-                        postalCode: data.postalCode,
-                        long: data.long,
-                        lat: data.lat,
-                    },
-                },
-            },
+            data,
         });
-
         return NextResponse.json(serviceProfiles);
     } catch (error) {
-        console.error(error);
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2002") {
+                return NextResponse.json(
+                    {
+                        message: "User can have only one Service Profile",
+                    },
+                    { status: 400 }
+                );
+            }
+        }
+
+        console.log(error);
     }
 };
 

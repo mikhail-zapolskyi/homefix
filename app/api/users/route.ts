@@ -30,8 +30,8 @@ export async function GET() {
 export async function POST(req: Request) {
     const data = await req.json();
 
-    const password = Password.hash(data.password);
-    data.password = password;
+    const hashedPassword = Password.hash(data.password);
+    data.password = hashedPassword;
 
     try {
         const user = await prisma.user.create({ data });

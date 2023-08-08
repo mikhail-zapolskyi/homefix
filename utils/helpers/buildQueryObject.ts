@@ -7,9 +7,12 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
             paramsObject.push({ [key]: value });
         }
     }
-
+    console.log(paramsObject);
     let query = {
         where: {},
+        include: {
+            service: true,
+        },
     };
 
     // Check if paramsObject array has query. If YES, change query
@@ -17,6 +20,9 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
         query = {
             where: {
                 AND: paramsObject,
+            },
+            include: {
+                service: true,
             },
         };
     }
