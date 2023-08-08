@@ -32,7 +32,28 @@ const createServiceProfile = async (req: NextRequest) => {
 
     try {
         const serviceProfiles = await prisma.serviceProfile.create({
-            data,
+            data: {
+                name: data.name,
+                phone: data.phone,
+                introduction: data.introduction,
+                experience: data.experience,
+                bio: data.bio,
+                specialtiesDo: data.specialtiesDo,
+                specialtiesNo: data.specialtiesNo,
+                employees: data.employees,
+                userId: data.userId,
+                location: {
+                    create: {
+                        address: data.address,
+                        city: data.city,
+                        state: data.state,
+                        postalCode: data.postalCode,
+                        country: data.country,
+                        lng: data.lng,
+                        lat: data.lat,
+                    },
+                },
+            },
         });
         return NextResponse.json(serviceProfiles);
     } catch (error) {
