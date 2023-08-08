@@ -21,9 +21,7 @@ model Account {
   id_token           String?
   session_state      String?
 
-
   user User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 
@@ -49,11 +47,12 @@ model User {
   phone             String?
   accounts          Account[]
   sessions          Session[]
-  serviceProfile    ServiceProfile[]
+  serviceProfile    ServiceProfile?
   reviews           Review[]
   type              UserType          @default(USER)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+  location          Location?
 }
 
 enum UserType {
@@ -73,11 +72,11 @@ id                  String    @id @default(auto()) @map("_id") @db.ObjectId
 
 model ServiceProfile {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @db.ObjectId
   name              String? 
   address           String?
   city              String?
   postalCode        String?
+  state             String?
   country           String?
   phone             String?
   rating            Float?      @default(0) @db.Double
@@ -97,6 +96,9 @@ model ServiceProfile {
   posts             Post[]
   clients           String[]
   categories        Category[]
+  location          Location?
+
+  userId            String     @db.ObjectId @unique 
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -141,7 +143,24 @@ model Review {
 
 model Post {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  serviceProfileId  String           @db.ObjectId
 
+  serviceProfileId  String           @db.ObjectId
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+}
+
+model Location {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  address           String?
+  city              String?
+  state             String?
+  country           String?
+  postalCode        String?
+  lng               String?
+  lat               String?
+
+  serviceProfileId  String?           @db.ObjectId @unique
+  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+
+  userId            String?           @db.ObjectId @unique
+  user              User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

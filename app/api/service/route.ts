@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/prisma/client";
 import { buildQueryObject } from "@/utils";
 
 const getServiceProfile = async (req: NextRequest) => {
@@ -26,8 +26,21 @@ const createServiceProfile = async (req: NextRequest) => {
 
     try {
         const serviceProfiles = await prisma.serviceProfile.create({
-            data,
+            data: {
+                ...data,
+                location: {
+                    create: {
+                        address: data.address,
+                        city: data.city,
+                        country: data.country,
+                        postalCode: data.postalCode,
+                        long: data.long,
+                        lat: data.lat,
+                    },
+                },
+            },
         });
+
         return NextResponse.json(serviceProfiles);
     } catch (error) {
         console.error(error);

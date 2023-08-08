@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Password from "@/utils/helpers/bcrypt";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/prisma/client";
 import { redirect } from "next/navigation";
 
 export async function GET() {

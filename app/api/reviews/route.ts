@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import prisma from "../../../lib/prisma/prisma";
+import prisma from "../../../prisma/client";
 import { buildQueryObject, calcualteAverage } from "@/utils";
 
 const getReviews = async (req: NextRequest) => {

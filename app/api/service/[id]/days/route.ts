@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/prisma/client";
 
 // Add a new day to the database
 export const POST = async (

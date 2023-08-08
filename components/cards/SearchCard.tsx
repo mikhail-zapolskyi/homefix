@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { SelectField } from "@/components";
+import { SelectField, Loader } from "@/components";
 import useSWR from "swr";
 import { URL } from "url";
-import { GridLoader } from "react-spinners";
 
-const fetcher = (url: URL) => fetch(url).then(async (res) => await res.json());
+const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 
 const initialParams = {
     country: "",
     city: "",
+    state: "",
     postalCode: "",
     category: "",
     rating: "",
@@ -20,13 +20,20 @@ const initialParams = {
 
 const SearchBar = () => {
     const router = useRouter();
+    const [locationParams, setLocationParams] = useState("");
     const [formData, setFormData] = useState(initialParams);
-    const { data, isLoading, error } = useSWR(
-        "http://localhost:3000/api/service/searchdata",
+    const { data, error, isLoading } = useSWR(
+        `/api/location${locationParams}`,
         fetcher
     );
 
-    if (error) console.log(error);
+    useEffect(() => {
+        setLocationParams(
+            `?country=${formData.country}&state=${formData.state}`
+        );
+    }, [formData.country, formData.state]);
+
+    if (error) return <div>Failed to load</div>;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -50,7 +57,19 @@ const SearchBar = () => {
         e: SelectChangeEvent<unknown | string | number>
     ) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        if (name === "country") {
+            setFormData({
+                ...formData,
+                [name as string]: value,
+                state: "",
+                city: "",
+            });
+        } else if (name === "state") {
+            setFormData({ ...formData, [name as string]: value, city: "" });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     return (
@@ -65,12 +84,7 @@ const SearchBar = () => {
             onSubmit={handleSubmit}
         >
             {isLoading ? (
-                <GridLoader
-                    size={10}
-                    cssOverride={{
-                        marginTop: "3rem",
-                    }}
-                />
+                <Loader />
             ) : (
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
@@ -81,6 +95,21 @@ const SearchBar = () => {
                             value={formData.country}
                             array={data.countries}
                             onChange={handleSelectOnChange}
+                            fieldState={formData.postalCode ? true : false}
+                        />
+                    </Grid>
+                    <Divider
+                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
+                    ></Divider>
+                    <Grid item xs={12}>
+                        <SelectField
+                            id="state"
+                            name="state"
+                            emptyValue="Select State/Province"
+                            value={formData.state}
+                            array={data.states}
+                            onChange={handleSelectOnChange}
+                            fieldState={formData.country ? false : true}
                         />
                     </Grid>
                     <Divider
@@ -94,32 +123,26 @@ const SearchBar = () => {
                             value={formData.city}
                             array={data.cities}
                             onChange={handleSelectOnChange}
+                            fieldState={formData.state ? false : true}
                         />
                     </Grid>
+
                     <Divider
                         sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                     ></Divider>
-                    {/* <Grid item xs={12}>
-                    <SelectField
-                        id="postalCode"
-                        name="postalCode"
-                        emptyValue="Select Postal Code"
-                        value={formData.postalCode}
-                        array={request.postalCodes}
-                        onChange={handleSelectOnChange}
-                    />
-                </Grid>
-                <Divider
-                    sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                ></Divider> */}
                     <Grid item xs={12}>
                         <SelectField
                             id="category"
                             name="category"
                             emptyValue="Select Category"
                             value={formData.category}
-                            array={data.categories}
+                            array={[]}
                             onChange={handleSelectOnChange}
+                            fieldState={
+                                formData.state || formData.postalCode
+                                    ? false
+                                    : true
+                            }
                         />
                     </Grid>
                     <Divider
@@ -133,6 +156,11 @@ const SearchBar = () => {
                             value={formData.rating}
                             array={[1, 2, 3, 4, 5]}
                             onChange={handleSelectOnChange}
+                            fieldState={
+                                formData.state || formData.postalCode
+                                    ? false
+                                    : true
+                            }
                         />
                     </Grid>
 
