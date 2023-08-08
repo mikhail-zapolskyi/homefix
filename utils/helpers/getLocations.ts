@@ -2,9 +2,9 @@ import { ParamsObject } from "./getSearchParams";
 import { promises as fs } from "fs";
 
 interface LocationData {
-    countries?: String;
-    states?: String;
-    cities?: String;
+    countries?: String | [];
+    states?: String | [];
+    cities?: String | [];
 }
 
 const getLocations = async (locationDir: string, params: ParamsObject) => {
@@ -40,6 +40,8 @@ const getLocations = async (locationDir: string, params: ParamsObject) => {
                             i.state_name === params.state
                     )
                     .map((i: { name: string }) => i.name);
+            } else {
+                locations.cities = [];
             }
         }
     } catch (error) {

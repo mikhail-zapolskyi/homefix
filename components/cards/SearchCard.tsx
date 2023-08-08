@@ -33,15 +33,11 @@ const SearchBar = () => {
     );
 
     useEffect(() => {
-        if (formData.country) {
-            setLocationParams(`?country=${formData.country}`);
-            if (formData.state) {
-                setLocationParams(
-                    `?country=${formData.country}&state=${formData.state}`
-                );
-            }
-        }
-    }, [formData]);
+        setLocationParams(
+            `?country=${formData.country}&state=${formData.state}`
+        );
+    }, [formData.country, formData.state]);
+
     if (error) return <div>Failed to load</div>;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,9 +62,21 @@ const SearchBar = () => {
         e: SelectChangeEvent<unknown | string | number>
     ) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
 
+        if (name === "country") {
+            setFormData({
+                ...formData,
+                [name as string]: value,
+                state: "",
+                city: "",
+            });
+        } else if (name === "state") {
+            setFormData({ ...formData, [name as string]: value, city: "" });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+    };
+    console.log(formData);
     return (
         <Box
             component="form"

@@ -19,7 +19,6 @@ const createServiceProfile = async (req: NextRequest) => {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        console.log("Opps");
         redirect("/api/auth/signin");
     }
 
