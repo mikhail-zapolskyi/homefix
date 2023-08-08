@@ -1,17 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { SelectField } from "@/components";
+import { SelectField, Loader } from "@/components";
 import useSWR from "swr";
 import { URL } from "url";
-import Loader from "@/components/loaders/Loader";
-
-const GridLoaderClient = dynamic(() => import("react-spinners/GridLoader"), {
-    ssr: false,
-});
 
 const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 
