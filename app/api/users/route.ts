@@ -39,7 +39,26 @@ export async function POST(req: Request) {
     data.password = hashedPassword;
 
     try {
-        const user = await prisma.user.create({ data });
+        const user = await prisma.user.create({
+            data: {
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                type: data.type,
+                password: data.password,
+                location: {
+                    create: {
+                        address: data.address,
+                        city: data.city,
+                        state: data.state,
+                        postalCode: data.postalCode,
+                        country: data.country,
+                        lng: data.lng,
+                        lat: data.lat,
+                    },
+                },
+            },
+        });
         return NextResponse.json(user, { status: 201 });
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

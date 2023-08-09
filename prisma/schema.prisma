@@ -68,7 +68,8 @@ id                  String    @id @default(auto()) @map("_id") @db.ObjectId
 
 model ServiceProfile {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
-  name              String?     
+  name              String?  
+  email             String?   
   phone             String?
   rating            Float?      @default(0) @db.Double
   introduction      String?

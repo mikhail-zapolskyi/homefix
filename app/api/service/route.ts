@@ -35,6 +35,7 @@ const createServiceProfile = async (req: NextRequest) => {
         const serviceProfiles = await prisma.serviceProfile.create({
             data: {
                 name: data.name,
+                email: data.email,
                 phone: data.phone,
                 introduction: data.introduction,
                 experience: data.experience,
