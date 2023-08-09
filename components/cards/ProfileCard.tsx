@@ -88,7 +88,7 @@ const ProfileCard = () => {
                                         variant="body1"
                                         sx={{ marginLeft: 0.8 }}
                                     >
-                                        {formData?.name}
+                                        {formData?.name || data.name}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>

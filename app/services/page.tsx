@@ -10,7 +10,7 @@ interface Services {
     rating: number;
 }
 
-export const ViewServices = () => {
+const ViewServices = () => {
     const searchParams = useSearchParams().toString();
     const [services, setServices] = useState<Services[]>([]);
 

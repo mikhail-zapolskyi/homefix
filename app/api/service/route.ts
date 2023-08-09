@@ -10,7 +10,7 @@ const getServiceProfile = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const query = buildQueryObject(searchParams);
     const serviceProfiles = await prisma.location.findMany(query);
-
+    console.log(serviceProfiles);
     return NextResponse.json(serviceProfiles);
 };
 
@@ -29,7 +29,7 @@ const createServiceProfile = async (req: NextRequest) => {
     }
 
     data.userId = session.user.id;
-
+    console.log(data.userId);
     try {
         const serviceProfiles = await prisma.serviceProfile.create({
             data: {
@@ -58,6 +58,7 @@ const createServiceProfile = async (req: NextRequest) => {
         return NextResponse.json(serviceProfiles);
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            console.log(error);
             if (error.code === "P2002") {
                 return NextResponse.json(
                     {

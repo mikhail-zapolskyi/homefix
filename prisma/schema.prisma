@@ -35,7 +35,7 @@ model Session {
 
 model User {
   id                String            @id @default(auto()) @map("_id") @db.ObjectId
-  name              String?
+  name              String?           @default("Guest User")
   email             String            @unique
   emailVerified     Boolean?          @map("email_verified")
   password          String?
@@ -48,7 +48,7 @@ model User {
   type              UserType          @default(USER)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  location          Location?
+  location          Location[]      
 }
 
 enum UserType {
@@ -68,7 +68,7 @@ id                  String    @id @default(auto()) @map("_id") @db.ObjectId
 
 model ServiceProfile {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
-  name              String?     @default("Guest")
+  name              String?     
   phone             String?
   rating            Float?      @default(0) @db.Double
   introduction      String?
@@ -87,7 +87,7 @@ model ServiceProfile {
   posts             Post[]
   clients           String[]
   categories        Category[]
-  location          Location?
+  location          Location[]
 
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String     @unique @db.ObjectId 
@@ -150,9 +150,8 @@ model Location {
   lat               String?
 
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-  serviceProfileId  String?          @db.ObjectId @unique
+  serviceProfileId  String?          @db.ObjectId
 
   user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            String?          @db.ObjectId @unique
-  @@unique([serviceProfileId, userId])
+  userId            String?          @db.ObjectId 
 }

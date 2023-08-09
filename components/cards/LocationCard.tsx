@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CustomDashboardCard, CustomTextField, Loader } from "@/components";
 import { Button, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
+import axios from "axios";
 
 const initialState = {
     address: "",
@@ -24,13 +25,29 @@ const LocationCard = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setformData({ ...formData, [e.target.name]: e.target.value });
     };
+
+    const handleSave = async () => {
+        const notEmptyData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value !== "")
+        );
+
+        try {
+            await axios.put("/api/location", notEmptyData);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const renderFields = Object.entries(formData).map(([key, value]) => (
         <Grid item xs={12} sm={6} key={key}>
             <CustomTextField
                 name={key}
                 value={value}
                 onChange={handleChange}
-                placeholder={(!isLoading && data[key]) || key}
+                placeholder={
+                    (!isLoading && data.location && data.location[0][key]) ||
+                    key
+                }
             />
         </Grid>
     ));
@@ -77,7 +94,9 @@ const LocationCard = () => {
                                 },
                             }}
                         >
-                            <Button size="small">Save</Button>
+                            <Button size="small" onClick={handleSave}>
+                                Save
+                            </Button>
                         </Grid>
                     </Grid>
                     <Grid
