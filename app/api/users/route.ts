@@ -9,17 +9,21 @@ import { Prisma } from "@prisma/client";
 export async function GET() {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email) {
+    if (!session) {
         redirect("/api/auth/signin");
+    }
+
+    const { id } = session.user;
+
+    if (!id) {
+        return NextResponse.json("You are not authorized");
     }
 
     try {
         const users = await prisma.user.findUnique({
-            where: {
-                email: session?.user?.email,
-            },
-            select: {
-                serviceProfile: true,
+            where: { id },
+            include: {
+                location: true,
             },
         });
         return NextResponse.json(users);
