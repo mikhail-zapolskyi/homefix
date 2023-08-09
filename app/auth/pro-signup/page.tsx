@@ -1,28 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-    Grid,
-    Button,
-    Link,
-    Typography,
-    Container,
-    Box,
-    Divider,
-} from "@mui/material";
+import { Grid, Button, Link, Typography, Container, Box } from "@mui/material";
 
-import {
-    GoogleSigninButton,
-    FacebookSigninButton,
-    CustomTextField,
-    CustomPasswordField,
-} from "@/components";
+import { CustomTextField, CustomPasswordField } from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function SignUp() {
     const router = useRouter();
+
     const { data: session, status } = useSession();
 
     if (session && status === "authenticated") {
@@ -32,12 +19,17 @@ export default function SignUp() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const name = data.get("name");
         const email = data.get("email");
+        const name = data.get("name");
+        const address = data.get("address");
+        const city = data.get("city");
+        const country = data.get("country");
+        const phone = data.get("phone");
+        const postalCode = data.get("postalCode");
         const password = data.get("password");
         const confirmPassword = data.get("confirmPassword");
 
-        if (!name || !email || !password || !confirmPassword) {
+        if (!email || !name || !password || !confirmPassword) {
             console.log("Please fill all fields");
         }
 
@@ -46,7 +38,17 @@ export default function SignUp() {
         }
 
         axios
-            .post("/api/users", { name, email, password })
+            .post("/api/users", {
+                email,
+                name,
+                address,
+                city,
+                postalCode,
+                country,
+                phone,
+                type: "PRO",
+                password,
+            })
             .then((res) => {
                 console.log(res.status);
                 if (res.status === 201) {
@@ -77,26 +79,63 @@ export default function SignUp() {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item sm={12}>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="email"
+                                placeholder="Email (Required)"
+                                type="email"
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
                             <CustomTextField
                                 name="name"
+                                type="text"
                                 placeholder="Name (Required)"
                             />
                         </Grid>
-                        <Grid item sm={12}>
+                        <Grid item xs={12}>
                             <CustomTextField
-                                name="email"
-                                type="email"
-                                placeholder="Email (Required)"
+                                name="address"
+                                type="text"
+                                placeholder="Address (Required)"
                             />
                         </Grid>
-                        <Grid item sm={12}>
+                        <Grid item xs={12} sm={6}>
+                            <CustomTextField
+                                name="city"
+                                type="text"
+                                placeholder="City (Required)"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <CustomTextField
+                                name="postalCode"
+                                type="text"
+                                placeholder="Postal Code (Required)"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <CustomTextField
+                                name="country"
+                                type="text"
+                                placeholder="Country (Required)"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <CustomTextField
+                                name="phone"
+                                type="text"
+                                placeholder="Phone Number (Required)"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <CustomPasswordField
                                 name="password"
                                 placeholder="Password (Required)"
                             />
                         </Grid>
-                        <Grid item sm={12}>
+                        <Grid item xs={12}>
                             <CustomPasswordField
                                 name="confirmPassword"
                                 placeholder="Confirm Password (Required)"
@@ -131,38 +170,14 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
-                    <Grid container>
-                        <Grid item xs={12} sm={6}>
-                            <Link href="pro-signup" variant="body2">
-                                Pro? click here to sign up
-                            </Link>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            container
-                            justifyContent={{
-                                xs: "flex-start",
-                                sm: "flex-end",
-                            }}
-                        >
+                    <Grid container justifyContent="flex-end">
+                        <Grid item>
                             <Link href="signin" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
                     </Grid>
                 </Box>
-                <Divider variant="middle" sx={{ width: "100%" }}>
-                    <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
-                    >
-                        OR
-                    </Typography>
-                </Divider>
-                <GoogleSigninButton />
-                <FacebookSigninButton />
             </Box>
         </Container>
     );
