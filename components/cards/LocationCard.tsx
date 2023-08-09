@@ -1,24 +1,21 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
-import { Avatar, Typography, Button, Grid, Box } from "@mui/material";
-import { CustomTextField, CustomDashboardCard, Loader } from "@/components";
-import { useSession } from "next-auth/react";
+import { CustomDashboardCard, CustomTextField, Loader } from "@/components";
+import { Button, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
 import axios from "axios";
 
-const fetcher = (url: URL) => fetch(url).then((r) => r.json());
-
 const initialState = {
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    postalCode: "",
 };
 
-const ProfileCard = () => {
-    const [formData, setFormData] = useState(initialState);
-    const { data: session, status } = useSession();
+const fetcher = (url: URL) => fetch(url).then((r) => r.json());
+
+const LocationCard = () => {
+    const [formData, setformData] = useState(initialState);
     const { data, error, isLoading } = useSWR("/api/users", fetcher);
 
     if (error) {
@@ -26,22 +23,8 @@ const ProfileCard = () => {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setformData({ ...formData, [e.target.name]: e.target.value });
     };
-
-    const renderFields = Object.entries(formData).map(([key, value]) => (
-        <Grid item xs={12} sm={6} key={key}>
-            <CustomTextField
-                name={key}
-                value={value}
-                type={key === "password" ? "password" : undefined}
-                onChange={handleChange}
-                placeholder={
-                    (!isLoading && key !== "password" && data[key]) || key
-                }
-            />
-        </Grid>
-    ));
 
     const handleSave = async () => {
         const notEmptyData = Object.fromEntries(
@@ -49,11 +32,25 @@ const ProfileCard = () => {
         );
 
         try {
-            await axios.put("/api/users", notEmptyData);
+            await axios.put("/api/location", notEmptyData);
         } catch (error) {
             console.log(error);
         }
     };
+
+    const renderFields = Object.entries(formData).map(([key, value]) => (
+        <Grid item xs={12} sm={6} key={key}>
+            <CustomTextField
+                name={key}
+                value={value}
+                onChange={handleChange}
+                placeholder={
+                    (!isLoading && data.location && data.location[0][key]) ||
+                    key
+                }
+            />
+        </Grid>
+    ));
 
     return (
         <CustomDashboardCard>
@@ -72,27 +69,14 @@ const ProfileCard = () => {
                             }}
                             columnSpacing={2}
                         >
-                            <Grid item>
-                                <Avatar
-                                    src={`${session?.user.image}`}
-                                    alt={`${formData?.name}`}
-                                    sx={{
-                                        width: 70,
-                                        height: 70,
-                                    }}
-                                />
-                            </Grid>
                             <Grid container item xs={8}>
                                 <Grid item xs={12}>
                                     <Typography
-                                        variant="body1"
+                                        variant="h5"
                                         sx={{ marginLeft: 0.8 }}
                                     >
-                                        {formData?.name || data.name}
+                                        Address
                                     </Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button size="small">Upload Photo</Button>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -110,7 +94,6 @@ const ProfileCard = () => {
                                 },
                             }}
                         >
-                            <Button size="small">Message</Button>
                             <Button size="small" onClick={handleSave}>
                                 Save
                             </Button>
@@ -132,4 +115,4 @@ const ProfileCard = () => {
     );
 };
 
-export default ProfileCard;
+export default LocationCard;
