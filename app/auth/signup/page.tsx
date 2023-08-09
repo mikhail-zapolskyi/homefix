@@ -2,49 +2,42 @@
 
 import React, { useState } from "react";
 import {
-    FormControl,
     Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
     Button,
-    TextField,
     Link,
     Typography,
     Container,
     Box,
     Divider,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { GoogleSigninButton, FacebookSigninButton } from "@/components";
+
+import {
+    GoogleSigninButton,
+    FacebookSigninButton,
+    CustomTextField,
+    CustomPasswordField,
+} from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function SignUp() {
     const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false);
     const { data: session, status } = useSession();
 
     if (session && status === "authenticated") {
         redirect("/");
     }
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    const handleMouseDownPassword = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.preventDefault();
-    };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        const name = data.get("name");
         const email = data.get("email");
         const password = data.get("password");
         const confirmPassword = data.get("confirmPassword");
 
-        if (!email || !password || !confirmPassword) {
+        if (!name || !email || !password || !confirmPassword) {
             console.log("Please fill all fields");
         }
 
@@ -53,7 +46,7 @@ export default function SignUp() {
         }
 
         axios
-            .post("/api/users", { email, password })
+            .post("/api/users", { name, email, password })
             .then((res) => {
                 console.log(res.status);
                 if (res.status === 201) {
@@ -85,86 +78,29 @@ export default function SignUp() {
                 >
                     <Grid container spacing={2}>
                         <Grid item sm={12}>
-                            <TextField
-                                autoComplete="given-name"
-                                name="email"
-                                fullWidth
-                                id="email"
-                                label="Email (Required)"
-                                autoFocus
+                            <CustomTextField
+                                name="name"
+                                placeholder="Name (Required)"
                             />
                         </Grid>
                         <Grid item sm={12}>
-                            <FormControl
-                                variant="outlined"
-                                sx={{ width: "100%" }}
-                            >
-                                <InputLabel htmlFor="password">
-                                    Password (Required)
-                                </InputLabel>
-                                <OutlinedInput
-                                    id="password"
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={
-                                                    handleClickShowPassword
-                                                }
-                                                onMouseDown={
-                                                    handleMouseDownPassword
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
+                            <CustomTextField
+                                name="email"
+                                type="email"
+                                placeholder="Email (Required)"
+                            />
                         </Grid>
                         <Grid item sm={12}>
-                            <FormControl
-                                variant="outlined"
-                                sx={{ width: "100%" }}
-                            >
-                                <InputLabel htmlFor="confirmPassword">
-                                    Confirm Password (Required)
-                                </InputLabel>
-                                <OutlinedInput
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    type={showPassword ? "text" : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={
-                                                    handleClickShowPassword
-                                                }
-                                                onMouseDown={
-                                                    handleMouseDownPassword
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
+                            <CustomPasswordField
+                                name="password"
+                                placeholder="Password (Required)"
+                            />
+                        </Grid>
+                        <Grid item sm={12}>
+                            <CustomPasswordField
+                                name="confirmPassword"
+                                placeholder="Confirm Password (Required)"
+                            />
                         </Grid>
                         <Grid item sm={12}>
                             <Typography>Your password must:</Typography>
@@ -195,8 +131,22 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
+                    <Grid container>
+                        <Grid item xs={12} sm={6}>
+                            <Link href="pro-signup" variant="body2">
+                                Pro? click here to sign up
+                            </Link>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            container
+                            justifyContent={{
+                                xs: "flex-start",
+                                sm: "flex-end",
+                            }}
+                        >
                             <Link href="signin" variant="body2">
                                 Already have an account? Sign in
                             </Link>
