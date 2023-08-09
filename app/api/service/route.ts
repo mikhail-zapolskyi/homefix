@@ -9,6 +9,7 @@ import { Prisma } from "@prisma/client";
 const getServiceProfile = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const query = buildQueryObject(searchParams);
+
     const serviceProfiles = await prisma.location.findMany(query);
     console.log(serviceProfiles);
     return NextResponse.json(serviceProfiles);
