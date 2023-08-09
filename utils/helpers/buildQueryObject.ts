@@ -7,7 +7,7 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
             paramsObject.push({ [key]: value });
         }
     }
-    console.log(paramsObject);
+
     let query = {
         where: {},
         include: {

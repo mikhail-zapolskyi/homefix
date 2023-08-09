@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
 type SearchComposite = {
-    cities: string[];
-    postalCodes: string[];
     categories: string[];
-    countries: string[];
 };
 
 const getSearchData = async (req: NextRequest) => {
@@ -21,10 +18,7 @@ const getSearchData = async (req: NextRequest) => {
     });
 
     const searchComposite: SearchComposite = {
-        cities: [],
-        postalCodes: [],
         categories: [],
-        countries: [],
     };
 
     const transaction = await prisma.$transaction([category]);
