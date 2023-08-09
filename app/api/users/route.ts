@@ -71,8 +71,10 @@ export async function PUT(req: Request) {
         return NextResponse.json("You are not authorized");
     }
 
-    const hashedPassword = Password.hash(data.password);
-    data.password = hashedPassword;
+    if (data.password) {
+        const hashedPassword = Password.hash(data.password);
+        data.password = hashedPassword;
+    }
 
     try {
         const user = await prisma.user.update({ where: { id }, data });
