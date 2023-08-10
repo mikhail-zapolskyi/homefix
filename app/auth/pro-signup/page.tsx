@@ -2,7 +2,7 @@
 
 import { Grid, Button, Link, Typography, Container, Box } from "@mui/material";
 
-import { CustomTextField, CustomPasswordField } from "@/components";
+import { CustomTextField } from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
@@ -130,14 +130,16 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <CustomPasswordField
+                            <CustomTextField
                                 name="password"
+                                type="password"
                                 placeholder="Password (Required)"
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <CustomPasswordField
+                            <CustomTextField
                                 name="confirmPassword"
+                                type="password"
                                 placeholder="Confirm Password (Required)"
                             />
                         </Grid>

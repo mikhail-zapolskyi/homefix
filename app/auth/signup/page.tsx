@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import {
     Grid,
     Button,
@@ -15,7 +14,6 @@ import {
     GoogleSigninButton,
     FacebookSigninButton,
     CustomTextField,
-    CustomPasswordField,
 } from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
@@ -91,14 +89,16 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item sm={12}>
-                            <CustomPasswordField
+                            <CustomTextField
                                 name="password"
+                                type="password"
                                 placeholder="Password (Required)"
                             />
                         </Grid>
                         <Grid item sm={12}>
-                            <CustomPasswordField
+                            <CustomTextField
                                 name="confirmPassword"
+                                type="password"
                                 placeholder="Confirm Password (Required)"
                             />
                         </Grid>
