@@ -16,18 +16,14 @@ export { default as LocationCard } from "./cards/LocationCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
-
 export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectField } from "./inputs/SelectField";
 export { default as CustomTextField } from "./inputs/CustomTextField";
-export { default as CustomPasswordField } from "./inputs/CustomPasswordField";
-
 // User Dashboard
 export { default as ListCard } from "./cards/ListCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
 export { default as ProfileCard } from "./cards/ProfileCard";
 export { default as ReviewCard } from "./cards/ReviewCard";
-
 // Loaders
 export { default as Loader } from "./loaders/Loader";
