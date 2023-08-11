@@ -27,3 +27,5 @@ export { default as ProfileCard } from "./cards/ProfileCard";
 export { default as ReviewCard } from "./cards/ReviewCard";
 // Loaders
 export { default as Loader } from "./loaders/Loader";
+
+export { default as Email } from "./emails/email";
