@@ -2,24 +2,21 @@
 
 "use client";
 
-import React, { useState } from "react";
 import {
-    FormControl,
     Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
     Button,
-    TextField,
     Link,
     Typography,
     Container,
     Box,
     Divider,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { GoogleSigninButton, FacebookSigninButton } from "@/components";
+
+import {
+    GoogleSigninButton,
+    FacebookSigninButton,
+    CustomTextField,
+} from "@/components";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
@@ -30,14 +27,6 @@ const SignIn = () => {
         redirect("/");
     }
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    const handleMouseDownPassword = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.preventDefault();
-    };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -72,50 +61,30 @@ const SignIn = () => {
                 >
                     <Grid container spacing={2}>
                         <Grid item sm={12}>
-                            <TextField
-                                autoComplete="given-name"
+                            <CustomTextField
                                 name="email"
-                                fullWidth
-                                id="email"
-                                label="Email"
-                                autoFocus
+                                type="email"
+                                placeholder="Email"
                             />
                         </Grid>
                         <Grid item sm={12}>
-                            <FormControl
-                                variant="outlined"
-                                sx={{ width: "100%" }}
-                            >
-                                <InputLabel htmlFor="password">
-                                    Password
-                                </InputLabel>
-                                <OutlinedInput
-                                    id="password"
+                            <Grid item sm={12}>
+                                <CustomTextField
                                     name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={
-                                                    handleClickShowPassword
-                                                }
-                                                onMouseDown={
-                                                    handleMouseDownPassword
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
+                                    type="password"
+                                    placeholder="Password"
                                 />
-                            </FormControl>
+                            </Grid>
+                        </Grid>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Link
+                                    href="request-password-reset"
+                                    variant="body2"
+                                >
+                                    Forgot password?
+                                </Link>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Button
@@ -129,7 +98,7 @@ const SignIn = () => {
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link href="signup" variant="body2">
-                                Don’t have an account? Sign up.
+                                Don&apos;t have an account? Sign up.
                             </Link>
                         </Grid>
                     </Grid>

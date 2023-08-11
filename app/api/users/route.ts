@@ -5,6 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
+import { sendEmail } from "@/utils";
 
 export async function GET() {
     const session = await getServerSession(authOptions);
@@ -59,6 +60,10 @@ export async function POST(req: Request) {
                 },
             },
         });
+
+        const email = user.email;
+
+        await sendEmail(email, "verify");
         return NextResponse.json(user, { status: 201 });
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
