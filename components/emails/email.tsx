@@ -15,14 +15,15 @@ import {
 import * as React from "react";
 
 interface Props {
-    magicLink?: string;
+    url?: string;
+    urlText?: string;
 }
 
 const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : "";
 
-export const VerifyUser = ({ magicLink }: Props) => (
+export const VerifyUser = ({ url, urlText }: Props) => (
     <Html>
         <Head />
         <Preview>Verify with this magic link.</Preview>
@@ -37,8 +38,8 @@ export const VerifyUser = ({ magicLink }: Props) => (
                 <Heading style={heading}>🪄 Your magic link</Heading>
                 <Section style={body}>
                     <Text style={paragraph}>
-                        <Link style={link} href={magicLink}>
-                            👉 Click here to verify email 👈
+                        <Link style={link} href={url}>
+                            👉 {urlText} 👈
                         </Link>
                     </Text>
                     <Text style={paragraph}>
@@ -116,6 +117,6 @@ const footer = {
     marginLeft: "4px",
 };
 
-export const emailHtml = (magicLink: string) => {
-    return render(<VerifyUser magicLink={magicLink} />);
+export const emailHtml = (url: string, urlText: string) => {
+    return render(<VerifyUser url={url} urlText={urlText} />);
 };

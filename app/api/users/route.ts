@@ -62,9 +62,8 @@ export async function POST(req: Request) {
         });
 
         const email = user.email;
-        const userId = user.id;
 
-        await sendEmail(email, "verify", userId);
+        await sendEmail(email, "verify");
         return NextResponse.json(user, { status: 201 });
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

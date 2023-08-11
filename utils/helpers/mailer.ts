@@ -3,10 +3,22 @@ import nodemailer from "nodemailer";
 import Password from "./bcrypt";
 import prisma from "@/prisma/client";
 
-const sendEmail = async (email: string, emailType: string, userId: string) => {
+const sendEmail = async (email: string, emailType: string) => {
     try {
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+            return "user not found";
+        }
+        const userId = user.id;
         const hashedToken = Password.hash(userId.toString());
-        const url = `${process.env.DOMAIN}verify-email?token=${hashedToken}`;
+        const verifyUrl = `${process.env.DOMAIN}auth/verify-email?token=${hashedToken}`;
+        const resetUrl = `${process.env.DOMAIN}auth/reset-password?token=${hashedToken}`;
+
+        const url = emailType === "verify" ? verifyUrl : resetUrl;
+        const urlText =
+            emailType === "verify"
+                ? "Click here to verify email"
+                : "Click here to reset password";
 
         if (emailType === "verify") {
             const data = {
@@ -47,7 +59,7 @@ const sendEmail = async (email: string, emailType: string, userId: string) => {
                 emailType === "verify"
                     ? "Verify your email"
                     : "Reset your password",
-            html: emailHtml(url),
+            html: emailHtml(url, urlText),
         };
 
         await transporter.sendMail(options);

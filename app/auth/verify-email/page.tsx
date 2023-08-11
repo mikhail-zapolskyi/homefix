@@ -46,7 +46,7 @@ const VerifyEmail = () => {
             {!verified ? (
                 <p>{token}</p>
             ) : (
-                <Link href="auth/signin">Go to signin page</Link>
+                <Link href="signin">Go to signin page</Link>
             )}
         </div>
     );

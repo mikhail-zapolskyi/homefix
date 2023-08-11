@@ -76,6 +76,16 @@ const SignIn = () => {
                                 />
                             </Grid>
                         </Grid>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Link
+                                    href="request-password-reset"
+                                    variant="body2"
+                                >
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Button
                         type="submit"
@@ -88,7 +98,7 @@ const SignIn = () => {
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link href="signup" variant="body2">
-                                Don’t have an account? Sign up.
+                                Don&apos;t have an account? Sign up.
                             </Link>
                         </Grid>
                     </Grid>
