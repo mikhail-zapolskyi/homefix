@@ -31,7 +31,7 @@ const initialServiceProfiles = [
         skill: 2,
         fixerImage: '',
         fixerDescription: 'Marcus Applewood - Plumber',
-        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis.'
+        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 
     },
     {
@@ -43,7 +43,7 @@ const initialServiceProfiles = [
         skill: 3,
         fixerImage: '',
         fixerDescription: 'Jason Manson - Handyman',
-        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at augue id libero sagittis lobortis ac sit amet velit. Integer neque tellus, rhoncus a nulla nec, porttitor convallis risus. Etiam et neque augue. Sed erat purus, dictum vel elit a, congue varius libero. Integer lobortis mattis tellus eu venenatis.'
+        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
     },
 ]
 

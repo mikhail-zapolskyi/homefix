@@ -19,66 +19,83 @@ interface ServicesProps {
 const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city, rating, image, skill, fixerImage, fixerDescription, serviceDescription, onClick}) => {
     return (
         <CustomDashboardCard >
-            <Grid container>
-                <Avatar 
-                    src={image}
-                    alt={name}
-                    sx={{ width: {xs: 100, lg: 200}, height: {xs: 100, lg: 200},}}
-                    variant="square"
-                    />
-                <Grid item xs={3} sx={{
+            <Grid container sx={{maxWidth: '100%', mb: {xs: '-0.5rem', lg: 0}, alignItems: 'center'}}>
+                <Grid item xs={1} lg={3}>
+                    <Avatar 
+                        src={image}
+                        alt={name}
+                        sx={{ display: {xs: 'none', lg: 'inline'}, width: {xs: 30, lg: 200}, height: {xs: 30, lg: 200},}}
+                        variant="square"
+                        />
+                </Grid>
+                
+                <Grid container spacing={2} sx={{
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: {xs: 'row', lg: 'column'},
                     ml: {xs: '1rem', lg: '3rem'},
-                    width: {xs: '10rem', lg: '30rem'}
+                    width: {xs: '12rem', lg: '30rem'}
                 }}>
+                    <Grid item xs={2}>
+                        <Avatar
+                            src={image}
+                            alt={name}
+                            sx={{ width: 30, height: 30, ml: '-4rem'}}
+                            variant="square"
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Rating sx={{ml: '-2rem'}} defaultValue={rating} size="small" readOnly/>
+                    </Grid>
 
-                    <Typography variant="h4" sx={{
-                        mb: '0.1rem',
-                        mt: {lg: '1rem'},
-                        color: 'primary.main',
-                        fontWeight: 'bold',
-                        width: {xs: '5rem', lg: '10rem'},
-                    }}>
-                        {name}
-                    </Typography>
-
-                    <Typography sx={{
-                        mb: {lg: '1rem'},
-                        fontWeight: 'bold'
-                    }}>
-                        {city}
-                    </Typography>
-
-                    <Rating defaultValue={rating} size="small" readOnly/>
-
-                    <Typography variant="subtitle1"
-                        sx={{fontWeight: 'bold', width: '100rem'}}
-                    >
-                        Skill Level: {skill} years
-                    </Typography>
-
-                    <Box sx={{
-                        mb: '1rem',
-                        pt: '1rem',
-                        width: '30rem'
+                    <Grid item xs={4}>
+                        <Typography 
+                            sx={{ ml: '3rem', fontWeight: 'bold', fontSize:{xs: '12px', lg: '22px'}, width: '100rem'}}
+                        >
+                            Skill Level: {skill} years
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} container>
+                        <Typography sx={{
+                            fontSize: {xs: '1rem', lg: '2rem'},
+                            mb: {lg: '0.1rem'},
+                            mt: {lg: '1rem'},
+                            ml: '-4rem',
+                            color: 'primary.main',
+                            fontWeight: 'bold',
+                            width: {xs: '5rem', lg: '10rem'},
                         }}>
-                        <Typography>
+                            {name}
+                        </Typography>
+                    </Grid>
+
+                    <Grid item sx={{
+                        mb: {lg: '1rem'},
+                        pt: {lg: '1rem'},
+                        ml: '-4rem',
+                        mt: {xs: '-1rem', lg: '0'},
+                        width: { lg: '30rem'}
+                        }}>
+                        <Typography
+                            sx={{         
+                                width: '100%',               
+                                fontSize: {xs: '0.8rem', lg: '1rem'},}}
+                        >
                             {serviceDescription}
                         </Typography>
-                    </Box>
+                    </Grid>
 
                 </Grid>
-                <Grid item xs={1} sx={{ml: '8rem'}}>
-                    <Divider orientation="vertical" sx={{ height: '100%', display: {xs: 'none', lg: 'inline'}}}/>
+                <Grid item xs={1} sx={{ml: '8rem', display: {xs: 'none', lg: 'inline'}}}>
+                    <Divider orientation="vertical" sx={{ height: '10rem', display: {xs: 'none', lg: 'inline'}}}/>
                 </Grid>
                 <Grid item xs={2} 
                     sx={{
+                        display: {xs: 'none', lg: 'inline'},
                         mt: {xs: '1rem', md: '1.5rem', lg: '2rem'},
                         ml: {xs: '0.5rem', md: '1rem', lg: '1.5rem'}
                     }}>
                     {/* This is in place of the company logo */}
-                    <Box sx={{display: {xs: 'none', lg: 'flex'}, flexDirection: 'row', width: '100%', maxWidth: '20rem', m: "0",}}>
+                    <Box sx={{display: { lg: 'flex'}, flexDirection: 'row', width: '100%', maxWidth: '20rem', m: "0",}}>
                         <Avatar                     
                         alt={name}
                         src={fixerImage}
