@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
         console.log(token);
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
                 verifyToken: token,
                 verifyTokenExpiry: { gt: new Date(Date.now()) },

@@ -34,7 +34,7 @@ export async function PUT(req: NextRequest) {
 
         console.log(request);
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
                 forgotPasswordToken: token,
                 forgotPasswordTokenExpiry: { gt: new Date(Date.now()) },

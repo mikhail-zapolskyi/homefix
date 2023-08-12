@@ -25,10 +25,12 @@ const ResetPassword = () => {
 
         if (!password || !confirmPassword) {
             console.log("Please fill all fields");
+            return;
         }
 
         if (password !== confirmPassword) {
             console.log("password doesn't match");
+            return;
         }
 
         if (token.length > 0) {
