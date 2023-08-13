@@ -2,20 +2,14 @@
 
 "use client";
 
-import {
-    Grid,
-    Button,
-    Link,
-    Typography,
-    Container,
-    Box,
-    Divider,
-} from "@mui/material";
+import { Grid, Link, Typography, Box, Divider } from "@mui/material";
 
 import {
     GoogleSigninButton,
     FacebookSigninButton,
     CustomTextField,
+    CustomButton,
+    PageContainer,
 } from "@/components";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -41,13 +35,14 @@ const SignIn = () => {
     };
 
     return (
-        <Container component="main" maxWidth={"md"}>
+        <PageContainer maxWidth="md">
             <Box
                 sx={{
-                    marginTop: 8,
+                    height: "80%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -60,23 +55,21 @@ const SignIn = () => {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item sm={12}>
+                        <Grid item xs={12}>
                             <CustomTextField
                                 name="email"
                                 type="email"
                                 placeholder="Email"
                             />
                         </Grid>
-                        <Grid item sm={12}>
-                            <Grid item sm={12}>
-                                <CustomTextField
-                                    name="password"
-                                    type="password"
-                                    placeholder="Password"
-                                />
-                            </Grid>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="password"
+                                type="password"
+                                placeholder="Password"
+                            />
                         </Grid>
-                        <Grid container justifyContent="flex-end">
+                        <Grid container item xs={12} justifyContent="flex-end">
                             <Grid item>
                                 <Link
                                     href="request-password-reset"
@@ -86,35 +79,48 @@ const SignIn = () => {
                                 </Link>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
-                            <Link href="signup" variant="body2">
-                                Don&apos;t have an account? Sign up.
-                            </Link>
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                text="Sign In"
+                            />
+                        </Grid>
+                        <Grid container item xs={12} justifyContent="flex-end">
+                            <Grid item>
+                                <Link href="signin" variant="body2">
+                                    Don&apos;t have an account? Sign up.
+                                </Link>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Box>
-                <Divider variant="middle" sx={{ width: "100%" }}>
-                    <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
+                    <Divider variant="middle" sx={{ width: "100%" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ color: "text.secondary" }}
+                        >
+                            OR
+                        </Typography>
+                    </Divider>
+
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{ display: "flex", justifyContent: "center" }}
                     >
-                        OR
-                    </Typography>
-                </Divider>
-                <GoogleSigninButton />
-                <FacebookSigninButton />
+                        <GoogleSigninButton />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                        <FacebookSigninButton />
+                    </Grid>
+                </Box>
             </Box>
-        </Container>
+        </PageContainer>
     );
 };
 

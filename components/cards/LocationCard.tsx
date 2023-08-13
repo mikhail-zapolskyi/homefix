@@ -1,8 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { CustomDashboardCard, CustomTextField, Loader } from "@/components";
-import { Button, Grid, Typography } from "@mui/material";
+import {
+    CustomButton,
+    CustomDashboardCard,
+    CustomTextField,
+    Loader,
+} from "@/components";
+import { Avatar, Grid, Typography } from "@mui/material";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
 import useSWR from "swr";
 import axios from "axios";
 
@@ -71,6 +77,15 @@ const LocationCard = () => {
                             }}
                             columnSpacing={2}
                         >
+                            <Grid
+                                item
+                                sx={{
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <LocationCityIcon fontSize="large" />
+                            </Grid>
                             <Grid container item xs={8}>
                                 <Grid item xs={12}>
                                     <Typography
@@ -96,9 +111,12 @@ const LocationCard = () => {
                                 },
                             }}
                         >
-                            <Button size="small" onClick={handleSave}>
-                                Save
-                            </Button>
+                            <CustomButton
+                                size="small"
+                                onClick={handleSave}
+                                text="Save"
+                                variant="text"
+                            />
                         </Grid>
                     </Grid>
                     <Grid

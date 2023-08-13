@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Divider, Grid, SelectChangeEvent } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { SelectField, Loader } from "@/components";
+import { SelectField, Loader, CustomButton } from "@/components";
 import useSWR from "swr";
 import { URL } from "url";
 
@@ -164,10 +164,23 @@ const SearchBar = () => {
                         />
                     </Grid>
 
-                    <Grid container item xs={12} sx={{ justifyContent: "end" }}>
-                        <Button size="large" type="submit">
-                            Search a Pro
-                        </Button>
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        sx={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: 0,
+                        }}
+                        spacing={0}
+                    >
+                        <CustomButton
+                            text="Find a Service Professional"
+                            fullWidth={true}
+                            variant="contained"
+                            type="submit"
+                        />
                     </Grid>
                 </Grid>
             )}

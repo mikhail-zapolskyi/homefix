@@ -1,7 +1,7 @@
 "use client";
 
-import { CustomTextField } from "@/components";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { CustomButton, CustomTextField, PageContainer } from "@/components";
+import { Box, Grid, Typography } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -54,13 +54,14 @@ const ResetPassword = () => {
     };
 
     return (
-        <Container component="main" maxWidth={"md"}>
+        <PageContainer maxWidth={"md"}>
             <Box
                 sx={{
-                    marginTop: 8,
+                    height: "80%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -108,17 +109,15 @@ const ResetPassword = () => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Button
+                    <CustomButton
                         type="submit"
-                        fullWidth
+                        fullWidth={true}
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Reset password
-                    </Button>
+                        text="Reset password"
+                    />
                 </Box>
             </Box>
-        </Container>
+        </PageContainer>
     );
 };
 

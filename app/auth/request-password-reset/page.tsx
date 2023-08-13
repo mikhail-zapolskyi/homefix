@@ -1,8 +1,8 @@
 "use client";
 
-import { CustomTextField } from "@/components";
+import { CustomButton, CustomTextField, PageContainer } from "@/components";
 
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 
@@ -32,13 +32,14 @@ const RequestPasswordReset = async () => {
         // await sendEmail(email.toString(), "reset");
     };
     return (
-        <Container component="main" maxWidth={"md"}>
+        <PageContainer maxWidth="md">
             <Box
                 sx={{
-                    marginTop: 8,
+                    height: "80%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -51,25 +52,25 @@ const RequestPasswordReset = async () => {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item sm={12}>
+                        <Grid item xs={12}>
                             <CustomTextField
                                 name="email"
                                 type="email"
                                 placeholder="Email"
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth={true}
+                                variant="contained"
+                                text="Request Password Reset"
+                            />
+                        </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Request password change
-                    </Button>
                 </Box>
             </Box>
-        </Container>
+        </PageContainer>
     );
 };
 

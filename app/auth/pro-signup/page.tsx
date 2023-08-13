@@ -1,8 +1,8 @@
 "use client";
 
-import { Grid, Button, Link, Typography, Container, Box } from "@mui/material";
+import { Grid, Link, Typography, Box } from "@mui/material";
 
-import { CustomTextField } from "@/components";
+import { CustomButton, CustomTextField, PageContainer } from "@/components";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
@@ -60,13 +60,14 @@ export default function SignUp() {
     };
 
     return (
-        <Container component="main" maxWidth={"md"}>
+        <PageContainer maxWidth={"md"}>
             <Box
                 sx={{
-                    marginTop: 8,
+                    height: "80%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -86,7 +87,6 @@ export default function SignUp() {
                                 type="email"
                             />
                         </Grid>
-
                         <Grid item xs={12}>
                             <CustomTextField
                                 name="name"
@@ -163,24 +163,24 @@ export default function SignUp() {
                                 </Typography>
                             </Typography>
                         </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign Up
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
-                            <Link href="signin" variant="body2">
-                                Already have an account? Sign in
-                            </Link>
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                text="Sign Up"
+                            />
+                        </Grid>
+                        <Grid container item xs={12} justifyContent="flex-end">
+                            <Grid item>
+                                <Link href="signin" variant="body2">
+                                    Already have an account? Sign in
+                                </Link>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Box>
             </Box>
-        </Container>
+        </PageContainer>
     );
 }

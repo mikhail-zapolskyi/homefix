@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Avatar, Typography, Button, Grid, Box } from "@mui/material";
-import { CustomTextField, CustomDashboardCard, Loader } from "@/components";
+import React, { useState } from "react";
+import { Avatar, Typography, Button, Grid } from "@mui/material";
+import {
+    CustomTextField,
+    CustomDashboardCard,
+    Loader,
+    CustomButton,
+} from "@/components";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import axios from "axios";
@@ -110,10 +115,17 @@ const ProfileCard = () => {
                                 },
                             }}
                         >
-                            <Button size="small">Message</Button>
-                            <Button size="small" onClick={handleSave}>
-                                Save
-                            </Button>
+                            <CustomButton
+                                size="small"
+                                text="Message"
+                                variant="text"
+                            />
+                            <CustomButton
+                                size="small"
+                                text="Save"
+                                variant="text"
+                                onClick={handleSave}
+                            />
                         </Grid>
                     </Grid>
                     <Grid
