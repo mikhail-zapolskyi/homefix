@@ -13,7 +13,7 @@ const CustomDashboardCard: React.FC<CustomDashboardCardProps> = ({
         <Card
             sx={{
                 minWidth: 275,
-                padding: "2rem",
+                padding: "1rem",
                 borderRadius: "1rem",
                 position: "relative",
             }}

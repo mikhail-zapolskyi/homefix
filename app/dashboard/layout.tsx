@@ -2,6 +2,8 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const StyledWrapper = styled(Grid)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
@@ -14,6 +16,12 @@ const StyledWrapper = styled(Grid)(({ theme }) => ({
 }));
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+    const { data: session } = useSession();
+
+    if (!session) {
+        redirect("/");
+    }
+
     return <StyledWrapper container>{children}</StyledWrapper>;
 };
 

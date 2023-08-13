@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useState } from "react";
 import { CustomDashboardCard, CustomTextField, Loader } from "@/components";
 import { Button, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
