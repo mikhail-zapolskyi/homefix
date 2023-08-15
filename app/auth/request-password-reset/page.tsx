@@ -27,6 +27,7 @@ const RequestPasswordReset = async () => {
             router.push("/");
         } catch (error: any) {
             console.log(error);
+            throw new Error(error.message);
         }
 
         // await sendEmail(email.toString(), "reset");

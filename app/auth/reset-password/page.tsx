@@ -47,6 +47,7 @@ const ResetPassword = () => {
                     router.push("/auth/signin");
                 } catch (error: any) {
                     console.log(error);
+                    throw new Error(error.message);
                 }
             };
             resetUserPassword();

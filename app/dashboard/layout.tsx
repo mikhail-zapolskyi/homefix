@@ -18,9 +18,9 @@ const StyledWrapper = styled(Grid)(({ theme }) => ({
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const { data: session } = useSession();
 
-    if (!session) {
-        redirect("/");
-    }
+    // if (!session) {
+    //     redirect("/");
+    // }
 
     return <StyledWrapper container>{children}</StyledWrapper>;
 };

@@ -27,7 +27,7 @@ const LocationCard = () => {
     const { data, error, isLoading } = useSWR("/api/users", fetcher);
 
     if (error) {
-        return <div>ERROR</div>;
+        throw new Error(error.message);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

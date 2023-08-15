@@ -44,8 +44,9 @@ const ViewServices = () => {
             );
             const data = await response.json();
             setServiceData(data);
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
+            throw new Error(error.message);
         }
     };
 

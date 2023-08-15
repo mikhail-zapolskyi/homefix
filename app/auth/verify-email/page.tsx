@@ -30,6 +30,7 @@ const VerifyEmail = () => {
                     setVerified(true);
                 } catch (error: any) {
                     console.log(error);
+                    throw new Error(error.message);
                 }
             };
             verifyUserEmail();

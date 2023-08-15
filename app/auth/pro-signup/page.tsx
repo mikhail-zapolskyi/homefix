@@ -56,7 +56,10 @@ export default function SignUp() {
                     router.push("/auth/signin");
                 }
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                console.error(error);
+                throw new Error(error.message);
+            });
     };
 
     return (
