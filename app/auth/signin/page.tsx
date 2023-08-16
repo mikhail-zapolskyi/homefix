@@ -12,14 +12,12 @@ import {
     PageContainer,
 } from "@/components";
 import { signIn, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
+    const router = useRouter();
     const { data: session, status } = useSession();
-
-    if (session && status === "authenticated") {
-        redirect("/");
-    }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -27,12 +25,26 @@ const SignIn = () => {
         const email = data.get("email");
         const password = data.get("password");
 
-        if (!email || !password) {
-            console.log("Please fill all fields");
-        }
+        try {
+            if (!email || !password) {
+                console.log("Please fill all fields");
+                toast.error("Email or Password is missing");
+                return;
+            }
 
-        signIn("credentials", { email, password });
+            toast.promise(signIn("credentials", { email, password }), {
+                pending: "Sigining in",
+                success: "Signed in successfully",
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            // throw new Error();
+            console.log(error.message);
+        }
     };
+    if (session && status === "authenticated") {
+        router.push("/");
+    }
 
     return (
         <PageContainer maxWidth="md">

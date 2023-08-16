@@ -1,52 +1,53 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 const VerifyEmail = () => {
-    const [token, setToken] = useState("");
-    const [verified, setVerified] = useState(false);
-
+    const router = useRouter();
     const searchParams = useSearchParams();
+    const [verified, setVerified] = useState(false);
 
     useEffect(() => {
         const hashedToken = searchParams.get("token");
 
-        setToken(hashedToken || "");
-    }, [searchParams]);
-
-    useEffect(() => {
-        if (token.length > 0) {
+        if (hashedToken) {
             const verifyUserEmail = async () => {
                 try {
-                    await fetch(
+                    const response = await fetch(
                         "http://localhost:3000/api/users/verify-email",
                         {
                             method: "POST",
-                            body: JSON.stringify(token),
+                            body: JSON.stringify(hashedToken),
                         }
                     );
-                    setVerified(true);
-                } catch (error: any) {
-                    console.log(error);
+
+                    if (response.ok) {
+                        toast.success("Email verified successfully!");
+                        setVerified(true);
+                        router.push("/auth/signin");
+                    } else {
+                        console.error("Verification failed");
+                        toast.error("Email verification failed");
+                        router.push("/");
+                    }
+                } catch (error) {
+                    console.error("An error occurred", error);
+                    toast.error("Something went wrong");
                 }
             };
+
             verifyUserEmail();
         }
-    }, [token]);
+    }, [searchParams, router]);
 
     return (
         <div>
             {!verified ? (
                 <h1>Verifying Email...</h1>
             ) : (
-                <h1>Email Verified Succussfully</h1>
-            )}
-            {!verified ? (
-                <p>{token}</p>
-            ) : (
-                <Link href="signin">Go to signin page</Link>
+                <h1>Redirecting to sign in page</h1>
             )}
         </div>
     );

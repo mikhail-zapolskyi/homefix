@@ -10,7 +10,7 @@ import {
 } from "@/components";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
@@ -27,7 +27,7 @@ const ProfileCard = () => {
     const { data, error, isLoading } = useSWR("/api/users", fetcher);
 
     if (error) {
-        return <div>ERROR</div>;
+        throw new Error(error.message);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +55,9 @@ const ProfileCard = () => {
 
         try {
             await axios.put("/api/users", notEmptyData);
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
+            throw new Error(error.message);
         }
     };
 

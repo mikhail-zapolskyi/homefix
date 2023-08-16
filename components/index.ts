@@ -21,6 +21,7 @@ export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectField } from "./inputs/SelectField";
 export { default as CustomTextField } from "./inputs/CustomTextField";
+export { default as CustomRadioGroup } from "./inputs/CustomRadioGroup";
 // User Dashboard
 export { default as ListCard } from "./cards/ListCard";
 export { default as DetailsCard } from "./cards/DetailsCard";

@@ -4,6 +4,7 @@ import { CustomButton, CustomTextField, PageContainer } from "@/components";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
     const router = useRouter();
@@ -24,29 +25,37 @@ const ResetPassword = () => {
         const confirmPassword = data.get("confirmPassword");
 
         if (!password || !confirmPassword) {
-            console.log("Please fill all fields");
+            toast.error("Please fill all required fields");
             return;
         }
 
         if (password !== confirmPassword) {
-            console.log("password doesn't match");
+            toast.error("password doesn't match");
             return;
         }
 
         if (token.length > 0) {
             const resetUserPassword = async () => {
                 try {
-                    await fetch(
-                        "http://localhost:3000/api/users/reset-password",
-                        {
-                            method: "PUT",
-                            body: JSON.stringify({ token, password }),
-                        }
-                    );
+                    const req = async () =>
+                        await fetch(
+                            "http://localhost:3000/api/users/reset-password",
+                            {
+                                method: "PUT",
+                                body: JSON.stringify({ token, password }),
+                            }
+                        );
+
+                    toast.promise(req(), {
+                        pending: "Updating password",
+                        success: "Password updated successfully!",
+                        error: "Something went wrong",
+                    });
 
                     router.push("/auth/signin");
                 } catch (error: any) {
                     console.log(error);
+                    throw new Error(error.message);
                 }
             };
             resetUserPassword();

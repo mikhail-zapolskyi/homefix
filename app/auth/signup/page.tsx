@@ -12,6 +12,7 @@ import {
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
     const router = useRouter();
@@ -30,11 +31,13 @@ export default function SignUp() {
         const confirmPassword = data.get("confirmPassword");
 
         if (!name || !email || !password || !confirmPassword) {
-            console.log("Please fill all fields");
+            toast.error("Please fill all required fields");
+            return;
         }
 
         if (password !== confirmPassword) {
-            console.log("password doesn't match");
+            toast.error("password doesn't match");
+            return;
         }
 
         axios
@@ -43,10 +46,16 @@ export default function SignUp() {
                 console.log(res.status);
                 if (res.status === 201) {
                     console.log("works");
+                    toast.warning(
+                        "Please check your email to verify your account"
+                    );
                     router.push("/auth/signin");
                 }
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                console.error(error);
+                throw new Error(error.message);
+            });
     };
 
     return (

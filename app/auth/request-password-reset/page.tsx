@@ -5,6 +5,7 @@ import { CustomButton, CustomTextField, PageContainer } from "@/components";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { toast } from "react-toastify";
 
 const RequestPasswordReset = async () => {
     const router = useRouter();
@@ -13,23 +14,29 @@ const RequestPasswordReset = async () => {
         const data = new FormData(event.currentTarget);
         const email = data.get("email");
 
-        if (!email) {
-            console.log("Email required");
-            return;
-        }
-
         try {
-            await fetch("http://localhost:3000/api/users/reset-password", {
-                method: "POST",
-                body: JSON.stringify(email),
+            if (!email) {
+                toast.error("Email required");
+                return;
+            }
+
+            const req = async () =>
+                await fetch("http://localhost:3000/api/users/reset-password", {
+                    method: "POST",
+                    body: JSON.stringify(email),
+                });
+
+            toast.promise(req(), {
+                pending: "Requsting password reset",
+                success: "Please check your email for password reset link!",
+                error: "Something went wrong",
             });
 
             router.push("/");
         } catch (error: any) {
             console.log(error);
+            throw new Error(error.message);
         }
-
-        // await sendEmail(email.toString(), "reset");
     };
     return (
         <PageContainer maxWidth="md">
