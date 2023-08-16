@@ -11,6 +11,7 @@ import { Avatar, Grid, Typography } from "@mui/material";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import useSWR from "swr";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
     address: "",
@@ -40,7 +41,10 @@ const LocationCard = () => {
         );
 
         try {
-            await axios.put("/api/location", notEmptyData);
+            toast.promise(axios.put("/api/users", notEmptyData), {
+                success: "Changes Saved",
+                error: "Something went wrong",
+            });
         } catch (error) {
             console.log(error);
         }

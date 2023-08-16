@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";

@@ -10,7 +10,8 @@ import {
 } from "@/components";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
@@ -54,7 +55,10 @@ const ProfileCard = () => {
         );
 
         try {
-            await axios.put("/api/users", notEmptyData);
+            toast.promise(axios.put("/api/users", notEmptyData), {
+                success: "Changes Saved",
+                error: "Something went wrong",
+            });
         } catch (error: any) {
             console.log(error);
             throw new Error(error.message);
