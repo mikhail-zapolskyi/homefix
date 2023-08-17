@@ -7,9 +7,6 @@ import {
     SearchBar,
 } from "@/components";
 import { Grid } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
 
 const data = [
     {
@@ -33,15 +30,6 @@ const data = [
 ];
 
 const UserReviews = () => {
-    const { data: session, status } = useSession();
-
-    useEffect(() => {
-        if (!session && status === "unauthenticated") {
-            toast.error("Please log in first");
-            throw new Error("You don't have permissions to access this page");
-        }
-    }, [session, status]);
-
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
