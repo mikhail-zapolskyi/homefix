@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Box, Typography, Divider, Avatar, Rating, Button} from "@mui/material";
 import { BiStar } from "react-icons/bi";
 import { CustomDashboardCard, PrimaryButton } from "..";
-import { determineFixerSkillLevel } from "@/utils"; 
+// import { determineFixerSkillLevel } from "@/utils"; 
 
 interface ServicesProps {
     id?: string;
@@ -18,7 +18,7 @@ interface ServicesProps {
 }
 
 const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city, rating, image, skill, fixerImage, fixerDescription, serviceDescription, onClick}) => {
-    const skillLevel = determineFixerSkillLevel(skill)
+    // const skillLevel = determineFixerSkillLevel(skill)
     return (
         <CustomDashboardCard >
             <Grid container sx={{maxWidth: '100%', mb: {xs: '-0.5rem', lg: 0}, alignItems: 'center'}}>
