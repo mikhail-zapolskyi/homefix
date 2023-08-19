@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Box, Typography, Divider, Avatar, Rating, Button} from "@mui/material";
 import { BiStar } from "react-icons/bi";
 import { CustomDashboardCard, PrimaryButton } from "..";
+import { determineFixerSkillLevel } from "@/utils"; 
 
 interface ServicesProps {
     id?: string;
@@ -17,23 +18,24 @@ interface ServicesProps {
 }
 
 const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city, rating, image, skill, fixerImage, fixerDescription, serviceDescription, onClick}) => {
+    const skillLevel = determineFixerSkillLevel(skill)
     return (
         <CustomDashboardCard >
             <Grid container sx={{maxWidth: '100%', mb: {xs: '-0.5rem', lg: 0}, alignItems: 'center'}}>
-                <Grid item lg={3} >
+                <Grid item lg={2} >
                     <Avatar 
                         src={image}
                         alt={name}
-                        sx={{ display: {xs: 'none', lg: 'inline'}, width: {xs: 30, lg: 200}, height: {xs: 30, lg: 200},}}
+                        sx={{ display: {xs: 'none', lg: 'inline'}, width: {xs: 30, lg: '100%'}, height: {xs: 30, lg: "100%"}, mr: '3rem'}}
                         variant="square"
                         />
                 </Grid>
                 
-                <Grid container lg={6} spacing={2} sx={{
+                <Grid container spacing={2} sx={{
                     display: 'flex',
                     flexDirection: {xs: 'row', lg: 'column'},
-                    ml: {xs: '1rem', lg: '3rem'},
-                    width: {xs: '12rem', lg: '30rem'}
+                    ml: {xs: '1rem', lg: '6rem'},
+                    width: {xs: '12rem', lg: '31rem'}
                 }}>
                     <Grid item lg={6} sx={{display: {xs: 'none', lg: 'inline'}}}>
                         <Typography sx={{
@@ -72,6 +74,7 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                             }}
                         >
                             Skill Level: {skill} years
+                            
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display: {lg: 'none'}}} container>
@@ -112,7 +115,7 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                     sx={{
                         display: {xs: 'none', lg: 'inline'},
                         mt: {xs: '1rem', md: '1.5rem', lg: '2rem'},
-                        ml: {xs: '0.5rem', md: '1rem', lg: '1.5rem'}
+                        ml: {xs: '0.5rem', md: '1rem', lg: '2.6rem'}
                     }}>
                     {/* This is in place of the company logo */}
                     <Grid item lg={3}>
