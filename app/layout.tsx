@@ -6,6 +6,9 @@ import { CssBaseline, PaletteMode } from "@mui/material";
 import Providers from "@/lib/auth/Providers";
 import { AppBar } from "@/components";
 import getDesignToken from "@/theme/getDesignToken";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     const [mode, setMode] = useState<PaletteMode>("light");
@@ -28,6 +31,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                 <ThemeProvider theme={theme}>
                     <CssBaseline>
                         <Providers>
+                            <ToastContainer />
                             <AppBar />
                             {children}
                         </Providers>

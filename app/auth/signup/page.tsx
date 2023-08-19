@@ -1,74 +1,72 @@
 "use client";
 
-import React, { useState } from "react";
+import { Grid, Link, Typography, Box, Divider } from "@mui/material";
+
 import {
-    FormControl,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Button,
-    TextField,
-    Link,
-    Typography,
-    Container,
-    Box,
-    Divider,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { GoogleSigninButton, FacebookSigninButton } from "@/components";
+    GoogleSigninButton,
+    FacebookSigninButton,
+    CustomTextField,
+    CustomButton,
+    PageContainer,
+} from "@/components";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
-    const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter();
     const { data: session, status } = useSession();
 
     if (session && status === "authenticated") {
         redirect("/");
     }
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    const handleMouseDownPassword = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.preventDefault();
-    };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        const name = data.get("name");
         const email = data.get("email");
         const password = data.get("password");
         const confirmPassword = data.get("confirmPassword");
 
-        if (!email || !password || !confirmPassword) {
-            console.log("Please fill all fields");
+        if (!name || !email || !password || !confirmPassword) {
+            toast.error("Please fill all required fields");
+            return;
         }
 
         if (password !== confirmPassword) {
-            console.log("password doesn't match");
+            toast.error("password doesn't match");
+            return;
         }
 
         axios
-            .post("/api/users", { email, password })
+            .post("/api/users", { name, email, password })
             .then((res) => {
+                console.log(res.status);
                 if (res.status === 201) {
-                    redirect("/");
+                    console.log("works");
+                    toast.warning(
+                        "Please check your email to verify your account"
+                    );
+                    router.push("/auth/signin");
                 }
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                console.error(error);
+                throw new Error(error.message);
+            });
     };
 
     return (
-        <Container component="main" maxWidth={"md"}>
+        <PageContainer maxWidth={"md"}>
             <Box
                 sx={{
-                    marginTop: 8,
+                    height: "80%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -81,89 +79,34 @@ export default function SignUp() {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item sm={12}>
-                            <TextField
-                                autoComplete="given-name"
-                                name="email"
-                                fullWidth
-                                id="email"
-                                label="Email (Required)"
-                                autoFocus
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="name"
+                                placeholder="Name (Required)"
                             />
                         </Grid>
-                        <Grid item sm={12}>
-                            <FormControl
-                                variant="outlined"
-                                sx={{ width: "100%" }}
-                            >
-                                <InputLabel htmlFor="password">
-                                    Password (Required)
-                                </InputLabel>
-                                <OutlinedInput
-                                    id="password"
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={
-                                                    handleClickShowPassword
-                                                }
-                                                onMouseDown={
-                                                    handleMouseDownPassword
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="email"
+                                type="email"
+                                placeholder="Email (Required)"
+                            />
                         </Grid>
-                        <Grid item sm={12}>
-                            <FormControl
-                                variant="outlined"
-                                sx={{ width: "100%" }}
-                            >
-                                <InputLabel htmlFor="confirmPassword">
-                                    Confirm Password (Required)
-                                </InputLabel>
-                                <OutlinedInput
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    type={showPassword ? "text" : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={
-                                                    handleClickShowPassword
-                                                }
-                                                onMouseDown={
-                                                    handleMouseDownPassword
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="password"
+                                type="password"
+                                placeholder="Password (Required)"
+                            />
                         </Grid>
-                        <Grid item sm={12}>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="confirmPassword"
+                                type="password"
+                                placeholder="Confirm Password (Required)"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <Typography>Your password must:</Typography>
                             <Typography component={"ul"}>
                                 <Typography component={"li"}>
@@ -183,34 +126,70 @@ export default function SignUp() {
                                 </Typography>
                             </Typography>
                         </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign Up
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
-                            <Link href="signin" variant="body2">
-                                Already have an account? Sign in
-                            </Link>
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                text="Sign Up"
+                            />
+                        </Grid>
+                        <Grid container item xs={12} spacing={2}>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                container
+                                justifyContent={{
+                                    xs: "center",
+                                    sm: "flex-start",
+                                }}
+                            >
+                                <Link href="pro-signup" variant="body2">
+                                    Pro? click here to sign up
+                                </Link>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                container
+                                justifyContent={{
+                                    xs: "center",
+                                    sm: "flex-end",
+                                }}
+                            >
+                                <Link href="signin" variant="body2">
+                                    Already have an account? Sign in
+                                </Link>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Box>
-                <Divider variant="middle" sx={{ width: "100%" }}>
-                    <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
+                    <Divider variant="middle" sx={{ width: "100%" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ color: "text.secondary" }}
+                        >
+                            OR
+                        </Typography>
+                    </Divider>
+
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{ display: "flex", justifyContent: "center" }}
                     >
-                        OR
-                    </Typography>
-                </Divider>
-                <GoogleSigninButton />
-                <FacebookSigninButton />
+                        <GoogleSigninButton />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                        <FacebookSigninButton />
+                    </Grid>
+                </Box>
             </Box>
-        </Container>
+        </PageContainer>
     );
 }

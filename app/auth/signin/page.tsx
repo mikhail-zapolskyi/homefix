@@ -2,63 +2,59 @@
 
 "use client";
 
-import React, { useState } from "react";
+import { Grid, Link, Typography, Box, Divider } from "@mui/material";
+
 import {
-    FormControl,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Button,
-    TextField,
-    Link,
-    Typography,
-    Container,
-    Box,
-    Divider,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { GoogleSigninButton, FacebookSigninButton } from "@/components";
+    GoogleSigninButton,
+    FacebookSigninButton,
+    CustomTextField,
+    CustomButton,
+    PageContainer,
+} from "@/components";
 import { signIn, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
+    const router = useRouter();
     const { data: session, status } = useSession();
 
-    if (session && status === "authenticated") {
-        redirect("/");
-    }
-
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    const handleMouseDownPassword = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.preventDefault();
-    };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get("email");
         const password = data.get("password");
 
-        if (!email || !password) {
-            console.log("Please fill all fields");
-        }
+        try {
+            if (!email || !password) {
+                console.log("Please fill all fields");
+                toast.error("Email or Password is missing");
+                return;
+            }
 
-        signIn("credentials", { email, password });
+            toast.promise(signIn("credentials", { email, password }), {
+                pending: "Sigining in",
+                success: "Signed in successfully",
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            // throw new Error();
+            console.log(error.message);
+        }
     };
+    if (session && status === "authenticated") {
+        router.push("/");
+    }
 
     return (
-        <Container component="main" maxWidth={"md"}>
+        <PageContainer maxWidth="md">
             <Box
                 sx={{
-                    marginTop: 8,
+                    height: "80%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -71,81 +67,72 @@ const SignIn = () => {
                     sx={{ mt: 3 }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item sm={12}>
-                            <TextField
-                                autoComplete="given-name"
+                        <Grid item xs={12}>
+                            <CustomTextField
                                 name="email"
-                                fullWidth
-                                id="email"
-                                label="Email"
-                                autoFocus
+                                type="email"
+                                placeholder="Email"
                             />
                         </Grid>
-                        <Grid item sm={12}>
-                            <FormControl
-                                variant="outlined"
-                                sx={{ width: "100%" }}
-                            >
-                                <InputLabel htmlFor="password">
-                                    Password
-                                </InputLabel>
-                                <OutlinedInput
-                                    id="password"
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={
-                                                    handleClickShowPassword
-                                                }
-                                                onMouseDown={
-                                                    handleMouseDownPassword
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="password"
+                                type="password"
+                                placeholder="Password"
+                            />
+                        </Grid>
+                        <Grid container item xs={12} justifyContent="flex-end">
+                            <Grid item>
+                                <Link
+                                    href="request-password-reset"
+                                    variant="body2"
+                                >
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                text="Sign In"
+                            />
+                        </Grid>
+                        <Grid container item xs={12} justifyContent="flex-end">
+                            <Grid item>
+                                <Link href="signin" variant="body2">
+                                    Don&apos;t have an account? Sign up.
+                                </Link>
+                            </Grid>
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                    <Divider variant="middle" sx={{ width: "100%" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ color: "text.secondary" }}
+                        >
+                            OR
+                        </Typography>
+                    </Divider>
+
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{ display: "flex", justifyContent: "center" }}
                     >
-                        Sign In
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
-                            <Link href="signup" variant="body2">
-                                Don’t have an account? Sign up.
-                            </Link>
-                        </Grid>
+                        <GoogleSigninButton />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                        <FacebookSigninButton />
                     </Grid>
                 </Box>
-                <Divider variant="middle" sx={{ width: "100%" }}>
-                    <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
-                    >
-                        OR
-                    </Typography>
-                </Divider>
-                <GoogleSigninButton />
-                <FacebookSigninButton />
             </Box>
-        </Container>
+        </PageContainer>
     );
 };
 

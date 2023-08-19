@@ -13,6 +13,7 @@ import {
     Divider,
     ListItemIcon,
     useTheme,
+    Grid,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -20,7 +21,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { PrimaryButton, SlideMenu } from "@/components";
+import { CustomButton, PrimaryButton, SlideMenu } from "@/components";
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 
@@ -114,15 +115,19 @@ const PrimaryAppBar = () => {
     );
 
     const renderAuthButtons = (
-        <>
-            <PrimaryButton text="Sign In" onClick={() => signIn()} />
-            <PrimaryButton
-                text="Sign Up"
-                onClick={() => {
-                    push("/auth/signup");
-                }}
-            />
-        </>
+        <Grid container columnSpacing={1}>
+            <Grid item>
+                <CustomButton text="Sign In" onClick={() => signIn()} />
+            </Grid>
+            <Grid item>
+                <CustomButton
+                    text="Sign Up"
+                    onClick={() => {
+                        push("/auth/signup");
+                    }}
+                />
+            </Grid>
+        </Grid>
     );
 
     const mobileMenuId = "primary-search-account-menu-mobile";

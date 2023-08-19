@@ -23,27 +23,4 @@ const getUserById = async (
     }
 };
 
-const deleteUsers = async (
-    req: Request,
-    {
-        params,
-    }: {
-        params: { id: string };
-    }
-) => {
-    const session = await getServerSession(authOptions);
-    const id = params;
-
-    if (!session?.user?.email) {
-        redirect("/api/auth/signin");
-    }
-
-    try {
-        const user = await prisma.user.delete({ where: id });
-        return NextResponse.json(user);
-    } catch (error) {
-        return console.error(error);
-    }
-};
-
-export { deleteUsers as DELETE, getUserById as GET };
+export { getUserById as GET };

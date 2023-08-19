@@ -34,25 +34,26 @@ model Session {
 }
 
 model User {
-  id                String            @id @default(auto()) @map("_id") @db.ObjectId
-  name              String?
-  email             String            @unique
-  emailVerified     Boolean?          @map("email_verified")
-  password          String?
-  image             String?
-  address           String?
-  city              String?
-  postalCode        String?
-  country           String?
-  phone             String?
-  accounts          Account[]
-  sessions          Session[]
-  serviceProfile    ServiceProfile?
-  reviews           Review[]
-  type              UserType          @default(USER)
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  location          Location?
+  id                          String            @id @default(auto()) @map("_id") @db.ObjectId
+  name                        String?           @default("Guest User")
+  email                       String            @unique
+  emailVerified               Boolean?          @map("email_verified")
+  password                    String?
+  image                       String?
+  phone                       String?
+  accounts                    Account[]
+  sessions                    Session[]
+  serviceProfile              ServiceProfile?
+  reviews                     Review[]
+  type                        UserType          @default(USER)
+  createdAt                   DateTime          @default(now())
+  updatedAt                   DateTime          @updatedAt
+  location                    Location[]
+  verifyToken                 String?           
+  verifyTokenExpiry           DateTime?
+  forgotPasswordToken         String?           
+  forgotPasswordTokenExpiry   DateTime?
+  
 }
 
 enum UserType {
@@ -71,35 +72,33 @@ id                  String    @id @default(auto()) @map("_id") @db.ObjectId
 }
 
 model ServiceProfile {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  name              String? 
-  address           String?
-  city              String?
-  postalCode        String?
-  state             String?
-  country           String?
-  phone             String?
-  rating            Float?      @default(0) @db.Double
-  introduction      String?
-  experience        Int?
-  bio               String?
-  image             String?
-  specialtiesDo     String[]
-  specialtiesNo     String[]
-  employees         Int       @default(1)
-  hiredTimes        Int       @default(0)
-  bgChecked         Boolean?  @default(false)
-  paymentMethods    String[]
-  schedualPolicy    String?
-  businessHours     Day[] 
-  reviews           Review[]
-  posts             Post[]
-  clients           String[]
-  categories        Category[]
-  location          Location?
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  name             String?  
+  email            String?   
+  phone            String?
+  rating           Float?      @default(0) @db.Double
+  introduction     String?
+  experience       Int?
+  bio              String?
+  image            String?
+  specialtiesDo    String[]
+  specialtiesNo    String[]
+  employees        Int         @default(1)
+  hiredTimes       Int         @default(0)
+  bgChecked        Boolean?    @default(false)
+  paymentMethods   String[]
+  schedualPolicy   String?
+  businessHours    Day[] 
+  reviews          Review[]
+  posts            Post[]
+  clients          String[]
+  categories       Category[]
+  location         Location[]
 
-  userId            String     @db.ObjectId @unique 
+
+
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String     @unique @db.ObjectId 
 }
 
 model Day {
@@ -158,9 +157,9 @@ model Location {
   lng               String?
   lat               String?
 
-  serviceProfileId  String?           @db.ObjectId @unique
   service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  serviceProfileId  String?          @db.ObjectId
 
-  userId            String?           @db.ObjectId @unique
-  user              User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String?          @db.ObjectId 
 }

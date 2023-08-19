@@ -1,82 +1,70 @@
 "use client";
-import { Container, Grid, Paper, Box, Typography, Divider, Button, Avatar } from "@mui/material";
+import { Container, Grid, Paper } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { BiStar } from "react-icons/bi";
-import Image from 'next/image'
-import { SlEmotsmile } from "react-icons/sl";
-import { PrimaryButton } from "@/components";
-import { SearchResultServiceProfileCard } from "@/components";
 
 interface Services {
     id: string;
-    name: string;
-    city: string;
-    rating: number;
-    image: string;
-    skill: number;
-    fixerImage: string;
-    fixerDescription: string;
-    serviceDescription: string;
+    address: string | null;
+    city: string | null;
+    country: string | null;
+    lat: string | null;
+    lng: string | null;
+    service: {
+        bgChecked: boolean;
+        bio: string;
+        employees: number | null;
+        experience: null;
+        hiredTimes: number | null;
+        image: string | null;
+        introduction: string | null;
+        name: string | null;
+        paymentMethods: string[];
+        phone: string | null;
+        rating: number | null;
+        specialtiesDo: string[];
+        specialtiesNo: string[];
+    };
 }
 
-
-const initialServiceProfiles = [
-    {
-        id: '1',
-        name: 'Service 1',
-        city: 'Calgary',
-        rating: 5,
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU",
-        skill: 2,
-        fixerImage: '',
-        fixerDescription: 'Marcus Applewood - Plumber',
-        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-
-    },
-    {
-        id: '2',
-        name: 'Service 2',
-        city: 'Edmonton',
-        rating: 4,
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRcxxGDQ0zFHRGv6IDse2hxCdhZrrrm7RIzg&usqp=CAU",
-        skill: 3,
-        fixerImage: '',
-        fixerDescription: 'Jason Manson - Handyman',
-        serviceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-    },
-]
-
-export const ViewServices = () => {
+const ViewServices = () => {
     const searchParams = useSearchParams().toString();
-    const [services, setServices] = useState<Services[]>(initialServiceProfiles);
+    const [serviceData, setServiceData] = useState<Services[]>([]);
+    useEffect(() => {
+        getServicesBySearchParams();
+    }, []);
 
+    const getServicesBySearchParams = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/service?${searchParams}`,
+                {
+                    method: "GET",
+                }
+            );
+            const data = await response.json();
+            setServiceData(data);
+        } catch (error: any) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    };
 
-    // Should lead to fixer profile
-    const handleViewProfile = () => {
-        
-    }
-    
+    console.log(serviceData);
+
     return (
-        <Container sx={{pb: '10rem'}}>
-            <Grid container spacing={2}>
-                {services.map((service) => (
-                    <Grid item key={service.id} sx={{mt: '2rem', width: '100%'}}>
-                        <SearchResultServiceProfileCard
-                            onClick={handleViewProfile}
-                            id={service.id}
-                            name={service.name}
-                            city={service.city}
-                            rating={service.rating}
-                            image={service.image}
-                            skill={service.skill}
-                            fixerImage={service.fixerImage}
-                            fixerDescription={service.fixerDescription}
-                            serviceDescription={service.serviceDescription}
-                        />
-                    </Grid>
-
-                ))}
+        <Container>
+            <Grid container>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={10}>
+                    {serviceData.map((i) => (
+                        <Paper key={i.id}>
+                            <p>{i.service.name}</p>
+                            <p>{i.city}</p>
+                            <p>{i.service.rating}</p>
+                        </Paper>
+                    ))}
+                </Grid>
             </Grid>
         </Container>
     );

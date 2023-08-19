@@ -6,7 +6,7 @@ import {
     ReviewCard,
     SearchBar,
 } from "@/components";
-import { Card, CardContent, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const data = [
     {

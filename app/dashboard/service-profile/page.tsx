@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
 
-const ServiceProfile = () => {
-    return <div>ServiceProfile</div>;
+import { ServiceProfile } from "@/components";
+
+const Page = () => {
+    return <ServiceProfile />;
 };
 
-export default ServiceProfile;
+export default Page;

@@ -20,16 +20,38 @@ const updateServiceProfiles = async (
         redirect("/api/auth/signin");
     }
 
-    data.userId = id;
+    const userId = session.user.id;
 
-    const serviceProfiles = await prisma.serviceProfile.update({
-        where: {
-            id,
-        },
-        data,
-    });
+    try {
+        if (userId) {
+            const servPro = await prisma.serviceProfile.findUnique({
+                where: {
+                    userId,
+                },
+            });
 
-    return NextResponse.json(serviceProfiles);
+            if (servPro === null || servPro.userId !== userId) {
+                return NextResponse.json(
+                    {
+                        message:
+                            "You have no rights to do changes to service profile",
+                    },
+                    { status: 404 }
+                );
+            }
+
+            const serviceProfiles = await prisma.serviceProfile.update({
+                where: {
+                    id,
+                },
+                data,
+            });
+
+            return NextResponse.json(serviceProfiles);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const deleteServiceProfile = async (
@@ -44,18 +66,38 @@ const deleteServiceProfile = async (
         redirect("/api/auth/signin");
     }
 
+    const userId = session.user.id;
+
     try {
-        const serviceProfiles = await prisma.serviceProfile.delete({
-            where: {
-                id,
-            },
-            select: {
-                id: true,
-            },
-        });
-        return NextResponse.json(serviceProfiles);
+        if (userId) {
+            const servPro = await prisma.serviceProfile.findUnique({
+                where: {
+                    userId,
+                },
+            });
+
+            if (servPro === null || servPro.userId !== userId) {
+                return NextResponse.json(
+                    {
+                        message: "You have no rights to delete service profile",
+                    },
+                    { status: 404 }
+                );
+            }
+
+            const serviceProfiles = await prisma.serviceProfile.delete({
+                where: {
+                    id,
+                },
+                select: {
+                    id: true,
+                },
+            });
+
+            return NextResponse.json(serviceProfiles);
+        }
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 };
 

@@ -37,7 +37,6 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
     handleslideMenuClose,
 }) => {
     const { data: session } = useSession();
-
     const { push } = useRouter();
 
     return (
@@ -69,7 +68,7 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                     text="Profile"
                     icon={<ManageAccountsIcon />}
                     onClick={() => {
-                        push("/dashboard/profile");
+                        push("/dashboard/user-profile");
                     }}
                 />
                 {session?.user.type === "USER" && (
