@@ -2,6 +2,7 @@
 import { Container, Grid, Paper } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { SearchResultServiceProfileCard } from "@/components";
 
 interface Services {
     id: string;
@@ -30,6 +31,7 @@ interface Services {
 const ViewServices = () => {
     const searchParams = useSearchParams().toString();
     const [serviceData, setServiceData] = useState<Services[]>([]);
+
     useEffect(() => {
         getServicesBySearchParams();
     }, []);
@@ -50,21 +52,34 @@ const ViewServices = () => {
         }
     };
 
+    // Should lead to fixer profile
+    const handleViewProfile = () => {
+    
+    }
+
     console.log(serviceData);
 
     return (
-        <Container>
-            <Grid container>
-                <Grid item xs={2}></Grid>
-                <Grid item xs={10}>
-                    {serviceData.map((i) => (
-                        <Paper key={i.id}>
-                            <p>{i.service.name}</p>
-                            <p>{i.city}</p>
-                            <p>{i.service.rating}</p>
-                        </Paper>
-                    ))}
-                </Grid>
+        <Container sx={{pb: '10rem'}}>
+            <Grid container spacing={2}>
+                {serviceData.map((i) => (
+                    <Grid item key={i.id} sx={{mt: '2rem', width: '100%'}}>
+                        <SearchResultServiceProfileCard
+                            onClick={handleViewProfile}
+                            id={i.id}
+                            name={i.service.name}
+                            city={i.city}
+                            rating={i.service.rating}
+                            image={i.service.image}
+                            experience={i.service.experience}
+                            // should be i.service.fixerImage
+                            fixerImage={i.service.image}
+                            fixerDescription={i.service.bio}
+                            serviceDescription={i.service.bio}
+                        />
+                    </Grid>
+
+                ))}
             </Grid>
         </Container>
     );
