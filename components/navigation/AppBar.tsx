@@ -21,7 +21,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { CustomButton, PrimaryButton, SlideMenu } from "@/components";
+import { CustomButton, SlideMenu } from "@/components";
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 

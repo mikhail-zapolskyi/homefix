@@ -53,7 +53,7 @@ model User {
   verifyTokenExpiry           DateTime?
   forgotPasswordToken         String?           
   forgotPasswordTokenExpiry   DateTime?
-  
+  businesses                  Customer[]
 }
 
 enum UserType {
@@ -63,7 +63,7 @@ enum UserType {
 }
 
 model VerificationToken {
-id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
   identifier        String
   token             String    @unique
   expires           DateTime  @map("expiresAt")
@@ -73,7 +73,7 @@ id                  String    @id @default(auto()) @map("_id") @db.ObjectId
 
 model ServiceProfile {
   id               String      @id @default(auto()) @map("_id") @db.ObjectId
-  name             String?  
+  name             String?    
   email            String?   
   phone            String?
   rating           Float?      @default(0) @db.Double
@@ -83,8 +83,8 @@ model ServiceProfile {
   image            String?
   specialtiesDo    String[]
   specialtiesNo    String[]
-  employees        Int         @default(1)
-  hiredTimes       Int         @default(0)
+  employees        Int?         @default(1)
+  hiredTimes       Int?         @default(0)
   bgChecked        Boolean?    @default(false)
   paymentMethods   String[]
   schedualPolicy   String?
@@ -94,19 +94,27 @@ model ServiceProfile {
   clients          String[]
   categories       Category[]
   location         Location[]
-
-
-
+  customers        Customer[]
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String     @unique @db.ObjectId 
 }
 
+model Customer {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String          @unique @db.ObjectId
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)         
+
+  serviceProfileId  String          @db.ObjectId
+  service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+}
+
 model Day {
   id                String         @id @default(auto()) @map("_id") @db.ObjectId
-  serviceProfileId  String         @db.ObjectId
   type              DayType        @unique
   from              DateTime
   to                DateTime
+  
+  serviceProfileId  String         @db.ObjectId
   service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 

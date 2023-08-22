@@ -1,5 +1,5 @@
 import { Button, styled } from "@mui/material";
-import React, { ReactNode } from "react";
+import React, { MouseEvent, ReactNode } from "react";
 
 const StyledButton = styled(Button)(({ theme }) => ({
     minWidth: "5rem",
@@ -8,7 +8,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
     fontWeight: "500",
     padding: ".2rem",
     textTransform: "inherit",
-    backgroundBlendMode: "soft-lighten",
+    backgroundBlendMode: "lighten",
 }));
 
 interface ButtonProps {
@@ -18,7 +18,7 @@ interface ButtonProps {
     startIcon?: ReactNode;
     size?: "small" | "medium" | "large";
     text: string;
-    onClick?: () => void;
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
     type?: "button" | "submit" | "reset" | undefined;
     variant?: "contained" | "outlined" | "text";
 }

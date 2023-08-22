@@ -1,7 +1,6 @@
 // Buttons
 export { default as GoogleSigninButton } from "./button/GoogleSigninButton";
 export { default as FacebookSigninButton } from "./button/FacebookSigninButton";
-export { default as PrimaryButton } from "./button/PrimaryButton";
 export { default as CustomButton } from "./button/CustomButton";
 // Navigation
 export { default as AppBar } from "./navigation/AppBar";
@@ -14,6 +13,7 @@ export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as SearchCard } from "./cards/SearchCard";
 export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 export { default as LocationCard } from "./cards/LocationCard";
+export { default as ImageUploadCard } from "./cards/ImageUploadCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
