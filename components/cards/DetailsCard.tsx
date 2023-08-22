@@ -10,7 +10,7 @@ const DetailsCard = ({ business }: any) => {
         const getUser = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:3000/api/users/${business.service.userId}`,
+                    `http://localhost:3000/api/users/${business?.service.userId}`,
                     {
                         method: "GET",
                     }
@@ -27,13 +27,11 @@ const DetailsCard = ({ business }: any) => {
             }
         };
         getUser();
-    }, [business.service.userId]);
+    }, [business?.service.userId]);
 
     if (!business) {
         return <div>Select a business to view details.</div>;
     }
-
-    console.log(user);
 
     return (
         <CustomDashboardCard>
