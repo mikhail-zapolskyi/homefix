@@ -25,6 +25,7 @@ export async function GET() {
             where: { id },
             include: {
                 location: true,
+                businesses: true,
             },
         });
         return NextResponse.json(users);
