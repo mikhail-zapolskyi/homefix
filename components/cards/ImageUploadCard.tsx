@@ -19,9 +19,7 @@ const UplodArea = styled("div")(({ theme }) => ({
 
 interface ImageUploadCardProps {
     variant?: "circular" | "rounded" | "square";
-    data: {
-        image: string;
-    };
+    data?: Record<string, any>;
     handleCallback?: (file: File) => void;
 }
 
@@ -93,7 +91,7 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
                 sx={{ display: "flex", justifyContent: "center" }}
             >
                 <Avatar
-                    src={data.image}
+                    src={data?.image}
                     variant={variant}
                     alt="Avatar"
                     sx={{

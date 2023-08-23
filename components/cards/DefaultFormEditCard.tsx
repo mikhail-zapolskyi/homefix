@@ -52,6 +52,25 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
         }
     };
 
+    const isImageOrRating = (key: string) => {
+        if (key === "image" || key === "rating") {
+            return true;
+        }
+
+        return false;
+    };
+
+    const isTextAreaNeeded = (key: string) => {
+        if (
+            key === "bio" ||
+            key === "schedualPolicy" ||
+            key === "introduction"
+        ) {
+            return true;
+        }
+        return false;
+    };
+
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
     const renderEditButton = (
         <CustomButton
@@ -66,7 +85,7 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
             {data &&
                 Object.entries(data).map(
                     ([key, value]) =>
-                        key !== "image" && (
+                        !isImageOrRating(key) && (
                             <Grid
                                 item
                                 xs={12}
@@ -95,55 +114,55 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
     const renderEditInfo = (
         <Grid container item spacing={2} xs={12}>
             {data &&
-                Object.entries(data).map(
-                    ([key, value]) =>
-                        key !== "image" &&
-                        (key === "bio" ||
-                        key === "schedualPolicy" ||
-                        key === "introduction" ? (
-                            <Grid
-                                item
-                                xs={12}
-                                key={key}
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                    :
-                                </Typography>
-                                <TextareaAutosize
-                                    name={key}
-                                    placeholder={value}
-                                />
-                            </Grid>
-                        ) : (
-                            <Grid
-                                item
-                                xs={6}
-                                key={key}
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                    :
-                                </Typography>
-                                <CustomTextField
-                                    name={key}
-                                    type={isNaN(value) ? "text" : "number"}
-                                    placeholder={
-                                        isNaN(value) ? value : value.toString()
-                                    }
-                                    value={formData && formData[key]}
-                                    onChange={handleFormData}
-                                />
-                            </Grid>
-                        ))
+                Object.entries(data).map(([key, value]) =>
+                    !isImageOrRating(key) && isTextAreaNeeded(key) ? (
+                        <Grid
+                            item
+                            xs={12}
+                            key={key}
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                        >
+                            <Typography variant="body1">
+                                {key.charAt(0).toUpperCase() + key.slice(1)}:
+                            </Typography>
+                            <TextareaAutosize name={key} placeholder={value} />
+                        </Grid>
+                    ) : (
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            key={key}
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                        >
+                            <Typography variant="body1">
+                                {key.charAt(0).toUpperCase() + key.slice(1)}:
+                            </Typography>
+                            <CustomTextField
+                                name={key}
+                                type={
+                                    value !== null &&
+                                    isNaN(value) &&
+                                    isNaN(value)
+                                        ? "text"
+                                        : "number"
+                                }
+                                placeholder={
+                                    value !== null && isNaN(value)
+                                        ? value
+                                        : value.toString()
+                                }
+                                value={formData && formData[key]}
+                                onChange={handleFormData}
+                            />
+                        </Grid>
+                    )
                 )}
         </Grid>
     );

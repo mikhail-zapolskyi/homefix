@@ -81,11 +81,12 @@ model ServiceProfile {
   experience       Int?         @default(0)
   bio              String?      @default("Service Bio")
   image            String?     
-  specialtiesDo    String[]     @default(["Service You can do"])
-  specialtiesNo    String[]     @default(["Service YOu can't do"])
   employees        Int?         @default(1)
   hiredTimes       Int?         @default(0)
-  bgChecked        Boolean?     @default(false)
+  bgChecked        Boolean      @default(false)
+  published        Boolean      @default(false)
+  specialtiesDo    String[]     @default(["Service You can do"])
+  specialtiesNo    String[]     @default(["Service YOu can't do"])
   paymentMethods   String[]     @default(["Service Payment Methods"])
   schedualPolicy   String?      @default("Service schedual policy")
   businessHours    Day[]        
@@ -94,7 +95,6 @@ model ServiceProfile {
   categories       Category[]
   location         Location[]
   customers        Customer[]
-  published        Boolean     @default(false)
   user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String     @unique @db.ObjectId 
 }

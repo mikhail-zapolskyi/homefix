@@ -50,6 +50,7 @@ export async function GET() {
 
         return NextResponse.json(serviceProfile);
     } catch (error) {
+        console.log(error);
         return handlePrismaError(error);
     }
 }
