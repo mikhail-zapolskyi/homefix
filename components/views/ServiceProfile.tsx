@@ -32,6 +32,7 @@ const ServiceProfile: React.FC<ServiceProfileProps> = () => {
         }
 
         console.log(file);
+        toast("Image updated");
     };
 
     const handleCallbackFormDetails = (details: Record<string, any>) => {
@@ -39,7 +40,8 @@ const ServiceProfile: React.FC<ServiceProfileProps> = () => {
             return toast.error("Something went wrong");
         }
 
-        console.log(details);
+        setData({ ...data, ...details });
+        toast("Data updated");
     };
 
     return (

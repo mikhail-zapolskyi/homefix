@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { buildQueryObject } from "@/utils";
 import { Prisma } from "@prisma/client";
+import handlePrismaError from "@/prisma/prismaErrorHandler";
 
 const getServiceProfile = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
@@ -60,7 +61,6 @@ const createServiceProfile = async (req: NextRequest) => {
         return NextResponse.json(serviceProfiles);
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            console.log(error);
             if (error.code === "P2002") {
                 return NextResponse.json(
                     {
@@ -74,5 +74,61 @@ const createServiceProfile = async (req: NextRequest) => {
         console.log(error);
     }
 };
+
+export async function PUT(req: Request) {
+    const data = await req.json();
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+
+    const user = session.user;
+
+    if (!user || user.type !== "PRO") {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+
+    const userId = user.id;
+
+    if (!userId) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+    try {
+        const servPro = await prisma.serviceProfile.findUnique({
+            where: {
+                userId,
+            },
+        });
+
+        if (servPro === null) {
+            return NextResponse.json(
+                {
+                    error: "Service profile not found",
+                },
+                { status: 404 }
+            );
+        }
+
+        const serviceProfiles = await prisma.serviceProfile.update({
+            where: {
+                id: servPro.id,
+            },
+            data,
+        });
+        return NextResponse.json(serviceProfiles);
+    } catch (error) {
+        return handlePrismaError(error);
+    }
+}
 
 export { getServiceProfile as GET, createServiceProfile as POST };
