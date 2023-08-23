@@ -91,7 +91,6 @@ model ServiceProfile {
   businessHours    Day[] 
   reviews          Review[]
   posts            Post[]
-  clients          String[]
   categories       Category[]
   location         Location[]
   customers        Customer[]

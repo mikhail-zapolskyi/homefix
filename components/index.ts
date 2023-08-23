@@ -15,6 +15,7 @@ export { default as SearchCard } from "./cards/SearchCard";
 export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 export { default as LocationCard } from "./cards/LocationCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
+export { default as DefaultFormEditCard } from "./cards/DefaultFormEditCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
