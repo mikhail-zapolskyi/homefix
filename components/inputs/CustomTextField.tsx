@@ -13,7 +13,7 @@ import React from "react";
 interface TextFieldProps {
     type?: string;
     name: string;
-    placeholder?: string;
+    placeholder?: string | number;
     value?: string | number;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

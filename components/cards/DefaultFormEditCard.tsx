@@ -37,7 +37,11 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
 
     const handleFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        let value: string | number = e.target.value;
+        if (e.target.type === "number") {
+            value = parseFloat(e.target.value);
+        }
+        setFormData({ ...formData, [e.target.name]: value });
     };
 
     const handleSave = () => {
@@ -131,7 +135,10 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
                                 </Typography>
                                 <CustomTextField
                                     name={key}
-                                    placeholder={value}
+                                    type={isNaN(value) ? "text" : "number"}
+                                    placeholder={
+                                        isNaN(value) ? value : value.toString()
+                                    }
                                     value={formData && formData[key]}
                                     onChange={handleFormData}
                                 />
