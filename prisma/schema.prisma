@@ -72,26 +72,26 @@ model VerificationToken {
 }
 
 model ServiceProfile {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
-  name             String?    
-  email            String?   
-  phone            String?
-  rating           Float?      @default(0) @db.Double
-  introduction     String?
-  experience       Int?
-  bio              String?
-  image            String?
-  specialtiesDo    String[]
-  specialtiesNo    String[]
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  name             String?      @default("Service Name")
+  email            String?      @default("Service Email")
+  phone            String?      @default("Service Phone")
+  rating           Float?       @default(0) @db.Double
+  introduction     String?      @default("Service Indroduction")
+  experience       Int?         @default(0)
+  bio              String?      @default("Service Bio")
+  image            String?     
   employees        Int?         @default(1)
   hiredTimes       Int?         @default(0)
-  bgChecked        Boolean?    @default(false)
-  paymentMethods   String[]
-  schedualPolicy   String?
-  businessHours    Day[] 
+  bgChecked        Boolean      @default(false)
+  published        Boolean      @default(false)
+  specialtiesDo    String[]     @default(["Service You can do"])
+  specialtiesNo    String[]     @default(["Service YOu can't do"])
+  paymentMethods   String[]     @default(["Service Payment Methods"])
+  schedualPolicy   String?      @default("Service schedual policy")
+  businessHours    Day[]        
   reviews          Review[]
   posts            Post[]
-  clients          String[]
   categories       Category[]
   location         Location[]
   customers        Customer[]
@@ -113,7 +113,6 @@ model Day {
   type              DayType        @unique
   from              DateTime
   to                DateTime
-  
   serviceProfileId  String         @db.ObjectId
   service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }

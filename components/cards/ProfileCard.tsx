@@ -60,7 +60,6 @@ const ProfileCard = () => {
                 error: "Something went wrong",
             });
         } catch (error: any) {
-            console.log(error);
             throw new Error(error.message);
         }
     };
