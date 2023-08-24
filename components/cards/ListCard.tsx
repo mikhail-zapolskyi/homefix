@@ -1,9 +1,14 @@
 import { Grid, Avatar, Typography } from "@mui/material";
 import { CustomDashboardCard } from "@/components";
+import { Customer, ServiceProfile, User } from "@prisma/client";
 
+interface Business extends Customer {
+    user: User;
+    service: ServiceProfile;
+}
 interface Props {
-    data: Array<{}>;
-    handleClick: (business: any) => void;
+    data: Business[];
+    handleClick: (business: ServiceProfile) => void;
 }
 
 const ListCard = ({ data, handleClick }: Props) => {
@@ -11,7 +16,7 @@ const ListCard = ({ data, handleClick }: Props) => {
         <CustomDashboardCard>
             <Grid container rowSpacing={3}>
                 {data &&
-                    data.map((item: any) => (
+                    data.map((item: Business) => (
                         <Grid
                             container
                             item
@@ -23,7 +28,7 @@ const ListCard = ({ data, handleClick }: Props) => {
                                 justifyContent: "start",
                             }}
                             columnSpacing={2}
-                            onClick={() => handleClick(item)}
+                            onClick={() => handleClick(item.service)}
                         >
                             <Grid item>
                                 <Avatar

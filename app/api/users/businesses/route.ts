@@ -42,10 +42,19 @@ export async function POST(req: NextRequest) {
     }
 
     try {
+        const existingCustomer = await prisma.customer.findFirst({
+            where: { userId: id, serviceProfileId },
+        });
+        if (existingCustomer) {
+            return NextResponse.json("Customer already exists", {
+                status: 400,
+            });
+        }
+
         const newCustomer = await prisma.customer.create({
             data: { userId: id, serviceProfileId },
         });
-        return NextResponse.json(newCustomer);
+        return NextResponse.json(newCustomer, { status: 201 });
     } catch (error) {
         return NextResponse.error();
     }

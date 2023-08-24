@@ -2,11 +2,17 @@
 
 import { DetailsCard, ListCard } from "@/components";
 import { Grid } from "@mui/material";
+import { Customer, ServiceProfile, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
+interface Business extends Customer {
+    user: User;
+    service: ServiceProfile;
+}
+
 const Businesses = async () => {
-    const [businesses, setBusinesses] = useState([]);
-    const [service, setService] = useState(null);
+    const [businesses, setBusinesses] = useState<Business[]>([]);
+    const [service, setService] = useState<ServiceProfile | null>(null);
 
     const getBusinesses = async () => {
         try {
@@ -18,7 +24,7 @@ const Businesses = async () => {
             );
 
             if (response.ok) {
-                const data = await response.json();
+                const data = (await response.json()) as Business[];
                 setBusinesses(data);
                 return;
             }
@@ -28,7 +34,7 @@ const Businesses = async () => {
         }
     };
 
-    const handleClick = (business: any) => {
+    const handleClick = (business: ServiceProfile) => {
         setService(business);
     };
 
