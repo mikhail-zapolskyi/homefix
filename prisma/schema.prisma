@@ -101,7 +101,7 @@ model ServiceProfile {
 
 model Customer {
   id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String          @unique @db.ObjectId
+  userId            String          @db.ObjectId
   user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)         
 
   serviceProfileId  String          @db.ObjectId
@@ -113,7 +113,6 @@ model Day {
   type              DayType        @unique
   from              DateTime
   to                DateTime
-  
   serviceProfileId  String         @db.ObjectId
   service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }

@@ -1,11 +1,11 @@
 const buildQueryObject = (searchParams: URLSearchParams) => {
-    const paramsObject = [];
+    const paramsObject: Record<string, any> = {};
     console.log(searchParams);
     for (const [key, value] of Array.from(searchParams.entries())) {
         if (key === "rating") {
-            paramsObject.push({ [key]: { gte: Number(value) } });
+            paramsObject[key] = { gte: Number(value) };
         } else {
-            paramsObject.push({ [key]: value });
+            paramsObject[key] = value;
         }
     }
 
@@ -16,9 +16,6 @@ const buildQueryObject = (searchParams: URLSearchParams) => {
         query = {
             where: {
                 AND: paramsObject,
-                NOT: {
-                    serviceProfileId: null,
-                },
             },
             include: {
                 service: true,
