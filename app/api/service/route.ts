@@ -152,6 +152,7 @@ export async function PUT(req: Request) {
         // Return a JSON response with the updated service profile
         return NextResponse.json(serviceProfiles);
     } catch (error) {
+        console.log(error);
         // Handle any errors that occur during the process
         return handlePrismaError(error);
     }

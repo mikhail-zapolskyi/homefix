@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "../button/CustomButton";
-import { Divider, Grid, Rating, Typography } from "@mui/material";
+import { Grid, Rating, Typography } from "@mui/material";
 import CustomDashboardCard from "./CustomDashboardCard";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import StarIcon from "@mui/icons-material/Star";
@@ -14,16 +14,19 @@ const FormPublishEditCard: React.FC<FormPublishEditCardProps> = ({
     data,
     handleCallback,
 }) => {
-    const [formData, setFormData] = useState<Record<string, any> | undefined>(
-        data
-    );
+    const [formData, setFormData] = useState<Record<string, any>>({
+        rating: 0,
+    });
 
     useEffect(() => {
-        setFormData(data);
+        setFormData({ ...formData, ...data });
     }, [data]);
 
     const handleSave = () => {
-        const newData = { ...formData, published: !formData?.published };
+        const newData = {
+            ...formData,
+            published: !formData?.published,
+        };
 
         if (handleCallback && formData) {
             handleCallback(newData);
@@ -58,7 +61,7 @@ const FormPublishEditCard: React.FC<FormPublishEditCardProps> = ({
                     >
                         <Rating
                             name="text-feedback"
-                            value={formData?.rating}
+                            value={formData ? formData.rating : 0}
                             readOnly
                             precision={0.1}
                             emptyIcon={
@@ -69,7 +72,7 @@ const FormPublishEditCard: React.FC<FormPublishEditCardProps> = ({
                             }
                         />
                         <Typography variant="h6" ml={2}>
-                            {data?.rating}
+                            {formData?.rating || 0}
                         </Typography>
                     </Grid>
                 </Grid>
