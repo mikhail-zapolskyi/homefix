@@ -12,7 +12,11 @@ const Profile = () => {
         throw new Error(error.message);
     }
 
-    return isLoading ? <Loader /> : <UserProfile data={data} />;
+    return isLoading ? (
+        <Loader />
+    ) : (
+        <UserProfile data={data} location={data.location[0]} />
+    );
 };
 
 export default Profile;

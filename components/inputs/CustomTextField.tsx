@@ -39,6 +39,7 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
     name,
     onChange,
     value,
+    placeholder,
     type = "text",
 }) => {
     const [showPassword, setShowPassword] = React.useState(false);
