@@ -2,6 +2,7 @@
 export { default as GoogleSigninButton } from "./button/GoogleSigninButton";
 export { default as FacebookSigninButton } from "./button/FacebookSigninButton";
 export { default as CustomButton } from "./button/CustomButton";
+export { default as ImageUploadButton } from "./button/ImageUploadButton";
 // Navigation
 export { default as AppBar } from "./navigation/AppBar";
 export { default as SlideMenu } from "./navigation/SlideMenu";

@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Avatar, Typography, Button, Grid } from "@mui/material";
+import { Avatar, Typography, Grid } from "@mui/material";
 import {
     CustomTextField,
     CustomDashboardCard,
     CustomButton,
+    ImageUploadButton,
 } from "@/components";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
@@ -42,6 +43,10 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
             value = parseFloat(e.target.value);
         }
         setFormData({ ...formData, [e.target.name]: value });
+    };
+
+    const handleUploadImage = (file: File) => {
+        console.log(file);
     };
 
     const renderUserInfo = (
@@ -146,15 +151,14 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
                             </Grid>
                             <Grid container item xs={8}>
                                 <Grid item xs={12}>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{ marginLeft: 0.8 }}
-                                    >
+                                    <Typography variant="body1">
                                         {formData?.name}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button size="small">Upload Photo</Button>
+                                    <ImageUploadButton
+                                        handleCallback={handleUploadImage}
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>
