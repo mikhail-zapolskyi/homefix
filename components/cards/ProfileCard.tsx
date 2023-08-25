@@ -1,80 +1,133 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Typography, Button, Grid } from "@mui/material";
 import {
     CustomTextField,
     CustomDashboardCard,
-    Loader,
     CustomButton,
 } from "@/components";
-import { useSession } from "next-auth/react";
-import useSWR from "swr";
-import axios from "axios";
-import { toast } from "react-toastify";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
-const fetcher = (url: URL) => fetch(url).then((r) => r.json());
+interface ProfileCard {
+    data?: Record<string, any>;
+    handleCallback?: (formData: Record<string, any>) => void;
+}
 
-const initialState = {
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
-};
+type EditMode = true | false;
 
-const ProfileCard = () => {
-    const [formData, setFormData] = useState(initialState);
-    const { data: session, status } = useSession();
-    const { data, error, isLoading } = useSWR("/api/users", fetcher);
+const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
+    const [editMode, setEditMode] = useState<EditMode>(false);
+    const [formData, setFormData] = useState<Record<string, any>>();
 
-    if (error) {
-        throw new Error(error.message);
-    }
+    useEffect(() => {
+        setFormData({ ...formData, ...data });
+    }, [data]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleEditMode = () => {
+        setEditMode(!editMode);
     };
 
-    const renderFields = Object.entries(formData).map(([key, value]) => (
-        <Grid item xs={12} sm={6} key={key}>
-            <CustomTextField
-                name={key}
-                value={value}
-                type={key === "password" ? "password" : undefined}
-                onChange={handleChange}
-                placeholder={
-                    (!isLoading && key !== "password" && data[key]) || key
-                }
-            />
-        </Grid>
-    ));
+    const handleSave = () => {
+        setEditMode(!editMode);
 
-    const handleSave = async () => {
-        const notEmptyData = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => value !== "")
-        );
-
-        try {
-            toast.promise(axios.put("/api/users", notEmptyData), {
-                success: "Changes Saved",
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+        if (handleCallback && formData) {
+            handleCallback(formData);
         }
     };
 
+    const handleFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        let value: string | number = e.target.value;
+        if (e.target.type === "number") {
+            value = parseFloat(e.target.value);
+        }
+        setFormData({ ...formData, [e.target.name]: value });
+    };
+
+    const renderUserInfo = (
+        <Grid container item xs={12} spacing={2}>
+            {formData &&
+                Object.entries(formData).map(
+                    ([key, value]) =>
+                        key !== "image" &&
+                        key !== "password" && (
+                            <Grid
+                                item
+                                xs={12}
+                                sm={9}
+                                key={key}
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <Typography variant="body1">
+                                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                                    :
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ fontWeight: 800 }}
+                                >
+                                    {value}
+                                </Typography>
+                            </Grid>
+                        )
+                )}
+        </Grid>
+    );
+
+    const renderUserEditFields = (
+        <Grid container item spacing={2} xs={12}>
+            {formData &&
+                Object.entries(formData).map(
+                    ([key, value]) =>
+                        key !== "image" && (
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                key={key}
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <CustomTextField
+                                    name={key}
+                                    type={
+                                        key === "password" ? "password" : "text"
+                                    }
+                                    value={formData.value}
+                                    onChange={handleFormData}
+                                />
+                            </Grid>
+                        )
+                )}
+        </Grid>
+    );
+
+    const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
+    const renderEditButton = (
+        <CustomButton
+            text="Edit"
+            onClick={handleEditMode}
+            endIcon={<DriveFileRenameOutlineIcon />}
+        />
+    );
+    const renderMessageButton = (
+        <CustomButton text="Message" variant="contained" />
+    );
+
     return (
         <CustomDashboardCard>
-            {isLoading ? (
-                <Loader />
-            ) : (
+            {formData && (
                 <Grid container rowSpacing={3}>
                     <Grid container item xs={12}>
                         <Grid
                             container
                             item
-                            sm={8}
+                            sm={6}
                             sx={{
                                 alignItems: "center",
                                 justifyContent: "start",
@@ -83,7 +136,7 @@ const ProfileCard = () => {
                         >
                             <Grid item>
                                 <Avatar
-                                    src={`${session?.user.image}`}
+                                    src={`${formData.image}`}
                                     alt={`${formData?.name}`}
                                     sx={{
                                         width: 70,
@@ -97,7 +150,7 @@ const ProfileCard = () => {
                                         variant="body1"
                                         sx={{ marginLeft: 0.8 }}
                                     >
-                                        {formData?.name || data.name}
+                                        {formData?.name}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -108,28 +161,17 @@ const ProfileCard = () => {
                         <Grid
                             container
                             item
-                            xs={12}
-                            sm={4}
+                            sm={6}
                             sx={{
-                                margin: "2rem auto",
-                                alignItems: { xs: "center" },
-                                justifyContent: {
-                                    xs: "space-around",
-                                    sm: "end",
-                                },
+                                alignItems: "center",
+                                justifyContent: "end",
                             }}
+                            columnSpacing={1}
                         >
-                            <CustomButton
-                                size="small"
-                                text="Message"
-                                variant="text"
-                            />
-                            <CustomButton
-                                size="small"
-                                text="Save"
-                                variant="text"
-                                onClick={handleSave}
-                            />
+                            <Grid item>{renderMessageButton}</Grid>
+                            <Grid item>
+                                {editMode ? renderSaveButton : renderEditButton}
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid
@@ -140,7 +182,7 @@ const ProfileCard = () => {
                         spacing={2}
                         sx={{ maxWidth: 600 }}
                     >
-                        {renderFields}
+                        {editMode ? renderUserEditFields : renderUserInfo}
                     </Grid>
                 </Grid>
             )}

@@ -9,6 +9,7 @@ export { default as MenuOption } from "./navigation/MenuOption";
 // Views
 export { default as ProductHero } from "./views/ProductHero";
 export { default as ServiceProfile } from "./views/ServiceProfile";
+export { default as UserProfile } from "./views/UserProfile";
 // Cards
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as SearchCard } from "./cards/SearchCard";

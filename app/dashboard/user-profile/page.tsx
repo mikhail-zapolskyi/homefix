@@ -1,19 +1,18 @@
 "use client";
 
-import { LocationCard, ProfileCard } from "@/components";
-import { Grid } from "@mui/material";
+import { Loader, UserProfile } from "@/components";
+import useSWR from "swr";
+
+const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const Profile = () => {
-    return (
-        <Grid container rowSpacing={2}>
-            <Grid item xs={12}>
-                <ProfileCard />
-            </Grid>
-            <Grid item xs={12}>
-                <LocationCard />
-            </Grid>
-        </Grid>
-    );
+    const { data, error, isLoading } = useSWR("/api/users/single", fetcher);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return isLoading ? <Loader /> : <UserProfile data={data} />;
 };
 
 export default Profile;
