@@ -7,7 +7,7 @@ interface Business extends Customer {
     service: ServiceProfile;
 }
 interface Props {
-    data: Business[];
+    data?: Business[];
     handleClick: (business: ServiceProfile) => void;
 }
 

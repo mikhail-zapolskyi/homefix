@@ -8,12 +8,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-interface UserProfileProps {
+interface UserProfileViewProps {
     data?: User;
     location?: Location;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ data, location }) => {
+const UserProfileView: React.FC<UserProfileViewProps> = ({
+    data,
+    location,
+}) => {
     const [formData, setFormData] = useState<User>();
     const [locationFormData, setLocationFormData] = useState<Location>();
 
@@ -66,24 +69,29 @@ const UserProfile: React.FC<UserProfileProps> = ({ data, location }) => {
                         handleCallback={handleSave}
                     />
                 </Grid>
-                {locationFormData && (
+                {
                     <Grid item xs={12}>
                         <LocationCard
                             title="Personal Address"
-                            location={{
-                                address: locationFormData.address,
-                                city: locationFormData.city,
-                                state: locationFormData.state,
-                                country: locationFormData.country,
-                                postalCode: locationFormData.postalCode,
-                            }}
+                            location={
+                                locationFormData
+                                    ? {
+                                          address: locationFormData.address,
+                                          city: locationFormData.city,
+                                          state: locationFormData.state,
+                                          country: locationFormData.country,
+                                          postalCode:
+                                              locationFormData.postalCode,
+                                      }
+                                    : {}
+                            }
                             handleCallback={handleLocationSave}
                         />
                     </Grid>
-                )}
+                }
             </Grid>
         )
     );
 };
 
-export default UserProfile;
+export default UserProfileView;

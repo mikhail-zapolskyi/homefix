@@ -9,7 +9,6 @@ import {
 import { Grid, SelectChangeEvent, Typography } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import useSWR from "swr";
-import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 
 const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 

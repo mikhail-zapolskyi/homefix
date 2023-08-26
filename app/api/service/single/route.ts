@@ -37,6 +37,9 @@ export async function GET() {
             where: {
                 userId,
             },
+            include: {
+                location: true,
+            },
         });
 
         if (!serviceProfile) {

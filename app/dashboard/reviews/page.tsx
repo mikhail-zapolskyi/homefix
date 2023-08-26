@@ -30,6 +30,7 @@ const data = [
 ];
 
 const UserReviews = () => {
+    const handleClick = () => {};
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -39,7 +40,7 @@ const UserReviews = () => {
             </Grid>
             <Grid item container xs={12} spacing={2}>
                 <Grid item xs={12} md={4}>
-                    <ListCard data={data} />
+                    <ListCard handleClick={handleClick} />
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <ReviewCard />

@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, UserProfile } from "@/components";
+import { Loader, UserProfileView } from "@/components";
 import useSWR from "swr";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
@@ -15,7 +15,7 @@ const Profile = () => {
     return isLoading ? (
         <Loader />
     ) : (
-        <UserProfile data={data} location={data.location[0]} />
+        <UserProfileView data={data} location={data.location[0]} />
     );
 };
 
