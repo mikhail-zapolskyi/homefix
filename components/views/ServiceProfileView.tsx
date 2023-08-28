@@ -137,7 +137,6 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                         title="Business Location"
                         handleCallback={handleLocationSave}
                     />
-                    )
                 </Grid>
             </Grid>
         </Grid>

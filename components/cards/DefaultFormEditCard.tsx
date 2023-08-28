@@ -138,9 +138,6 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
                                 flexDirection: "column",
                             }}
                         >
-                            <Typography variant="body1">
-                                {key.charAt(0).toUpperCase() + key.slice(1)}:
-                            </Typography>
                             <CustomTextField
                                 name={key}
                                 type={
