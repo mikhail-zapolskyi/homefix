@@ -86,10 +86,15 @@ export async function PUT(req: Request) {
     try {
         // Parse the JSON data from the request
         const data = await req.json();
-        console.log(data);
-        // Remove the 'id' and 'userId' properties from the data to prevent it from being updated
+        // Remove properties from the data to prevent it from being updated. Because it throw an error due to incorrect value
         delete data.id;
         delete data.userId;
+        delete data.location;
+        delete data.businessHours;
+        delete data.reviews;
+        delete data.posts;
+        delete data.categories;
+        delete data.customers;
 
         // Retrieve the user's session to check authorization
         const session = await getServerSession(authOptions);

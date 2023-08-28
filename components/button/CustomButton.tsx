@@ -21,6 +21,14 @@ interface ButtonProps {
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
     type?: "button" | "submit" | "reset" | undefined;
     variant?: "contained" | "outlined" | "text";
+    color?:
+        | "inherit"
+        | "primary"
+        | "secondary"
+        | "success"
+        | "error"
+        | "info"
+        | "warning";
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
@@ -33,6 +41,7 @@ const CustomButton: React.FC<ButtonProps> = ({
     size = "small",
     type,
     variant = "outlined",
+    color = "primary",
 }) => {
     return (
         <StyledButton
@@ -44,6 +53,7 @@ const CustomButton: React.FC<ButtonProps> = ({
             startIcon={startIcon}
             size={size}
             type={type}
+            color={color}
         >
             {text}
         </StyledButton>

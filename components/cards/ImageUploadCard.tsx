@@ -1,4 +1,10 @@
-import React, { DragEvent, MouseEvent, useState } from "react";
+import React, {
+    ChangeEvent,
+    DragEvent,
+    MouseEvent,
+    useRef,
+    useState,
+} from "react";
 import { CustomButton, CustomDashboardCard } from "@/components";
 import { Avatar, Grid, Typography, styled } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -23,6 +29,10 @@ interface ImageUploadCardProps {
     handleCallback?: (file: File) => void;
 }
 
+const UplodInput = styled("input")(() => ({
+    display: "none",
+}));
+
 const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
     variant,
     data,
@@ -32,6 +42,7 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
     const [dragFile, setDragFile] = useState(false);
     const [file, setFile] = useState<File>();
     const [fileDetails, setFileDetails] = useState({ name: "", size: 0 });
+    const fileInput = useRef<HTMLInputElement>(null);
 
     const handleEditStateMode = () => {
         setEditMode(!editMode);
@@ -69,7 +80,13 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
         });
     };
 
-    const handleSave = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleClick = () => {
+        if (fileInput.current) {
+            fileInput.current.click();
+        }
+    };
+
+    const handleDropSave = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         if (handleCallback && file) {
@@ -81,6 +98,30 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
             name: "",
             size: 0,
         });
+    };
+
+    const handleInputSave = (e: ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+
+        if (!e.target.files) {
+            return;
+        }
+
+        const uploadedFile = e.target.files[0];
+        const type = uploadedFile.type;
+
+        if (!type.startsWith("image/")) {
+            toast.error("Please upload image only");
+            return;
+        }
+
+        if (handleCallback && uploadedFile) {
+            handleCallback(uploadedFile);
+        }
+    };
+
+    const handleCancel = () => {
+        setEditMode(false);
     };
 
     const renderImage = (
@@ -166,11 +207,39 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
                 </UplodArea>
             </Grid>
             <Grid
+                container
                 item
                 xs={12}
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{ justifyContent: "center" }}
+                spacing={1}
             >
-                <CustomButton text="Save" fullWidth onClick={handleSave} />
+                <Grid item xs={12}>
+                    <CustomButton
+                        text="Uplolad File"
+                        fullWidth
+                        onClick={handleClick}
+                    />
+                    <UplodInput
+                        ref={fileInput}
+                        type="file"
+                        onChange={handleInputSave}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <CustomButton
+                        text="Save"
+                        fullWidth
+                        onClick={handleDropSave}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <CustomButton
+                        text="Cancel"
+                        fullWidth
+                        onClick={handleCancel}
+                        color="warning"
+                    />
+                </Grid>
             </Grid>
         </>
     );

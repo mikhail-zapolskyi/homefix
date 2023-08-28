@@ -87,6 +87,10 @@ const LocationCard: React.FC<LocationCardProps> = ({
         }
     };
 
+    const handleCancel = () => {
+        setEditMode(false);
+    };
+
     const renderLocatoinDetails = (
         <Grid container item xs={12} spacing={2} component="form" noValidate>
             {formData &&
@@ -211,6 +215,9 @@ const LocationCard: React.FC<LocationCardProps> = ({
     );
 
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
+    const renderCancelButton = (
+        <CustomButton text="Cancel" color="warning" onClick={handleCancel} />
+    );
     const renderEditButton = (
         <CustomButton
             text="Edit"
@@ -235,8 +242,16 @@ const LocationCard: React.FC<LocationCardProps> = ({
                     item
                     xs={6}
                     sx={{ alignItems: "center", justifyContent: "end" }}
+                    spacing={1}
                 >
-                    {editMode ? renderSaveButton : renderEditButton}
+                    {editMode ? (
+                        <>
+                            <Grid item>{renderSaveButton}</Grid>
+                            <Grid item>{renderCancelButton}</Grid>
+                        </>
+                    ) : (
+                        renderEditButton
+                    )}
                 </Grid>
                 {editMode ? renderEditLocation : renderLocatoinDetails}
             </Grid>

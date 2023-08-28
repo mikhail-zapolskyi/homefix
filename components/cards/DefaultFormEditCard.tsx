@@ -71,7 +71,14 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
         return false;
     };
 
+    const handleCancel = () => {
+        setEditMode(false);
+    };
+
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
+    const renderCancelButton = (
+        <CustomButton text="Cancel" color="warning" onClick={handleCancel} />
+    );
     const renderEditButton = (
         <CustomButton
             text="Edit"
@@ -141,9 +148,7 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
                             <CustomTextField
                                 name={key}
                                 type={
-                                    value !== null &&
-                                    isNaN(value) &&
-                                    isNaN(value)
+                                    value !== null && isNaN(value)
                                         ? "text"
                                         : "number"
                                 }
@@ -177,8 +182,16 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
                     item
                     xs={6}
                     sx={{ alignItems: "center", justifyContent: "end" }}
+                    spacing={1}
                 >
-                    {editMode ? renderSaveButton : renderEditButton}
+                    {editMode ? (
+                        <>
+                            <Grid item>{renderSaveButton}</Grid>
+                            <Grid item>{renderCancelButton}</Grid>
+                        </>
+                    ) : (
+                        renderEditButton
+                    )}
                 </Grid>
                 {editMode ? renderEditInfo : renderInfo}
             </Grid>

@@ -111,8 +111,14 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
                 )}
         </Grid>
     );
+    const handleCancel = () => {
+        setEditMode(false);
+    };
 
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
+    const renderCancelButton = (
+        <CustomButton text="Cancel" color="warning" onClick={handleCancel} />
+    );
     const renderEditButton = (
         <CustomButton
             text="Edit"
@@ -172,10 +178,17 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
                             }}
                             columnSpacing={1}
                         >
-                            <Grid item>{renderMessageButton}</Grid>
-                            <Grid item>
-                                {editMode ? renderSaveButton : renderEditButton}
-                            </Grid>
+                            {editMode ? (
+                                <>
+                                    <Grid item>{renderSaveButton}</Grid>
+                                    <Grid item>{renderCancelButton}</Grid>
+                                </>
+                            ) : (
+                                <>
+                                    <Grid item>{renderMessageButton}</Grid>
+                                    <Grid item>{renderEditButton}</Grid>
+                                </>
+                            )}
                         </Grid>
                     </Grid>
                     <Grid
