@@ -19,6 +19,7 @@ export { default as LocationCard } from "./cards/LocationCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
 export { default as DefaultFormEditCard } from "./cards/DefaultFormEditCard";
 export { default as FormPublishEditCard } from "./cards/FormPublishEditCard";
+export { default as BusinessHoursditCard } from "./cards/BusinessHoursditCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs

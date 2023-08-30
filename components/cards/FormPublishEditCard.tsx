@@ -91,6 +91,7 @@ const FormPublishEditCard: React.FC<FormPublishEditCardProps> = ({
                         endIcon={<PublishedWithChangesIcon />}
                         onClick={handleSave}
                         variant="contained"
+                        color={formData.published ? "warning" : "primary"}
                         fullWidth
                     />
                 </Grid>

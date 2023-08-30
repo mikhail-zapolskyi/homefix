@@ -3,25 +3,28 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ServiceProfile, Location } from "@prisma/client";
+import { ServiceProfile, Location, Day } from "@prisma/client";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import {
     DefaultFormEditCard,
     FormPublishEditCard,
     ImageUploadCard,
     LocationCard,
+    BusinessHoursditCard,
 } from "@/components";
 import { Grid } from "@mui/material";
 
 interface ServiceProfileViewProps {
     data?: ServiceProfile;
     location?: Location;
+    businessHours?: Day[];
 }
 
 // Define the ServiceProfile component
 const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     data,
     location,
+    businessHours,
 }) => {
     // Use SWR to fetch data from "/api/service/single"
     const [formData, setFormData] = useState<ServiceProfile>();
@@ -82,6 +85,10 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
         }
     };
 
+    const handleBusinessHoursSave = (data: Record<string, any>[]) => {
+        console.log(data);
+    };
+
     // Render a loading spinner while data is being fetched
     return (
         <Grid container spacing={2}>
@@ -136,6 +143,14 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                         }
                         title="Business Location"
                         handleCallback={handleLocationSave}
+                    />
+                </Grid>
+            </Grid>
+            <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
+                <Grid item xs={12} lg={9}>
+                    <BusinessHoursditCard
+                        businessHours={businessHours}
+                        handleCallback={handleBusinessHoursSave}
                     />
                 </Grid>
             </Grid>

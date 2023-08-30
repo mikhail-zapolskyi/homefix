@@ -17,7 +17,11 @@ const Page = () => {
     return isLoading ? (
         <Loader />
     ) : (
-        <ServiceProfileView data={data} location={data.location[0]} />
+        <ServiceProfileView
+            data={data}
+            location={data.location[0]}
+            businessHours={data.businessHours}
+        />
     );
 };
 

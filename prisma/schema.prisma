@@ -111,18 +111,12 @@ model Customer {
 model Day {
   id                String         @id @default(auto()) @map("_id") @db.ObjectId
   type              DayType        @unique
-  from              DateTime
-  to                DateTime
+  from              String
+  to                String
   serviceProfileId  String         @db.ObjectId
   service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
-model Category {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  title             String
-  serviceProfileId  String         @db.ObjectId
-  service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-}
 
 enum DayType {
   MONDAY
@@ -132,6 +126,13 @@ enum DayType {
   FRIDAY
   SATURDAY
   SUNDAY
+}
+
+model Category {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  serviceProfileId  String         @db.ObjectId
+  service           ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
 model Review {

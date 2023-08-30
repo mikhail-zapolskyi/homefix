@@ -39,6 +39,7 @@ export async function GET() {
             },
             include: {
                 location: true,
+                businessHours: true,
             },
         });
 
