@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomDashboardCard from "./CustomDashboardCard";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, styled } from "@mui/material";
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
@@ -13,6 +13,20 @@ interface BusinessHoursditCardProps {
 
 // Define a type for the edit mode (true or false)
 type EditMode = true | false;
+
+// Style Input
+
+const StyledTimeInput = styled("input")(({ theme }) => ({
+    minWidth: "7rem",
+    padding: ".5rem",
+    borderRadius: "0.8rem",
+    border: `solid 1px lightgray`,
+    background: "transparent",
+    "&:active": {
+        border: `solid 1px ${theme.palette.primary.light}`,
+    },
+    fontFamily: `${theme.typography.body1}`,
+}));
 
 // Define the BusinessHoursditCard component
 const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
@@ -174,7 +188,7 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
                                         ([key, value], i) =>
                                             key === "from" || key === "to" ? (
                                                 <Grid item key={day + key}>
-                                                    <input
+                                                    <StyledTimeInput
                                                         type="time"
                                                         name={key}
                                                         value={value}

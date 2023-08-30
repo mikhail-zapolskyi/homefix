@@ -25,7 +25,7 @@ const StyledTextField = styled(OutlinedInput)(({ theme }) => ({
     },
     ".MuiInputBase-input": {
         "&:-webkit-autofill": {
-            borderRadius: "1rem",
+            borderRadius: "0.8rem",
         },
     },
 }));
