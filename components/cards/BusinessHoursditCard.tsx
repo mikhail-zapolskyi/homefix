@@ -59,6 +59,11 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
 
     // Function to cancel editing
     const handleCancel = () => {
+        const newData = [...formData].filter((day) => {
+            return businessHours?.includes(day);
+        });
+        console.log(newData);
+        setFormData(newData);
         setEditMode(false);
     };
 
@@ -139,7 +144,7 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
                             item
                             xs={12}
                             sm={9}
-                            key={time.id}
+                            key={time.type}
                             sx={{
                                 display: "flex",
                                 flexDirection: "row",
@@ -187,7 +192,7 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
                                     {Object.entries(existingDayData).map(
                                         ([key, value], i) =>
                                             key === "from" || key === "to" ? (
-                                                <Grid item key={day + key}>
+                                                <Grid item key={key + i}>
                                                     <StyledTimeInput
                                                         type="time"
                                                         name={key}

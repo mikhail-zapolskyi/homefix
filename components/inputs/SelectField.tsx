@@ -24,13 +24,13 @@ interface SelectFieldProps {
 }
 
 interface StyledSelectProps extends SelectProps {
-    padSize?: "small" | "default";
+    padsize?: "small" | "default";
 }
 
 const StyledSelect = styled(Select)<StyledSelectProps>(
-    ({ padSize = "small" }) => ({
+    ({ padsize = "small" }) => ({
         borderRadius: "1rem",
-        ...(padSize === "small" && {
+        ...(padsize === "small" && {
             ".MuiSelect-select": {
                 padding: ".4rem",
             },
@@ -93,7 +93,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
                     onChange={onChange}
                     displayEmpty
                     disabled={fieldState}
-                    padSize={padSize}
+                    padsize={padSize}
                 >
                     <MenuItem value="">
                         <em>{emptyValue}</em>
