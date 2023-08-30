@@ -153,6 +153,9 @@ const LocationCard: React.FC<LocationCardProps> = ({
                             array={data.countries}
                             onChange={handleSelectOnChange}
                             fieldState={false}
+                            border={true}
+                            label={true}
+                            padSize="default"
                         />
                     </Grid>
                     <Grid
@@ -172,6 +175,9 @@ const LocationCard: React.FC<LocationCardProps> = ({
                             array={data.states}
                             onChange={handleSelectOnChange}
                             fieldState={formData.country ? false : true}
+                            border={true}
+                            label={true}
+                            padSize="default"
                         />
                     </Grid>
                     <Grid
@@ -191,6 +197,9 @@ const LocationCard: React.FC<LocationCardProps> = ({
                             array={data.cities}
                             onChange={handleSelectOnChange}
                             fieldState={formData.state ? false : true}
+                            border={true}
+                            label={true}
+                            padSize="default"
                         />
                     </Grid>
                     <Grid
