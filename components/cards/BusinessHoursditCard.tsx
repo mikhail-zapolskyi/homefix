@@ -8,6 +8,7 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 interface BusinessHoursditCardProps {
     businessHours?: Record<string, any>[];
     handleCallback?: (formData: Record<string, any>[]) => void;
+    handleDeleteDayCallback?: (day: Record<string, any>) => void;
 }
 
 // Define a type for the edit mode (true or false)
@@ -17,6 +18,7 @@ type EditMode = true | false;
 const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
     businessHours,
     handleCallback,
+    handleDeleteDayCallback,
 }) => {
     // State to manage edit mode
     const [editMode, setEditMode] = useState<EditMode>(false);
@@ -67,6 +69,9 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
     const handleDeleteDay = (day: string) => {
         const newData = [...formData];
         const index = newData.findIndex((time) => time.type === day);
+        if (handleDeleteDayCallback && day) {
+            handleDeleteDayCallback(newData[index]);
+        }
         newData.splice(index, 1);
         setFormData(newData);
     };
@@ -168,7 +173,7 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
                                     {Object.entries(existingDayData).map(
                                         ([key, value], i) =>
                                             key === "from" || key === "to" ? (
-                                                <Grid item key={key + i}>
+                                                <Grid item key={day + key}>
                                                     <input
                                                         type="time"
                                                         name={key}

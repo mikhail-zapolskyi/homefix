@@ -86,7 +86,32 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     };
 
     const handleBusinessHoursSave = (data: Record<string, any>[]) => {
-        console.log(data);
+        try {
+            toast.promise(axios.put("/api/service/business-hours", data), {
+                success: "Changes Saved",
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    };
+
+    const handleDeleteDayCallback = (data: Record<string, any>) => {
+        if (!data.id) {
+            return;
+        }
+
+        try {
+            toast.promise(
+                axios.delete(`/api/service/business-hours/${data.id}`),
+                {
+                    success: "Changes Saved",
+                    error: "Something went wrong",
+                }
+            );
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
     };
 
     // Render a loading spinner while data is being fetched
@@ -151,6 +176,7 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                     <BusinessHoursditCard
                         businessHours={businessHours}
                         handleCallback={handleBusinessHoursSave}
+                        handleDeleteDayCallback={handleDeleteDayCallback}
                     />
                 </Grid>
             </Grid>

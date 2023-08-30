@@ -60,18 +60,7 @@ const createServiceProfile = async (req: NextRequest) => {
         });
         return NextResponse.json(serviceProfiles);
     } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === "P2002") {
-                return NextResponse.json(
-                    {
-                        message: "User can have only one Service Profile",
-                    },
-                    { status: 400 }
-                );
-            }
-        }
-
-        console.log(error);
+        return handlePrismaError(error);
     }
 };
 
