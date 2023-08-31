@@ -49,11 +49,11 @@ model User {
   createdAt                   DateTime          @default(now())
   updatedAt                   DateTime          @updatedAt
   location                    Location[]
-  verifyToken                 String?           
+  verifyToken                 String?
   verifyTokenExpiry           DateTime?
   forgotPasswordToken         String?           
   forgotPasswordTokenExpiry   DateTime?
-  
+
 }
 
 enum UserType {
@@ -78,7 +78,7 @@ model ServiceProfile {
   phone            String?
   rating           Float?      @default(0) @db.Double
   introduction     String?
-  experience       Int?
+  experience       Int?        @default(0)
   bio              String?
   image            String?
   specialtiesDo    String[]
