@@ -6,11 +6,12 @@ import axios from "axios";
 import { ServiceProfile, Location, Day } from "@prisma/client";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import {
-    DefaultFormEditCard,
+    DefaultEditCard,
     FormPublishEditCard,
     ImageUploadCard,
     LocationCard,
-    BusinessHoursditCard,
+    BusinessHoursEditCard,
+    BusinessArrayInfoEditCard,
 } from "@/components";
 import { Grid } from "@mui/material";
 
@@ -29,12 +30,16 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     // Use SWR to fetch data from "/api/service/single"
     const [formData, setFormData] = useState<ServiceProfile>();
     const [locationFormData, setLocationFormData] = useState<Location>();
+    const [businessHoursFormData, setBusinessHoursFormData] = useState<Day[]>();
     // Display an error message using React-toastify if there is an error
-
     // Update formData when data is fetched
     useEffect(() => {
         setFormData(data);
     }, [data]);
+
+    useEffect(() => {
+        setBusinessHoursFormData(businessHours);
+    }, [businessHours]);
 
     useEffect(() => {
         setLocationFormData(location);
@@ -55,13 +60,17 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
             return toast.error("Something went wrong");
         }
         const newData = { ...formData, ...details } as ServiceProfile;
-        setFormData(newData);
         const notEmptyData = filterEmptyValues(newData);
 
         try {
             // Send a PUT request to update service data
             toast.promise(axios.put("/api/service", notEmptyData), {
-                success: "Changes Saved",
+                success: {
+                    render({ data }) {
+                        if (data) setFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
                 error: "Something went wrong",
             });
         } catch (error: any) {
@@ -77,7 +86,12 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
 
         try {
             toast.promise(axios.put("/api/location", notEmptyData), {
-                success: "Changes Saved",
+                success: {
+                    render({ data }) {
+                        if (data) setLocationFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
                 error: "Something went wrong",
             });
         } catch (error: any) {
@@ -88,7 +102,12 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     const handleBusinessHoursSave = (data: Record<string, any>[]) => {
         try {
             toast.promise(axios.put("/api/service/business-hours", data), {
-                success: "Changes Saved",
+                success: {
+                    render({ data }) {
+                        if (data) setBusinessHoursFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
                 error: "Something went wrong",
             });
         } catch (error: any) {
@@ -136,7 +155,7 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                 </Grid>
                 {/* Default Form Edit Card */}
                 <Grid item xs={12} lg={9}>
-                    <DefaultFormEditCard
+                    <DefaultEditCard
                         data={{
                             name: formData?.name,
                             email: formData?.email,
@@ -173,10 +192,22 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
             </Grid>
             <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
                 <Grid item xs={12} lg={9}>
-                    <BusinessHoursditCard
-                        businessHours={businessHours}
+                    <BusinessHoursEditCard
+                        businessHours={businessHoursFormData}
                         handleCallback={handleBusinessHoursSave}
                         handleDeleteDayCallback={handleDeleteDayCallback}
+                    />
+                </Grid>
+            </Grid>
+            <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
+                <Grid item xs={12} lg={9}>
+                    <BusinessArrayInfoEditCard
+                        arrays={{
+                            specialties_Do: formData?.specialties_Do,
+                            specialties_No: formData?.specialties_No,
+                            payment_Methods: formData?.payment_Methods,
+                        }}
+                        handleCallback={handleCallbackFormDetails}
                     />
                 </Grid>
             </Grid>

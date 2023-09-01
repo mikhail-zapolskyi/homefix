@@ -5,7 +5,7 @@ import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CustomTextField from "../inputs/CustomTextField";
 
-interface DefaultFormEditCardProps {
+interface DefaultEditCardProps {
     data?: Record<string, any>;
     title?: string;
     icon?: ReactNode;
@@ -15,7 +15,7 @@ interface DefaultFormEditCardProps {
 
 type EditMode = true | false;
 
-const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
+const DefaultEditCard: React.FC<DefaultEditCardProps> = ({
     data,
     title,
     icon,
@@ -72,6 +72,7 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
     };
 
     const handleCancel = () => {
+        setFormData(data);
         setEditMode(false);
     };
 
@@ -199,4 +200,4 @@ const DefaultFormEditCard: React.FC<DefaultFormEditCardProps> = ({
     );
 };
 
-export default DefaultFormEditCard;
+export default DefaultEditCard;

@@ -1,6 +1,6 @@
 const buildQueryObject = (searchParams: URLSearchParams) => {
     const paramsObject: Record<string, any> = {};
-    console.log(searchParams);
+
     for (const [key, value] of Array.from(searchParams.entries())) {
         if (key === "rating") {
             paramsObject[key] = { gte: Number(value) };

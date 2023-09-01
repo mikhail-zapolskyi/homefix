@@ -4,8 +4,8 @@ import { Grid, Typography, styled } from "@mui/material";
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
-// Define the props for the BusinessHoursditCard component
-interface BusinessHoursditCardProps {
+// Define the props for the BusinessHoursEditCard component
+interface BusinessHoursEditCardProps {
     businessHours?: Record<string, any>[];
     handleCallback?: (formData: Record<string, any>[]) => void;
     handleDeleteDayCallback?: (day: Record<string, any>) => void;
@@ -28,8 +28,8 @@ const StyledTimeInput = styled("input")(({ theme }) => ({
     fontFamily: `${theme.typography.body1}`,
 }));
 
-// Define the BusinessHoursditCard component
-const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
+// Define the BusinessHoursEditCard component
+const BusinessHoursEditCard: React.FC<BusinessHoursEditCardProps> = ({
     businessHours,
     handleCallback,
     handleDeleteDayCallback,
@@ -55,16 +55,6 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
         if (handleCallback && formData) {
             handleCallback(formData);
         }
-    };
-
-    // Function to cancel editing
-    const handleCancel = () => {
-        const newData = [...formData].filter((day) => {
-            return businessHours?.includes(day);
-        });
-        console.log(newData);
-        setFormData(newData);
-        setEditMode(false);
     };
 
     // Function to toggle edit mode
@@ -102,11 +92,6 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
 
     // Render the "Save" button
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
-
-    // Render the "Cancel" button
-    const renderCancelButton = (
-        <CustomButton text="Cancel" color="warning" onClick={handleCancel} />
-    );
 
     // Render the "Edit" button
     const renderEditButton = (
@@ -234,7 +219,7 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
         </>
     );
 
-    // Render the BusinessHoursditCard component
+    // Render the BusinessHoursEditCard component
     return (
         <CustomDashboardCard>
             <Grid container sx={{ alignItems: "center" }} rowSpacing={4}>
@@ -256,7 +241,6 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
                     {editMode ? (
                         <>
                             <Grid item>{renderSaveButton}</Grid>
-                            <Grid item>{renderCancelButton}</Grid>
                         </>
                     ) : (
                         renderEditButton
@@ -268,4 +252,4 @@ const BusinessHoursditCard: React.FC<BusinessHoursditCardProps> = ({
     );
 };
 
-export default BusinessHoursditCard;
+export default BusinessHoursEditCard;

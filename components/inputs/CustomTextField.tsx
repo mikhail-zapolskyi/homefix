@@ -67,7 +67,10 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                 }}
             >
                 <StyledInputLabel>
-                    {name.charAt(0).toUpperCase() + name.slice(1)}
+                    {(name.charAt(0).toUpperCase() + name.slice(1)).replace(
+                        "_",
+                        " "
+                    )}
                 </StyledInputLabel>
                 <StyledTextField
                     id={name}
