@@ -14,8 +14,8 @@ interface SelectFieldProps {
     id: string;
     name: string;
     emptyValue?: string;
-    value: string | number;
-    onChange: (e: SelectChangeEvent<string | unknown | number>) => void;
+    value: string | number | undefined | null;
+    onChange: (e: SelectChangeEvent<unknown>) => void;
     array?: string[] | number[] | undefined;
     fieldState?: boolean;
     border?: true | false;

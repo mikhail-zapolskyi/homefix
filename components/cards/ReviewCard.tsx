@@ -13,10 +13,6 @@ import MessageIcon from "@mui/icons-material/Message";
 import { SelectField } from "@/components";
 import { Review, ServiceProfile, User } from "@prisma/client";
 
-const initialParams = {
-    rating: "",
-};
-
 interface Ireview extends Review {
     user: User;
     service: ServiceProfile;
@@ -27,14 +23,12 @@ interface Props {
 }
 
 const ReviewCard = ({ review }: Props) => {
-    const [formData, setFormData] = useState(initialParams);
+    const [rating, setRating] = useState(review?.rating);
     const [currentReview, setCurrentReview] = useState(review?.comment);
 
-    const handleSelectOnChange = (
-        e: SelectChangeEvent<unknown | string | number>
-    ) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    const handleSelectOnChange = (e: SelectChangeEvent<unknown>) => {
+        const value = Number(e.target.value);
+        setRating(value);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +41,10 @@ const ReviewCard = ({ review }: Props) => {
                 `http://localhost:3000/api/reviews/${review?.id}`,
                 {
                     method: "PUT",
-                    body: JSON.stringify({ comment: currentReview }),
+                    body: JSON.stringify({
+                        comment: currentReview,
+                        rating,
+                    }),
                 }
             );
 
@@ -59,6 +56,7 @@ const ReviewCard = ({ review }: Props) => {
             console.error("An error occurred", error);
         }
     };
+    console.log(rating, currentReview);
 
     return (
         <CustomDashboardCard>
@@ -105,8 +103,9 @@ const ReviewCard = ({ review }: Props) => {
                                 id="rating"
                                 name="rating"
                                 emptyValue="Select Rating"
-                                value={formData.rating}
+                                value={rating || ""}
                                 array={[1, 2, 3, 4, 5]}
+                                fieldState={false}
                                 onChange={handleSelectOnChange}
                             />
                         </Grid>
