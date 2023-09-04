@@ -44,7 +44,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
     }, [formData?.country, formData?.state]);
 
     useEffect(() => {
-        setFormData({ ...formData, ...location });
+        setFormData(location);
     }, [location]);
 
     const handleEditMode = () => {
@@ -88,6 +88,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
     };
 
     const handleCancel = () => {
+        setFormData(location);
         setEditMode(false);
     };
 

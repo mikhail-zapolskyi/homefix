@@ -4,7 +4,8 @@ export const filterEmptyValues = (obj: Record<string, any>) => {
             return (
                 (typeof value === "string" && value.trim() !== "") ||
                 (Array.isArray(value) && value.length > 0) ||
-                (typeof value === "number" && !isNaN(value))
+                (typeof value === "number" && !isNaN(value)) ||
+                typeof value === "boolean"
             );
         })
     );

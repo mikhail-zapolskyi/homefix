@@ -85,9 +85,9 @@ model ServiceProfile {
   hiredTimes       Int?         @default(0)
   bgChecked        Boolean      @default(false)
   published        Boolean      @default(false)
-  specialtiesDo    String[]     @default(["Service You can do"])
-  specialtiesNo    String[]     @default(["Service YOu can't do"])
-  paymentMethods   String[]     @default(["Service Payment Methods"])
+  specialties_Do    String[]     @default(["Service You can do"])
+  specialties_No    String[]     @default(["Service YOu can't do"])
+  payment_Methods   String[]     @default(["Service Payment Methods"])
   schedualPolicy   String?      @default("Service schedual policy")
   businessHours    Day[]        
   reviews          Review[]

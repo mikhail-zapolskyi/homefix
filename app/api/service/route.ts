@@ -41,8 +41,8 @@ const createServiceProfile = async (req: NextRequest) => {
                 introduction: data.introduction,
                 experience: data.experience,
                 bio: data.bio,
-                specialtiesDo: data.specialtiesDo,
-                specialtiesNo: data.specialtiesNo,
+                specialties_Do: data.specialtiesDo,
+                specialties_No: data.specialtiesNo,
                 employees: data.employees,
                 userId: data.userId,
                 location: {

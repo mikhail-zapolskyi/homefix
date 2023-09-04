@@ -19,9 +19,10 @@ export { default as SearchCard } from "./cards/SearchCard";
 export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 export { default as LocationCard } from "./cards/LocationCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
-export { default as DefaultFormEditCard } from "./cards/DefaultFormEditCard";
+export { default as DefaultEditCard } from "./cards/DefaultEditCard";
 export { default as FormPublishEditCard } from "./cards/FormPublishEditCard";
-export { default as BusinessHoursditCard } from "./cards/BusinessHoursditCard";
+export { default as BusinessHoursEditCard } from "./cards/BusinessHoursEditCard";
+export { default as BusinessArrayInfoEditCard } from "./cards/BusinessArrayInfoEditCard";
 export { default as ReviewListCard } from "./cards/ReviewListCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
