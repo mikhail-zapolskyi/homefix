@@ -56,15 +56,14 @@ export const SelectField: React.FC<SelectFieldProps> = ({
     padSize,
 }) => {
     const renderOptions = (options: string[] | number[] | undefined) => {
-        if (options === undefined) {
-            return;
-        } else {
-            return options.map((i) => (
+        return (
+            options &&
+            options.map((i) => (
                 <MenuItem key={i} value={i}>
                     {i}
                 </MenuItem>
-            ));
-        }
+            ))
+        );
     };
     return (
         <Box

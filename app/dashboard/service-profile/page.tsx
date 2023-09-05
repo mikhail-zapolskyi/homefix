@@ -8,7 +8,9 @@ import useSWR from "swr";
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const Page = () => {
-    const { data, error, isLoading } = useSWR("/api/service/single", fetcher);
+    const { data, error, isLoading } = useSWR("/api/service/single", fetcher, {
+        refreshInterval: 1000,
+    });
 
     if (error) {
         toast.error(error.message);

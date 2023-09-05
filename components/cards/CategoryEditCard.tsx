@@ -4,6 +4,7 @@ import {
     CustomButton,
     SelectField,
     CustomTextField,
+    SelectCreateField,
 } from "@/components";
 import {
     Grid,
@@ -76,6 +77,14 @@ const CategoryEditCard: React.FC<CategoryEditCardProps> = ({
         }
     };
 
+    const handleOnInputCategoryChange = (
+        e: React.SyntheticEvent,
+        value: string,
+        reason: string
+    ) => {
+        setCategory({ ...category, title: value });
+    };
+
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
     const renderCancelButton = (
         <CustomButton text="Cancel" color="warning" onClick={handleCancel} />
@@ -145,41 +154,9 @@ const CategoryEditCard: React.FC<CategoryEditCardProps> = ({
     const renderEdit = (
         <Grid container item xs={12} spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="body1">
-                    Pick available category title or add your own
-                </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <SelectField
-                    id="title"
-                    name="title"
-                    onChange={(e) =>
-                        setCategory({
-                            ...category,
-                            [e.target.name]: e.target.value,
-                        })
-                    }
-                    value={category.title}
-                    emptyValue="Category Title"
-                    array={
-                        !isLoading &&
-                        categories.map((i: Record<string, any>) => i.title)
-                    }
-                    fieldState={false}
-                    border={true}
-                    padSize="default"
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <CustomTextField
-                    name="Category title"
-                    value={category.title}
-                    onChange={(e) =>
-                        setCategory({
-                            ...category,
-                            title: e.target.value,
-                        })
-                    }
+                <SelectCreateField
+                    array={!isLoading && categories}
+                    onInputChange={handleOnInputCategoryChange}
                 />
             </Grid>
         </Grid>

@@ -12,7 +12,6 @@ import {
     LocationCard,
     BusinessHoursEditCard,
     BusinessArrayInfoEditCard,
-    SelectField,
     CategoryEditCard,
 } from "@/components";
 import { Grid } from "@mui/material";
@@ -21,7 +20,7 @@ interface ServiceProfileViewProps {
     data?: ServiceProfile;
     location?: Location;
     businessHours?: Day[];
-    categories?: Category[];
+    categories?: Record<string, any>[];
 }
 
 // Define the ServiceProfile component
@@ -35,7 +34,8 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     const [formData, setFormData] = useState<ServiceProfile>();
     const [locationFormData, setLocationFormData] = useState<Location>();
     const [businessHoursFormData, setBusinessHoursFormData] = useState<Day[]>();
-    const [categoriesFormData, setCategoriesFormData] = useState<Category[]>();
+    const [categoriesFormData, setCategoriesFormData] =
+        useState<Record<string, any>[]>();
 
     // Update states when data is fetched
     useEffect(() => {
@@ -145,12 +145,7 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     const handleCategorySave = (data: Record<string, any>) => {
         try {
             toast.promise(axios.post(`/api/service/category`, data), {
-                success: {
-                    render() {
-                        setCategoriesFormData(categories);
-                        return "Category Added";
-                    },
-                },
+                success: "Category Added",
                 error: "Something went wrong",
             });
         } catch (error: any) {
@@ -161,12 +156,7 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     const handleCategoryDelete = (id: string) => {
         try {
             toast.promise(axios.delete(`/api/service/category/${id}`), {
-                success: {
-                    render() {
-                        setCategoriesFormData(categories);
-                        return "Category Deleted";
-                    },
-                },
+                success: "Category Deleted",
                 error: "Something went wrong",
             });
         } catch (error: any) {
