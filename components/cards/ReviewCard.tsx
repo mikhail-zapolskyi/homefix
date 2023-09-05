@@ -57,6 +57,24 @@ const ReviewCard = ({ review }: Props) => {
         }
     };
 
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/reviews/${review?.id}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (response.ok) {
+                return;
+            }
+            return console.log("Something went wrong");
+        } catch (error) {
+            console.error("An error occurred", error);
+        }
+    };
+
     return (
         <CustomDashboardCard>
             <Grid container rowSpacing={4}>
@@ -70,8 +88,8 @@ const ReviewCard = ({ review }: Props) => {
                     >
                         <Grid item>
                             <Avatar
-                                src={`${"image"}`}
-                                alt={`${"name"}`}
+                                src={`${review?.service.image}`}
+                                alt={`${review?.service.name}`}
                                 sx={{
                                     width: 55,
                                     height: 55,
@@ -80,8 +98,12 @@ const ReviewCard = ({ review }: Props) => {
                             />
                         </Grid>
                         <Grid item xs={8}>
-                            <Typography variant="body1">{"name"}</Typography>
-                            <Typography variant="body2">{"email"}</Typography>
+                            <Typography variant="body1">
+                                {review?.service.name}
+                            </Typography>
+                            <Typography variant="body2">
+                                {review?.service.email}
+                            </Typography>
                         </Grid>
                     </Grid>
                     <Grid
@@ -102,7 +124,7 @@ const ReviewCard = ({ review }: Props) => {
                                 id="rating"
                                 name="rating"
                                 emptyValue="Select Rating"
-                                value={rating || ""}
+                                value={review?.rating || ""}
                                 array={[1, 2, 3, 4, 5]}
                                 fieldState={false}
                                 onChange={handleSelectOnChange}
@@ -129,7 +151,14 @@ const ReviewCard = ({ review }: Props) => {
                         onChange={handleChange}
                     />
                 </Grid>
-                <Grid item container justifyContent={"end"}>
+                <Grid item container justifyContent={"end"} columnGap={2}>
+                    <Button
+                        variant="outlined"
+                        color={"error"}
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Button>
                     <Button variant="outlined" onClick={handleClick}>
                         Save
                     </Button>
