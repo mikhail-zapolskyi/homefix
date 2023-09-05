@@ -40,6 +40,11 @@ export async function GET() {
             include: {
                 location: true,
                 businessHours: true,
+                categories: {
+                    include: {
+                        category: true,
+                    },
+                },
             },
         });
 

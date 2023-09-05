@@ -18,9 +18,10 @@ export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 export { default as LocationCard } from "./cards/LocationCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
 export { default as DefaultEditCard } from "./cards/DefaultEditCard";
-export { default as FormPublishEditCard } from "./cards/FormPublishEditCard";
+export { default as PublishProfileEditCard } from "./cards/PublishProfileEditCard";
 export { default as BusinessHoursEditCard } from "./cards/BusinessHoursEditCard";
 export { default as BusinessArrayInfoEditCard } from "./cards/BusinessArrayInfoEditCard";
+export { default as CategoryEditCard } from "./cards/CategoryEditCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs

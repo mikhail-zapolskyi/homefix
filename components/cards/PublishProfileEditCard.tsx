@@ -5,12 +5,12 @@ import CustomDashboardCard from "./CustomDashboardCard";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import StarIcon from "@mui/icons-material/Star";
 
-interface FormPublishEditCardProps {
+interface PublishProfileEditCardProps {
     data?: Record<string, any>;
     handleCallback?: (formData: Record<string, any>) => void;
 }
 
-const FormPublishEditCard: React.FC<FormPublishEditCardProps> = ({
+const PublishProfileEditCard: React.FC<PublishProfileEditCardProps> = ({
     data,
     handleCallback,
 }) => {
@@ -100,4 +100,4 @@ const FormPublishEditCard: React.FC<FormPublishEditCardProps> = ({
     );
 };
 
-export default FormPublishEditCard;
+export default PublishProfileEditCard;
