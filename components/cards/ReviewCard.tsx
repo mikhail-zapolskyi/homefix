@@ -56,7 +56,6 @@ const ReviewCard = ({ review }: Props) => {
             console.error("An error occurred", error);
         }
     };
-    console.log(rating, currentReview);
 
     return (
         <CustomDashboardCard>

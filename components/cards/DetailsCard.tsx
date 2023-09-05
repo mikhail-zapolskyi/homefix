@@ -1,7 +1,8 @@
-import { Avatar, Typography, Grid, Box } from "@mui/material";
+import { Avatar, Typography, Grid } from "@mui/material";
 import { CustomDashboardCard } from "@/components";
 import { ServiceProfile, User } from "@prisma/client";
 import { useEffect, useState } from "react";
+import AddReviewModal from "./AddReviewModal";
 
 interface Props {
     business: ServiceProfile | null;
@@ -69,6 +70,14 @@ const DetailsCard = ({ business }: Props) => {
                                     {user?.email}
                                 </Typography>
                             </Grid>
+                        </Grid>
+                        <Grid item>
+                            <AddReviewModal
+                                proId={business?.userId}
+                                serviceId={business?.id}
+                                name={business?.name}
+                                desc={business?.introduction}
+                            />
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
