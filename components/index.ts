@@ -24,6 +24,7 @@ export { default as FormPublishEditCard } from "./cards/FormPublishEditCard";
 export { default as BusinessHoursEditCard } from "./cards/BusinessHoursEditCard";
 export { default as BusinessArrayInfoEditCard } from "./cards/BusinessArrayInfoEditCard";
 export { default as ReviewListCard } from "./cards/ReviewListCard";
+export { default as AddReviewModal } from "./cards/AddReviewModal";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
