@@ -21,6 +21,7 @@ const Page = () => {
             data={data}
             location={data.location[0]}
             businessHours={data.businessHours}
+            categories={data.categories}
         />
     );
 };

@@ -3,15 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ServiceProfile, Location, Day } from "@prisma/client";
+import { ServiceProfile, Location, Day, Category } from "@prisma/client";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import {
     DefaultEditCard,
-    FormPublishEditCard,
+    PublishProfileEditCard,
     ImageUploadCard,
     LocationCard,
     BusinessHoursEditCard,
     BusinessArrayInfoEditCard,
+    SelectField,
+    CategoryEditCard,
 } from "@/components";
 import { Grid } from "@mui/material";
 
@@ -19,6 +21,7 @@ interface ServiceProfileViewProps {
     data?: ServiceProfile;
     location?: Location;
     businessHours?: Day[];
+    categories?: Category[];
 }
 
 // Define the ServiceProfile component
@@ -26,24 +29,30 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     data,
     location,
     businessHours,
+    categories,
 }) => {
     // Use SWR to fetch data from "/api/service/single"
     const [formData, setFormData] = useState<ServiceProfile>();
     const [locationFormData, setLocationFormData] = useState<Location>();
     const [businessHoursFormData, setBusinessHoursFormData] = useState<Day[]>();
-    // Display an error message using React-toastify if there is an error
-    // Update formData when data is fetched
+    const [categoriesFormData, setCategoriesFormData] = useState<Category[]>();
+
+    // Update states when data is fetched
     useEffect(() => {
         setFormData(data);
     }, [data]);
+
+    useEffect(() => {
+        setLocationFormData(location);
+    }, [location]);
 
     useEffect(() => {
         setBusinessHoursFormData(businessHours);
     }, [businessHours]);
 
     useEffect(() => {
-        setLocationFormData(location);
-    }, [location]);
+        setCategoriesFormData(categories);
+    }, [categories]);
 
     // Callback function for handling uploaded image
     const handleCallbackFile = (file: File) => {
@@ -133,6 +142,38 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
         }
     };
 
+    const handleCategorySave = (data: Record<string, any>) => {
+        try {
+            toast.promise(axios.post(`/api/service/category`, data), {
+                success: {
+                    render() {
+                        setCategoriesFormData(categories);
+                        return "Category Added";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    };
+
+    const handleCategoryDelete = (id: string) => {
+        try {
+            toast.promise(axios.delete(`/api/service/category/${id}`), {
+                success: {
+                    render() {
+                        setCategoriesFormData(categories);
+                        return "Category Deleted";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    };
+
     // Render a loading spinner while data is being fetched
     return (
         <Grid container spacing={2}>
@@ -147,7 +188,7 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                     </Grid>
                     {/* Form Publish/Edit Card */}
                     <Grid item xs={12}>
-                        <FormPublishEditCard
+                        <PublishProfileEditCard
                             data={formData}
                             handleCallback={handleCallbackFormDetails}
                         />
@@ -196,6 +237,15 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                         businessHours={businessHoursFormData}
                         handleCallback={handleBusinessHoursSave}
                         handleDeleteDayCallback={handleDeleteDayCallback}
+                    />
+                </Grid>
+            </Grid>
+            <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
+                <Grid item xs={12} lg={9}>
+                    <CategoryEditCard
+                        data={categoriesFormData}
+                        handleDeleteCallback={handleCategoryDelete}
+                        handleCallback={handleCategorySave}
                     />
                 </Grid>
             </Grid>

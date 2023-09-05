@@ -4,7 +4,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { buildQueryObject } from "@/utils";
-import { Prisma } from "@prisma/client";
 import handlePrismaError from "@/prisma/prismaErrorHandler";
 
 const getServiceProfile = async (req: NextRequest) => {
