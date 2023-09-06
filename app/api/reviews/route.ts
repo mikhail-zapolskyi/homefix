@@ -22,16 +22,29 @@ const createReviews = async (req: NextRequest) => {
         redirect("/api/auth/signin");
     }
 
+    if (session?.user?.id == data.proId) {
+        NextResponse.json("Sorry you can not write a review for yourself!", {
+            status: 403,
+        });
+        return;
+    }
+
     data.userId = session?.user.id;
+    const newData = {
+        userId: data.userId,
+        serviceProfileId: data.serviceId,
+        comment: data.comment,
+        rating: data.rating,
+    };
 
     const reviews = await prisma.review.create({
-        data,
+        data: newData,
     });
 
     // Update servicePorfile avarage rating
     const serviceReviews = await prisma.review.findMany({
         where: {
-            id: data.servicePorfileId,
+            id: data.serviceId,
         },
         select: { rating: true },
     });
@@ -44,7 +57,7 @@ const createReviews = async (req: NextRequest) => {
     const averageRating = calcualteAverage(totalRating, sumRatings);
 
     await prisma.serviceProfile.update({
-        where: { id: data.serviceProfileId },
+        where: { id: data.serviceId },
         data: { rating: averageRating },
     });
 

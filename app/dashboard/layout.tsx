@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import { styled } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const StyledWrapper = styled(Grid)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
@@ -17,13 +18,14 @@ const StyledWrapper = styled(Grid)(({ theme }) => ({
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const { data: session, status } = useSession();
+    const { push } = useRouter();
 
     useEffect(() => {
         if (!session && status === "unauthenticated") {
             toast.error("Please log in first");
-            throw new Error("You don't have permissions to access this page");
+            push("/");
         }
-    }, [session, status]);
+    }, [session, status, push]);
 
     return <StyledWrapper container>{children}</StyledWrapper>;
 };

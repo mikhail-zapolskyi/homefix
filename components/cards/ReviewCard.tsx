@@ -1,37 +1,80 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
     Avatar,
     Button,
-    Card,
-    CardContent,
     TextField,
     Typography,
     Grid,
-    Box,
     SelectChangeEvent,
 } from "@mui/material";
 import { CustomDashboardCard } from "@/components";
 import MessageIcon from "@mui/icons-material/Message";
-import DropDown from "../inputs/DropDown";
 import { SelectField } from "@/components";
+import { Review, ServiceProfile, User } from "@prisma/client";
 
-const initialParams = {
-    rating: "",
-};
+interface Ireview extends Review {
+    user: User;
+    service: ServiceProfile;
+}
 
-const reviewText =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.";
+interface Props {
+    review: Ireview | null;
+}
 
-const ReviewCard = () => {
-    const [formData, setFormData] = useState(initialParams);
+const ReviewCard = ({ review }: Props) => {
+    const [rating, setRating] = useState(review?.rating);
+    const [currentReview, setCurrentReview] = useState(review?.comment);
 
-    const handleSelectOnChange = (
-        e: SelectChangeEvent<unknown | string | number>
-    ) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    const handleSelectOnChange = (e: SelectChangeEvent<unknown>) => {
+        const value = Number(e.target.value);
+        setRating(value);
     };
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setCurrentReview(e.target.value);
+    };
+
+    const handleClick = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/reviews/${review?.id}`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        comment: currentReview,
+                        rating,
+                    }),
+                }
+            );
+
+            if (response.ok) {
+                return;
+            }
+            return console.log("user not found");
+        } catch (error) {
+            console.error("An error occurred", error);
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/reviews/${review?.id}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (response.ok) {
+                return;
+            }
+            return console.log("Something went wrong");
+        } catch (error) {
+            console.error("An error occurred", error);
+        }
+    };
+
     return (
         <CustomDashboardCard>
             <Grid container rowSpacing={4}>
@@ -45,8 +88,8 @@ const ReviewCard = () => {
                     >
                         <Grid item>
                             <Avatar
-                                src={`${"image"}`}
-                                alt={`${"name"}`}
+                                src={`${review?.service.image}`}
+                                alt={`${review?.service.name}`}
                                 sx={{
                                     width: 55,
                                     height: 55,
@@ -55,8 +98,12 @@ const ReviewCard = () => {
                             />
                         </Grid>
                         <Grid item xs={8}>
-                            <Typography variant="body1">{"name"}</Typography>
-                            <Typography variant="body2">{"email"}</Typography>
+                            <Typography variant="body1">
+                                {review?.service.name}
+                            </Typography>
+                            <Typography variant="body2">
+                                {review?.service.email}
+                            </Typography>
                         </Grid>
                     </Grid>
                     <Grid
@@ -77,8 +124,9 @@ const ReviewCard = () => {
                                 id="rating"
                                 name="rating"
                                 emptyValue="Select Rating"
-                                value={formData.rating}
+                                value={review?.rating || ""}
                                 array={[1, 2, 3, 4, 5]}
+                                fieldState={false}
                                 onChange={handleSelectOnChange}
                             />
                         </Grid>
@@ -98,9 +146,22 @@ const ReviewCard = () => {
                         label="Review"
                         multiline
                         rows={4}
-                        defaultValue={reviewText}
+                        defaultValue={review?.comment}
                         sx={{ width: "100%" }}
+                        onChange={handleChange}
                     />
+                </Grid>
+                <Grid item container justifyContent={"end"} columnGap={2}>
+                    <Button
+                        variant="outlined"
+                        color={"error"}
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Button>
+                    <Button variant="outlined" onClick={handleClick}>
+                        Save
+                    </Button>
                 </Grid>
             </Grid>
         </CustomDashboardCard>

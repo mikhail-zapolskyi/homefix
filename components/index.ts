@@ -11,6 +11,8 @@ export { default as MenuOption } from "./navigation/MenuOption";
 export { default as ProductHero } from "./views/ProductHero";
 export { default as ServiceProfileView } from "./views/ServiceProfileView";
 export { default as UserProfileView } from "./views/UserProfileView";
+export { default as UserReviewsView } from "./views/UserReviewsView";
+
 // Cards
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as SearchCard } from "./cards/SearchCard";
@@ -22,6 +24,8 @@ export { default as PublishProfileEditCard } from "./cards/PublishProfileEditCar
 export { default as BusinessHoursEditCard } from "./cards/BusinessHoursEditCard";
 export { default as BusinessArrayInfoEditCard } from "./cards/BusinessArrayInfoEditCard";
 export { default as CategoryEditCard } from "./cards/CategoryEditCard";
+export { default as ReviewListCard } from "./cards/ReviewListCard";
+export { default as AddReviewModal } from "./cards/AddReviewModal";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
