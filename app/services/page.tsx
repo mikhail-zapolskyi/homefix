@@ -1,5 +1,5 @@
 "use client";
-import { Container, Grid, Paper } from "@mui/material";
+import { Container, Divider, Grid, Paper } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PageContainer, SearchResultServiceProfileCard } from "@/components";
@@ -33,13 +33,13 @@ const initialData = [{
     id: '1',
     service: {
         bgChecked: true,
-        bio: 'lorem ipsum',
+        bio: 'First Last',
         employees: 1,
-        experience: 8,
+        experience: 19,
         hiredTimes: 2,
         image: 'https://images.unsplash.com/photo-1687360441205-807780a8e5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60',
         introduction: 'this is my introduction', 
-        name: 'service name',
+        name: 'Service Name',
         paymentMethods: ['cash app', 'visa', 'crypto'],
         phone: '122-123-1233',
         rating: 3.6, 
@@ -52,13 +52,13 @@ const initialData = [{
     id: '2',
     service: {
         bgChecked: true,
-        bio: 'lorem ipsum',
+        bio: 'First Last',
         employees: 1,
         experience: 8,
         hiredTimes: 2,
         image: 'https://images.unsplash.com/photo-1687360441205-807780a8e5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60',
         introduction: 'this is my introduction', 
-        name: 'service name',
+        name: 'Service Name',
         paymentMethods: ['cash app', 'visa', 'crypto'],
         phone: '122-123-1233',
         rating: 3.6, 
@@ -105,7 +105,7 @@ const ViewServices = () => {
         <PageContainer maxWidth='xl'>
             <Grid container spacing={2} pt={2}>
                 {serviceData.map((i) => (
-                    <Grid item xs={12} key={i.id} >
+                    <Grid item xs={12} key={i.id} sx={{py: '-4rem'}}>
                         <SearchResultServiceProfileCard
                             onClick={handleViewProfile}
                             id={i.id}

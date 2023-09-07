@@ -21,12 +21,12 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
     
     return (
         <CustomDashboardCard >
-            <Grid container sx={{width: '100%', mb: {xs: '-0.5rem', lg: 0}, alignItems: 'center'}}>
+            <Grid container sx={{width: '100%', mb: {xs: '-0.5rem', lg: 0}, alignItems: 'center', height: '14rem'}}>
                 <Grid item lg={2} sx={{ display: {xs: 'none', lg: 'inline'}, }} >
                     <Avatar 
                         src={image}
                         alt={name}
-                        sx={{ mr: '3rem', height: 150, width: 150 }}
+                        sx={{ mr: '3rem',ml: '3rem', height: 150, width: 150 }}
                         variant="square"
                         />
                 </Grid>
@@ -77,8 +77,7 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                                 mb: {xs: '-3rem', lg: 0},
                             }}
                         >
-                            Skill Level: {determineFixerSkillLevel(experience)} years
-                            
+                            Skill Level: {determineFixerSkillLevel(experience)}
                         </Typography>
                     </Grid>
                     <Grid item lg={4}> 
@@ -128,24 +127,24 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                 </Grid>
 
                 {/*Everything below is invisible inside mobile */}
-
-                <Divider orientation="vertical" sx={{ height: '20rem', display: {xs: 'none', lg: 'inline'}}}/>
+            {/* <Grid container lg={4} > */}
+                <Divider orientation="vertical" sx={{ height: '100%', display: {xs: 'none', lg: 'inline'}, pl: '10rem'}}/>
                 <Grid container xs={2} lg={3} 
                     sx={{
                         display: {xs: 'none', lg: 'inline'},
                         mt: {xs: '1rem', md: '1.5rem', lg: '2rem'},
-                        ml: {xs: '0.5rem', md: '1rem', lg: '2.6rem'},
+                        ml: {xs: '0.5rem', md: '1rem', lg: '2rem'},
                         width: '100%'
                     }}>
                     {/* This is in place of the company logo */}
                     <Grid item lg={3}>
-                        <Grid sx={{display: { lg: 'flex'}, flexDirection: 'row', width: '100%', maxWidth: '20rem', m: "0",}}>
+                        <Grid sx={{display: { lg: 'flex'}, flexDirection: 'row', m: "0", ml: '1rem'}}>
                             <Avatar                     
                             alt={name}
                             src={fixerImage}
-                            sx={{ m: '1rem'}}
+                            sx={{ mr: '1rem'}}
                             />
-                            <Typography>{fixerDescription}</Typography>
+                            <Typography sx={{width: '10rem'}}>{fixerDescription}</Typography>
                         </Grid>
                         <Button onClick={onClick} sx={{    
                             marginLeft: "1rem",
@@ -154,18 +153,20 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                             padding: ".2rem",
                             textTransform: "inherit",
                             mt: '5rem',
+                            mb: '1rem',
                             p: '0.4rem',
                             display: {xs: 'none', lg: 'inline'},
                             width: {xs: '6rem', lg: '8rem'}
                         }}
-                            variant="contained"
-                            size="small"
+                        variant="contained"
+                        size="small"
                         >
                             View Profile 
                         </Button>
                     </Grid>
                 </Grid>
             </Grid>
+            {/* </Grid> */}
         </CustomDashboardCard>
         
     )

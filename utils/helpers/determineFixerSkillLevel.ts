@@ -2,11 +2,30 @@
 
 const determineFixerSkillLevel = (experience: any) => {
     console.log(experience)
-    if(experience > 0) return 'New Professional'
-    if(experience >= 2) return 'Semi Professional'
-    if(experience >= 5) return 'Professional'
-    if(experience >= 10) return 'Expert'
-    if(experience >= 15) return 'Grand Expert'
+    switch(experience) {
+        case 0:
+            return 'New Professional'
+        case 1:
+            return 'New Professional'
+        case 2:
+            return 'New Professional'
+        case 3:
+            return 'Semi Professional'
+        case 5:
+            return 'Semi Professional'
+        case 6:
+            return 'Semi Professional'
+        case 7: 
+            return 'Professional'
+        case 8:
+            return 'Professional'
+        case 9:
+            return 'Professional'
+        case 10: 
+            return 'Expert'
+        default:
+            return 'Expert'
+    }
 }
 
 export default determineFixerSkillLevel
