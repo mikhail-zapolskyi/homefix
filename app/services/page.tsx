@@ -13,6 +13,7 @@ interface Services {
     lng?: string ;
     service: {
         bgChecked?: boolean;
+        fixerName?: string;
         bio?: string;
         employees?: number;
         experience?: number;
@@ -33,12 +34,13 @@ const initialData = [{
     id: '1',
     service: {
         bgChecked: true,
-        bio: 'First Last',
+        fixerName: 'Johnothan Doe',
+        bio: 'My Bio',
         employees: 1,
         experience: 19,
         hiredTimes: 2,
         image: 'https://images.unsplash.com/photo-1687360441205-807780a8e5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60',
-        introduction: 'this is my introduction', 
+        introduction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae diam justo. Donec sed rhoncus dolor. Ut lobortis tristique sagittis. Morbi vitae tortor sapien. Curabitu', 
         name: 'Service Name',
         paymentMethods: ['cash app', 'visa', 'crypto'],
         phone: '122-123-1233',
@@ -52,12 +54,13 @@ const initialData = [{
     id: '2',
     service: {
         bgChecked: true,
-        bio: 'First Last',
+        fixerName: 'Beverly Robert',
+        bio: 'My bio',
         employees: 1,
         experience: 8,
         hiredTimes: 2,
         image: 'https://images.unsplash.com/photo-1687360441205-807780a8e5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60',
-        introduction: 'this is my introduction', 
+        introduction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae diam justo. Donec sed rhoncus dolor. Ut lobortis tristique sagittis. Morbi vitae tortor sapien. Curabitu', 
         name: 'Service Name',
         paymentMethods: ['cash app', 'visa', 'crypto'],
         phone: '122-123-1233',
@@ -117,7 +120,8 @@ const ViewServices = () => {
                             // should be i.service.fixerImage
                             fixerImage={i.service.image}
                             fixerDescription={i.service.bio}
-                            serviceDescription={i.service.bio}
+                            serviceDescription={i.service.introduction}
+                            fixerName={i.service.fixerName}
                         />
                     </Grid>
 

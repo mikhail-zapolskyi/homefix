@@ -14,10 +14,11 @@ interface ServicesProps {
     serviceDescription?: string;
     fixerImage?: string;
     fixerDescription?: string;
+    fixerName?: string;
     onClick: () => void;
 }
 
-const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city, rating, image, experience, fixerImage, fixerDescription, serviceDescription, onClick}) => {
+const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city, rating, image, experience, fixerImage, fixerDescription, serviceDescription, fixerName, onClick}) => {
     
     return (
         <CustomDashboardCard >
@@ -137,14 +138,17 @@ const SearchResultServiceProfileCard: React.FC<ServicesProps>= ({id, name, city,
                         width: '100%'
                     }}>
                     {/* This is in place of the company logo */}
-                    <Grid item lg={3}>
+                    <Grid item lg={12}>
                         <Grid sx={{display: { lg: 'flex'}, flexDirection: 'row', m: "0", ml: '1rem'}}>
                             <Avatar                     
                             alt={name}
                             src={fixerImage}
-                            sx={{ mr: '1rem'}}
+                            sx={{ mr: '1rem', mt: '0.3rem' }}
                             />
-                            <Typography sx={{width: '10rem'}}>{fixerDescription}</Typography>
+                            <Grid sx={{display: 'flex', flexDirection: 'column'}}>
+                                <Typography fontWeight='700'>{fixerName}</Typography>
+                                <Typography>{fixerDescription}</Typography>
+                            </Grid>
                         </Grid>
                         <Button onClick={onClick} sx={{    
                             marginLeft: "1rem",
