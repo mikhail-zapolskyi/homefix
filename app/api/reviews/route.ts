@@ -5,33 +5,63 @@ import { redirect } from "next/navigation";
 import prisma from "../../../prisma/client";
 import { buildQueryObject, calcualteAverage } from "@/utils";
 
-const getReviews = async (req: NextRequest) => {
+// GET REVIEWS
+export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const query = buildQueryObject(searchParams);
 
     const reviews = await prisma.review.findMany(query);
 
     return NextResponse.json(reviews);
-};
+}
 
-const createReviews = async (req: NextRequest) => {
+// CREATE REVIEWS
+export async function POST(req: NextRequest) {
     const data = await req.json();
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email) {
-        redirect("/api/auth/signin");
+    // Check if a valid session exists
+    if (!session) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
-    data.userId = session?.user.id;
+    // Get the user from the session
+    const user = session.user;
+
+    // Check if the user exists
+    if (!user) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+
+    if (user.id == data.proId) {
+        NextResponse.json("Sorry you can not write a review for yourself!", {
+            status: 403,
+        });
+        return;
+    }
+
+    data.userId = user.id;
+    const newData = {
+        userId: data.userId,
+        serviceProfileId: data.serviceId,
+        comment: data.comment,
+        rating: data.rating,
+    };
 
     const reviews = await prisma.review.create({
-        data,
+        data: newData,
     });
 
     // Update servicePorfile avarage rating
     const serviceReviews = await prisma.review.findMany({
         where: {
-            id: data.servicePorfileId,
+            serviceProfileId: data.serviceId,
         },
         select: { rating: true },
     });
@@ -44,11 +74,9 @@ const createReviews = async (req: NextRequest) => {
     const averageRating = calcualteAverage(totalRating, sumRatings);
 
     await prisma.serviceProfile.update({
-        where: { id: data.serviceProfileId },
+        where: { id: data.serviceId },
         data: { rating: averageRating },
     });
 
     return NextResponse.json(reviews, { status: 201 });
-};
-
-export { getReviews as GET, createReviews as POST };
+}

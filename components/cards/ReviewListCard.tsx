@@ -1,22 +1,23 @@
 import { Grid, Avatar, Typography } from "@mui/material";
 import { CustomDashboardCard } from "@/components";
-import { Customer, ServiceProfile, User } from "@prisma/client";
+import { Review, ServiceProfile, User } from "@prisma/client";
 
-interface Business extends Customer {
+interface Ireview extends Review {
     user: User;
     service: ServiceProfile;
 }
+
 interface Props {
-    data?: Business[];
-    handleClick: (business: ServiceProfile) => void;
+    data?: Ireview[];
+    handleClick: (review: Ireview) => void;
 }
 
-const ListCard = ({ data, handleClick }: Props) => {
+const ReviewListCard = ({ data, handleClick }: Props) => {
     return (
         <CustomDashboardCard>
             <Grid container rowSpacing={3}>
                 {data &&
-                    data.map((item: Business) => (
+                    data.map((item: Ireview) => (
                         <Grid
                             container
                             item
@@ -28,7 +29,7 @@ const ListCard = ({ data, handleClick }: Props) => {
                                 justifyContent: "start",
                             }}
                             columnSpacing={2}
-                            onClick={() => handleClick(item.service)}
+                            onClick={() => handleClick(item)}
                         >
                             <Grid item>
                                 <Avatar
@@ -56,4 +57,4 @@ const ListCard = ({ data, handleClick }: Props) => {
     );
 };
 
-export default ListCard;
+export default ReviewListCard;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Box, Typography, Divider, Avatar, Rating, Button} from "@mui/material";
 import { BiStar } from "react-icons/bi";
-import { CustomDashboardCard, PrimaryButton } from "..";
+import { CustomDashboardCard } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
 
 interface ServicesProps {

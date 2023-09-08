@@ -25,6 +25,7 @@ export async function GET() {
             where: { id },
             include: {
                 location: true,
+                businesses: true,
             },
         });
         return NextResponse.json(users);
@@ -39,6 +40,14 @@ export async function POST(req: Request) {
     const hashedPassword = Password.hash(data.password);
     data.password = hashedPassword;
 
+    let serviceQuery = {};
+
+    if (data.type === "PRO") {
+        serviceQuery = {
+            create: {},
+        };
+    }
+
     try {
         const user = await prisma.user.create({
             data: {
@@ -47,6 +56,7 @@ export async function POST(req: Request) {
                 phone: data.phone,
                 type: data.type,
                 password: data.password,
+                serviceProfile: serviceQuery,
                 location: {
                     create: {
                         address: data.address,

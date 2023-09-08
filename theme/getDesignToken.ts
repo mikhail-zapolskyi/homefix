@@ -41,6 +41,18 @@ const getDesignToken = (mode: PaletteMode) => ({
                       default: "#FAFAFA",
                       paper: "#FAFAFA",
                   },
+                  warning: {
+                      main: "#FF6663",
+                      light: "#FF7977",
+                      dark: "#F34E4B",
+                      contrastText: "#fff",
+                  },
+                  success: {
+                      main: "#7DCE82",
+                      light: "#85C489",
+                      dark: "#58B35E",
+                      contrastText: "#fff",
+                  },
               }
             : {
                   // palette values for dark mode
@@ -55,6 +67,18 @@ const getDesignToken = (mode: PaletteMode) => ({
                   background: {
                       default: "#272727",
                       paper: "#272727",
+                  },
+                  warning: {
+                      main: "#FF6663",
+                      light: "#FF7977",
+                      dark: "#F34E4B",
+                      contrastText: "#fff",
+                  },
+                  success: {
+                      main: "#7DCE82",
+                      light: "#85C489",
+                      dark: "#58B35E",
+                      contrastText: "#fff",
                   },
               }),
     },

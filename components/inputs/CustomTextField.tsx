@@ -1,11 +1,12 @@
-import styled from "@emotion/styled";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Box,
     FormControl,
     IconButton,
     InputAdornment,
+    InputLabel,
     OutlinedInput,
+    styled,
 } from "@mui/material";
 
 import React from "react";
@@ -24,16 +25,21 @@ const StyledTextField = styled(OutlinedInput)(({ theme }) => ({
     },
     ".MuiInputBase-input": {
         "&:-webkit-autofill": {
-            borderRadius: "1rem",
+            borderRadius: "0.8rem",
         },
     },
 }));
 
+const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
+    backgroundColor: `${theme.palette.background.paper}`,
+    padding: "0 .3rem",
+}));
+
 export const CustomTextField: React.FC<TextFieldProps> = ({
     name,
-    placeholder,
     onChange,
     value,
+    placeholder,
     type = "text",
 }) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -60,10 +66,15 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                     padding: "0",
                 }}
             >
+                <StyledInputLabel>
+                    {(name.charAt(0).toUpperCase() + name.slice(1)).replace(
+                        "_",
+                        " "
+                    )}
+                </StyledInputLabel>
                 <StyledTextField
                     id={name}
                     name={name}
-                    placeholder={placeholder}
                     type={showPassword ? "text" : type}
                     value={value}
                     onChange={onChange}

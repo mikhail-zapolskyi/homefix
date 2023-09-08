@@ -29,9 +29,11 @@
     "@types/react-dom": "18.2.4",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.40.0",
     "cors": "^2.8.5",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
+    "lodash": "^4.17.21",
     "next": "13.4.5",
     "next-auth": "^4.22.1",
     "next-connect": "^1.0.0-next.4",
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/lodash": "^4.14.197",
     "@types/nodemailer": "^6.4.9",
     "prettier": "3.0.0",
     "prisma": "^5.0.0"

@@ -11,7 +11,13 @@ const CustomDashboardCard: React.FC<CustomDashboardCardProps> = ({
 }) => {
     return (
         <Card
-            sx={{ minWidth: '275px', padding: "2rem", borderRadius: "1rem" }}
+            sx={{
+                minWidth: 275,
+                minHeight: "3rem",
+                padding: "1rem",
+                borderRadius: "1rem",
+                position: "relative",
+            }}
             elevation={4}
         >
             {children}
