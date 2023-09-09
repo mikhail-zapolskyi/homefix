@@ -129,18 +129,16 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
             endIcon={<DriveFileRenameOutlineIcon />}
         />
     );
-    const renderMessageButton = (
-        <CustomButton text="Message" variant="contained" />
-    );
 
     return (
         <CustomDashboardCard>
             {formData && (
                 <Grid container rowSpacing={3}>
-                    <Grid container item xs={12}>
+                    <Grid container item xs={12} spacing={{ xs: 2 }}>
                         <Grid
                             container
                             item
+                            xs={12}
                             sm={6}
                             sx={{
                                 alignItems: "center",
@@ -174,10 +172,11 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                         <Grid
                             container
                             item
+                            xs={12}
                             sm={6}
                             sx={{
                                 alignItems: "center",
-                                justifyContent: "end",
+                                justifyContent: { xs: "center", sm: "end" },
                             }}
                             columnSpacing={1}
                         >
@@ -187,10 +186,7 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                                     <Grid item>{renderCancelButton}</Grid>
                                 </>
                             ) : (
-                                <>
-                                    <Grid item>{renderMessageButton}</Grid>
-                                    <Grid item>{renderEditButton}</Grid>
-                                </>
+                                <Grid item>{renderEditButton}</Grid>
                             )}
                         </Grid>
                     </Grid>
