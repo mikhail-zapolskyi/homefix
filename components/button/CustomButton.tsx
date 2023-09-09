@@ -1,12 +1,17 @@
 import { Button, styled } from "@mui/material";
 import React, { MouseEvent, ReactNode } from "react";
 
-const StyledButton = styled(Button)(({ theme }) => ({
+interface StyledButtonProps {
+    padding: true | false;
+}
+
+const StyledButton = styled(Button)<StyledButtonProps>(({ padding }) => ({
     minWidth: "5rem",
+    height: "fit-content",
     borderRadius: ".8rem",
     fontSize: "1rem",
     fontWeight: "500",
-    padding: ".2rem",
+    padding: padding ? "0.2rem" : 0,
     textTransform: "inherit",
     backgroundBlendMode: "lighten",
 }));
@@ -29,6 +34,7 @@ interface ButtonProps {
         | "error"
         | "info"
         | "warning";
+    padding?: true | false;
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
@@ -42,6 +48,7 @@ const CustomButton: React.FC<ButtonProps> = ({
     type,
     variant = "outlined",
     color = "primary",
+    padding = true,
 }) => {
     return (
         <StyledButton
@@ -54,6 +61,7 @@ const CustomButton: React.FC<ButtonProps> = ({
             size={size}
             type={type}
             color={color}
+            padding={padding}
         >
             {text}
         </StyledButton>

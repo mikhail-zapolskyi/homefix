@@ -21,10 +21,12 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
     handleCallback,
 }) => {
     const [editMode, setEditMode] = useState<EditMode>(false);
-    const [formData, setFormData] = useState<Record<string, any>>();
+    const [formData, setFormData] = useState<Record<string, any> | undefined>(
+        data
+    );
 
     useEffect(() => {
-        setFormData({ ...formData, ...data });
+        if (data) setFormData(data);
     }, [data]);
 
     const handleEditMode = () => {
@@ -52,6 +54,12 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
         console.log(file);
     };
 
+    const handleCancel = () => {
+        setEditMode(false);
+    };
+
+    const deleteCallback = () => {};
+
     const renderData = (
         <Grid container item xs={12} spacing={2}>
             {formData &&
@@ -59,27 +67,43 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                     ([key, value]) =>
                         key !== "image" &&
                         key !== "password" && (
-                            <Grid
-                                item
-                                xs={12}
-                                sm={9}
-                                key={key}
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                    :
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    sx={{ fontWeight: 800 }}
+                            <React.Fragment key={key}>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    key={key}
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                    }}
                                 >
-                                    {value}
-                                </Typography>
-                            </Grid>
+                                    <Typography variant="body1">
+                                        {key.charAt(0).toUpperCase() +
+                                            key.slice(1)}
+                                        :
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 800 }}
+                                    >
+                                        {value}
+                                    </Typography>
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={6}
+                                    sx={{ justifyContent: "end" }}
+                                >
+                                    <CustomButton
+                                        text="Delete"
+                                        onClick={deleteCallback}
+                                        color="warning"
+                                        variant="contained"
+                                        padding={false}
+                                    />
+                                </Grid>
+                            </React.Fragment>
                         )
                 )}
         </Grid>
@@ -114,9 +138,6 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                 )}
         </Grid>
     );
-    const handleCancel = () => {
-        setEditMode(false);
-    };
 
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
     const renderCancelButton = (
@@ -134,7 +155,7 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
         <CustomDashboardCard>
             {formData && (
                 <Grid container rowSpacing={3}>
-                    <Grid container item xs={12} spacing={{ xs: 2 }}>
+                    <Grid container item xs={12} spacing={2}>
                         <Grid
                             container
                             item
