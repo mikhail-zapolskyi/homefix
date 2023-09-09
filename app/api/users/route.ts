@@ -95,14 +95,23 @@ export async function PUT(req: Request) {
     const data = await req.json();
     const session = await getServerSession(authOptions);
 
+    // Check if a valid session exists
     if (!session) {
-        redirect("/api/auth/signin");
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
+    // Get the user's ID
     const { id } = session.user;
 
+    // Check if the user's ID exists
     if (!id) {
-        return NextResponse.json("You are not authorized");
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
     if (data.password) {

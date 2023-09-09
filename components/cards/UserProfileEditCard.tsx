@@ -1,6 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Avatar, Typography, Grid } from "@mui/material";
+import {
+    Avatar,
+    Typography,
+    Grid,
+    Divider,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+} from "@mui/material";
 import {
     CustomTextField,
     CustomDashboardCard,
@@ -11,14 +22,16 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 
 interface UserProfileEditCardProps {
     data?: Record<string, any>;
-    handleCallback?: (formData: Record<string, any>) => void;
+    updateCallback?: (formData: Record<string, any>) => void;
+    deleteCallback?: (item: Record<string, any>) => void;
 }
 
 type EditMode = true | false;
 
 const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
     data,
-    handleCallback,
+    updateCallback,
+    deleteCallback,
 }) => {
     const [editMode, setEditMode] = useState<EditMode>(false);
     const [formData, setFormData] = useState<Record<string, any> | undefined>(
@@ -36,8 +49,8 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
     const handleSave = () => {
         setEditMode(!editMode);
 
-        if (handleCallback && formData) {
-            handleCallback(formData);
+        if (updateCallback && formData) {
+            updateCallback(formData);
         }
     };
 
@@ -58,54 +71,74 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
         setEditMode(false);
     };
 
-    const deleteCallback = () => {};
+    const handleDeleteCallback = (key: string) => {
+        if (deleteCallback && key) {
+            deleteCallback({ [key]: "" });
+        }
+    };
 
     const renderData = (
-        <Grid container item xs={12} spacing={2}>
-            {formData &&
-                Object.entries(formData).map(
-                    ([key, value]) =>
-                        key !== "image" &&
-                        key !== "password" && (
-                            <React.Fragment key={key}>
-                                <Grid
-                                    item
-                                    xs={6}
-                                    key={key}
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                    }}
-                                >
-                                    <Typography variant="body1">
-                                        {key.charAt(0).toUpperCase() +
-                                            key.slice(1)}
-                                        :
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{ fontWeight: 800 }}
-                                    >
-                                        {value}
-                                    </Typography>
-                                </Grid>
-                                <Grid
-                                    container
-                                    item
-                                    xs={6}
-                                    sx={{ justifyContent: "end" }}
-                                >
-                                    <CustomButton
-                                        text="Delete"
-                                        onClick={deleteCallback}
-                                        color="warning"
-                                        variant="contained"
-                                        padding={false}
-                                    />
-                                </Grid>
-                            </React.Fragment>
-                        )
-                )}
+        <Grid container item xs={12}>
+            <TableContainer>
+                <Table>
+                    <TableBody>
+                        {data &&
+                            Object.entries(data).map(
+                                ([key, value]) =>
+                                    key !== "image" &&
+                                    key !== "password" && (
+                                        <TableRow
+                                            key={key}
+                                            sx={{
+                                                "&:last-child td, &:last-child th":
+                                                    {
+                                                        border: 0,
+                                                    },
+                                            }}
+                                        >
+                                            <TableCell>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        fontWeight: 800,
+                                                    }}
+                                                >
+                                                    {key}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        fontWeight: 800,
+                                                    }}
+                                                >
+                                                    {value
+                                                        ? value
+                                                        : `Please fill your ${key}`}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {value && key !== "email" && (
+                                                    <CustomButton
+                                                        text="Delete"
+                                                        onClick={() =>
+                                                            handleDeleteCallback(
+                                                                key
+                                                            )
+                                                        }
+                                                        color="warning"
+                                                        variant="contained"
+                                                        padsize="none"
+                                                    />
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                            )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Grid>
     );
 
@@ -215,7 +248,6 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                         container
                         item
                         xs={12}
-                        lg={8}
                         spacing={2}
                         sx={{ maxWidth: 600 }}
                     >

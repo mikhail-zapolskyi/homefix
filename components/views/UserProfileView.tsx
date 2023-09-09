@@ -33,7 +33,32 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
 
         try {
             toast.promise(axios.put("/api/users", notEmptyData), {
-                success: "Changes Saved",
+                success: {
+                    render({ data }) {
+                        if (data) {
+                            setFormData(data.data);
+                        }
+                        return "Changes Saved";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    };
+
+    const handleDelete = async (data: Record<string, any>) => {
+        try {
+            toast.promise(axios.put("/api/users", data), {
+                success: {
+                    render({ data }) {
+                        if (data) {
+                            setFormData(data.data);
+                        }
+                        return "Changes Saved";
+                    },
+                },
                 error: "Something went wrong",
             });
         } catch (error: any) {
@@ -46,7 +71,12 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
 
         try {
             toast.promise(axios.put("/api/location", notEmptyData), {
-                success: "Changes Saved",
+                success: {
+                    render({ data }) {
+                        if (data) setLocationFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
                 error: "Something went wrong",
             });
         } catch (error: any) {
@@ -66,7 +96,8 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                             image: formData.image,
                             phone: formData.phone,
                         }}
-                        handleCallback={handleSave}
+                        updateCallback={handleSave}
+                        deleteCallback={handleDelete}
                     />
                 </Grid>
                 {
