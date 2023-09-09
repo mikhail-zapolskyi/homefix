@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
     CustomDashboardCard,
     CustomButton,
-    SelectField,
-    CustomTextField,
     SelectCreateField,
 } from "@/components";
 import {
@@ -12,7 +10,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     TableRow,
     Typography,
 } from "@mui/material";
@@ -22,7 +19,7 @@ import { toast } from "react-toastify";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
-interface CategoryEditCardProps {
+interface ViewEditCategoryProps {
     data?: Record<string, any>[];
     handleCallback?: (formData: Record<string, any>) => void;
     handleDeleteCallback?: (id: string) => void;
@@ -30,7 +27,7 @@ interface CategoryEditCardProps {
 
 type EditMode = true | false;
 
-const CategoryEditCard: React.FC<CategoryEditCardProps> = ({
+const ViewEditCategory: React.FC<ViewEditCategoryProps> = ({
     data,
     handleCallback,
     handleDeleteCallback,
@@ -101,20 +98,8 @@ const CategoryEditCard: React.FC<CategoryEditCardProps> = ({
         <Grid container item xs={12}>
             <TableContainer>
                 <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                <Typography variant="body1">
-                                    Category
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="right">
-                                <Typography variant="body1">Action</Typography>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
                     <TableBody>
-                        {formData?.map((category, index) => (
+                        {formData?.map((category) => (
                             <TableRow
                                 key={category.categoryId}
                                 sx={{
@@ -197,4 +182,4 @@ const CategoryEditCard: React.FC<CategoryEditCardProps> = ({
     );
 };
 
-export default CategoryEditCard;
+export default ViewEditCategory;

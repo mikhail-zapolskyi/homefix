@@ -1,12 +1,21 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomDashboardCard from "./CustomDashboardCard";
-import { Grid, Typography } from "@mui/material";
+import {
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography,
+} from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CustomButton from "../button/CustomButton";
 import CustomTextField from "../inputs/CustomTextField";
 import _ from "lodash";
+import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
 
-interface BusinessArrayInfoEditCardProps {
+interface ViewEditArrayDataProps {
     arrays?: Record<string, any>;
     handleCallback?: (formData: Record<string, any>) => void;
     handleDeleteDayCallback?: (day: Record<string, any>) => void;
@@ -14,7 +23,7 @@ interface BusinessArrayInfoEditCardProps {
 
 type EditMode = true | false;
 
-const BusinessArrayInfoEditCard: React.FC<BusinessArrayInfoEditCardProps> = ({
+const ViewEditArrayData: React.FC<ViewEditArrayDataProps> = ({
     arrays,
     handleCallback,
 }) => {
@@ -100,28 +109,47 @@ const BusinessArrayInfoEditCard: React.FC<BusinessArrayInfoEditCardProps> = ({
     // Render form data
     const renderFormData = (
         <Grid container item xs={12} spacing={2}>
-            {arrays &&
-                Object.entries(arrays).map(([key, value]) => (
-                    <Grid
-                        item
-                        xs={12}
-                        sm={9}
-                        key={key}
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                        }}
-                    >
-                        <Typography variant="body1">
-                            {key.charAt(0).toUpperCase() +
-                                key.slice(1).replace("_", " ")}
-                            :
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                            {value && value.toString().replace(/,/g, ", ")}
-                        </Typography>
-                    </Grid>
-                ))}
+            <TableContainer>
+                <Table>
+                    <TableBody>
+                        {arrays &&
+                            Object.entries(arrays).map(([key, value]) => (
+                                <TableRow
+                                    key={key}
+                                    sx={{
+                                        "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                        },
+                                    }}
+                                >
+                                    <TableCell>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontWeight: 800,
+                                            }}
+                                        >
+                                            {toFirstUpperCase(key)}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontWeight: 800,
+                                            }}
+                                        >
+                                            {value &&
+                                                value
+                                                    .toString()
+                                                    .replace(/,/g, ", ")}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Grid>
     );
 
@@ -250,4 +278,4 @@ const BusinessArrayInfoEditCard: React.FC<BusinessArrayInfoEditCardProps> = ({
     );
 };
 
-export default BusinessArrayInfoEditCard;
+export default ViewEditArrayData;

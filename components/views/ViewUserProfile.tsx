@@ -1,6 +1,6 @@
 "use client";
 
-import { LocationCard, UserProfileEditCard } from "@/components";
+import { ViewEditLocation, ViewEditUserProfile } from "@/components";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import { Grid } from "@mui/material";
 import { User, Location } from "@prisma/client";
@@ -8,24 +8,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-interface UserProfileViewProps {
-    data?: User;
+interface ViewUserProfileProps {
+    userProfile?: User;
     location?: Location;
 }
 
-const UserProfileView: React.FC<UserProfileViewProps> = ({
-    data,
+const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
+    userProfile,
     location,
 }) => {
-    const [formData, setFormData] = useState<User>();
+    const [userProfileFormData, setUserProfileFormData] = useState<User>();
     const [locationFormData, setLocationFormData] = useState<Location>();
 
     useEffect(() => {
-        setFormData(data);
-    }, [data]);
+        if (userProfile) setUserProfileFormData(userProfile);
+    }, [userProfile]);
 
     useEffect(() => {
-        setLocationFormData(location);
+        if (location) setLocationFormData(location);
     }, [location]);
 
     const handleSave = async (data: Record<string, any>) => {
@@ -36,7 +36,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 success: {
                     render({ data }) {
                         if (data) {
-                            setFormData(data.data);
+                            setUserProfileFormData(data.data);
                         }
                         return "Changes Saved";
                     },
@@ -54,7 +54,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 success: {
                     render({ data }) {
                         if (data) {
-                            setFormData(data.data);
+                            setUserProfileFormData(data.data);
                         }
                         return "Changes Saved";
                     },
@@ -85,16 +85,16 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
     };
 
     return (
-        formData && (
+        userProfileFormData && (
             <Grid container rowSpacing={2}>
                 <Grid item xs={12}>
-                    <UserProfileEditCard
+                    <ViewEditUserProfile
                         data={{
-                            name: formData.name,
-                            email: formData.email,
+                            name: userProfileFormData.name,
+                            email: userProfileFormData.email,
                             password: "",
-                            image: formData.image,
-                            phone: formData.phone,
+                            image: userProfileFormData.image,
+                            phone: userProfileFormData.phone,
                         }}
                         updateCallback={handleSave}
                         deleteCallback={handleDelete}
@@ -102,21 +102,23 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 </Grid>
                 {
                     <Grid item xs={12}>
-                        <LocationCard
+                        <ViewEditLocation
                             title="Personal Address"
-                            location={
-                                locationFormData
-                                    ? {
-                                          address: locationFormData.address,
-                                          city: locationFormData.city,
-                                          state: locationFormData.state,
-                                          country: locationFormData.country,
-                                          postalCode:
-                                              locationFormData.postalCode,
-                                      }
-                                    : {}
-                            }
-                            handleCallback={handleLocationSave}
+                            data={{
+                                address:
+                                    locationFormData &&
+                                    locationFormData.address,
+                                city: locationFormData && locationFormData.city,
+                                state:
+                                    locationFormData && locationFormData.state,
+                                country:
+                                    locationFormData &&
+                                    locationFormData.country,
+                                postalCode:
+                                    locationFormData &&
+                                    locationFormData.postalCode,
+                            }}
+                            updateCallback={handleLocationSave}
                         />
                     </Grid>
                 }
@@ -125,4 +127,4 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
     );
 };
 
-export default UserProfileView;
+export default ViewUserProfile;

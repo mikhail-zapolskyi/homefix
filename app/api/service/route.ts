@@ -71,52 +71,51 @@ const createServiceProfile = async (req: NextRequest) => {
  * @returns {NextResponse} - A response object indicating success or failure.
  */
 export async function PUT(req: Request) {
+    // Parse the JSON data from the request
+    const data = await req.json();
+    // Remove properties from the data to prevent it from being updated. Because it throw an error due to incorrect value
+    delete data.id;
+    delete data.userId;
+    delete data.location;
+    delete data.businessHours;
+    delete data.reviews;
+    delete data.posts;
+    delete data.categories;
+    delete data.customers;
+
+    // Retrieve the user's session to check authorization
+    const session = await getServerSession(authOptions);
+
+    // Check if a valid session exists
+    if (!session) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+
+    // Get the user from the session
+    const user = session.user;
+
+    // Check if the user exists and is of type 'PRO' (professional)
+    if (!user || user.type !== "PRO") {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+
+    // Get the user's ID
+    const userId = user.id;
+
+    // Check if the user's ID exists
+    if (!userId) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
     try {
-        // Parse the JSON data from the request
-        const data = await req.json();
-        // Remove properties from the data to prevent it from being updated. Because it throw an error due to incorrect value
-        delete data.id;
-        delete data.userId;
-        delete data.location;
-        delete data.businessHours;
-        delete data.reviews;
-        delete data.posts;
-        delete data.categories;
-        delete data.customers;
-
-        // Retrieve the user's session to check authorization
-        const session = await getServerSession(authOptions);
-
-        // Check if a valid session exists
-        if (!session) {
-            return NextResponse.json(
-                { error: "You are not authorized" },
-                { status: 401 }
-            );
-        }
-
-        // Get the user from the session
-        const user = session.user;
-
-        // Check if the user exists and is of type 'PRO' (professional)
-        if (!user || user.type !== "PRO") {
-            return NextResponse.json(
-                { error: "You are not authorized" },
-                { status: 401 }
-            );
-        }
-
-        // Get the user's ID
-        const userId = user.id;
-
-        // Check if the user's ID exists
-        if (!userId) {
-            return NextResponse.json(
-                { error: "You are not authorized" },
-                { status: 401 }
-            );
-        }
-
         // Find the service profile associated with the user
         const servPro = await prisma.serviceProfile.findUnique({
             where: {

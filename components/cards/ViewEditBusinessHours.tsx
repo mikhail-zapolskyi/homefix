@@ -1,11 +1,21 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomDashboardCard from "./CustomDashboardCard";
-import { Grid, Typography, styled } from "@mui/material";
+import {
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography,
+    styled,
+} from "@mui/material";
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
 
 // Define the props for the BusinessHoursEditCard component
-interface BusinessHoursEditCardProps {
+interface ViewEditBusinessHoursProps {
     businessHours?: Record<string, any>[];
     handleCallback?: (formData: Record<string, any>[]) => void;
     handleDeleteDayCallback?: (day: Record<string, any>) => void;
@@ -28,8 +38,8 @@ const StyledTimeInput = styled("input")(({ theme }) => ({
     fontFamily: `${theme.typography.body1}`,
 }));
 
-// Define the BusinessHoursEditCard component
-const BusinessHoursEditCard: React.FC<BusinessHoursEditCardProps> = ({
+// Define the ViewEditBusinessHours component
+const ViewEditBusinessHours: React.FC<ViewEditBusinessHoursProps> = ({
     businessHours,
     handleCallback,
     handleDeleteDayCallback,
@@ -115,38 +125,53 @@ const BusinessHoursEditCard: React.FC<BusinessHoursEditCardProps> = ({
 
     // Render the non-editable business hours display
     const renderBusinessHours = (
-        <Grid container item xs={12} spacing={2}>
-            {formData &&
-                formData
-                    .sort((a, b) => {
-                        return (
-                            daysOfWeek.indexOf(a.type) -
-                            daysOfWeek.indexOf(b.type)
-                        );
-                    })
-                    .map((time) => (
-                        <Grid
-                            item
-                            xs={12}
-                            sm={9}
-                            key={time.type}
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                            }}
-                        >
-                            <Typography variant="body1" mr={1}>
-                                {time.type}:
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                sx={{ fontWeight: 800 }}
-                            >
-                                {time.from + " - " + time.to}
-                            </Typography>
-                        </Grid>
-                    ))}
+        <Grid container item xs={12}>
+            <TableContainer>
+                <Table>
+                    <TableBody>
+                        {formData &&
+                            formData
+                                .sort((a, b) => {
+                                    return (
+                                        daysOfWeek.indexOf(a.type) -
+                                        daysOfWeek.indexOf(b.type)
+                                    );
+                                })
+                                .map((time) => (
+                                    <TableRow
+                                        key={time.type}
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
+                                    >
+                                        <TableCell>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontWeight: 800,
+                                                }}
+                                            >
+                                                {toFirstUpperCase(time.type)}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontWeight: 800,
+                                                }}
+                                            >
+                                                {time.from + " - " + time.to}
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Grid>
     );
 
@@ -219,7 +244,7 @@ const BusinessHoursEditCard: React.FC<BusinessHoursEditCardProps> = ({
         </>
     );
 
-    // Render the BusinessHoursEditCard component
+    // Render the ViewEditBusinessHours component
     return (
         <CustomDashboardCard>
             <Grid container sx={{ alignItems: "center" }} rowSpacing={4}>
@@ -252,4 +277,4 @@ const BusinessHoursEditCard: React.FC<BusinessHoursEditCardProps> = ({
     );
 };
 
-export default BusinessHoursEditCard;
+export default ViewEditBusinessHours;

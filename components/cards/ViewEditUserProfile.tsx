@@ -4,10 +4,8 @@ import {
     Avatar,
     Typography,
     Grid,
-    Divider,
     TableContainer,
     Table,
-    TableHead,
     TableRow,
     TableCell,
     TableBody,
@@ -19,8 +17,9 @@ import {
     ImageUploadButton,
 } from "@/components";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
 
-interface UserProfileEditCardProps {
+interface ViewEditUserProfileProps {
     data?: Record<string, any>;
     updateCallback?: (formData: Record<string, any>) => void;
     deleteCallback?: (item: Record<string, any>) => void;
@@ -28,7 +27,7 @@ interface UserProfileEditCardProps {
 
 type EditMode = true | false;
 
-const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
+const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
     data,
     updateCallback,
     deleteCallback,
@@ -103,7 +102,7 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                                                         fontWeight: 800,
                                                     }}
                                                 >
-                                                    {key}
+                                                    {toFirstUpperCase(key)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -115,7 +114,7 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
                                                 >
                                                     {value
                                                         ? value
-                                                        : `Please fill your ${key}`}
+                                                        : `Please add your ${key}`}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell align="right">
@@ -259,4 +258,4 @@ const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
     );
 };
 
-export default UserProfileEditCard;
+export default ViewEditUserProfile;

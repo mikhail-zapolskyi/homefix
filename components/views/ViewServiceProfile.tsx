@@ -6,32 +6,33 @@ import axios from "axios";
 import { ServiceProfile, Location, Day } from "@prisma/client";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import {
-    DefaultEditCard,
+    ViewEditDefaultCard,
     PublishProfileEditCard,
     ImageUploadCard,
-    LocationCard,
-    BusinessHoursEditCard,
-    BusinessArrayInfoEditCard,
-    CategoryEditCard,
+    ViewEditLocation,
+    ViewEditBusinessHours,
+    ViewEditArrayData,
+    ViewEditCategory,
 } from "@/components";
 import { Grid } from "@mui/material";
 
-interface ServiceProfileViewProps {
-    data?: ServiceProfile;
+interface ViewServiceProfileProps {
+    serviceProfile?: ServiceProfile;
     location?: Location;
     businessHours?: Day[];
     categories?: Record<string, any>[];
 }
 
 // Define the ServiceProfile component
-const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
-    data,
+const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
+    serviceProfile,
     location,
     businessHours,
     categories,
 }) => {
     // Use SWR to fetch data from "/api/service/single"
-    const [formData, setFormData] = useState<ServiceProfile>();
+    const [serviceProfileFormData, setServiceProfileFormData] =
+        useState<ServiceProfile>();
     const [locationFormData, setLocationFormData] = useState<Location>();
     const [businessHoursFormData, setBusinessHoursFormData] = useState<Day[]>();
     const [categoriesFormData, setCategoriesFormData] =
@@ -39,8 +40,8 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
 
     // Update states when data is fetched
     useEffect(() => {
-        setFormData(data);
-    }, [data]);
+        setServiceProfileFormData(serviceProfile);
+    }, [serviceProfile]);
 
     useEffect(() => {
         setLocationFormData(location);
@@ -64,19 +65,43 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     };
 
     // Callback function for handling form details
-    const handleCallbackFormDetails = (details: Record<string, any>) => {
-        if (!details) {
+    const handleCallbackFormDetails = (data: Record<string, any>) => {
+        if (!data) {
             return toast.error("Something went wrong");
         }
-        const newData = { ...formData, ...details } as ServiceProfile;
+        const newData = {
+            ...serviceProfileFormData,
+            ...data,
+        } as ServiceProfile;
         const notEmptyData = filterEmptyValues(newData);
-
         try {
             // Send a PUT request to update service data
             toast.promise(axios.put("/api/service", notEmptyData), {
                 success: {
                     render({ data }) {
-                        if (data) setFormData(data.data);
+                        if (data) setServiceProfileFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    };
+
+    const handleDeleteServiceProfileDetails = (data: Record<string, any>) => {
+        const key = Object.keys(data)[0];
+        if (key === "employees" || key === "experience") {
+            data[`${key}`] = 0;
+        }
+
+        try {
+            // Send a PUT request to update service data
+            toast.promise(axios.put("/api/service", data), {
+                success: {
+                    render({ data }) {
+                        if (data) setServiceProfileFormData(data.data);
                         return "Changes Saved";
                     },
                 },
@@ -89,8 +114,8 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
 
     const handleLocationSave = async (data: Record<string, any>) => {
         const notEmptyData = filterEmptyValues(data);
-        if (!notEmptyData.serviceProfileId && formData) {
-            notEmptyData.serviceProfileId = formData.id;
+        if (!notEmptyData.serviceProfileId && serviceProfileFormData) {
+            notEmptyData.serviceProfileId = serviceProfileFormData.id;
         }
 
         try {
@@ -172,40 +197,43 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                 <Grid container item xs={12} lg={3} spacing={2}>
                     <Grid item xs={12}>
                         <ImageUploadCard
-                            data={formData}
+                            data={serviceProfileFormData}
                             handleCallback={handleCallbackFile}
                         />
                     </Grid>
                     {/* Form Publish/Edit Card */}
                     <Grid item xs={12}>
                         <PublishProfileEditCard
-                            data={formData}
+                            data={serviceProfileFormData}
                             handleCallback={handleCallbackFormDetails}
                         />
                     </Grid>
                 </Grid>
                 {/* Default Form Edit Card */}
                 <Grid item xs={12} lg={9}>
-                    <DefaultEditCard
+                    <ViewEditDefaultCard
                         data={{
-                            name: formData?.name,
-                            email: formData?.email,
-                            phone: formData?.phone,
-                            introduction: formData?.introduction,
-                            bio: formData?.bio,
-                            experience: formData?.experience,
-                            employees: formData?.employees,
-                            schedualPolicy: formData?.schedualPolicy,
+                            name: serviceProfileFormData?.name,
+                            email: serviceProfileFormData?.email,
+                            phone: serviceProfileFormData?.phone,
+                            introduction: serviceProfileFormData?.introduction,
+                            bio: serviceProfileFormData?.bio,
+                            experience: serviceProfileFormData?.experience,
+                            employees: serviceProfileFormData?.employees,
+                            schedualPolicy:
+                                serviceProfileFormData?.schedualPolicy,
                         }}
                         title="Service Profile Details"
-                        handleCallback={handleCallbackFormDetails}
+                        saveCallback={handleCallbackFormDetails}
+                        deleteCallback={handleDeleteServiceProfileDetails}
                     />
                 </Grid>
             </Grid>
             <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
                 <Grid item xs={12} lg={9}>
-                    <LocationCard
-                        location={
+                    <ViewEditLocation
+                        title="Business Location"
+                        data={
                             locationFormData
                                 ? {
                                       address: locationFormData.address,
@@ -216,14 +244,13 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
                                   }
                                 : {}
                         }
-                        title="Business Location"
-                        handleCallback={handleLocationSave}
+                        updateCallback={handleLocationSave}
                     />
                 </Grid>
             </Grid>
             <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
                 <Grid item xs={12} lg={9}>
-                    <BusinessHoursEditCard
+                    <ViewEditBusinessHours
                         businessHours={businessHoursFormData}
                         handleCallback={handleBusinessHoursSave}
                         handleDeleteDayCallback={handleDeleteDayCallback}
@@ -232,7 +259,7 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
             </Grid>
             <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
                 <Grid item xs={12} lg={9}>
-                    <CategoryEditCard
+                    <ViewEditCategory
                         data={categoriesFormData}
                         handleDeleteCallback={handleCategoryDelete}
                         handleCallback={handleCategorySave}
@@ -241,11 +268,14 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
             </Grid>
             <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
                 <Grid item xs={12} lg={9}>
-                    <BusinessArrayInfoEditCard
+                    <ViewEditArrayData
                         arrays={{
-                            specialties_Do: formData?.specialties_Do,
-                            specialties_No: formData?.specialties_No,
-                            payment_Methods: formData?.payment_Methods,
+                            specialties_Do:
+                                serviceProfileFormData?.specialties_Do,
+                            specialties_No:
+                                serviceProfileFormData?.specialties_No,
+                            payment_Methods:
+                                serviceProfileFormData?.payment_Methods,
                         }}
                         handleCallback={handleCallbackFormDetails}
                     />
@@ -255,4 +285,4 @@ const ServiceProfileView: React.FC<ServiceProfileViewProps> = ({
     );
 };
 
-export default ServiceProfileView;
+export default ViewServiceProfile;

@@ -6,32 +6,43 @@ import {
     CustomTextField,
     SelectField,
 } from "@/components";
-import { Grid, SelectChangeEvent, Typography } from "@mui/material";
+import {
+    Grid,
+    SelectChangeEvent,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography,
+} from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import useSWR from "swr";
+import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
 
 const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 
-interface LocationCardProps {
+interface ViewEditLocationProps {
     title?: string;
-    location?: Record<string, any>;
-    handleCallback?: (formData: Record<string, any>) => void;
+    data?: Record<string, any> | undefined;
+    updateCallback?: (formData: Record<string, any>) => void;
 }
 
 type EditMode = true | false;
 
-const LocationCard: React.FC<LocationCardProps> = ({
+const ViewEditLocation: React.FC<ViewEditLocationProps> = ({
     title,
-    location,
-    handleCallback,
+    data,
+    updateCallback,
 }) => {
     const [editMode, setEditMode] = useState<EditMode>(false);
     const [formData, setFormData] = useState<Record<string, any>>();
     const [locationParams, setLocationParams] = useState("");
-    const { data, error, isLoading } = useSWR(
-        `/api/location${locationParams}`,
-        fetcher
-    );
+    const {
+        data: location,
+        error,
+        isLoading,
+    } = useSWR(`/api/location${locationParams}`, fetcher);
 
     if (error) {
         throw new Error(error.message);
@@ -44,8 +55,8 @@ const LocationCard: React.FC<LocationCardProps> = ({
     }, [formData?.country, formData?.state]);
 
     useEffect(() => {
-        setFormData(location);
-    }, [location]);
+        if (data) setFormData(data);
+    }, [data]);
 
     const handleEditMode = () => {
         setEditMode(!editMode);
@@ -82,44 +93,64 @@ const LocationCard: React.FC<LocationCardProps> = ({
     const handleSave = () => {
         setEditMode(!editMode);
 
-        if (handleCallback && formData) {
-            handleCallback(formData);
+        if (updateCallback && formData) {
+            updateCallback(formData);
         }
     };
 
     const handleCancel = () => {
-        setFormData(location);
+        setFormData(data);
         setEditMode(false);
     };
 
-    const renderLocatoinDetails = (
-        <Grid container item xs={12} spacing={2} component="form" noValidate>
-            {formData &&
-                Object.entries(formData).map(([key, value]) => (
-                    <Grid
-                        item
-                        xs={12}
-                        sm={9}
-                        key={key}
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                        }}
-                    >
-                        <Typography variant="body1">
-                            {key.charAt(0).toUpperCase() + key.slice(1)}:
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                            {value}
-                        </Typography>
-                    </Grid>
-                ))}
+    const renderLocatoinData = (
+        <Grid container item xs={12} sx={{ justifyContent: { lg: "center" } }}>
+            <TableContainer>
+                <Table>
+                    <TableBody>
+                        {data &&
+                            Object.entries(data).map(([key, value]) => (
+                                <TableRow
+                                    key={key}
+                                    sx={{
+                                        "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                        },
+                                    }}
+                                >
+                                    <TableCell>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontWeight: 800,
+                                            }}
+                                        >
+                                            {toFirstUpperCase(key)}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontWeight: 800,
+                                            }}
+                                        >
+                                            {value
+                                                ? value
+                                                : `Please add your ${key}`}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Grid>
     );
 
-    const renderEditLocation = (
+    const renderLocationEdit = (
         <Grid container item spacing={2} xs={12}>
-            {formData && data && (
+            {formData && !isLoading && (
                 <>
                     <Grid
                         item
@@ -151,7 +182,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
                             name="country"
                             emptyValue="Select Country"
                             value={formData.country || ""}
-                            array={data.countries}
+                            array={location.countries}
                             onChange={handleSelectOnChange}
                             fieldState={false}
                             border={true}
@@ -173,7 +204,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
                             name="state"
                             emptyValue="Select State/Province"
                             value={formData.state || ""}
-                            array={data.states}
+                            array={location.states}
                             onChange={handleSelectOnChange}
                             fieldState={formData.country ? false : true}
                             border={true}
@@ -195,7 +226,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
                             name="city"
                             emptyValue="Select City"
                             value={formData.state ? formData.city || "" : ""}
-                            array={data.cities}
+                            array={location.cities}
                             onChange={handleSelectOnChange}
                             fieldState={formData.state ? false : true}
                             border={true}
@@ -263,10 +294,10 @@ const LocationCard: React.FC<LocationCardProps> = ({
                         renderEditButton
                     )}
                 </Grid>
-                {editMode ? renderEditLocation : renderLocatoinDetails}
+                {editMode ? renderLocationEdit : renderLocatoinData}
             </Grid>
         </CustomDashboardCard>
     );
 };
 
-export default LocationCard;
+export default ViewEditLocation;

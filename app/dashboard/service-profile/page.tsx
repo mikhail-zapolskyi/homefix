@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, ServiceProfileView } from "@/components";
+import { Loader, ViewServiceProfile } from "@/components";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 
@@ -19,8 +19,8 @@ const Page = () => {
     return isLoading ? (
         <Loader />
     ) : (
-        <ServiceProfileView
-            data={data}
+        <ViewServiceProfile
+            serviceProfile={data}
             location={data.location[0]}
             businessHours={data.businessHours}
             categories={data.categories}
