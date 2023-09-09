@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ServiceProfile, Location, Day, Category } from "@prisma/client";
+import { ServiceProfile, Location, Day } from "@prisma/client";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import {
     DefaultEditCard,

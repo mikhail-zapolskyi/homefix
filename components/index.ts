@@ -26,6 +26,7 @@ export { default as BusinessArrayInfoEditCard } from "./cards/BusinessArrayInfoE
 export { default as CategoryEditCard } from "./cards/CategoryEditCard";
 export { default as ReviewListCard } from "./cards/ReviewListCard";
 export { default as AddReviewModal } from "./cards/AddReviewModal";
+export { default as UserProfileEditCard } from "./cards/UserProfileEditCard";
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
 // Inputs
@@ -38,7 +39,6 @@ export { default as SelectCreateField } from "./inputs/SelectCreateField";
 // User Dashboard
 export { default as ListCard } from "./cards/ListCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
-export { default as ProfileCard } from "./cards/ProfileCard";
 export { default as ReviewCard } from "./cards/ReviewCard";
 // Loaders
 export { default as Loader } from "./loaders/Loader";

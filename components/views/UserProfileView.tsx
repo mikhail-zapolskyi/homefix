@@ -1,6 +1,6 @@
 "use client";
 
-import { LocationCard, ProfileCard } from "@/components";
+import { LocationCard, UserProfileEditCard } from "@/components";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import { Grid } from "@mui/material";
 import { User, Location } from "@prisma/client";
@@ -58,7 +58,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
         formData && (
             <Grid container rowSpacing={2}>
                 <Grid item xs={12}>
-                    <ProfileCard
+                    <UserProfileEditCard
                         data={{
                             name: formData.name,
                             email: formData.email,

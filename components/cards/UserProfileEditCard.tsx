@@ -9,14 +9,17 @@ import {
 } from "@/components";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
-interface ProfileCard {
+interface UserProfileEditCardProps {
     data?: Record<string, any>;
     handleCallback?: (formData: Record<string, any>) => void;
 }
 
 type EditMode = true | false;
 
-const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
+const UserProfileEditCard: React.FC<UserProfileEditCardProps> = ({
+    data,
+    handleCallback,
+}) => {
     const [editMode, setEditMode] = useState<EditMode>(false);
     const [formData, setFormData] = useState<Record<string, any>>();
 
@@ -49,7 +52,7 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
         console.log(file);
     };
 
-    const renderUserInfo = (
+    const renderData = (
         <Grid container item xs={12} spacing={2}>
             {formData &&
                 Object.entries(formData).map(
@@ -82,7 +85,7 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
         </Grid>
     );
 
-    const renderUserEditFields = (
+    const renderEditData = (
         <Grid container item spacing={2} xs={12}>
             {formData &&
                 Object.entries(formData).map(
@@ -199,7 +202,7 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
                         spacing={2}
                         sx={{ maxWidth: 600 }}
                     >
-                        {editMode ? renderUserEditFields : renderUserInfo}
+                        {editMode ? renderEditData : renderData}
                     </Grid>
                 </Grid>
             )}
@@ -207,4 +210,4 @@ const ProfileCard: React.FC<ProfileCard> = ({ data, handleCallback }) => {
     );
 };
 
-export default ProfileCard;
+export default UserProfileEditCard;
