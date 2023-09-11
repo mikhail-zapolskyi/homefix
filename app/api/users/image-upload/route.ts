@@ -58,7 +58,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         }
         // Upload image to cloudinary
         const image = await upload_image(base64, isUser.id, "profile");
-        console.log(image);
+
         // Update the service profile with the provided data
         const userProfiles = await prisma.user.update({
             where: {
@@ -72,7 +72,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         // Return a JSON response with the updated service profile
         return NextResponse.json(userProfiles);
     } catch (error) {
-        console.log(error);
         // Handle any errors that occur during the process
         return handlePrismaError(error);
     }

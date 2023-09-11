@@ -12,6 +12,16 @@ interface ICredential {
     password: string;
 }
 
+class CustomError extends Error {
+    status: number = 400;
+    message: string = "";
+    constructor(message: string, status: number) {
+        super(message);
+        this.message = message;
+        this.status = status;
+    }
+}
+
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma) as Adapter,
     providers: [
@@ -34,16 +44,16 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (!user || !user.password) {
-                    throw new Error("No user found");
+                    throw new Error("Incorrect credentials");
                 }
 
-                const isPasswordValid = Password.validate(
-                    user.password,
-                    password
+                const isPasswordValid = await Password.validate(
+                    password,
+                    user.password
                 );
-
+                console.log(isPasswordValid);
                 if (!isPasswordValid) {
-                    throw new Error("Incorrect password");
+                    throw new Error("Incorrect credentials");
                 }
 
                 return user as User;
