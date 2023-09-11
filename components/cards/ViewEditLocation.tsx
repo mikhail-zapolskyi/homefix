@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import useSWR from "swr";
-import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
+import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
 
 const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 
@@ -125,7 +125,7 @@ const ViewEditLocation: React.FC<ViewEditLocationProps> = ({
                                                 fontWeight: 800,
                                             }}
                                         >
-                                            {toFirstUpperCase(key)}
+                                            {first_letter_uppercase(key)}
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">

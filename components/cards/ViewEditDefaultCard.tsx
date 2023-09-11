@@ -13,7 +13,7 @@ import {
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CustomTextField from "../inputs/CustomTextField";
-import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
+import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
 
 interface ViewEditDefaultCardProps {
     data?: Record<string, any>;
@@ -133,7 +133,9 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                         fontWeight: 800,
                                                     }}
                                                 >
-                                                    {toFirstUpperCase(key)}
+                                                    {first_letter_uppercase(
+                                                        key
+                                                    )}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>

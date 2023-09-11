@@ -60,8 +60,23 @@ const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
         if (!file) {
             return toast.error("Something went wrong");
         }
-        console.log(file);
-        toast("Image updated");
+
+        const data = new FormData();
+        data.append("file", file);
+
+        try {
+            toast.promise(axios.put("/api/service/image-upload", data), {
+                success: {
+                    render({ data }) {
+                        if (data) setServiceProfileFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
     };
 
     // Callback function for handling form details

@@ -17,7 +17,7 @@ import {
     ImageUploadButton,
 } from "@/components";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
+import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
 
 interface ViewEditUserProfileProps {
     data?: Record<string, any>;
@@ -102,7 +102,9 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                                                         fontWeight: 800,
                                                     }}
                                                 >
-                                                    {toFirstUpperCase(key)}
+                                                    {first_letter_uppercase(
+                                                        key
+                                                    )}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
