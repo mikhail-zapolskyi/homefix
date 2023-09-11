@@ -7,9 +7,7 @@ import handlePrismaError from "@/prisma/prismaErrorHandler";
 
 export async function PUT(req: NextRequest, res: NextResponse) {
     const formData = await req.formData();
-
     const base64 = await to_base_sixty_four(formData);
-
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -21,16 +19,16 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 
     const user = session.user;
 
-    if (!user || user.type !== "PRO") {
+    if (!user) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
         );
     }
 
-    const userId = user.id;
+    const id = user.id;
 
-    if (!userId) {
+    if (!id) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -38,33 +36,33 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     }
 
     if (base64 === null) {
-        return NextResponse.json("File doesn't exist");
+        return NextResponse.json("File doesn't exist", { status: 400 });
     }
 
     try {
         // Find the service profile associated with the user
-        const servPro = await prisma.serviceProfile.findUnique({
+        const isUser = await prisma.user.findUnique({
             where: {
-                userId,
+                id,
             },
         });
 
         // Check if the service profile exists
-        if (servPro === null) {
+        if (isUser === null) {
             return NextResponse.json(
                 {
-                    error: "Service profile not found",
+                    error: "User profile not found",
                 },
                 { status: 404 }
             );
         }
         // Upload image to cloudinary
-        const image = await upload_image(base64, servPro.id, "profile");
-
+        const image = await upload_image(base64, isUser.id, "profile");
+        console.log(image);
         // Update the service profile with the provided data
-        const serviceProfiles = await prisma.serviceProfile.update({
+        const userProfiles = await prisma.user.update({
             where: {
-                id: servPro.id,
+                id: isUser.id,
             },
             data: {
                 image,
@@ -72,7 +70,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         });
 
         // Return a JSON response with the updated service profile
-        return NextResponse.json(serviceProfiles);
+        return NextResponse.json(userProfiles);
     } catch (error) {
         console.log(error);
         // Handle any errors that occur during the process

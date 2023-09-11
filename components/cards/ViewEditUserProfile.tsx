@@ -18,11 +18,13 @@ import {
 } from "@/components";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
+import { toast } from "react-toastify";
 
 interface ViewEditUserProfileProps {
     data?: Record<string, any>;
     updateCallback?: (formData: Record<string, any>) => void;
     deleteCallback?: (item: Record<string, any>) => void;
+    imageUploadCallback?: (file: File) => void;
 }
 
 type EditMode = true | false;
@@ -31,6 +33,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
     data,
     updateCallback,
     deleteCallback,
+    imageUploadCallback,
 }) => {
     const [editMode, setEditMode] = useState<EditMode>(false);
     const [formData, setFormData] = useState<Record<string, any> | undefined>(
@@ -63,7 +66,20 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
     };
 
     const handleUploadImage = (file: File) => {
-        console.log(file);
+        if (!file) {
+            return;
+        }
+
+        const type = file.type;
+
+        if (!type.startsWith("image/")) {
+            toast.error("Please upload image only");
+            return;
+        }
+
+        if (imageUploadCallback) {
+            imageUploadCallback(file);
+        }
     };
 
     const handleCancel = () => {

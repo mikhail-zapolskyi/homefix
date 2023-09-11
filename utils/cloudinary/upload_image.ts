@@ -6,11 +6,15 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const upload_image = async (base64String: string, id: string) => {
+const upload_image = async (
+    base64String: string,
+    id: string,
+    folder: string
+) => {
     try {
         const result = await cloudinary.uploader.upload(base64String, {
-            folder: "homefix/profile",
-            public_id: `homefix/profile/${id}`,
+            folder: `homefix/${folder}`,
+            public_id: `homefix/${folder}/${id}`,
             overwrite: true,
             use_filename: true,
             width: 200,

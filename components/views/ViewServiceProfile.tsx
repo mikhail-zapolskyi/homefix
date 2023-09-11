@@ -56,7 +56,7 @@ const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
     }, [categories]);
 
     // Callback function for handling uploaded image
-    const handleCallbackFile = (file: File) => {
+    const handleSaveProfileImage = (file: File) => {
         if (!file) {
             return toast.error("Something went wrong");
         }
@@ -213,7 +213,7 @@ const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
                     <Grid item xs={12}>
                         <ImageUploadCard
                             data={serviceProfileFormData}
-                            handleCallback={handleCallbackFile}
+                            handleCallback={handleSaveProfileImage}
                         />
                     </Grid>
                     {/* Form Publish/Edit Card */}

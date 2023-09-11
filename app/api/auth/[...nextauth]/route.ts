@@ -83,7 +83,12 @@ export const authOptions: NextAuthOptions = {
 
             return true;
         },
-        jwt: ({ token, user }) => {
+        jwt: ({ token, user, trigger, session }) => {
+            if (trigger === "update" && session.user) {
+                token.name = session.user.name;
+                token.picture = session.user.image;
+            }
+
             if (user) {
                 const u = user as unknown as any;
                 return {
@@ -92,8 +97,10 @@ export const authOptions: NextAuthOptions = {
                     type: u.type,
                 };
             }
+
             return token;
         },
+
         async session({ session, token }) {
             return {
                 ...session,
