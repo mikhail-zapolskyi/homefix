@@ -8,17 +8,17 @@ import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 
 const GoogleSigninButtun = () => {
-	const searchParams = useSearchParams();
-	const callBackUrl = searchParams.get("callbackUrl");
+    const searchParams = useSearchParams();
+    const callBackUrl = searchParams.get("callbackUrl");
 
-	return (
-		<Button
-			startIcon={<FcGoogle />}
-			onClick={() => signIn("google", { callBackUrl })}
-		>
-			Sign in with Google
-		</Button>
-	);
+    return (
+        <Button
+            startIcon={<FcGoogle />}
+            onClick={() => signIn("google", { callBackUrl, redirect: true })}
+        >
+            Sign in with Google
+        </Button>
+    );
 };
 
 export default GoogleSigninButtun;

@@ -109,7 +109,7 @@ const SignIn = () => {
                         </Grid>
                         <Grid container item xs={12} justifyContent="flex-end">
                             <Grid item>
-                                <Link href="signin" variant="body2">
+                                <Link href="signup" variant="body2">
                                     Don&apos;t have an account? Sign up.
                                 </Link>
                             </Grid>
