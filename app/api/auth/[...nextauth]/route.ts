@@ -13,16 +13,6 @@ interface ICredential {
     password: string;
 }
 
-class CustomError extends Error {
-    status: number = 400;
-    message: string = "";
-    constructor(message: string, status: number) {
-        super(message);
-        this.message = message;
-        this.status = status;
-    }
-}
-
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma) as Adapter,
     providers: [
@@ -37,7 +27,6 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Please enter an email and password");
                 }
 
-                // const user = await UserModel.getUserByEmail(email);
                 const user = await prisma.user.findUnique({
                     where: {
                         email: email,
@@ -117,6 +106,7 @@ export const authOptions: NextAuthOptions = {
             if (trigger === "update" && session.user) {
                 token.name = session.user.name;
                 token.picture = session.user.image;
+                token.type = session.user.type;
             }
 
             if (user) {

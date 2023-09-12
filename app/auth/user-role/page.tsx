@@ -1,13 +1,16 @@
 "use client";
 import { CustomRadioGroup, PageContainer } from "@/components";
 import { Box } from "@mui/material";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 const UserRole = () => {
     const router = useRouter();
-    const [value, setValue] = useState("user");
+    const { data: session, update } = useSession();
+    const [value, setValue] = useState("USER");
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setValue((event.target as HTMLInputElement).value);
@@ -15,24 +18,36 @@ const UserRole = () => {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        try {
-            const req = async () =>
-                await fetch("http://localhost:3000/api/users", {
-                    method: "PUT",
-                    body: JSON.stringify({ type: value }),
-                });
 
-            toast.promise(req(), {
-                pending: "Updating role",
-                success: "Role updated successfully!!",
+        const data = { type: value, serviceProfile: { create: {} } };
+
+        try {
+            toast.promise(axios.put("/api/users", data), {
+                success: {
+                    render({ data }) {
+                        if (data) {
+                            updateSession({
+                                name: data.data.name,
+                                image: data.data.image,
+                                type: data.data.type,
+                            });
+                        }
+                        router.push("/dashboard");
+                        return "Changes Saved";
+                    },
+                },
                 error: "Something went wrong",
             });
-
-            router.push("/");
-        } catch (error) {
-            console.error("An error occurred", error);
-            toast.error("Something went wrong");
+        } catch (error: any) {
+            throw new Error(error.message);
         }
+    };
+
+    const updateSession = (user: Record<string, any>) => {
+        update({
+            ...session,
+            user,
+        });
     };
 
     return (
@@ -47,9 +62,9 @@ const UserRole = () => {
                 }}
             >
                 <CustomRadioGroup
-                    title="Role"
+                    title="Please choose the profile you wish to create"
                     value={value}
-                    values={["user", "Pro"]}
+                    values={["USER", "PRO"]}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                 />
