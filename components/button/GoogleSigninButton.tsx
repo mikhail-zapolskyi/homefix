@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Button } from "@mui/material";

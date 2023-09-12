@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx prisma generate && npx prisma db push && NODE_OPTIONS='--max_old_space_size=8192' next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npx prisma generate && npx prisma db push && next start",
     "lint": "next lint npx prettier --write",
     "email": "email dev --dir ./components/emails --port 3030"
   },

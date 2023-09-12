@@ -6,6 +6,7 @@ import Password from "@/utils/helpers/bcrypt";
 import prisma from "@/prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { Adapter } from "next-auth/adapters";
+import { Account } from "@prisma/client";
 
 interface ICredential {
     email: string;
@@ -51,7 +52,7 @@ export const authOptions: NextAuthOptions = {
                     password,
                     user.password
                 );
-                console.log(isPasswordValid);
+
                 if (!isPasswordValid) {
                     throw new Error("Incorrect credentials");
                 }
@@ -77,6 +78,25 @@ export const authOptions: NextAuthOptions = {
                         email: email,
                     },
                 });
+
+                // If already have an account created with credentials
+                if (account && userExists) {
+                    const accountExists = await prisma.account.findFirst({
+                        where: {
+                            userId: userExists.id,
+                        },
+                    });
+
+                    if (!accountExists) {
+                        let newAccount = account as Account;
+                        newAccount.userId = userExists.id;
+
+                        await prisma.account.create({
+                            data: newAccount,
+                        });
+                    }
+                }
+
                 // Check if user exist and login with google provider, and user email verified change state of user email_verified
                 if (userExists && userExists.emailVerified === null) {
                     await prisma.user.update({

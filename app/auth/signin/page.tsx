@@ -32,7 +32,11 @@ const SignIn = () => {
             }
 
             toast.promise(
-                signIn("credentials", { email, password, redirect: false }),
+                signIn("credentials", {
+                    email,
+                    password,
+                    redirect: false,
+                }),
                 {
                     pending: "Sigining in",
                     success: {
