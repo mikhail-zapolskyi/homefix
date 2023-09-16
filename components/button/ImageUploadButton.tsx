@@ -17,8 +17,6 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
     const fileInput = useRef<HTMLInputElement>(null);
 
     const handleClick = () => {
-        console.log("button clicked");
-        console.log(fileInput.current);
         if (fileInput.current) {
             fileInput.current.click();
         }

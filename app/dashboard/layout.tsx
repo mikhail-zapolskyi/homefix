@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { Loader } from "@/components";
 
 const StyledWrapper = styled(Grid)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
@@ -18,16 +18,19 @@ const StyledWrapper = styled(Grid)(({ theme }) => ({
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const { data: session, status } = useSession();
-    const { push } = useRouter();
+    const router = useRouter();
 
     useEffect(() => {
         if (!session && status === "unauthenticated") {
-            toast.error("Please log in first");
-            push("/");
+            router.push("/");
         }
-    }, [session, status, push]);
+    }, [session, status, router]);
 
-    return <StyledWrapper container>{children}</StyledWrapper>;
+    return session && status === "authenticated" ? (
+        <StyledWrapper container>{children}</StyledWrapper>
+    ) : (
+        <Loader />
+    );
 };
 
 export default DashboardLayout;

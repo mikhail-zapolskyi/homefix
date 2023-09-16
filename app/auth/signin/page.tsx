@@ -27,24 +27,36 @@ const SignIn = () => {
 
         try {
             if (!email || !password) {
-                console.log("Please fill all fields");
                 toast.error("Email or Password is missing");
                 return;
             }
 
-            toast.promise(signIn("credentials", { email, password }), {
-                pending: "Sigining in",
-                success: "Signed in successfully",
-                error: "Something went wrong",
-            });
+            toast.promise(
+                signIn("credentials", {
+                    email,
+                    password,
+                    redirect: false,
+                }),
+                {
+                    pending: "Sigining in",
+                    success: {
+                        render({ data }) {
+                            if (data && data.error) {
+                                toast.error(data.error);
+                                return "Check credentials and try again";
+                            }
+
+                            router.push("/dashboard");
+                            return "Sign in succesfully";
+                        },
+                    },
+                    error: "Something went wrong",
+                }
+            );
         } catch (error: any) {
-            // throw new Error();
-            console.log(error.message);
+            throw new Error(error);
         }
     };
-    if (session && status === "authenticated") {
-        router.push("/");
-    }
 
     return (
         <PageContainer maxWidth="md">
@@ -101,7 +113,7 @@ const SignIn = () => {
                         </Grid>
                         <Grid container item xs={12} justifyContent="flex-end">
                             <Grid item>
-                                <Link href="signin" variant="body2">
+                                <Link href="signup" variant="body2">
                                     Don&apos;t have an account? Sign up.
                                 </Link>
                             </Grid>

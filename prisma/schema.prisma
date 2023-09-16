@@ -44,6 +44,7 @@ model User {
   password                  String?
   image                     String?
   phone                     String?
+  new_user                  Boolean?          @default(true)
   accounts                  Account[]
   sessions                  Session[]
   serviceProfile            ServiceProfile?

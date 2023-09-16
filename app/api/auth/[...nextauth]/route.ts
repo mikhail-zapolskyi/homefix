@@ -6,6 +6,7 @@ import Password from "@/utils/helpers/bcrypt";
 import prisma from "@/prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { Adapter } from "next-auth/adapters";
+import { Account } from "@prisma/client";
 
 interface ICredential {
     email: string;
@@ -26,7 +27,6 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Please enter an email and password");
                 }
 
-                // const user = await UserModel.getUserByEmail(email);
                 const user = await prisma.user.findUnique({
                     where: {
                         email: email,
@@ -34,16 +34,16 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (!user || !user.password) {
-                    throw new Error("No user found");
+                    throw new Error("Incorrect credentials");
                 }
 
-                const isPasswordValid = Password.validate(
-                    user.password,
-                    password
+                const isPasswordValid = await Password.validate(
+                    password,
+                    user.password
                 );
 
                 if (!isPasswordValid) {
-                    throw new Error("Incorrect password");
+                    throw new Error("Incorrect credentials");
                 }
 
                 return user as User;
@@ -67,6 +67,25 @@ export const authOptions: NextAuthOptions = {
                         email: email,
                     },
                 });
+
+                // If already have an account created with credentials
+                if (account && userExists) {
+                    const accountExists = await prisma.account.findFirst({
+                        where: {
+                            userId: userExists.id,
+                        },
+                    });
+
+                    if (!accountExists) {
+                        let newAccount = account as Account;
+                        newAccount.userId = userExists.id;
+
+                        await prisma.account.create({
+                            data: newAccount,
+                        });
+                    }
+                }
+
                 // Check if user exist and login with google provider, and user email verified change state of user email_verified
                 if (userExists && userExists.emailVerified === null) {
                     await prisma.user.update({
@@ -83,7 +102,13 @@ export const authOptions: NextAuthOptions = {
 
             return true;
         },
-        jwt: ({ token, user }) => {
+        jwt: ({ token, user, trigger, session }) => {
+            if (trigger === "update" && session.user) {
+                token.name = session.user.name;
+                token.picture = session.user.image;
+                token.type = session.user.type;
+            }
+
             if (user) {
                 const u = user as unknown as any;
                 return {
@@ -92,8 +117,10 @@ export const authOptions: NextAuthOptions = {
                     type: u.type,
                 };
             }
+
             return token;
         },
+
         async session({ session, token }) {
             return {
                 ...session,

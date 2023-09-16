@@ -5,6 +5,7 @@ import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import { Grid } from "@mui/material";
 import { User, Location } from "@prisma/client";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -19,6 +20,7 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
 }) => {
     const [userProfileFormData, setUserProfileFormData] = useState<User>();
     const [locationFormData, setLocationFormData] = useState<Location>();
+    const { data: session, update } = useSession();
 
     useEffect(() => {
         if (userProfile) setUserProfileFormData(userProfile);
@@ -37,8 +39,41 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
                     render({ data }) {
                         if (data) {
                             setUserProfileFormData(data.data);
+                            updateSession({
+                                name: data.data.name,
+                                image: data.data.image,
+                            });
                         }
                         return "Changes Saved";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    };
+
+    const handleSaveProfileImage = (file: File) => {
+        if (!file) {
+            return toast.error("Something went wrong");
+        }
+
+        const data = new FormData();
+        data.append("file", file);
+
+        try {
+            toast.promise(axios.put("/api/users/image-upload", data), {
+                success: {
+                    render({ data }) {
+                        if (data) {
+                            setUserProfileFormData(data.data);
+                            updateSession({
+                                name: data.data.name,
+                                image: data.data.image,
+                            });
+                            return "Changes Saved";
+                        }
                     },
                 },
                 error: "Something went wrong",
@@ -55,6 +90,10 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
                     render({ data }) {
                         if (data) {
                             setUserProfileFormData(data.data);
+                            updateSession({
+                                name: data.data.name,
+                                image: data.data.image,
+                            });
                         }
                         return "Changes Saved";
                     },
@@ -84,6 +123,13 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
         }
     };
 
+    const updateSession = (user: Record<string, any>) => {
+        update({
+            ...session,
+            user,
+        });
+    };
+
     return (
         userProfileFormData && (
             <Grid container rowSpacing={2}>
@@ -98,6 +144,7 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
                         }}
                         updateCallback={handleSave}
                         deleteCallback={handleDelete}
+                        imageUploadCallback={handleSaveProfileImage}
                     />
                 </Grid>
                 {

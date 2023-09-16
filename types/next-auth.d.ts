@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
 
 // Update Profile provider to receive picture and email_verified
 declare module "next-auth" {
@@ -15,6 +15,7 @@ declare module "next-auth" {
             email?: string | null | undefined;
             image?: string | null | undefined;
             type?: string | null | undefined;
-        };
+            new_user?: boolean | null | undefined;
+        } & DefaultSession;
     }
 }

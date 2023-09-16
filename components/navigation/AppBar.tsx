@@ -102,7 +102,7 @@ const PrimaryAppBar = () => {
             </MenuItem>
             <MenuItem
                 onClick={() => {
-                    signOut();
+                    signOut({ callbackUrl: "/" });
                     handleMenuClose();
                 }}
             >
@@ -179,7 +179,7 @@ const PrimaryAppBar = () => {
                 </IconButton>
                 <p>Dashboard</p>
             </MenuItem>
-            <MenuItem onClick={() => signOut()}>
+            <MenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                 <IconButton
                     size="large"
                     aria-label="account of current user"

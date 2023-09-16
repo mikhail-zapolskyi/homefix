@@ -56,12 +56,27 @@ const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
     }, [categories]);
 
     // Callback function for handling uploaded image
-    const handleCallbackFile = (file: File) => {
+    const handleSaveProfileImage = (file: File) => {
         if (!file) {
             return toast.error("Something went wrong");
         }
-        console.log(file);
-        toast("Image updated");
+
+        const data = new FormData();
+        data.append("file", file);
+
+        try {
+            toast.promise(axios.put("/api/service/image-upload", data), {
+                success: {
+                    render({ data }) {
+                        if (data) setServiceProfileFormData(data.data);
+                        return "Changes Saved";
+                    },
+                },
+                error: "Something went wrong",
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
     };
 
     // Callback function for handling form details
@@ -198,7 +213,7 @@ const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
                     <Grid item xs={12}>
                         <ImageUploadCard
                             data={serviceProfileFormData}
-                            handleCallback={handleCallbackFile}
+                            handleCallback={handleSaveProfileImage}
                         />
                     </Grid>
                     {/* Form Publish/Edit Card */}

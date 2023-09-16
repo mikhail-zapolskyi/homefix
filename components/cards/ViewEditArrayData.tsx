@@ -13,7 +13,7 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import CustomButton from "../button/CustomButton";
 import CustomTextField from "../inputs/CustomTextField";
 import _ from "lodash";
-import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
+import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
 
 interface ViewEditArrayDataProps {
     arrays?: Record<string, any>;
@@ -129,7 +129,7 @@ const ViewEditArrayData: React.FC<ViewEditArrayDataProps> = ({
                                                 fontWeight: 800,
                                             }}
                                         >
-                                            {toFirstUpperCase(key)}
+                                            {first_letter_uppercase(key)}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>

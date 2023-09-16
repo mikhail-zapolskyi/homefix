@@ -80,13 +80,38 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
         });
     };
 
+    const handleInputUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+
+        if (!e.target.files) {
+            return;
+        }
+
+        const uploadedFile = e.target.files[0];
+        const name = uploadedFile.name.slice(0, 20);
+        const type = uploadedFile.type;
+        const size = parseFloat((uploadedFile.size / 1024 ** 2).toFixed(1));
+
+        if (!type.startsWith("image/")) {
+            toast.error("Please upload image only");
+            return;
+        }
+
+        setFile(uploadedFile);
+        setFileDetails({
+            ...fileDetails,
+            name,
+            size,
+        });
+    };
+
     const handleClick = () => {
         if (fileInput.current) {
             fileInput.current.click();
         }
     };
 
-    const handleDropSave = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSave = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         if (handleCallback && file) {
@@ -98,26 +123,6 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
             name: "",
             size: 0,
         });
-    };
-
-    const handleInputSave = (e: ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-
-        if (!e.target.files) {
-            return;
-        }
-
-        const uploadedFile = e.target.files[0];
-        const type = uploadedFile.type;
-
-        if (!type.startsWith("image/")) {
-            toast.error("Please upload image only");
-            return;
-        }
-
-        if (handleCallback && uploadedFile) {
-            handleCallback(uploadedFile);
-        }
     };
 
     const handleCancel = () => {
@@ -222,15 +227,11 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
                     <UplodInput
                         ref={fileInput}
                         type="file"
-                        onChange={handleInputSave}
+                        onChange={handleInputUpload}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CustomButton
-                        text="Save"
-                        fullWidth
-                        onClick={handleDropSave}
-                    />
+                    <CustomButton text="Save" fullWidth onClick={handleSave} />
                 </Grid>
                 <Grid item xs={12}>
                     <CustomButton

@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { toFirstUpperCase } from "@/utils/helpers/toFirstUpperCase";
-
+import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
 // Define the props for the BusinessHoursEditCard component
 interface ViewEditBusinessHoursProps {
     businessHours?: Record<string, any>[];
@@ -154,7 +153,9 @@ const ViewEditBusinessHours: React.FC<ViewEditBusinessHoursProps> = ({
                                                     fontWeight: 800,
                                                 }}
                                             >
-                                                {toFirstUpperCase(time.type)}
+                                                {first_letter_uppercase(
+                                                    time.type
+                                                )}
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="right">
