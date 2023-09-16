@@ -4,11 +4,15 @@ import { Grid, Box, Typography, Divider, Avatar, Rating, Button } from "@mui/mat
 import { BiStar } from "react-icons/bi";
 import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
+import { specialtiesOfFixers } from "@/utils";
 
 interface ServicesProps {
     data?: Record<string, any>
     onClick: () => void;
 }
+
+// Add tags
+// Move 3rd container more to the right
 
 const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) => {
     return (
@@ -110,6 +114,16 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                 }}
                             >
                                 {data.service.introduction}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant="body2">
+                                {specialtiesOfFixers(data.service.specialtiesDo)}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant="body2">
+                                <b>NOT</b>: <mark>{data.service.specialtiesNo}</mark>
                             </Typography>
                         </Grid>
 

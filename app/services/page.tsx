@@ -30,7 +30,7 @@ interface Services {
     };
 }
 
-const initialData = [{
+const searchedServiceProfile = [{
 
     id: '1',
     service: {
@@ -76,43 +76,22 @@ const initialData = [{
 
 const ViewServices = () => {
     const searchParams = useSearchParams().toString();
-    const [serviceData, setServiceData] = useState<Services[]>(initialData);
-
-    // useEffect(() => {
-    //     getServicesBySearchParams();
-    // }, []);
-
-    // const getServicesBySearchParams = async () => {
-    //     try {
-    //         const response = await fetch(
-    //             `http://localhost:3000/api/service?${searchParams}`,
-    //             {
-    //                 method: "GET",
-    //             }
-    //         );
-    //         const data = await response.json();
-    //         setServiceData(data);
-    //     } catch (error: any) {
-    //         console.error(error);
-    //         throw new Error(error.message);
-    //     }
-    // };
 
     // Should lead to fixer profile
     const handleViewProfile = () => {
 
     }
 
-    console.log(serviceData);
+    console.log(searchedServiceProfile);
 
     return (
         <PageContainer maxWidth='xl'>
             <Grid container spacing={2} pt={2}>
-                {serviceData.map((i) => (
-                    <Grid item xs={12} key={i.id} sx={{ py: '-4rem' }}>
+                {searchedServiceProfile.map((serviceProfileData) => (
+                    <Grid item xs={12} key={serviceProfileData.id} sx={{ py: '-4rem' }}>
                         <ViewSearchServiceProfile
                             onClick={handleViewProfile}
-                            data={i}
+                            data={serviceProfileData}
                         />
                     </Grid>
 
