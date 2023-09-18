@@ -78,7 +78,13 @@ const ReviewCard = ({ review }: Props) => {
     return (
         <CustomDashboardCard>
             <Grid container rowSpacing={4}>
-                <Grid container item xs={12} rowSpacing={2}>
+                <Grid
+                    container
+                    item
+                    xs={12}
+                    rowSpacing={2}
+                    justifyContent={"space-between"}
+                >
                     <Grid
                         item
                         container
@@ -106,38 +112,17 @@ const ReviewCard = ({ review }: Props) => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        sm={6}
-                        sx={{
-                            alignItems: "start",
-                            justifyContent: {
-                                xs: "space-around",
-                                md: "center",
-                            },
-                        }}
-                    >
-                        <Grid item>
-                            <SelectField
-                                id="rating"
-                                name="rating"
-                                emptyValue="Select Rating"
-                                value={review?.rating || ""}
-                                array={[1, 2, 3, 4, 5]}
-                                fieldState={false}
-                                onChange={handleSelectOnChange}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <Button
-                                variant="outlined"
-                                endIcon={<MessageIcon />}
-                            >
-                                Message
-                            </Button>
-                        </Grid>
+
+                    <Grid item>
+                        <SelectField
+                            id="rating"
+                            name="rating"
+                            emptyValue="Select Rating"
+                            value={review?.rating || ""}
+                            array={[1, 2, 3, 4, 5]}
+                            fieldState={false}
+                            onChange={handleSelectOnChange}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
