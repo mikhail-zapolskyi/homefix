@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, ViewServiceProfile } from "@/components";
+import { Loader, ViewDashServPro } from "@/components";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 
@@ -19,7 +19,7 @@ const Page = () => {
     return isLoading ? (
         <Loader />
     ) : (
-        <ViewServiceProfile
+        <ViewDashServPro
             serviceProfile={data}
             location={data.location[0]}
             businessHours={data.businessHours}
