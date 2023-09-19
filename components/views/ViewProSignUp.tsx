@@ -3,8 +3,7 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Grid, Link, Typography, Box } from "@mui/material";
 import { CustomButton, CustomTextField, PageContainer } from "@/components";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
