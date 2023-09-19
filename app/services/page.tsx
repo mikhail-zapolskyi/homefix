@@ -33,10 +33,9 @@ interface Services {
 const searchedServiceProfile = [{
 
     id: '1',
+    name: 'Johnothan Doe',
     service: {
         bgChecked: true,
-        fixerName: 'Johnothan Doe',
-        bio: 'My Bio',
         employees: 1,
         experience: 19,
         hiredTimes: 2,
@@ -46,17 +45,16 @@ const searchedServiceProfile = [{
         paymentMethods: ['cash app', 'visa', 'crypto'],
         phone: '122-123-1233',
         rating: 3.6,
-        specialtiesDo: ['apple ipsum', 'orange lorem ipsum sit', 'lorem ipsum dolor sit amet'],
+        specialtiesDo: ['apple ipsum', 'orange lorem ipsum sit', 'lorem ipsum dolor sit amet', 'value 1', '2nd value'],
         specialtiesNo: ['tomato lorem', 'potato ipsum dolor'],
     }
 },
 {
 
     id: '2',
+    name: 'Beverly Robert',
     service: {
         bgChecked: true,
-        fixerName: 'Beverly Robert',
-        bio: 'My bio',
         employees: 1,
         experience: 8,
         hiredTimes: 2,

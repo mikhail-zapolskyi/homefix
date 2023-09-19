@@ -4,7 +4,7 @@ import { Grid, Box, Typography, Divider, Avatar, Rating, Button } from "@mui/mat
 import { BiStar } from "react-icons/bi";
 import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
-import { specialtiesOfFixers } from "@/utils";
+import specialtiesOfFixers from '@/utils/helpers/specialtiesOfFixers'
 
 interface ServicesProps {
     data?: Record<string, any>
@@ -15,6 +15,16 @@ interface ServicesProps {
 // Move 3rd container more to the right
 
 const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) => {
+    const renderArrayValues = (
+        <Grid container spacing={1} sx={{}}>
+            {data && data.service.specialtiesDo.map((i:string) => 
+                <Grid key={i} item>
+                    <Typography variant="body1" sx={{fontSize:'small', px: '0.6rem', backgroundColor: 'secondary.dark', borderRadius: '0.4rem', color: 'white'}}>{i}</Typography>
+                </Grid>
+            )}
+        </Grid>
+
+    );
     return (
         data ?
             <CustomDashboardCard >
@@ -76,6 +86,28 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                     {determineFixerSkillLevel(data.service.experience)}
                                 </Typography>
                             </Grid>
+                            <Grid item xs={5} md={2} lg={4} 
+                                sx={{ 
+                                    alignItems: 'center',
+                                    display: 'flex',
+                                    justifyContent: { xs: 'end', md: 'start' },
+                                    "&:before": {
+                                        content: '"none"',
+                                        lg: {
+                                            content: '"Hired Times: "'
+                                        }
+                                    }
+                                }}>
+                                <Typography
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        fontSize: { xs: '14px', lg: '15px' },
+                                        display: {xs: 'none', md: 'inherit'}
+                                    }}
+                                >
+                                    Hired: {data.service.hiredTimes}
+                                </Typography>
+                            </Grid>
                             <Grid item lg={4} sx={{ display: 'none' }}>
                                 <Typography sx={{
                                     fontWeight: 'bold',
@@ -86,9 +118,6 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                 </Typography>
                             </Grid>
                         </Grid>
-
-
-
 
                         <Grid item xs={12} sx={{ display: { lg: 'none' } }}>
                             <Typography sx={{
@@ -116,29 +145,27 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                 {data.service.introduction}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sx={{display: {xs: 'none', md: 'inherit'}}}>
                             <Typography variant="body2">
-                                {specialtiesOfFixers(data.service.specialtiesDo)}
+                                {renderArrayValues}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="body2">
-                                <b>NOT</b>: <mark>{data.service.specialtiesNo}</mark>
-                            </Typography>
-                        </Grid>
+
 
                     </Grid>
 
                     {/*Everything below is invisible inside mobile */}
 
-                    <Grid container item xs={3}
+                    <Grid container item xs={5}
                         spacing={2}
+                        justifyContent="flex-end"
                         sx={{
                             display: { xs: 'none', lg: 'inherit' },
-                            justifyContent: 'end',
-                            width: '100%',
+                            justifySelf: 'end',
                             alignItems: 'center',
+                            alignContent: 'flex-end'
                         }}>
+                        
                         <Grid item xs={1}>
                             <Divider orientation="vertical" sx={{ height: '10rem' }} />
                         </Grid>
@@ -150,9 +177,8 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                     src={data.image}
                                     sx={{ mr: '1rem', mt: '0.3rem' }}
                                 />
-                                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <Grid item sx={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }}>
                                     <Typography fontWeight='700'>{data.name}</Typography>
-                                    <Typography>{data.service.bio}</Typography>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sx={{ ml: '1rem', }}>
