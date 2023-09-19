@@ -14,6 +14,7 @@ export { default as ProductHero } from "./views/ProductHero";
 export { default as ViewServiceProfile } from "./views/ViewServiceProfile";
 export { default as UserReviewsView } from "./views/UserReviewsView";
 export { default as ViewUserProfile } from "./views/ViewUserProfile";
+export { default as ViewProSignUp } from "./views/ViewProSignUp";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
