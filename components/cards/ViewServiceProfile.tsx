@@ -95,6 +95,9 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                         content: '"none"',
                                         lg: {
                                             content: '"Hired Times: "'
+                                        },
+                                        md: {
+                                          content: '"Hired: "'  
                                         }
                                     }
                                 }}>
@@ -105,7 +108,7 @@ const ViewSearchServiceProfile: React.FC<ServicesProps> = ({ data, onClick }) =>
                                         display: {xs: 'none', md: 'inherit'}
                                     }}
                                 >
-                                    Hired: {data.service.hiredTimes}
+                                    {data.service.hiredTimes}
                                 </Typography>
                             </Grid>
                             <Grid item lg={4} sx={{ display: 'none' }}>
