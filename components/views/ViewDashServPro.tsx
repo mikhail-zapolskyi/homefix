@@ -16,7 +16,7 @@ import {
 } from "@/components";
 import { Grid } from "@mui/material";
 
-interface ViewServiceProfileProps {
+interface ViewDashServProProps {
     serviceProfile?: ServiceProfile;
     location?: Location;
     businessHours?: Day[];
@@ -24,7 +24,7 @@ interface ViewServiceProfileProps {
 }
 
 // Define the ServiceProfile component
-const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
+const ViewDashServPro: React.FC<ViewDashServProProps> = ({
     serviceProfile,
     location,
     businessHours,
@@ -300,4 +300,4 @@ const ViewServiceProfile: React.FC<ViewServiceProfileProps> = ({
     );
 };
 
-export default ViewServiceProfile;
+export default ViewDashServPro;

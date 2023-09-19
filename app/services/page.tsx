@@ -4,6 +4,7 @@ import { Container, Grid, Paper } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useRouter } from "next/navigation";
 
 interface Services {
     id: string;
@@ -29,10 +30,11 @@ interface Services {
         specialtiesNo: string[];
     };
 }
-
 const ViewServices = () => {
     const searchParams = useSearchParams().toString();
     const [serviceData, setServiceData] = useState<Services[]>([]);
+    const router = useRouter();
+
     useEffect(() => {
         const getServicesBySearchParams = async () => {
             try {
@@ -52,6 +54,7 @@ const ViewServices = () => {
         getServicesBySearchParams();
     }, [searchParams]);
 
+    console.log(serviceData);
     const addToBusinesses = async (serviceProfileId: any) => {
         try {
             const response = await fetch(
@@ -88,6 +91,14 @@ const ViewServices = () => {
                                         addToBusinesses(i?.serviceProfileId)
                                     }
                                     endIcon={<FavoriteBorderIcon />}
+                                />
+                                <CustomButton
+                                    text="View Profile"
+                                    onClick={() =>
+                                        router.push(
+                                            `/services/${i.serviceProfileId}`
+                                        )
+                                    }
                                 />
                             </Paper>
                         ))}
