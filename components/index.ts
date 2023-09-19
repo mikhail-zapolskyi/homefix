@@ -17,6 +17,7 @@ export { default as ViewUserProfile } from "./views/ViewUserProfile";
 export { default as ViewProSignUp } from "./views/ViewProSignUp";
 export { default as ViewRequestPasswordReset } from "./views/ViewRequestPasswordReset";
 export { default as ViewResetPassword } from "./views/ViewResetPassword";
+export { default as ViewSignUp } from "./views/ViewSignUp";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
