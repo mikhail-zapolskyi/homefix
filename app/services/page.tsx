@@ -2,8 +2,10 @@
 import { Container, Divider, Grid, Paper } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { PageContainer, ViewServiceProfile } from "@/components";
+import { PageContainer } from "@/components";
 import ViewSearchServiceProfile from "@/components/cards/ViewServiceProfile";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useRouter } from "next/navigation";
 
 interface Services {
     id: string;
@@ -72,10 +74,52 @@ const searchedServiceProfile = [{
 
 
 
+
 const ViewServices = () => {
     const searchParams = useSearchParams().toString();
+    const [serviceData, setServiceData] = useState<Services[]>([]);
+    const router = useRouter();
 
-    // Should lead to fixer profile
+
+    useEffect(() => {
+        const getServicesBySearchParams = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:3000/api/service?${searchParams}`,
+                    {
+                        method: "GET",
+                    }
+                );
+                const data = await response.json();
+                setServiceData(data);
+            } catch (error: any) {
+                console.error(error);
+                throw new Error(error.message);
+            }
+        };
+        getServicesBySearchParams();
+    }, [searchParams]);
+
+    console.log(serviceData);
+    const addToBusinesses = async (serviceProfileId: any) => {
+        try {
+            const response = await fetch(
+                "http://localhost:3000/api/users/businesses",
+                {
+                    method: "POST",
+                    body: JSON.stringify(serviceProfileId),
+                }
+            );
+            const data = await response.json();
+            console.log(data);
+        } catch (error: any) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    };
+
+    
+
     const handleViewProfile = () => {
 
     }

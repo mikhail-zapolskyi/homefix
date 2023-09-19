@@ -10,10 +10,11 @@ export { default as MenuOption } from "./navigation/MenuOption";
 export { default as SlideMenu } from "./navigation/SlideMenu";
 
 // Views
-export { default as ProductHero } from "./views/ProductHero";
-export { default as ViewServiceProfile } from "./views/ViewServiceProfile";
+export { default as ViewMainPage } from "./views/ViewMainPage";
+export { default as ViewDashServPro } from "./views/ViewDashServPro";
 export { default as UserReviewsView } from "./views/UserReviewsView";
-export { default as ViewUserProfile } from "./views/ViewUserProfile";
+export { default as ViewDashUserPro } from "./views/ViewDashUserPro";
+export { default as ViewServProPage } from "./views/ViewServProPage";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
@@ -53,3 +54,7 @@ export { default as Email } from "./emails/email";
 
 // Containers
 export { default as PageContainer } from "./container/PageContainer";
+export { default as SectionWithTitle } from "./container/SectionWithTitle";
+
+// Progress
+export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";

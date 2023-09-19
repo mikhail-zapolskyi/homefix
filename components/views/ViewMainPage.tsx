@@ -23,7 +23,7 @@ const Image = styled("img")(({ theme }) => ({
     objectFit: "cover",
 }));
 
-export const ProductHero = () => {
+export const ViewMainPage = () => {
     return (
         <HeroContainer>
             <Image src={heroImage.src} alt="hero-image" />
@@ -32,4 +32,4 @@ export const ProductHero = () => {
     );
 };
 
-export default ProductHero;
+export default ViewMainPage;
