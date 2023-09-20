@@ -38,7 +38,6 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
 }) => {
     const { data: session } = useSession();
     const { push } = useRouter();
-
     return (
         <Drawer
             variant="persistent"

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx prisma generate && npx prisma db push && NODE_OPTIONS='--max_old_space_size=8192' next dev",
+    "dev": "npx prisma generate && npx prisma db push && next dev",
     "build": "next build",
     "start": "npx prisma generate && npx prisma db push && next start",
     "lint": "next lint npx prettier --write",
@@ -50,6 +50,6 @@
     "@types/lodash": "^4.14.197",
     "@types/nodemailer": "^6.4.9",
     "prettier": "3.0.0",
-    "prisma": "^5.0.0"
+    "prisma": "^5.2.0"
   }
 }

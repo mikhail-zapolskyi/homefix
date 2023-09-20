@@ -1,39 +1,85 @@
 "use client";
-import { CustomButton } from "@/components";
-import { Container, Grid, Paper } from "@mui/material";
+import { Container, Divider, Grid, Paper } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { PageContainer } from "@/components";
+import ViewSearchServiceProfile from "@/components/cards/ViewServiceProfile";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useRouter } from "next/navigation";
 
 interface Services {
     id: string;
-    address: string | null;
-    city: string | null;
-    country: string | null;
-    lat: string | null;
-    lng: string | null;
-    serviceProfileId?: string;
+    address?: string;
+    city?: string;
+    country?: string;
+    lat?: string;
+    lng?: string;
     service: {
-        bgChecked: boolean;
-        bio: string;
-        employees: number | null;
-        experience: null;
-        hiredTimes: number | null;
-        image: string | null;
-        introduction: string | null;
-        name: string | null;
-        paymentMethods: string[];
-        phone: string | null;
-        rating: number | null;
-        specialtiesDo: string[];
-        specialtiesNo: string[];
+        bgChecked?: boolean;
+        fixerName?: string;
+        bio?: string;
+        employees?: number;
+        experience?: number;
+        hiredTimes?: number;
+        image?: string;
+        introduction?: string;
+        name?: string;
+        paymentMethods?: string[];
+        phone?: string;
+        rating?: number;
+        specialtiesDo?: string[];
+        specialtiesNo?: string[];
     };
 }
+
+const searchedServiceProfile = [{
+
+    id: '1',
+    name: 'Johnothan Doe',
+    service: {
+        bgChecked: true,
+        employees: 1,
+        experience: 19,
+        hiredTimes: 2,
+        image: 'https://images.unsplash.com/photo-1687360441205-807780a8e5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60',
+        introduction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae diam justo. Donec sed rhoncus dolor. Ut lobortis tristique sagittis. Morbi vitae tortor sapien. Curabitu',
+        name: 'Service Name',
+        paymentMethods: ['cash app', 'visa', 'crypto'],
+        phone: '122-123-1233',
+        rating: 3.6,
+        specialtiesDo: ['apple ipsum', 'orange lorem ipsum sit', 'lorem ipsum dolor sit amet', 'value 1', '2nd value'],
+        specialtiesNo: ['tomato lorem', 'potato ipsum dolor'],
+    }
+},
+{
+
+    id: '2',
+    name: 'Beverly Robert',
+    service: {
+        bgChecked: true,
+        employees: 1,
+        experience: 8,
+        hiredTimes: 2,
+        image: 'https://images.unsplash.com/photo-1687360441205-807780a8e5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60',
+        introduction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae diam justo. Donec sed rhoncus dolor. Ut lobortis tristique sagittis. Morbi vitae tortor sapien. Curabitu',
+        name: 'Service Name',
+        paymentMethods: ['cash app', 'visa', 'crypto'],
+        phone: '122-123-1233',
+        rating: 3.6,
+        specialtiesDo: ['apple ipsum', 'orange lorem ipsum sit', 'lorem ipsum dolor sit amet'],
+        specialtiesNo: ['tomato lorem', 'potato ipsum dolor'],
+    }
+}
+]
+
+
+
+
 const ViewServices = () => {
     const searchParams = useSearchParams().toString();
     const [serviceData, setServiceData] = useState<Services[]>([]);
     const router = useRouter();
+
 
     useEffect(() => {
         const getServicesBySearchParams = async () => {
@@ -72,40 +118,37 @@ const ViewServices = () => {
         }
     };
 
-    console.log(serviceData);
+    
+
+    const handleViewProfile = () => {
+
+    }
+
+    console.log(searchedServiceProfile);
 
     return (
-        <Container>
-            <Grid container>
-                <Grid item xs={2}></Grid>
-                <Grid item xs={10}>
-                    {serviceData &&
-                        serviceData.map((i) => (
-                            <Paper key={i?.id}>
-                                <p>{i?.service?.name}</p>
-                                <p>{i?.city}</p>
-                                <p>{i?.service?.rating}</p>
-                                <CustomButton
-                                    text="Add to Businesses"
-                                    onClick={() =>
-                                        addToBusinesses(i?.serviceProfileId)
-                                    }
-                                    endIcon={<FavoriteBorderIcon />}
-                                />
-                                <CustomButton
-                                    text="View Profile"
-                                    onClick={() =>
-                                        router.push(
-                                            `/services/${i.serviceProfileId}`
-                                        )
-                                    }
-                                />
-                            </Paper>
-                        ))}
-                </Grid>
+        <PageContainer maxWidth='xl'>
+            <Grid container spacing={2} pt={2}>
+                {searchedServiceProfile.map((serviceProfileData) => (
+                    <Grid item xs={12} key={serviceProfileData.id} sx={{ py: '-4rem' }}>
+                        <ViewSearchServiceProfile
+                            onClick={handleViewProfile}
+                            data={serviceProfileData}
+                        />
+                    </Grid>
+
+                ))}
             </Grid>
-        </Container>
+        </PageContainer>
     );
 };
 
 export default ViewServices;
+
+
+
+
+
+
+
+
