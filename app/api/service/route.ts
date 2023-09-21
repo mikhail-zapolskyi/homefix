@@ -3,19 +3,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
-import { buildQueryObject } from "@/utils";
+import { buildQueryServPro } from "@/utils";
 import handlePrismaError from "@/prisma/prismaErrorHandler";
 
-const getServiceProfile = async (req: NextRequest) => {
+export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
-    const query = buildQueryObject(searchParams);
+    const query = buildQueryServPro(searchParams);
 
-    const serviceProfiles = await prisma.location.findMany(query);
-    console.log(serviceProfiles);
+    const serviceProfiles = await prisma.serviceProfile.findMany(query);
     return NextResponse.json(serviceProfiles);
-};
+}
 
-const createServiceProfile = async (req: NextRequest) => {
+export async function POST(req: Request) {
     const data = await req.json();
     const session = await getServerSession(authOptions);
 
@@ -61,7 +60,7 @@ const createServiceProfile = async (req: NextRequest) => {
     } catch (error) {
         return handlePrismaError(error);
     }
-};
+}
 
 /**
  * Update a service profile for an authorized professional user.
@@ -149,5 +148,3 @@ export async function PUT(req: Request) {
         return handlePrismaError(error);
     }
 }
-
-export { getServiceProfile as GET, createServiceProfile as POST };

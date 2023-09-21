@@ -6,7 +6,7 @@ import {
     Typography,
     styled,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Review } from "@prisma/client";
@@ -28,11 +28,7 @@ const ProgressWithPercentage: React.FC<ProgressWithPercentageProps> = ({
         5: 0,
     });
 
-    useEffect(() => {
-        getPercentageFromArray(array);
-    }, [array]);
-
-    const getPercentageFromArray = (arr: Review[]) => {
+    const getPercentageFromArray = useCallback((arr: Review[]) => {
         const newStars: { [key: number]: number } = { ...stars };
 
         arr.forEach((obj) => {
@@ -58,7 +54,11 @@ const ProgressWithPercentage: React.FC<ProgressWithPercentageProps> = ({
         }
 
         setStars(newStars);
-    };
+    }, []);
+
+    useEffect(() => {
+        getPercentageFromArray(array);
+    }, [array, getPercentageFromArray]);
 
     return (
         <Stack direction="column" spacing={1}>

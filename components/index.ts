@@ -30,6 +30,7 @@ export { default as ViewEditBusinessHours } from "./cards/ViewEditBusinessHours"
 export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
+export { default as ViewSearchServPro } from "./cards/ViewSearchServPro";
 
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
