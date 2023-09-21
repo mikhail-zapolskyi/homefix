@@ -22,10 +22,17 @@ const SearchBar = () => {
     const router = useRouter();
     const [locationParams, setLocationParams] = useState("");
     const [formData, setFormData] = useState(initialParams);
-    const { data, error, isLoading } = useSWR(
-        `/api/location${locationParams}`,
-        fetcher
-    );
+    const {
+        data: location,
+        error: locationError,
+        isLoading: locationIsLoading,
+    } = useSWR(`/api/location${locationParams}`, fetcher);
+
+    const {
+        data: categories,
+        error: categoriesError,
+        isLoading: categoriesIsLoading,
+    } = useSWR(`/api/category`, fetcher);
 
     useEffect(() => {
         setLocationParams(
@@ -33,7 +40,9 @@ const SearchBar = () => {
         );
     }, [formData.country, formData.state]);
 
-    if (error) return <div>Failed to load</div>;
+    if (locationError && categoriesError) return <div>Failed to load</div>;
+    console.log(location);
+    console.log(categories);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -83,7 +92,7 @@ const SearchBar = () => {
             }}
             onSubmit={handleSubmit}
         >
-            {isLoading ? (
+            {locationIsLoading || categoriesIsLoading ? (
                 <Loader />
             ) : (
                 <Grid container spacing={1}>
@@ -93,7 +102,7 @@ const SearchBar = () => {
                             name="country"
                             emptyValue="Select Country"
                             value={formData.country}
-                            array={data.countries}
+                            array={location.countries}
                             onChange={handleSelectOnChange}
                             fieldState={formData.postalCode ? true : false}
                         />
@@ -107,7 +116,7 @@ const SearchBar = () => {
                             name="state"
                             emptyValue="Select State/Province"
                             value={formData.state}
-                            array={data.states}
+                            array={location.states}
                             onChange={handleSelectOnChange}
                             fieldState={formData.country ? false : true}
                         />
@@ -121,7 +130,7 @@ const SearchBar = () => {
                             name="city"
                             emptyValue="Select City"
                             value={formData.city}
-                            array={data.cities}
+                            array={location.cities}
                             onChange={handleSelectOnChange}
                             fieldState={formData.state ? false : true}
                         />
@@ -136,7 +145,9 @@ const SearchBar = () => {
                             name="category"
                             emptyValue="Select Category"
                             value={formData.category}
-                            array={[]}
+                            array={categories.map(
+                                (i: Record<string, any>) => i.title
+                            )}
                             onChange={handleSelectOnChange}
                             fieldState={
                                 formData.state || formData.postalCode
