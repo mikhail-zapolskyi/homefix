@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 const buildQueryServPro = (searchParams: URLSearchParams) => {
     const params: Record<string, any> = {};
     const location: Record<string, any> = {};
+    // const categories: Record<string, any> = {}
 
     for (const [key, value] of Array.from(searchParams.entries())) {
         if (key === "rating") {
@@ -21,6 +22,11 @@ const buildQueryServPro = (searchParams: URLSearchParams) => {
         },
         include: {
             location: true,
+            categories: {
+                include: {
+                    category: true,
+                },
+            },
             user: {
                 select: {
                     name: true,

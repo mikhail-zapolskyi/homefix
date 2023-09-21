@@ -23,12 +23,12 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
     onFollow,
 }) => {
     const theme = useTheme();
-    const screenSmall = useMediaQuery(theme.breakpoints.up("sm"));
+    const screenMd = useMediaQuery(theme.breakpoints.up("md"));
 
     const renderArrayValues = (
         <Stack direction="row" flexWrap="wrap">
-            {/* {data &&
-                data.service.specialties_Do.map((i: string) => (
+            {data &&
+                data.specialties_Do.map((i: string) => (
                     <Typography
                         key={i}
                         variant="body1"
@@ -44,7 +44,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     >
                         {i}
                     </Typography>
-                ))} */}
+                ))}
         </Stack>
     );
 
@@ -81,24 +81,29 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     </Stack>
                 </Stack>
             </Stack>
-            <Typography variant="body1">
-                {data.introduction.slice(0, 100)}
-            </Typography>
-            <Stack spacing={1} direction="row">
-                <CustomButton
-                    onClick={onView}
-                    text="Profile"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                />
-                <CustomButton
-                    onClick={onFollow}
-                    text="Follow"
-                    variant="contained"
-                    size="small"
-                    fullWidth
-                />
+            <Stack
+                spacing={2}
+                divider={<Divider orientation="horizontal" flexItem />}
+            >
+                <Typography variant="body1">
+                    {data.introduction.slice(0, 100)}
+                </Typography>
+                <Stack spacing={1} direction="row">
+                    <CustomButton
+                        onClick={onView}
+                        text="Profile"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                    />
+                    <CustomButton
+                        onClick={onFollow}
+                        text="Follow"
+                        variant="contained"
+                        size="small"
+                        fullWidth
+                    />
+                </Stack>
             </Stack>
         </Stack>
     );
@@ -152,10 +157,56 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     <Typography variant="body1">
                         {data.introduction.slice(0, 150)}...
                     </Typography>
-                    {/* {renderArrayValues} */}
                 </Stack>
+                {renderArrayValues}
             </Stack>
         </Stack>
+    );
+
+    const renderActionButtons = data && (
+        <Grid
+            container
+            item
+            md={4}
+            lg={3}
+            spacing={2}
+            sx={{
+                alignContent: "end",
+            }}
+        >
+            <Grid item xs={1}>
+                <Divider orientation="vertical" sx={{ height: "10rem" }} />
+            </Grid>
+            {/* This is in place of the company logo */}
+            <Grid container item xs={10}>
+                <Stack direction="column" spacing={2}>
+                    <Stack alignItems="center" direction="row">
+                        <Avatar
+                            alt={data.user.name}
+                            src={data.user.image}
+                            sx={{ mr: "1rem", mt: "0.3rem" }}
+                        />
+                        <Typography fontWeight="700">
+                            {data.user.name}
+                        </Typography>
+                    </Stack>
+                    <Stack spacing={1} direction="row">
+                        <CustomButton
+                            onClick={onView}
+                            text="Profile"
+                            variant="outlined"
+                            size="small"
+                        />
+                        <CustomButton
+                            onClick={onFollow}
+                            text="Follow"
+                            variant="contained"
+                            size="small"
+                        />
+                    </Stack>
+                </Stack>
+            </Grid>
+        </Grid>
     );
 
     return data ? (
@@ -171,57 +222,10 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                         justifyContent: { md: "center" },
                     }}
                 >
-                    {!screenSmall && renderDataMobile}
-                    {screenSmall && renderData}
+                    {!screenMd && renderDataMobile}
+                    {screenMd && renderData}
                 </Grid>
-
-                <Grid
-                    container
-                    item
-                    md={4}
-                    lg={3}
-                    spacing={2}
-                    sx={{
-                        display: { xs: "none", md: "inherit" },
-                        alignContent: "end",
-                    }}
-                >
-                    <Grid item xs={1}>
-                        <Divider
-                            orientation="vertical"
-                            sx={{ height: "10rem" }}
-                        />
-                    </Grid>
-                    {/* This is in place of the company logo */}
-                    <Grid container item xs={10}>
-                        <Stack direction="column" spacing={2}>
-                            <Stack alignItems="center" direction="row">
-                                <Avatar
-                                    alt={data.user.name}
-                                    src={data.user.image}
-                                    sx={{ mr: "1rem", mt: "0.3rem" }}
-                                />
-                                <Typography fontWeight="700">
-                                    {data.user.name}
-                                </Typography>
-                            </Stack>
-                            <Stack spacing={1} direction="row">
-                                <CustomButton
-                                    onClick={onView}
-                                    text="Profile"
-                                    variant="outlined"
-                                    size="small"
-                                />
-                                <CustomButton
-                                    onClick={onFollow}
-                                    text="Follow"
-                                    variant="contained"
-                                    size="small"
-                                />
-                            </Stack>
-                        </Stack>
-                    </Grid>
-                </Grid>
+                {screenMd && renderActionButtons}
             </Grid>
         </CustomDashboardCard>
     ) : (
