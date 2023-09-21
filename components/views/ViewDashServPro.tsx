@@ -267,7 +267,7 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
                 <Grid item xs={12} lg={9}>
                     <ViewEditBusinessHours
                         businessHours={businessHoursFormData}
-                        handleCallback={handleBusinessHoursSave}
+                        handleSaveDayCallback={handleBusinessHoursSave}
                         handleDeleteDayCallback={handleDeleteDayCallback}
                     />
                 </Grid>

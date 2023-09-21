@@ -16,7 +16,7 @@ import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
 // Define the props for the BusinessHoursEditCard component
 interface ViewEditBusinessHoursProps {
     businessHours?: Record<string, any>[];
-    handleCallback?: (formData: Record<string, any>[]) => void;
+    handleSaveDayCallback?: (formData: Record<string, any>[]) => void;
     handleDeleteDayCallback?: (day: Record<string, any>) => void;
 }
 
@@ -40,7 +40,7 @@ const StyledTimeInput = styled("input")(({ theme }) => ({
 // Define the ViewEditBusinessHours component
 const ViewEditBusinessHours: React.FC<ViewEditBusinessHoursProps> = ({
     businessHours,
-    handleCallback,
+    handleSaveDayCallback,
     handleDeleteDayCallback,
 }) => {
     // State to manage edit mode
@@ -61,8 +61,8 @@ const ViewEditBusinessHours: React.FC<ViewEditBusinessHoursProps> = ({
         setEditMode(!editMode);
 
         // If a callback function is provided, call it with the updated form data
-        if (handleCallback && formData) {
-            handleCallback(formData);
+        if (handleSaveDayCallback && formData) {
+            handleSaveDayCallback(formData);
         }
     };
 

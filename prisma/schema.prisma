@@ -124,11 +124,11 @@ model Day {
   type             DayType        
   from             String
   to               String
+  date             DateTime       @default(now())
 
   serviceProfileId String         @db.ObjectId
   service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-
-  @@unique([type])
+  @@unique([date])
 }
 
 enum DayType {
@@ -153,7 +153,7 @@ model ServiceCategory {
 
   categoryId       String        @db.ObjectId
   category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
+  
   serviceProfileId String        @db.ObjectId
   serviceProfile   ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
   @@unique([categoryId, serviceProfileId])

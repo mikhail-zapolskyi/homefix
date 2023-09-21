@@ -14,7 +14,7 @@ export async function DELETE(
     }
 ) {
     const { id } = params;
-    console.log(id);
+
     // Retrieve the user's session to check authorization
     const session = await getServerSession(authOptions);
 
