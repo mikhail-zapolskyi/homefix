@@ -4,7 +4,6 @@ import {
     Rating,
     Stack,
     Typography,
-    styled,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
@@ -29,35 +28,147 @@ const ProgressWithPercentage: React.FC<ProgressWithPercentageProps> = ({
     });
 
     const getPercentageFromArray = useCallback((arr: Review[]) => {
-        const newStars: { [key: number]: number } = { ...stars };
+        if (arr.length > 0) {
+            const newStars: { [key: number]: number } = { ...stars };
 
-        arr.forEach((obj) => {
-            const { rating } = obj;
-            if (rating !== null) {
-                if (rating >= 5) {
-                    newStars[5] += 1;
-                } else if (rating === 4) {
-                    newStars[4] += 1;
-                } else if (rating === 3) {
-                    newStars[3] += 1;
-                } else if (rating === 2) {
-                    newStars[2] += 1;
-                } else if (rating === 1) {
-                    newStars[1] += 1;
+            arr.forEach((obj) => {
+                const { rating } = obj;
+                if (rating !== null && !isNaN(rating)) {
+                    if (rating >= 5) {
+                        newStars[5] += 1;
+                    } else if (rating === 4) {
+                        newStars[4] += 1;
+                    } else if (rating === 3) {
+                        newStars[3] += 1;
+                    } else if (rating === 2) {
+                        newStars[2] += 1;
+                    } else if (rating === 1) {
+                        newStars[1] += 1;
+                    }
                 }
+            });
+
+            const totalRatings = arr.length;
+            for (let i = 1; i <= 5; i++) {
+                console.log(newStars[i]);
+                newStars[i] = (newStars[i] / totalRatings) * 100;
             }
-        });
 
-        const totalRatings = arr.length;
-        for (let i = 1; i <= 5; i++) {
-            newStars[i] = (newStars[i] / totalRatings) * 100;
+            setStars(newStars);
         }
-
-        setStars(newStars);
     }, []);
 
     useEffect(() => {
-        getPercentageFromArray(array);
+        getPercentageFromArray([
+            {
+                id: "982374923974",
+                rating: 2,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 4,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 4,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 1,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 3,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 4,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 4,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 1,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 5,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 4,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 4,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+            {
+                id: "982374923974",
+                rating: 1,
+                comment: "skdjhfksd",
+                createdAt: null,
+                updatedAt: null,
+                serviceProfileId: "sldflsjdkf",
+                userId: "lksdlfksd",
+            },
+        ]);
     }, [array, getPercentageFromArray]);
 
     return (

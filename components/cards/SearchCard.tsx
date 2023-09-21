@@ -41,8 +41,6 @@ const SearchBar = () => {
     }, [formData.country, formData.state]);
 
     if (locationError && categoriesError) return <div>Failed to load</div>;
-    console.log(location);
-    console.log(categories);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
