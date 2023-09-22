@@ -10,8 +10,8 @@ export { default as MenuOption } from "./navigation/MenuOption";
 export { default as SlideMenu } from "./navigation/SlideMenu";
 
 // Views
-export { default as ProductHero } from "./views/ProductHero";
-export { default as ViewServiceProfile } from "./views/ViewServiceProfile";
+export { default as ViewMainPage } from "./views/ViewMainPage";
+export { default as ViewDashServPro } from "./views/ViewDashServPro";
 export { default as UserReviewsView } from "./views/UserReviewsView";
 export { default as ViewUserProfile } from "./views/ViewUserProfile";
 export { default as ViewProSignUp } from "./views/ViewProSignUp";
@@ -33,6 +33,7 @@ export { default as ViewEditBusinessHours } from "./cards/ViewEditBusinessHours"
 export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
+export { default as ViewSearchServPro } from "./cards/ViewSearchServPro";
 
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
@@ -44,6 +45,7 @@ export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectCreateField } from "./inputs/SelectCreateField";
 export { default as SelectField } from "./inputs/SelectField";
+export { default as EditorField } from "./editors/EditorField";
 
 // User Dashboard
 export { default as DetailsCard } from "./cards/DetailsCard";
@@ -57,3 +59,7 @@ export { default as Email } from "./emails/email";
 
 // Containers
 export { default as PageContainer } from "./container/PageContainer";
+export { default as SectionWithTitle } from "./container/SectionWithTitle";
+
+// Progress
+export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";

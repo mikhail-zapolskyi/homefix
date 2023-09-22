@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
-import { Password, getLocations, getSearchParams } from "@/utils";
+import { getLocations, getSearchParams } from "@/utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { Prisma } from "@prisma/client";
 

@@ -81,4 +81,3 @@ npx prisma db push - It will push constraints to db
 
 **Server:** NextJS, MongoDB
 
-export NODE_OPTIONS=--max-old-space-size=4096

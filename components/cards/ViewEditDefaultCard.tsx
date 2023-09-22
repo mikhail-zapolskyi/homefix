@@ -7,13 +7,14 @@ import {
     TableCell,
     TableContainer,
     TableRow,
-    TextareaAutosize,
     Typography,
 } from "@mui/material";
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CustomTextField from "../inputs/CustomTextField";
 import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
+import EditorField from "../editors/EditorField";
+import EditorView from "../editors/EditorView";
 
 interface ViewEditDefaultCardProps {
     data?: Record<string, any>;
@@ -96,6 +97,10 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
         }
     };
 
+    const handleEditorCallback = (data: Record<string, any>) => {
+        setFormData({ ...formData, ...data });
+    };
+
     const renderSaveButton = <CustomButton text="Save" onClick={handleSave} />;
     const renderCancelButton = (
         <CustomButton text="Cancel" color="warning" onClick={handleCancel} />
@@ -139,16 +144,24 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{
-                                                        fontWeight: 800,
-                                                    }}
-                                                >
-                                                    {value
-                                                        ? value
-                                                        : `Please add your ${key}`}
-                                                </Typography>
+                                                {key !== "introduction" &&
+                                                key !== "bio" &&
+                                                key !== "schedual_policy" ? (
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                            fontWeight: 800,
+                                                        }}
+                                                    >
+                                                        {value
+                                                            ? value
+                                                            : `Please add your ${key}`}
+                                                    </Typography>
+                                                ) : (
+                                                    <EditorView
+                                                        content={value}
+                                                    />
+                                                )}
                                             </TableCell>
                                             <TableCell align="right">
                                                 {value ? (
@@ -176,7 +189,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
         </Grid>
     );
     const renderEditInfo = (
-        <Grid container item xs={12}>
+        <Grid container item xs={12} spacing={2}>
             {data &&
                 Object.entries(data).map(([key, value]) => {
                     return !isImageOrRating(key) && isTextAreaNeeded(key) ? (
@@ -189,14 +202,21 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                 flexDirection: "column",
                             }}
                         >
-                            <TextareaAutosize
+                            {/* <TextareaAutosize
                                 name={key}
                                 placeholder={value}
                                 onChange={handleFormData}
+                            /> */}
+                            <EditorField
+                                name={key}
+                                label={key}
+                                content={value}
+                                onChange={handleEditorCallback}
                             />
                         </Grid>
                     ) : (
                         <Grid
+                            container
                             item
                             xs={12}
                             sm={6}
