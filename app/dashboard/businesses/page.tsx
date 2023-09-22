@@ -48,7 +48,7 @@ const Businesses = async () => {
                 <ListCard data={businesses} handleClick={handleClick} />
             </Grid>
             <Grid item xs={12} sm={6} md={8}>
-                <DetailsCard business={service} />
+                <DetailsCard business={service || businesses[0]?.service} />
             </Grid>
         </Grid>
     );

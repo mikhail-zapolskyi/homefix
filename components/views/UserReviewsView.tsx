@@ -56,7 +56,7 @@ const UserReviewsView = () => {
                     <ReviewListCard data={reviews} handleClick={handleClick} />
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    <ReviewCard review={review} />
+                    <ReviewCard review={review || reviews[0]} />
                 </Grid>
             </Grid>
         </Grid>
