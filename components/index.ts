@@ -13,7 +13,6 @@ export { default as SlideMenu } from "./navigation/SlideMenu";
 export { default as ViewMainPage } from "./views/ViewMainPage";
 export { default as ViewDashServPro } from "./views/ViewDashServPro";
 export { default as UserReviewsView } from "./views/UserReviewsView";
-export { default as ViewUserProfile } from "./views/ViewUserProfile";
 export { default as ViewProSignUp } from "./views/ViewProSignUp";
 export { default as ViewRequestPasswordReset } from "./views/ViewRequestPasswordReset";
 export { default as ViewResetPassword } from "./views/ViewResetPassword";
