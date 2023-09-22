@@ -3,7 +3,7 @@ import { Nunito, PT_Sans } from "next/font/google";
 import { Typography } from "@mui/material/styles/createTypography";
 
 export const nunito = Nunito({
-    weight: ["300", "400", "500", "700"],
+    weight: ["300", "400", "500", "700", "800", "900"],
     subsets: ["latin"],
     display: "swap",
     fallback: ["Helvetica", "Arial", "sans-serif"],
@@ -86,16 +86,18 @@ const getDesignToken = (mode: PaletteMode) => ({
         fontFamily: [nunito.style.fontFamily, pt.style.fontFamily].join(","),
         h1: {
             fontFamily: nunito.style.fontFamily,
-            fontWeight: 400,
-            fontSize: "2.5rem",
+            fontWeight: 600,
+            fontSize: "1.625rem",
         },
         h2: {
             fontFamily: nunito.style.fontFamily,
-            fontWeight: 300,
+            fontWeight: 700,
+            fontSize: "1.375rem",
         },
         h3: {
             fontFamily: nunito.style.fontFamily,
-            fontWeight: 300,
+            fontWeight: 700,
+            fontSize: "1.2rem",
         },
         h4: {
             fontFamily: nunito.style.fontFamily,
@@ -119,11 +121,13 @@ const getDesignToken = (mode: PaletteMode) => ({
         },
         body1: {
             fontFamily: nunito.style.fontFamily,
+            fontSize: "1rem",
             fontWeight: 400,
         },
         body2: {
             fontFamily: nunito.style.fontFamily,
-            fontWeight: 400,
+            fontSize: "0.8rem",
+            fontWeight: 700,
         },
         button: {
             fontFamily: nunito.style.fontFamily,
@@ -131,7 +135,8 @@ const getDesignToken = (mode: PaletteMode) => ({
         },
         caption: {
             fontFamily: pt.style.fontFamily,
-            fontWeight: 400,
+            fontSize: "1rem",
+            fontWeight: 800,
         },
         overline: {
             fontFamily: pt.style.fontFamily,

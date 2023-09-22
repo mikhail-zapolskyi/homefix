@@ -9,12 +9,12 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-interface ViewUserProfileProps {
+interface ViewDashUserProProps {
     userProfile?: User;
     location?: Location;
 }
 
-const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
+const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
     userProfile,
     location,
 }) => {
@@ -174,4 +174,4 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = ({
     );
 };
 
-export default ViewUserProfile;
+export default ViewDashUserPro;

@@ -8,6 +8,7 @@ import handlePrismaError from "@/prisma/prismaErrorHandler";
 // Update a day by id
 export async function PUT(req: NextRequest) {
     const data = await req.json();
+
     // Retrieve the user's session to check authorization
     const session = await getServerSession(authOptions);
 
@@ -60,16 +61,22 @@ export async function PUT(req: NextRequest) {
 
     try {
         const businessHours = await Promise.all(
-            data.map(async (day: Record<string, any>) => {
+            data.map(async (day: Record<string, any>, index: number) => {
                 delete day.id;
 
                 if (!day.serviceProfileId) {
                     day.serviceProfileId = servPro.id;
                 }
+
+                if (!day.date) {
+                    const currentDate = new Date();
+                    currentDate.setDate(currentDate.getDate() + index);
+                    day.date = currentDate;
+                }
+
                 return await prisma.day.upsert({
                     where: {
-                        id: data.id,
-                        type: day.type,
+                        date: day.date,
                         serviceProfileId: servPro.id,
                     },
                     update: day,

@@ -93,8 +93,8 @@ model ServiceProfile {
   published       Boolean    @default(false)
   specialties_Do  String[]   @default(["Service You can do"])
   specialties_No  String[]   @default(["Service You can't do"])
-  payment_Methods String[]   @default(["Service Payment Methods"])
-  schedualPolicy  String?    @default("Service Schedule Policy")
+  payment_methods String[]   @default(["Service Payment Methods"])
+  schedual_policy  String?    @default("Service Schedule Policy")
   businessHours   Day[]
   reviews         Review[]
   posts           Post[]
@@ -124,11 +124,11 @@ model Day {
   type             DayType        
   from             String
   to               String
+  date             DateTime       @default(now())
 
   serviceProfileId String         @db.ObjectId
   service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-
-  @@unique([type])
+  @@unique([date])
 }
 
 enum DayType {
@@ -153,7 +153,7 @@ model ServiceCategory {
 
   categoryId       String        @db.ObjectId
   category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
+  
   serviceProfileId String        @db.ObjectId
   serviceProfile   ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
   @@unique([categoryId, serviceProfileId])
