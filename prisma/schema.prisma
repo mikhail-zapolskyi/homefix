@@ -93,8 +93,8 @@ model ServiceProfile {
   published       Boolean    @default(false)
   specialties_Do  String[]   @default(["Service You can do"])
   specialties_No  String[]   @default(["Service You can't do"])
-  payment_Methods String[]   @default(["Service Payment Methods"])
-  schedualPolicy  String?    @default("Service Schedule Policy")
+  payment_methods String[]   @default(["Service Payment Methods"])
+  schedual_policy  String?    @default("Service Schedule Policy")
   businessHours   Day[]
   reviews         Review[]
   posts           Post[]

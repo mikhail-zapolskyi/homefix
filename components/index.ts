@@ -42,6 +42,7 @@ export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectCreateField } from "./inputs/SelectCreateField";
 export { default as SelectField } from "./inputs/SelectField";
+export { default as EditorField } from "./editors/EditorField";
 
 // User Dashboard
 export { default as DetailsCard } from "./cards/DetailsCard";

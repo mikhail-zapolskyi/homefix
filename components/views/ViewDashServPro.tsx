@@ -14,7 +14,7 @@ import {
     ViewEditArrayData,
     ViewEditCategory,
 } from "@/components";
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 
 interface ViewDashServProProps {
     serviceProfile?: ServiceProfile;
@@ -207,25 +207,23 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
     // Render a loading spinner while data is being fetched
     return (
         <Grid container spacing={2}>
-            <Grid container item spacing={2} sx={{ justifyContent: "center" }}>
-                {/* Image Upload Card */}
-                <Grid container item xs={12} lg={3} spacing={2}>
-                    <Grid item xs={12}>
-                        <ImageUploadCard
-                            data={serviceProfileFormData}
-                            handleCallback={handleSaveProfileImage}
-                        />
-                    </Grid>
+            <Grid item xs={12} lg={3}>
+                <Stack spacing={4} sx={{ width: "100%" }}>
+                    {/* Image Upload Card */}
+                    <ImageUploadCard
+                        data={serviceProfileFormData}
+                        handleCallback={handleSaveProfileImage}
+                    />
                     {/* Form Publish/Edit Card */}
-                    <Grid item xs={12}>
-                        <PublishProfileEditCard
-                            data={serviceProfileFormData}
-                            handleCallback={handleCallbackFormDetails}
-                        />
-                    </Grid>
-                </Grid>
+                    <PublishProfileEditCard
+                        data={serviceProfileFormData}
+                        handleCallback={handleCallbackFormDetails}
+                    />
+                </Stack>
+            </Grid>
+            <Grid container item spacing={2} xs={12} lg={9}>
                 {/* Default Form Edit Card */}
-                <Grid item xs={12} lg={9}>
+                <Grid item xs={12}>
                     <ViewEditDefaultCard
                         data={{
                             name: serviceProfileFormData?.name,
@@ -236,16 +234,14 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
                             experience: serviceProfileFormData?.experience,
                             employees: serviceProfileFormData?.employees,
                             schedualPolicy:
-                                serviceProfileFormData?.schedualPolicy,
+                                serviceProfileFormData?.schedual_policy,
                         }}
                         title="Service Profile Details"
                         saveCallback={handleCallbackFormDetails}
                         deleteCallback={handleDeleteServiceProfileDetails}
                     />
                 </Grid>
-            </Grid>
-            <Grid container item spacing={2} sx={{ justifyContent: "end" }}>
-                <Grid item xs={12} lg={9}>
+                <Grid item xs={12}>
                     <ViewEditLocation
                         title="Business Location"
                         data={
@@ -290,7 +286,7 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
                             specialties_No:
                                 serviceProfileFormData?.specialties_No,
                             payment_Methods:
-                                serviceProfileFormData?.payment_Methods,
+                                serviceProfileFormData?.payment_methods,
                         }}
                         handleCallback={handleCallbackFormDetails}
                     />

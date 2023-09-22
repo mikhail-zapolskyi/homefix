@@ -10,6 +10,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import CheckIcon from "@mui/icons-material/Check";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import EditorView from "../editors/EditorView";
 
 interface ViewServProPageProps {
     data: Record<string, any>;
@@ -62,7 +63,7 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                 </Stack>
             </Stack>
             <SectionWithTitle title="Introduction">
-                <Typography variant="body1">{data.introduction}</Typography>
+                <EditorView content={data.introduction} />
             </SectionWithTitle>
             <SectionWithTitle title="Overview" />
             <Grid container item xs={12}>
@@ -105,7 +106,7 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                 <Grid item xs={12} md={6}>
                     <Typography>
                         This pro accepts payments via{" "}
-                        {data.payment_Methods.toString().replace(/,/g, " and ")}
+                        {data.payment_methods.toString().replace(/,/g, " and ")}
                     </Typography>
                 </Grid>
             </Grid>
@@ -131,7 +132,7 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                 </Stack>
             </SectionWithTitle>
             <SectionWithTitle title="Biography">
-                <Typography variant="body1">{data.bio}</Typography>
+                <EditorView content={data.bio} />
             </SectionWithTitle>
             <SectionWithTitle title="Reviews">
                 <Typography variant="body2">
