@@ -15,6 +15,10 @@ export { default as ViewDashServPro } from "./views/ViewDashServPro";
 export { default as UserReviewsView } from "./views/UserReviewsView";
 export { default as ViewDashUserPro } from "./views/ViewDashUserPro";
 export { default as ViewServProPage } from "./views/ViewServProPage";
+export { default as ViewSignUp } from "./views/ViewSignUp";
+export { default as ViewProSignUp } from "./views/ViewProSignUp";
+export { default as ViewReqPasswordReset } from "./views/ViewReqPasswordReset";
+export { default as ViewResetPassword } from "./views/ViewResetPassword";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
