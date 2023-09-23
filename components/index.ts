@@ -57,6 +57,8 @@ export { default as Email } from "./emails/email";
 // Containers
 export { default as PageContainer } from "./container/PageContainer";
 export { default as SectionWithTitle } from "./container/SectionWithTitle";
+export { default as ExploreSection } from "./container/ExploreSection"
+
 
 // Progress
 export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";

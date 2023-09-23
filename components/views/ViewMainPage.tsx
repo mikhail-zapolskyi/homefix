@@ -1,6 +1,6 @@
-import { styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 import React from "react";
-import { ProductHeroMainCard } from "@/components";
+import { ProductHeroMainCard, ExploreSection } from "@/components";
 import heroImage from "@/assets/hero.webp";
 
 const HeroContainer = styled("div")(({ theme }) => ({
@@ -25,10 +25,13 @@ const Image = styled("img")(({ theme }) => ({
 
 export const ViewMainPage = () => {
     return (
-        <HeroContainer>
-            <Image src={heroImage.src} alt="hero-image" />
-            <ProductHeroMainCard />
-        </HeroContainer>
+        <>
+            <HeroContainer>
+                <Image src={heroImage.src} alt="hero-image" />
+                <ProductHeroMainCard />
+            </HeroContainer>
+            <ExploreSection /> 
+        </>
     );
 };
 
