@@ -78,7 +78,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
     const isTextAreaNeeded = (key: string) => {
         if (
             key === "bio" ||
-            key === "schedualPolicy" ||
+            key === "schedual_policy" ||
             key === "introduction"
         ) {
             return true;
