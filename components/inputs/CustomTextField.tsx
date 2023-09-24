@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+    Alert,
     Box,
     FormControl,
     IconButton,
@@ -16,6 +17,8 @@ interface TextFieldProps {
     name: string;
     placeholder?: string;
     value?: string | number;
+    error?: boolean | undefined;
+    errorText?: string | null;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -35,10 +38,17 @@ const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
     padding: "0 .3rem",
 }));
 
+const StyledAlert = styled(Alert)(({ theme }) => ({
+    border: "none",
+    background: "none",
+}));
+
 export const CustomTextField: React.FC<TextFieldProps> = ({
     name,
     onChange,
     value,
+    error,
+    errorText,
     placeholder,
     type = "text",
 }) => {
@@ -77,6 +87,7 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                     name={name}
                     type={showPassword ? "text" : type}
                     value={value}
+                    error={!!errorText}
                     onChange={onChange}
                     autoComplete="new-password"
                     endAdornment={
@@ -98,6 +109,9 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                         )
                     }
                 />
+                {error && errorText && (
+                    <StyledAlert severity="error">{errorText}</StyledAlert>
+                )}
             </FormControl>
         </Box>
     );
