@@ -10,6 +10,7 @@ import {
 import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
 import { useTheme, useMediaQuery } from "@mui/material";
+import EditorView from "../editors/EditorView";
 
 interface ViewSearchServProProps {
     data?: Record<string, any>;
@@ -53,6 +54,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
             onClick={onView}
+            sx={{ width: "100%" }}
         >
             <Stack direction="row" spacing={1}>
                 <Avatar
@@ -85,9 +87,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                 spacing={2}
                 divider={<Divider orientation="horizontal" flexItem />}
             >
-                <Typography variant="body1">
-                    {data.introduction.slice(0, 100)}
-                </Typography>
+                <EditorView content={data.introduction.slice(0, 100)} />
                 <Stack spacing={1} direction="row">
                     <CustomButton
                         onClick={onView}
@@ -108,7 +108,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
         </Stack>
     );
     const renderData = data && (
-        <Stack direction="row">
+        <Stack direction="row" sx={{ width: "100%" }}>
             <Avatar
                 src={data.image}
                 alt={data.name}
@@ -154,9 +154,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     </Typography>
                 </Stack>
                 <Stack spacing={2}>
-                    <Typography variant="body1">
-                        {data.introduction.slice(0, 150)}...
-                    </Typography>
+                    <EditorView content={data.introduction.slice(0, 150)} />
                 </Stack>
                 {renderArrayValues}
             </Stack>

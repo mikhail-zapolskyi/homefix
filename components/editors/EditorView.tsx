@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
@@ -9,9 +9,11 @@ interface Props {
 const EditorView: React.FC<Props> = ({ content }) => {
     const editor = useEditor({
         extensions: [StarterKit],
-        content: content || "Enter som text here",
         editable: false,
     });
+
+    editor?.commands.setContent(content);
+
     return <EditorContent editor={editor} />;
 };
 

@@ -78,7 +78,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
     const isTextAreaNeeded = (key: string) => {
         if (
             key === "bio" ||
-            key === "schedual_policy" ||
+            key === "schedule_policy" ||
             key === "introduction"
         ) {
             return true;
@@ -113,7 +113,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
         />
     );
 
-    const renderInfo = (
+    const renderData = (
         <Grid container item xs={12}>
             <TableContainer>
                 <Table>
@@ -146,7 +146,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                             <TableCell>
                                                 {key !== "introduction" &&
                                                 key !== "bio" &&
-                                                key !== "schedual_policy" ? (
+                                                key !== "schedule_policy" ? (
                                                     <Typography
                                                         variant="body2"
                                                         sx={{
@@ -155,7 +155,9 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                     >
                                                         {value
                                                             ? value
-                                                            : `Please add your ${key}`}
+                                                            : `Add Your ${first_letter_uppercase(
+                                                                  key
+                                                              )}`}
                                                     </Typography>
                                                 ) : (
                                                     <EditorView
@@ -188,7 +190,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
             </TableContainer>
         </Grid>
     );
-    const renderEditInfo = (
+    const renderDataEdit = (
         <Grid container item xs={12} spacing={2}>
             {data &&
                 Object.entries(data).map(([key, value]) => {
@@ -202,11 +204,6 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                 flexDirection: "column",
                             }}
                         >
-                            {/* <TextareaAutosize
-                                name={key}
-                                placeholder={value}
-                                onChange={handleFormData}
-                            /> */}
                             <EditorField
                                 name={key}
                                 label={key}
@@ -270,7 +267,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                         renderEditButton
                     )}
                 </Grid>
-                {editMode ? renderEditInfo : renderInfo}
+                {editMode ? renderDataEdit : renderData}
             </Grid>
         </CustomDashboardCard>
     );

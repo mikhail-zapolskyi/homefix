@@ -233,8 +233,8 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
                             bio: serviceProfileFormData?.bio,
                             experience: serviceProfileFormData?.experience,
                             employees: serviceProfileFormData?.employees,
-                            schedual_policy:
-                                serviceProfileFormData?.schedual_policy,
+                            schedule_policy:
+                                serviceProfileFormData?.schedule_policy,
                         }}
                         title="Service Profile Details"
                         saveCallback={handleCallbackFormDetails}
