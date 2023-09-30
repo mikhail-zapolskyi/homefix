@@ -50,7 +50,6 @@ const ProgressWithPercentage: React.FC<ProgressWithPercentageProps> = ({
 
             const totalRatings = arr.length;
             for (let i = 1; i <= 5; i++) {
-                console.log(newStars[i]);
                 newStars[i] = (newStars[i] / totalRatings) * 100;
             }
 
@@ -59,116 +58,7 @@ const ProgressWithPercentage: React.FC<ProgressWithPercentageProps> = ({
     }, []);
 
     useEffect(() => {
-        getPercentageFromArray([
-            {
-                id: "982374923974",
-                rating: 2,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 4,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 4,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 1,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 3,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 4,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 4,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 1,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 5,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 4,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 4,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-            {
-                id: "982374923974",
-                rating: 1,
-                comment: "skdjhfksd",
-                createdAt: null,
-                updatedAt: null,
-                serviceProfileId: "sldflsjdkf",
-                userId: "lksdlfksd",
-            },
-        ]);
+        getPercentageFromArray(array);
     }, [array, getPercentageFromArray]);
 
     return (
