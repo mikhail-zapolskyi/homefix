@@ -34,6 +34,7 @@ export { default as ViewSearchServPro } from "./cards/ViewSearchServPro";
 
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
+export { default as Carousel } from "./animation/Carousel"
 
 // Inputs
 export { default as CustomRadioGroup } from "./inputs/CustomRadioGroup";
