@@ -1,6 +1,14 @@
 "use client";
 import React from "react";
-import { Avatar, Grid, Rating, Stack, Typography } from "@mui/material";
+import {
+    Avatar,
+    Divider,
+    Grid,
+    Paper,
+    Rating,
+    Stack,
+    Typography,
+} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { ProgressWithPercentage, SectionWithTitle } from "@/components";
 import WorkIcon from "@mui/icons-material/Work";
@@ -17,6 +25,7 @@ interface ViewServProPageProps {
 }
 
 const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
+    console.log(data);
     return (
         <Stack
             spacing={6}
@@ -107,8 +116,10 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Typography>
-                        This pro accepts payments via{" "}
-                        {data.payment_methods.toString().replace(/,/g, " and ")}
+                        {data.payment_methods.length > 0
+                            ? `This pro accepts payments via 
+                        ${data.payment_methods.toString().replace(/,/g, ", ")}`
+                            : "Payment Methods not listed"}
                     </Typography>
                 </Grid>
             </Grid>
@@ -152,6 +163,53 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                     number={data.rating}
                     array={data.reviews}
                 />
+                <Divider />
+                {data.reviews.map((review: Record<string, any>) => (
+                    <Paper
+                        elevation={2}
+                        sx={{ padding: "1rem", borderRadius: "1rem" }}
+                        key={review.id}
+                    >
+                        <Stack spacing={1}>
+                            <Stack
+                                direction="row"
+                                spacing={1}
+                                alignItems="center"
+                            >
+                                <Avatar
+                                    sx={{ w: 6, h: 6 }}
+                                    src={review.user.image}
+                                />
+                                <Stack sx={{ p: 1 }}>
+                                    <Typography>{review.user.name}</Typography>
+                                    <Stack
+                                        direction="row"
+                                        spacing={1}
+                                        alignItems="center"
+                                    >
+                                        <Rating
+                                            name="text-feedback"
+                                            value={review.rating}
+                                            readOnly
+                                            precision={0.1}
+                                            size="small"
+                                            emptyIcon={
+                                                <StarIcon
+                                                    style={{ opacity: 0.55 }}
+                                                    fontSize="inherit"
+                                                />
+                                            }
+                                        />
+                                        <Typography>
+                                            {review.rating} rating
+                                        </Typography>
+                                    </Stack>
+                                </Stack>
+                            </Stack>
+                            <EditorView content={review.comment} />
+                        </Stack>
+                    </Paper>
+                ))}
             </SectionWithTitle>
         </Stack>
     );

@@ -18,15 +18,42 @@ export async function GET(
                 id,
             },
             include: {
-                location: true,
+                location: {
+                    select: {
+                        id: true,
+                        address: true,
+                        city: true,
+                        state: true,
+                        country: true,
+                        postalCode: true,
+                    },
+                },
                 businessHours: true,
                 categories: {
-                    include: {
-                        category: true,
+                    select: {
+                        id: true,
+                        category: {
+                            select: {
+                                title: true,
+                            },
+                        },
                     },
                 },
                 posts: true,
-                reviews: true,
+                reviews: {
+                    select: {
+                        comment: true,
+                        rating: true,
+                        id: true,
+                        user: {
+                            select: {
+                                name: true,
+                                image: true,
+                            },
+                        },
+                        createdAt: true,
+                    },
+                },
             },
         });
 

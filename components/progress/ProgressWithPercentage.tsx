@@ -70,7 +70,9 @@ const ProgressWithPercentage: React.FC<ProgressWithPercentageProps> = ({
             >
                 <Stack spacing={1}>
                     <Typography variant="body1">
-                        {number !== 0 ? number : "Not rated"}
+                        {number !== 0
+                            ? `Avarage Rating ${number}`
+                            : "Not rated"}
                     </Typography>
                     <Rating
                         name="text-feedback"
