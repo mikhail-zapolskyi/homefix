@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { to_base_sixty_four, upload_image } from "@/utils";
 import prisma from "@/prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function PUT(req: NextRequest, res: NextResponse) {
     const formData = await req.formData();
@@ -73,6 +73,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         return NextResponse.json(userProfiles);
     } catch (error) {
         // Handle any errors that occur during the process
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

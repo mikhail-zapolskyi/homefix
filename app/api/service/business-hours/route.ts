@@ -2,8 +2,8 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import { Day, Prisma } from "@prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import { Day } from "@prisma/client";
+import errorHandler from "@/lib/error/errorHandler";
 
 // Update a day by id
 export async function PUT(req: NextRequest) {
@@ -87,7 +87,6 @@ export async function PUT(req: NextRequest) {
 
         return NextResponse.json(businessHours, { status: 200 });
     } catch (error: any) {
-        console.log(error);
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

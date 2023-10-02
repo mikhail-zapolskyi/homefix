@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { buildQueryServPro } from "@/utils";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
         });
         return NextResponse.json(serviceProfiles);
     } catch (error) {
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }
 
@@ -145,6 +145,6 @@ export async function PUT(req: Request) {
     } catch (error) {
         console.log(error);
         // Handle any errors that occur during the process
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

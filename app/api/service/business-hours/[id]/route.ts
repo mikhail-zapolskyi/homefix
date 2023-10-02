@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 // DELETE DAY
 export async function DELETE(
@@ -74,7 +74,6 @@ export async function DELETE(
 
         return NextResponse.json(businessHours, { status: 200 });
     } catch (error: any) {
-        console.log(error);
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

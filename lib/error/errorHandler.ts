@@ -1,7 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse } from "next/server";
 
-const handleError = (error: Error | unknown) => {
+const errorHandler = (error: Error | unknown) => {
     if (error instanceof PrismaClientKnownRequestError) {
         const errorMessage = getPrismaErrorMessage(error);
         return NextResponse.json({ error: errorMessage }, { status: 400 });
@@ -33,4 +33,4 @@ const getPrismaErrorMessage = (error: PrismaClientKnownRequestError) => {
     }
 };
 
-export default handleError;
+export default errorHandler;

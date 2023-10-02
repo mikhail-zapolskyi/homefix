@@ -1,7 +1,8 @@
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function DELETE(
     req: Request,
@@ -66,6 +67,6 @@ export async function DELETE(
 
         return NextResponse.json({ msg: "deleted" }, { status: 200 });
     } catch (error) {
-        console.log(error);
+        return errorHandler(error);
     }
 }

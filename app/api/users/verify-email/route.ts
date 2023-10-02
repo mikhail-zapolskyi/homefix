@@ -1,11 +1,10 @@
+import errorHandler from "@/lib/error/errorHandler";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
         const token = await req.json();
-
-        console.log(token);
 
         const user = await prisma.user.findFirst({
             where: {
@@ -34,6 +33,6 @@ export async function POST(req: NextRequest) {
             { status: 200 }
         );
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return errorHandler(error);
     }
 }

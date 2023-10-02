@@ -1,20 +1,28 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET() {
     const session = await getServerSession(authOptions);
 
+    // Check if a valid session exists
     if (!session) {
-        redirect("/api/auth/signin");
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
+    // Get the user's ID
     const { id } = session.user;
 
     if (!id) {
-        return NextResponse.json("You are not authorized");
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
     try {
@@ -24,7 +32,7 @@ export async function GET() {
         });
         return NextResponse.json(businesses);
     } catch (error) {
-        return NextResponse.error();
+        return errorHandler(error);
     }
 }
 export async function POST(req: NextRequest) {
@@ -32,13 +40,20 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-        redirect("/api/auth/signin");
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
+    // Get the user's ID
     const { id } = session.user;
 
     if (!id) {
-        return NextResponse.json("You are not authorized");
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
     try {
@@ -56,6 +71,6 @@ export async function POST(req: NextRequest) {
         });
         return NextResponse.json(newCustomer, { status: 201 });
     } catch (error) {
-        return NextResponse.error();
+        return errorHandler(error);
     }
 }

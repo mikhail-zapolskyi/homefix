@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET() {
     const session = await getServerSession(authOptions);
@@ -35,6 +36,6 @@ export async function GET() {
         });
         return NextResponse.json(users);
     } catch (error) {
-        return NextResponse.error();
+        return errorHandler(error);
     }
 }

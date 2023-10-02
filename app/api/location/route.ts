@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import path from "path";
 import { getLocations, getSearchParams } from "@/utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import handleError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET(req: Request) {
     try {
@@ -14,7 +14,7 @@ export async function GET(req: Request) {
         const locations = await getLocations(locationDir, params);
         return NextResponse.json(locations);
     } catch (error) {
-        return handleError(error);
+        return errorHandler(error);
     }
 }
 
@@ -62,6 +62,6 @@ export async function PUT(req: Request) {
             return NextResponse.json(newLocation);
         }
     } catch (error) {
-        return handleError(error);
+        return errorHandler(error);
     }
 }

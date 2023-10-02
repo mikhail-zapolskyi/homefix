@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET(req: NextRequest) {
     try {
@@ -92,6 +92,6 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ serviceCategory }, { status: 200 });
     } catch (error) {
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

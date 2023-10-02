@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET(
     req: NextRequest,
@@ -68,7 +68,6 @@ export async function GET(
 
         return NextResponse.json(serviceProfile);
     } catch (error) {
-        console.log(error);
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }
