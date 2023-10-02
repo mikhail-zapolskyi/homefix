@@ -25,7 +25,6 @@ interface ViewServProPageProps {
 }
 
 const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
-    console.log(data);
     return (
         <Stack
             spacing={6}

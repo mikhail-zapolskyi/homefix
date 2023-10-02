@@ -4,15 +4,19 @@ import { getLocations, getSearchParams } from "@/utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import { Prisma } from "@prisma/client";
+import handleError from "@/prisma/prismaErrorHandler";
 
-const getLocation = async (req: NextRequest) => {
-    const { searchParams } = new URL(req.url);
-    const params = getSearchParams(searchParams);
-    const locationDir = path.join(process.cwd(), "assets/locations");
-    const locations = await getLocations(locationDir, params);
-    return NextResponse.json(locations);
-};
+export async function GET(req: Request) {
+    try {
+        const { searchParams } = new URL(req.url);
+        const params = getSearchParams(searchParams);
+        const locationDir = path.join(process.cwd(), "assets/locations");
+        const locations = await getLocations(locationDir, params);
+        return NextResponse.json(locations);
+    } catch (error) {
+        return handleError(error);
+    }
+}
 
 export async function PUT(req: Request) {
     const data = await req.json();
@@ -58,20 +62,6 @@ export async function PUT(req: Request) {
             return NextResponse.json(newLocation);
         }
     } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === "P2002") {
-                console.log(error.message);
-                return NextResponse.json(
-                    {
-                        message: "Address exist or you are not authorized",
-                    },
-                    { status: 400 }
-                );
-            }
-        }
-
-        return console.error(error);
+        return handleError(error);
     }
 }
-
-export { getLocation as GET };
