@@ -10,6 +10,8 @@ import {
     Avatar,
     Grid,
 } from "@mui/material";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 const content = [
     {
@@ -38,92 +40,89 @@ const content = [
     },
 ];
 
-const Carousel = () => {
-    const theme = useTheme();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const maxContent = content.length;
+const responsive = {
+    superLargeDesktop: {
+        breakpoint: { max: 4000, min: 3000 },
+        items: 5
+    },
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 3
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 2
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1
+    }
+};
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
+const CustomCarousel = () => {
     return (
-        <Grid
-            container
-            sx={{
-                minHeight: "25rem",
-                justifyContent: "center",
-                gridGap: "1rem",
-                py: "2rem",
-                bgcolor: "background.default",
-            }}
+        <Carousel
+            // additionalTransfrom={0}
+            // arrows
+            // autoPlaySpeed={3000}
+            // centerMode={false}
+            // className=""
+            // containerClass="container-with-dots"
+            // dotListClass=""
+            // draggable
+            // focusOnSelect={false}
+            // infinite
+            // itemClass=""
+            // keyBoardControl
+            // minimumTouchDrag={80}
+            // pauseOnHover
+            // renderArrowsWhenDisabled={false}
+            // renderButtonGroupOutside={false}
+            // renderDotsOutside={false}
+            // rewind={false}
+            // rewindWithAnimation={false}
+            // rtl={false}
+            // shouldResetAutoplay
+            // showDots={false}
+            // sliderClass=""
+            // slidesToSlide={1}
+            // swipeable
+            responsive={inherit}
         >
-            {content.map((i) => (
-                <Grid
-                    item
-                    xs={2}
-                    sx={{
-                        borderRadius: "1rem",
-                        maxHeight: "15rem",
-                        bgcolor: "secondary.contrastText",
-                        p: "1rem",
-                    }}
-                >
-                    {/* Card content */}
-                    <Avatar
-                        sx={{ bgcolor: "black", width: "100%", height: "85%" }}
-                        variant="square"
-                    >
-                        {i.image}
-                    </Avatar>
-                    <Typography
-                        sx={{ justifySelf: "end", alignSelf: "center" }}
-                    >
-                        {i.businessName}
-                    </Typography>
-                </Grid>
-            ))}
 
-            <Grid item xs={7}>
-                <MobileStepper
-                    variant="text"
-                    steps={maxContent / 2}
-                    position="static"
-                    activeStep={activeStep / 2}
-                    nextButton={
-                        <Button
-                            size="small"
-                            onClick={handleNext}
-                            disabled={activeStep === maxContent - 1}
+            {
+                content.map((i) => (
+                    <Grid
+                        key={i.id}
+                        item
+                        xs={2}
+                        sx={{
+                            borderRadius: "1rem",
+                            maxHeight: "15rem",
+                            bgcolor: "secondary.contrastText",
+                            p: "1rem",
+                        }}
+                    >
+                        Card content
+                        <Avatar
+                            sx={{ bgcolor: "black", width: "100%", height: "85%" }}
+                            variant="square"
                         >
-                            {theme.direction === "rtl" ? (
-                                <KeyboardArrowLeft />
-                            ) : (
-                                <KeyboardArrowRight />
-                            )}
-                        </Button>
-                    }
-                    backButton={
-                        <Button
-                            size="small"
-                            onClick={handleBack}
-                            disabled={activeStep === 0}
+                            {i.image}
+                        </Avatar>
+                        <Typography
+                            sx={{ justifySelf: "end", alignSelf: "center" }}
                         >
-                            {theme.direction === "rtl" ? (
-                                <KeyboardArrowRight />
-                            ) : (
-                                <KeyboardArrowLeft />
-                            )}
-                        </Button>
-                    }
-                />
-            </Grid>
-        </Grid>
+                            {i.businessName}
+                        </Typography>
+                    </Grid>
+                ))
+            }
+
+        </Carousel >
+
     );
 };
 
-export default Carousel;
+export default CustomCarousel;
