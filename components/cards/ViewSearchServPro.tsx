@@ -14,14 +14,18 @@ import EditorView from "../editors/EditorView";
 
 interface ViewSearchServProProps {
     data?: Record<string, any>;
+    activeUserId?: string | false | null | undefined;
     onView?: () => void;
     onFollow?: () => void;
+    onUnfollow?: () => void;
 }
 
 const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
     data,
+    activeUserId,
     onView,
     onFollow,
+    onUnfollow,
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -49,11 +53,17 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
         </Stack>
     );
 
+    const isFollowed = () => {
+        const result = data?.customers.some(
+            (customer: Record<string, any>) => customer.userId === activeUserId
+        );
+        return result;
+    };
+
     const renderDataMobile = data && (
         <Stack
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
-            onClick={onView}
             sx={{ width: "100%" }}
         >
             <Stack direction="row" spacing={1}>
@@ -98,10 +108,11 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     />
                     <CustomButton
                         onClick={onFollow}
-                        text="Follow"
+                        text={isFollowed() ? "Following" : "Follow"}
                         variant="contained"
                         size="small"
                         fullWidth
+                        disabled={isFollowed() ? true : false}
                     />
                 </Stack>
             </Stack>
@@ -177,7 +188,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
             </Grid>
             {/* This is in place of the company logo */}
             <Grid container item xs={10}>
-                <Stack direction="column" spacing={2}>
+                <Stack direction="column" spacing={2} sx={{ width: "100%" }}>
                     <Stack alignItems="center" direction="row">
                         <Avatar
                             alt={data.user.name}
@@ -194,12 +205,15 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                             text="Profile"
                             variant="outlined"
                             size="small"
+                            fullWidth
                         />
                         <CustomButton
                             onClick={onFollow}
-                            text="Follow"
+                            text={isFollowed() ? "Following" : "Follow"}
                             variant="contained"
                             size="small"
+                            fullWidth
+                            disabled={isFollowed() ? true : false}
                         />
                     </Stack>
                 </Stack>

@@ -36,8 +36,9 @@ export async function GET() {
     }
 }
 export async function POST(req: NextRequest) {
-    const serviceProfileId = await req.json();
     const session = await getServerSession(authOptions);
+    const { serviceProfileId } = await req.json();
+    const query: Record<string, any> = {};
 
     if (!session) {
         return NextResponse.json(
@@ -56,19 +57,25 @@ export async function POST(req: NextRequest) {
         );
     }
 
+    query.userId = id;
+    query.serviceProfileId = serviceProfileId;
+
     try {
         const existingCustomer = await prisma.customer.findFirst({
-            where: { userId: id, serviceProfileId },
+            where: query,
         });
+
         if (existingCustomer) {
-            return NextResponse.json("Customer already exists", {
-                status: 400,
-            });
+            return NextResponse.json(
+                { error: "You already following this account" },
+                { status: 400 }
+            );
         }
 
         const newCustomer = await prisma.customer.create({
-            data: { userId: id, serviceProfileId },
+            data: { userId: id, serviceProfileId: serviceProfileId },
         });
+
         return NextResponse.json(newCustomer, { status: 201 });
     } catch (error) {
         return errorHandler(error);
