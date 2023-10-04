@@ -1,14 +1,14 @@
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { calcualteAverage } from "@/utils";
 import prisma from "@/prisma/client";
-import errorHandler from "@/lib/error/errorHandler";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     const data = await req.json();
-    console.log(data);
     const session = await getServerSession(authOptions);
 
+    // Check if a valid session exists
     if (!session) {
         return NextResponse.json(
             { error: "You are not authorized" },
@@ -16,8 +16,10 @@ export async function POST(req: Request) {
         );
     }
 
+    // Get the user from the session
     const user = session.user;
 
+    // Check if the user exists
     if (!user) {
         return NextResponse.json(
             { error: "You are not authorized" },
@@ -25,35 +27,44 @@ export async function POST(req: Request) {
         );
     }
 
-    const userId = user.id;
-
-    if (userId === data.proId) {
-        return NextResponse.json(
-            { error: "You can't review your self" },
-            { status: 401 }
-        );
-    }
-
-    if (!userId) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    data.userId = session.user.id;
-
-    try {
-        const reviews = await prisma.review.create({
-            data: {
-                rating: data.rating,
-                comment: data.comment,
-                userId,
-                serviceProfileId: data.serviceId,
-            },
+    if (user.id == data.proId) {
+        NextResponse.json("Sorry you can not write a review for yourself!", {
+            status: 403,
         });
-        return NextResponse.json(reviews);
-    } catch (error) {
-        return errorHandler(error);
+        return;
     }
+
+    data.userId = user.id;
+    const newData = {
+        userId: data.userId,
+        serviceProfileId: data.serviceId,
+        comment: data.comment,
+        rating: data.rating,
+    };
+
+    const reviews = await prisma.review.create({
+        data: newData,
+    });
+
+    // Update servicePorfile avarage rating
+    const serviceReviews = await prisma.review.findMany({
+        where: {
+            serviceProfileId: data.serviceId,
+        },
+        select: { rating: true },
+    });
+
+    const totalRating = serviceReviews.length;
+    const sumRatings = serviceReviews.reduce(
+        (sum, review) => sum + (review.rating || 0),
+        0
+    );
+    const averageRating = calcualteAverage(totalRating, sumRatings);
+
+    await prisma.serviceProfile.update({
+        where: { id: data.serviceId },
+        data: { rating: averageRating },
+    });
+
+    return NextResponse.json(reviews, { status: 201 });
 }
