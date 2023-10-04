@@ -26,7 +26,7 @@ interface SelectCreateFieldProps {
 
 const StyledTextField = styled(TextField)(({ ...params }) => ({
     "& fieldset": {
-        borderRadius: "0.8rem",
+        borderRadius: "0.7rem",
     },
 }));
 

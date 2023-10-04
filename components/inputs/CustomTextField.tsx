@@ -27,8 +27,13 @@ const StyledTextField = styled(OutlinedInput)(({ theme }) => ({
         padding: ".4rem",
     },
     ".MuiInputBase-input": {
+        backgroundColor: `${theme.palette.background.paper} !important`,
         "&:-webkit-autofill": {
             borderRadius: "0.8rem",
+        },
+        "&:-internal-autofill-selected": {
+            backgroundColor: `${theme.palette.background.paper} !important`,
+            transition: "background-color 600000s 0s",
         },
     },
 }));
@@ -89,7 +94,8 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                     value={value}
                     error={!!errorText}
                     onChange={onChange}
-                    autoComplete="new-password"
+                    placeholder={placeholder}
+                    inputProps={{ autoComplete: "off" }}
                     endAdornment={
                         type === "password" && (
                             <InputAdornment position="end">
