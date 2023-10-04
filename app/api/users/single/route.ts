@@ -29,8 +29,21 @@ export async function GET() {
     try {
         const users = await prisma.user.findUnique({
             where: { id },
-            include: {
-                location: true,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+                type: true,
+                location: {
+                    select: {
+                        address: true,
+                        city: true,
+                        state: true,
+                        country: true,
+                        postalCode: true,
+                    },
+                },
                 businesses: true,
             },
         });

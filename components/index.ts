@@ -35,6 +35,8 @@ export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
 export { default as ViewSearchServPro } from "./cards/ViewSearchServPro";
+export { default as ViewProUserDashboard } from "./views/ViewProUserDashboard";
+export { default as ViewUserDashboard } from "./views/ViewUserDashboard";
 
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";

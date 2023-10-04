@@ -209,6 +209,7 @@ model Location {
   state             String?
   country           String?
   postalCode        String?
+  postal_code       String?
   lng               String?
   lat               String?
 
