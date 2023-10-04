@@ -11,6 +11,7 @@ import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
 import { useTheme, useMediaQuery } from "@mui/material";
 import EditorView from "../editors/EditorView";
+import StarIcon from "@mui/icons-material/Star";
 
 interface ViewSearchServProProps {
     data?: Record<string, any>;
@@ -87,7 +88,14 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                         <Rating
                             defaultValue={data.rating}
                             size="small"
+                            precision={0.1}
                             readOnly
+                            emptyIcon={
+                                <StarIcon
+                                    style={{ opacity: 0.55 }}
+                                    fontSize="inherit"
+                                />
+                            }
                         />
                         <Typography variant="body2">{data.rating}</Typography>
                     </Stack>

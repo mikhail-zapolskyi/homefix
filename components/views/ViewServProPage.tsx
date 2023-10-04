@@ -169,7 +169,7 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                         sx={{ padding: "1rem", borderRadius: "1rem" }}
                         key={review.id}
                     >
-                        <Stack spacing={1}>
+                        <Stack spacing={1} sx={{ width: "100%" }}>
                             <Stack
                                 direction="row"
                                 spacing={1}
@@ -205,6 +205,9 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                                     </Stack>
                                 </Stack>
                             </Stack>
+                            <Typography variant="body2" sx={{ opacity: 0.55 }}>
+                                {review.createdAt}
+                            </Typography>
                             <EditorView content={review.comment} />
                         </Stack>
                     </Paper>
