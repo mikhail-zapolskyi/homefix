@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { buildQueryServPro } from "@/utils";
 import errorHandler from "@/lib/error/errorHandler";
@@ -18,17 +17,30 @@ export async function POST(req: Request) {
     const data = await req.json();
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email) {
-        redirect("/api/auth/signin");
-    }
-
-    if (session.user.type === "USER") {
+    if (!session) {
         return NextResponse.json(
-            "You are not authorized to create Service Profile. Please register as PRO user"
+            { error: "You are not authorized" },
+            { status: 401 }
         );
     }
 
-    data.userId = session.user.id;
+    const user = session.user;
+
+    if (!user || user.type !== "PRO") {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
+
+    const userId = user.id;
+
+    if (!userId) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
+    }
 
     try {
         const serviceProfiles = await prisma.serviceProfile.create({
@@ -42,7 +54,7 @@ export async function POST(req: Request) {
                 specialties_Do: data.specialtiesDo,
                 specialties_No: data.specialtiesNo,
                 employees: data.employees,
-                userId: data.userId,
+                userId: userId,
                 location: {
                     create: {
                         address: data.address,
