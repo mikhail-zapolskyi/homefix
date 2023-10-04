@@ -175,9 +175,31 @@ model Review {
 
 model Post {
   id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  title            String?
+  content          String?
+  image            String?
+  date             DateTime?        @default(now())
+  likes            Like[]
+  comments         Comment[]
 
   serviceProfileId String           @db.ObjectId
   service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String
+
+  postId String           @db.ObjectId
+  post             Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  content          String
+
+  postId String           @db.ObjectId
+  post             Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Location {
