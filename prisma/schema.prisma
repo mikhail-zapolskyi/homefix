@@ -151,10 +151,10 @@ model Category {
 model ServiceCategory {
   id               String  @id @default(auto()) @map("_id") @db.ObjectId
 
-  categoryId       String        @db.ObjectId
+  categoryId       String          @db.ObjectId
   category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   
-  serviceProfileId String        @db.ObjectId
+  serviceProfileId String          @db.ObjectId
   serviceProfile   ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
   @@unique([categoryId, serviceProfileId])
 }
@@ -190,16 +190,16 @@ model Like {
   id               String           @id @default(auto()) @map("_id") @db.ObjectId
   userId           String
 
-  postId String           @db.ObjectId
-  post             Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId           String           @db.ObjectId
+  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
   id               String           @id @default(auto()) @map("_id") @db.ObjectId
   content          String
 
-  postId String           @db.ObjectId
-  post             Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId           String           @db.ObjectId
+  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Location {
