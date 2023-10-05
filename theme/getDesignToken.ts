@@ -1,3 +1,41 @@
+/**
+ * Usage:
+ *
+ * 1. Import `getDesignToken` from this module.
+ *
+ * Example:
+ *
+ * ```javascript
+ * import getDesignToken from './path-to-this-module';
+ * ```
+ *
+ * 2. Call `getDesignToken` function with a `mode` argument to get the design tokens for either light or dark mode.
+ *
+ * Example:
+ *
+ * ```javascript
+ * const lightModeTokens = getDesignToken('light');
+ * const darkModeTokens = getDesignToken('dark');
+ * ```
+ *
+ * 3. Use the design tokens in your Material-UI theme configuration.
+ *
+ * Example:
+ *
+ * ```javascript
+ * import { createTheme } from '@mui/material/styles';
+ *
+ * const lightTheme = createTheme(lightModeTokens);
+ * const darkTheme = createTheme(darkModeTokens);
+ *
+ * // Use the themes in your Material-UI application
+ * ```
+ *
+ * Note: This module provides design tokens for both light and dark modes, making it easy to customize the Material-UI theme for your application.
+ *
+ * @module DesignToken
+ */
+
 import { PaletteMode, Shadows } from "@mui/material";
 import { Nunito, PT_Sans } from "next/font/google";
 import { Typography } from "@mui/material/styles/createTypography";
