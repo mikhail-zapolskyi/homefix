@@ -1,3 +1,19 @@
+/**
+ * This code defines two functions, `updateServiceProfiles` and `deleteServiceProfile`,
+ * which are used to update and delete service profiles, respectively.
+ * These functions are designed to work with a Next.js application and
+ * integrate with user authentication provided by the NextAuth.js library.
+ *
+ * @module ServiceProfileHandlers
+ * @exports updateServiceProfiles as PUT - Function to update a service profile, requires authentication.
+ * @exports deleteServiceProfile as DELETE - Function to delete a service profile, requires authentication.
+ *
+ * @param {NextRequest} req - The incoming HTTP request object.
+ * @param {Object} params - An object containing route parameters, including 'id' for identifying the service profile.
+ *
+ * @returns {NextResponse} - A Next.js response object, usually in JSON format.
+ */
+
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";

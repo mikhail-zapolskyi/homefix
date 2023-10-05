@@ -1,3 +1,16 @@
+/**
+ * This code defines a Next.js API route that handles the creation of reviews for service profiles. It uses Next.js authentication (likely with NextAuth.js) to ensure the user is authorized.
+ *
+ * - It receives a POST request with JSON data containing details of a review.
+ * - It checks if a valid user session exists, and if not, it returns a 401 unauthorized error.
+ * - It validates that the user is not trying to review their own profile and returns a 403 forbidden error if they are.
+ * - It then creates a new review in the database using Prisma.
+ * - It calculates the average rating for a service profile based on all its reviews and updates the service profile's rating.
+ * - Finally, it returns the newly created review as JSON with a 201 status code.
+ *
+ * This code should be used as an API endpoint in a Next.js application to handle the submission of user reviews for service profiles.
+ */
+
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
