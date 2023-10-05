@@ -12,7 +12,7 @@ import {
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CustomTextField from "../inputs/CustomTextField";
-import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";
 import EditorField from "../editors/EditorField";
 import EditorView from "../editors/EditorView";
 
@@ -138,9 +138,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                         fontWeight: 800,
                                                     }}
                                                 >
-                                                    {first_letter_uppercase(
-                                                        key
-                                                    )}
+                                                    {capitalizeFirstLetter(key)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -155,7 +153,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                     >
                                                         {value
                                                             ? value
-                                                            : `Add Your ${first_letter_uppercase(
+                                                            : `Add Your ${capitalizeFirstLetter(
                                                                   key
                                                               )}`}
                                                     </Typography>
