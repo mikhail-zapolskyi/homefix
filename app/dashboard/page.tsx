@@ -13,7 +13,7 @@ const Page = () => {
     let url: string = "";
 
     if (session?.user.type === "PRO" && status === "authenticated")
-        url = "/api/service/single";
+        url = "/api/stats/service";
     if (session?.user.type === "USER" && status === "authenticated")
         url = "/api/users/single";
 
@@ -24,18 +24,18 @@ const Page = () => {
     if (error) {
         toast.error(error.message);
     }
-
+    console.log(data);
     return isLoading ? (
         <Loader />
     ) : (
-        <>
+        <div>
             {status === "authenticated" && session.user.type === "PRO" && (
                 <ViewProUserDashboard data={data} />
             )}
             {status === "authenticated" && session.user.type === "USER" && (
                 <ViewUserDashboard data={data} />
             )}
-        </>
+        </div>
     );
 };
 

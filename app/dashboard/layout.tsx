@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { Loader } from "@/components";
 
 const StyledWrapper = styled(Grid)(({ theme }) => ({
+    width: "100%",
+    justifyContent: "center",
     [theme.breakpoints.up("sm")]: {
         padding: "2rem",
     },
