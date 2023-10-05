@@ -11,10 +11,7 @@ const GoogleSigninButtun = () => {
     const callBackUrl = searchParams.get("callbackUrl");
 
     return (
-        <Button
-            startIcon={<FcGoogle />}
-            onClick={() => signIn("google", { callBackUrl, redirect: true })}
-        >
+        <Button startIcon={<FcGoogle />} onClick={() => signIn("google")}>
             Sign in with Google
         </Button>
     );

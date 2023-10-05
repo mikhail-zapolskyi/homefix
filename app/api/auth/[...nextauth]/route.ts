@@ -131,6 +131,11 @@ export const authOptions: NextAuthOptions = {
                 },
             };
         },
+
+        async redirect({ url, baseUrl }) {
+            const redirectUrl = baseUrl + "/dashboard";
+            return redirectUrl;
+        },
     },
     secret: process.env.PROVIDER_SECRET,
     session: {
