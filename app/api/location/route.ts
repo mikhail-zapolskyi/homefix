@@ -1,3 +1,26 @@
+/**
+ * This code defines two asynchronous functions for handling HTTP requests: GET and PUT.
+ *
+ * @GET
+ *   - Accepts a GET request and retrieves a list of locations based on specified parameters.
+ *   - It parses query parameters from the request URL, fetches locations from a local directory,
+ *     and returns them as JSON.
+ *
+ * @PUT
+ *   - Accepts a PUT request and updates or creates a location record in a database using Prisma.
+ *   - It first checks if the user is authenticated using NextAuth.js session management.
+ *   - If authenticated, it either updates an existing location or creates a new one based on the data received in the request.
+ *
+ * Dependencies:
+ *   - next/server: Provides the NextResponse object for handling HTTP responses.
+ *   - path: For working with file paths.
+ *   - "@/utils": Custom utility functions for processing query parameters and fetching locations.
+ *   - "next-auth": For managing authentication sessions.
+ *   - "../auth/[...nextauth]/route": Imports authentication options.
+ *   - "@/prisma/client": Imports Prisma for database operations.
+ *   - "@/lib/error/errorHandler": Handles errors that may occur during request processing.
+ */
+
 import { NextResponse } from "next/server";
 import path from "path";
 import { getLocations, getSearchParams } from "@/utils";
