@@ -1,8 +1,9 @@
-/*
-    The emptyObjectValues function is a utility function that takes 
-    an input object and returns a new object with the same keys as 
-    the input object, but with empty string values.
-*/
+/**
+ * Creates a new object with the same keys as the input object, but with all values set to an empty string.
+ *
+ * @param {Record<string, any>} obj - The input object.
+ * @returns {Record<string, string>} A new object with empty string values.
+ */
 
 export const emptyObjectValues = (obj: Record<string, any>) => {
     return Object.fromEntries(
