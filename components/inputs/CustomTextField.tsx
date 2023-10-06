@@ -1,14 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-    Alert,
-    Box,
-    FormControl,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    styled,
-} from "@mui/material";
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { styled } from "@mui/material/styles";
 
 import React from "react";
 

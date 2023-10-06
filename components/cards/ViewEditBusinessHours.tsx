@@ -8,8 +8,8 @@ import {
     TableContainer,
     TableRow,
     Typography,
-    styled,
 } from "@mui/material";
+import { styled } from "@mui/material/styles"
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";

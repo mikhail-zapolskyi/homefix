@@ -1,5 +1,6 @@
 import React from "react";
-import { Breakpoint, Container, styled } from "@mui/material";
+import { Breakpoint, Container } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 const HeroContainer = styled(Container)(({ theme }) => ({
     position: "relative",

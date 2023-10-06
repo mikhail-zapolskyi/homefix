@@ -1,5 +1,6 @@
 "use client";
-import { styled, Paper, Typography, Box } from "@mui/material";
+import { Paper, Typography, Box } from "@mui/material";
+import { styled  } from "@mui/material/styles";
 import { SearchCard, TextAnimation } from "@/components";
 import { useEffect, useState } from "react";
 

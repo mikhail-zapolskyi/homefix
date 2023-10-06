@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
-import { useTheme, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 import EditorView from "../editors/EditorView";
 import StarIcon from "@mui/icons-material/Star";
 

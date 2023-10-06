@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
-import { styled } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/components";

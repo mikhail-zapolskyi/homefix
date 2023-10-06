@@ -1,11 +1,7 @@
-import styled from "@emotion/styled";
-import {
-    Autocomplete,
-    AutocompleteRenderInputParams,
-    OutlinedInput,
-    TextField,
-    createFilterOptions,
-} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 import React from "react";
 
 interface CategoryOptionType {

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef } from "react";
 import { CustomButton } from "@/components";
-import { styled } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { toast } from "react-toastify";
 
 const UplodInput = styled("input")(() => ({

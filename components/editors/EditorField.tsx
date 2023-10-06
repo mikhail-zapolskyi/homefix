@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { styled } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import EditorMenu from "./elements/EditorMenu";
 
 import { useEditor, EditorContent } from "@tiptap/react";

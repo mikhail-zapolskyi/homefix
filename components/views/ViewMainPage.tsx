@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import React from "react";
 import { ProductHeroMainCard } from "@/components";
 import heroImage from "@/assets/hero.webp";
