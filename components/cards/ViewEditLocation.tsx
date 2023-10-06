@@ -42,7 +42,7 @@ const ViewEditLocation: React.FC<ViewEditLocationProps> = ({
         data: location,
         error,
         isLoading,
-    } = useSWR(`/api/location${locationParams}`, fetcher);
+    } = useSWR(`/api/location${locationParams}`, fetcher, {});
 
     if (error) {
         throw new Error(error.message);

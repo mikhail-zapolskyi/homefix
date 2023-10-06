@@ -36,7 +36,7 @@ const ViewEditCategory: React.FC<ViewEditCategoryProps> = ({
         data: categories,
         error,
         isLoading,
-    } = useSWR("/api/service/category", fetcher);
+    } = useSWR("/api/service/category", fetcher, {});
     const [editMode, setEditMode] = useState<EditMode>(false);
     const [formData, setFormData] = useState<Record<string, any>[] | undefined>(
         data

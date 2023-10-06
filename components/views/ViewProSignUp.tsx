@@ -41,7 +41,7 @@ const ViewProSignUp = () => {
         data: location,
         error,
         isLoading,
-    } = useSWR(`/api/location${locationParams}`, fetcher);
+    } = useSWR(`/api/location${locationParams}`, fetcher, {});
 
     if (error) {
         redirect("/auth/pro-signup");

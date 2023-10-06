@@ -16,7 +16,8 @@ const ViewServices = () => {
     const searchParams = useSearchParams().toString();
     const { data, error, isLoading } = useSWR(
         `/api/service?${searchParams}`,
-        fetcher
+        fetcher,
+        {}
     );
 
     if (error) {

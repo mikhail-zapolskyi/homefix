@@ -27,13 +27,13 @@ const SearchBar = () => {
         data: location,
         error: locationError,
         isLoading: locationIsLoading,
-    } = useSWR(`/api/location${locationParams}`, fetcher);
+    } = useSWR(`/api/location${locationParams}`, fetcher, {});
 
     const {
         data: categories,
         error: categoriesError,
         isLoading: categoriesIsLoading,
-    } = useSWR(`/api/category`, fetcher);
+    } = useSWR(`/api/category`, fetcher, {});
 
     useEffect(() => {
         setLocationParams(
