@@ -96,7 +96,7 @@ const SelectCreateField: React.FC<SelectCreateFieldProps> = ({
                 return option.title;
             }}
             renderOption={(props, option) => (
-                <li key={option.title} {...props}>
+                <li {...props} key={option.title}>
                     {option.title}
                 </li>
             )}

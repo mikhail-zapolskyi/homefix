@@ -99,7 +99,7 @@ const ViewEditCategory: React.FC<ViewEditCategoryProps> = ({
             <TableContainer>
                 <Table>
                     <TableBody>
-                        {formData?.map((category) => (
+                        {formData?.map((category, index) => (
                             <TableRow
                                 key={category.categoryId}
                                 sx={{
