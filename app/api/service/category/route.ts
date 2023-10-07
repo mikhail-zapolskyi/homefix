@@ -1,8 +1,7 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET(req: NextRequest) {
     try {
@@ -17,33 +16,9 @@ export async function GET(req: NextRequest) {
 export async function POST(req: Request) {
     const data: Record<string, any> = await req.json();
     const title: string = data.title.trim().toLowerCase();
-    // Retrieve the user's session to check authorization
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user from the session
-    const user = session.user;
-
-    // Check if the user exists and is of type 'PRO' (professional)
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const userId = user.id;
-
-    // Check if the user's ID exists
-    if (!userId) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -53,7 +28,7 @@ export async function POST(req: Request) {
     // Find the service profile associated with the user
     const serviceProfile = await prisma.serviceProfile.findUnique({
         where: {
-            userId,
+            userId: currentUser.id,
         },
     });
 

@@ -1,9 +1,8 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
 import { buildQueryServPro } from "@/utils";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -15,27 +14,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: Request) {
     const data = await req.json();
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    const user = session.user;
-
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    const userId = user.id;
-
-    if (!userId) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -54,7 +35,7 @@ export async function POST(req: Request) {
                 specialties_Do: data.specialtiesDo,
                 specialties_No: data.specialtiesNo,
                 employees: data.employees,
-                userId: userId,
+                userId: currentUser.id,
                 location: {
                     create: {
                         address: data.address,
@@ -94,43 +75,20 @@ export async function PUT(req: Request) {
     delete data.categories;
     delete data.customers;
 
-    // Retrieve the user's session to check authorization
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
         );
     }
 
-    // Get the user from the session
-    const user = session.user;
-
-    // Check if the user exists and is of type 'PRO' (professional)
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const userId = user.id;
-
-    // Check if the user's ID exists
-    if (!userId) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
     try {
         // Find the service profile associated with the user
         const servPro = await prisma.serviceProfile.findUnique({
             where: {
-                userId,
+                userId: currentUser.id,
             },
         });
 

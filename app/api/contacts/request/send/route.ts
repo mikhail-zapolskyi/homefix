@@ -3,22 +3,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../../auth/[...nextauth]/route";
 import errorHandler from "@/lib/error/errorHandler";
 import prisma from "@/prisma/client";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
-        const session = await getServerSession(authOptions);
+        const currentUser = await getCurrentUser();
         let userId: string | null = null;
         let content: string = "";
 
-        if (!session || !session.user || !session.user.id) {
+        if (!currentUser) {
             return NextResponse.json(
                 { error: "You are not authorized" },
                 { status: 401 }
             );
         } else {
-            userId = session.user.id;
-            content = `<h3>You've received a contact request from ${session.user.name}</h3>`;
+            userId = currentUser.id;
+            content = `<h3>You've received a contact request from ${currentUser.name}</h3>`;
         }
 
         if (!data) {

@@ -1,36 +1,15 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { to_base_sixty_four, upload_image } from "@/utils";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function PUT(req: NextRequest, res: NextResponse) {
     const formData = await req.formData();
-
     const base64 = await to_base_sixty_four(formData);
+    const currentUser = await getCurrentUser();
 
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    const user = session.user;
-
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    const userId = user.id;
-
-    if (!userId) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -45,7 +24,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         // Find the service profile associated with the user
         const servPro = await prisma.serviceProfile.findUnique({
             where: {
-                userId,
+                userId: currentUser.id,
             },
         });
 
@@ -74,7 +53,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         // Return a JSON response with the updated service profile
         return NextResponse.json(serviceProfiles);
     } catch (error) {
-        console.log(error);
         // Handle any errors that occur during the process
         return errorHandler(error);
     }

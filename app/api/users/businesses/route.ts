@@ -1,24 +1,12 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -27,7 +15,7 @@ export async function GET() {
 
     try {
         const businesses = await prisma.customer.findMany({
-            where: { userId: id },
+            where: { userId: currentUser.id },
             include: { service: true, user: true },
         });
         return NextResponse.json(businesses);
@@ -36,28 +24,18 @@ export async function GET() {
     }
 }
 export async function POST(req: NextRequest) {
-    const session = await getServerSession(authOptions);
     const { serviceProfileId } = await req.json();
     const query: Record<string, any> = {};
+    const currentUser = await getCurrentUser();
 
-    if (!session) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
         );
     }
 
-    // Get the user's ID
-    const { id } = session.user;
-
-    if (!id) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    query.userId = id;
+    query.userId = currentUser.id;
     query.serviceProfileId = serviceProfileId;
 
     try {
@@ -73,7 +51,10 @@ export async function POST(req: NextRequest) {
         }
 
         const newCustomer = await prisma.customer.create({
-            data: { userId: id, serviceProfileId: serviceProfileId },
+            data: {
+                userId: currentUser.id,
+                serviceProfileId: serviceProfileId,
+            },
         });
 
         return NextResponse.json(newCustomer, { status: 201 });

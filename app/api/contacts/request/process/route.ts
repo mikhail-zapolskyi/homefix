@@ -1,13 +1,12 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import errorHandler from "@/lib/error/errorHandler";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(req: NextRequest) {
     try {
         const data: Record<string, any> = await req.json();
-        const session = await getServerSession(authOptions);
+        const currentUser = await getCurrentUser();
         let userId: string | null = null;
 
         if (
@@ -25,13 +24,13 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        if (!session || !session.user || !session.user.id) {
+        if (!currentUser) {
             return NextResponse.json(
                 { error: "You are not authorized" },
                 { status: 401 }
             );
         } else {
-            userId = session.user.id;
+            userId = currentUser.id;
         }
 
         const serviceProfile = await prisma.serviceProfile.findUnique({

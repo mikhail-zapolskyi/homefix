@@ -1,25 +1,12 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    // Check if the user's ID exists
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -27,8 +14,8 @@ export async function GET() {
     }
 
     try {
-        const users = await prisma.user.findUnique({
-            where: { id },
+        const user = await prisma.user.findUnique({
+            where: { id: currentUser.id },
             select: {
                 id: true,
                 name: true,
@@ -47,7 +34,7 @@ export async function GET() {
                 businesses: true,
             },
         });
-        return NextResponse.json(users);
+        return NextResponse.json(user);
     } catch (error) {
         return errorHandler(error);
     }

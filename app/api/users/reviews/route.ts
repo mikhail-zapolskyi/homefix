@@ -1,25 +1,14 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -28,7 +17,7 @@ export async function GET() {
 
     try {
         const reviews = await prisma.review.findMany({
-            where: { userId: id },
+            where: { userId: currentUser.id },
             include: { service: true, user: true },
         });
         return NextResponse.json(reviews);
@@ -37,21 +26,10 @@ export async function GET() {
     }
 }
 export async function POST(req: NextRequest) {
-    const serviceProfileId = await req.json();
-    const session = await getServerSession(authOptions);
+    const data = await req.json();
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -60,7 +38,10 @@ export async function POST(req: NextRequest) {
 
     try {
         const existingReview = await prisma.review.findFirst({
-            where: { userId: id, serviceProfileId },
+            where: {
+                userId: currentUser.id,
+                serviceProfileId: data.serviceProfileId,
+            },
         });
         if (existingReview) {
             return NextResponse.json("You already left a review", {
@@ -69,7 +50,10 @@ export async function POST(req: NextRequest) {
         }
 
         const newReview = await prisma.review.create({
-            data: { userId: id, serviceProfileId },
+            data: {
+                userId: currentUser.id,
+                serviceProfileId: data.serviceProfileId,
+            },
         });
         return NextResponse.json(newReview, { status: 201 });
     } catch (error) {

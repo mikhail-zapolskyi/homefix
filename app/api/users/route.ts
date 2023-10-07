@@ -1,28 +1,14 @@
 import { NextResponse } from "next/server";
 import Password from "@/utils/helpers/bcrypt";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import { redirect } from "next/navigation";
 import { sendEmail } from "@/utils";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    // Check if the user's ID exists
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -31,7 +17,7 @@ export async function GET() {
 
     try {
         const users = await prisma.user.findUnique({
-            where: { id },
+            where: { id: currentUser.id },
             include: {
                 location: true,
                 businesses: true,
@@ -91,21 +77,9 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
     const data = await req.json();
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    // Check if the user's ID exists
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -118,7 +92,10 @@ export async function PUT(req: Request) {
     }
 
     try {
-        const user = await prisma.user.update({ where: { id }, data });
+        const user = await prisma.user.update({
+            where: { id: currentUser.id },
+            data,
+        });
         return NextResponse.json(user);
     } catch (error) {
         return errorHandler(error);
@@ -126,21 +103,9 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const { id } = session.user;
-
-    // Check if the user's ID exists
-    if (!id) {
+    if (!currentUser) {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -148,7 +113,9 @@ export async function DELETE() {
     }
 
     try {
-        const user = await prisma.user.delete({ where: { id } });
+        const user = await prisma.user.delete({
+            where: { id: currentUser.id },
+        });
         return NextResponse.json(user.id, { status: 200 });
     } catch (error) {
         return errorHandler(error);

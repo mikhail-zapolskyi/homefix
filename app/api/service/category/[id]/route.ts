@@ -1,40 +1,16 @@
 import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function DELETE(
     req: Request,
     { params }: { params: { id: string } }
 ) {
     const { id } = params;
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user from the session
-    const user = session.user;
-
-    // Check if the user exists and is of type 'PRO' (professional)
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const userId = user.id;
-
-    // Check if the user's ID exists
-    if (!userId) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -44,7 +20,7 @@ export async function DELETE(
     // Find the service profile associated with the user
     const serviceProfile = await prisma.serviceProfile.findUnique({
         where: {
-            userId,
+            userId: currentUser.id,
         },
     });
 
