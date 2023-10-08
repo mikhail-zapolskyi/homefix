@@ -1,6 +1,4 @@
 import React from "react";
-import { useTheme } from "@mui/material/styles";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material/";
 import {
     Paper,
     MobileStepper,
@@ -62,33 +60,35 @@ const responsive = {
 
 const CustomCarousel = () => {
     return (
+        // <Grid container sx={{ position: 'absolute', width: '50%', my: '5rem' }}>
+        //     <Grid item xs={12} sx={{ position: 'absolute', width: '100%' }}>
         <Carousel
-            // additionalTransfrom={0}
-            // arrows
-            // autoPlaySpeed={3000}
-            // centerMode={false}
-            // className=""
-            // containerClass="container-with-dots"
-            // dotListClass=""
-            // draggable
-            // focusOnSelect={false}
-            // infinite
-            // itemClass=""
-            // keyBoardControl
-            // minimumTouchDrag={80}
-            // pauseOnHover
-            // renderArrowsWhenDisabled={false}
-            // renderButtonGroupOutside={false}
-            // renderDotsOutside={false}
-            // rewind={false}
-            // rewindWithAnimation={false}
-            // rtl={false}
-            // shouldResetAutoplay
-            // showDots={false}
-            // sliderClass=""
-            // slidesToSlide={1}
-            // swipeable
-            responsive={inherit}
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={false}
+            className=""
+            containerClass="container"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            infinite
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            pauseOnHover
+            renderArrowsWhenDisabled={false}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
+            responsive={responsive}
+            rewind={false}
+            rewindWithAnimation={false}
+            rtl={false}
+            shouldResetAutoplay
+            showDots={false}
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
         >
 
             {
@@ -96,23 +96,22 @@ const CustomCarousel = () => {
                     <Grid
                         key={i.id}
                         item
-                        xs={2}
                         sx={{
                             borderRadius: "1rem",
-                            maxHeight: "15rem",
                             bgcolor: "secondary.contrastText",
                             p: "1rem",
                         }}
                     >
-                        Card content
-                        <Avatar
-                            sx={{ bgcolor: "black", width: "100%", height: "85%" }}
+                        <img
+                            src={i.image}
+                            sx={{ bgcolor: "black" }}
                             variant="square"
-                        >
-                            {i.image}
-                        </Avatar>
+                            height='auto'
+                            width='auto'
+                        />
                         <Typography
                             sx={{ justifySelf: "end", alignSelf: "center" }}
+                            variant="h3"
                         >
                             {i.businessName}
                         </Typography>
@@ -121,6 +120,8 @@ const CustomCarousel = () => {
             }
 
         </Carousel >
+        //     </Grid>
+        // </Grid>
 
     );
 };
