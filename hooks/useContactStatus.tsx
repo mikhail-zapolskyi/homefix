@@ -8,12 +8,18 @@ interface Props {
 interface ContactStatus {
     inContact: boolean;
     inContactRequest: boolean;
+    connected: string;
+    sent: string;
+    default: string;
 }
 
 const useContactStatus = ({ activeUserId, data }: Props): ContactStatus => {
     const [contactStatus, setContactStatus] = useState<ContactStatus>({
         inContact: false,
         inContactRequest: false,
+        connected: "Connected",
+        sent: "Request Sent",
+        default: "Send Request",
     });
 
     useEffect(() => {
@@ -22,13 +28,13 @@ const useContactStatus = ({ activeUserId, data }: Props): ContactStatus => {
                 (contact: Record<string, any>) =>
                     contact.userId === activeUserId
             );
-            console.log(data.contact_requests);
+
             const inContactRequest = data.contact_requests.some(
                 (contactRequest: Record<string, any>) =>
                     contactRequest.userId === activeUserId
             );
 
-            setContactStatus({ inContact, inContactRequest });
+            setContactStatus({ ...contactStatus, inContact, inContactRequest });
         }
     }, [data, activeUserId]);
 

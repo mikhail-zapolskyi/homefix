@@ -17,6 +17,7 @@ import useContactStatus from "@/hooks/useContactStatus";
 
 interface Props {
     data?: Record<string, any>;
+    serviceOwner?: string;
     activeUserId?: string | false | null | undefined;
     onView?: () => void;
     onContactRequest?: () => void;
@@ -24,6 +25,7 @@ interface Props {
 
 const SearchedProfileCard: React.FC<Props> = ({
     data,
+    serviceOwner,
     activeUserId,
     onView,
     onContactRequest,
@@ -112,25 +114,27 @@ const SearchedProfileCard: React.FC<Props> = ({
                         size="small"
                         fullWidth
                     />
-                    <CustomButton
-                        onClick={onContactRequest}
-                        text={
-                            contactStatus.inContact
-                                ? "Connected"
-                                : contactStatus.inContactRequest
-                                ? "Request Sent"
-                                : "Send Request"
-                        }
-                        variant="contained"
-                        size="small"
-                        fullWidth
-                        disabled={
-                            contactStatus.inContact ||
-                            contactStatus.inContactRequest
-                                ? true
-                                : false
-                        }
-                    />
+                    {serviceOwner !== activeUserId && (
+                        <CustomButton
+                            onClick={onContactRequest}
+                            text={
+                                contactStatus.inContact
+                                    ? contactStatus.connected
+                                    : contactStatus.inContactRequest
+                                    ? contactStatus.sent
+                                    : contactStatus.default
+                            }
+                            variant="contained"
+                            size="small"
+                            fullWidth
+                            disabled={
+                                contactStatus.inContact ||
+                                contactStatus.inContactRequest
+                                    ? true
+                                    : false
+                            }
+                        />
+                    )}
                 </Stack>
             </Stack>
         </Stack>
@@ -224,25 +228,27 @@ const SearchedProfileCard: React.FC<Props> = ({
                             size="small"
                             fullWidth
                         />
-                        <CustomButton
-                            onClick={onContactRequest}
-                            text={
-                                contactStatus.inContact
-                                    ? "Connected"
-                                    : contactStatus.inContactRequest
-                                    ? "Request Sent"
-                                    : "Send Request"
-                            }
-                            variant="contained"
-                            size="small"
-                            fullWidth
-                            disabled={
-                                contactStatus.inContact ||
-                                contactStatus.inContactRequest
-                                    ? true
-                                    : false
-                            }
-                        />
+                        {serviceOwner !== activeUserId && (
+                            <CustomButton
+                                onClick={onContactRequest}
+                                text={
+                                    contactStatus.inContact
+                                        ? contactStatus.connected
+                                        : contactStatus.inContactRequest
+                                        ? contactStatus.sent
+                                        : contactStatus.default
+                                }
+                                variant="contained"
+                                size="small"
+                                fullWidth
+                                disabled={
+                                    contactStatus.inContact ||
+                                    contactStatus.inContactRequest
+                                        ? true
+                                        : false
+                                }
+                            />
+                        )}
                     </Stack>
                 </Stack>
             </Grid>

@@ -57,6 +57,7 @@ const ViewServices = () => {
                 <Grid item xs={12} key={serviceProfile.id} sx={{ py: "-4rem" }}>
                     <SearchedProfileCard
                         data={serviceProfile}
+                        serviceOwner={serviceProfile.userId}
                         activeUserId={session?.user.id}
                         onView={() =>
                             router.push(`/services/${serviceProfile.id}`)
