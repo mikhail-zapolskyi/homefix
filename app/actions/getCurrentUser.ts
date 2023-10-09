@@ -11,7 +11,6 @@
  */
 import prisma from "@/prisma/client";
 import getSession from "./getSession";
-import errorHandler from "@/lib/error/errorHandler";
 
 export default async function getCurrentUser() {
     try {
@@ -33,6 +32,6 @@ export default async function getCurrentUser() {
 
         return currentUser;
     } catch (error) {
-        return errorHandler(error);
+        return null;
     }
 }

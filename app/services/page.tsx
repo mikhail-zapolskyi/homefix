@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Loader, ViewSearchServPro } from "@/components";
+import { Loader, SearchedProfileCard } from "@/components";
 import useSWR from "swr";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
@@ -25,14 +25,27 @@ const ViewServices = () => {
     }
 
     const followBusiness = async (serviceProfileId: any) => {
-        try {
-            const response = await axios.post(
-                "http://localhost:3000/api/users/businesses",
-                {
-                    serviceProfileId,
-                }
+        const data = { serviceProfileId, userId: session?.user.id };
+
+        if (!data) {
+            toast.error(
+                "Something went wrong. Service Profile Id or User Id missing"
             );
+        }
+
+        try {
+            // await axios.post(
+            //     "http://localhost:3000/api/users/businesses",
+            //     {
+            //         serviceProfileId,
+            //     }
+            // );
             toast.success("You are following this account now");
+            const response = await axios.post(
+                "http://localhost:3000/api/contacts/request/send",
+                data
+            );
+            console.log(response);
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.warning(error.response?.data.error);
@@ -46,7 +59,7 @@ const ViewServices = () => {
         <Grid container spacing={2} pt={2}>
             {data.map((serviceProfile: Record<string, any>) => (
                 <Grid item xs={12} key={serviceProfile.id} sx={{ py: "-4rem" }}>
-                    <ViewSearchServPro
+                    <SearchedProfileCard
                         data={serviceProfile}
                         activeUserId={session?.user.id}
                         onView={() =>

@@ -14,7 +14,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import EditorView from "../editors/EditorView";
 import StarIcon from "@mui/icons-material/Star";
 
-interface ViewSearchServProProps {
+interface Props {
     data?: Record<string, any>;
     activeUserId?: string | false | null | undefined;
     onView?: () => void;
@@ -22,7 +22,7 @@ interface ViewSearchServProProps {
     onUnfollow?: () => void;
 }
 
-const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
+const SearchedProfileCard: React.FC<Props> = ({
     data,
     activeUserId,
     onView,
@@ -256,4 +256,4 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
     );
 };
 
-export default ViewSearchServPro;
+export default SearchedProfileCard;
