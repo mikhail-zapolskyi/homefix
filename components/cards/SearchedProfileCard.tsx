@@ -13,24 +13,25 @@ import { useMediaQuery } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
 import EditorView from "../editors/EditorView";
 import StarIcon from "@mui/icons-material/Star";
+import useContactStatus from "@/hooks/useContactStatus";
 
 interface Props {
     data?: Record<string, any>;
     activeUserId?: string | false | null | undefined;
     onView?: () => void;
-    onFollow?: () => void;
-    onUnfollow?: () => void;
+    onContactRequest?: () => void;
 }
 
 const SearchedProfileCard: React.FC<Props> = ({
     data,
     activeUserId,
     onView,
-    onFollow,
-    onUnfollow,
+    onContactRequest,
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
+    const h: Record<string, any> = {};
+    const contactStatus = useContactStatus({ activeUserId, data });
 
     const renderArrayValues = (
         <Stack direction="row" flexWrap="wrap">
@@ -54,13 +55,6 @@ const SearchedProfileCard: React.FC<Props> = ({
                 ))}
         </Stack>
     );
-
-    const isFollowed = () => {
-        const result = data?.customers.some(
-            (customer: Record<string, any>) => customer.userId === activeUserId
-        );
-        return result;
-    };
 
     const renderDataMobile = data && (
         <Stack
@@ -107,7 +101,10 @@ const SearchedProfileCard: React.FC<Props> = ({
                 divider={<Divider orientation="horizontal" flexItem />}
             >
                 <EditorView content={data.introduction.slice(0, 100)} />
-                <Stack spacing={1} direction="row">
+                <Stack
+                    spacing={1}
+                    direction={{ xs: "column", sm: "row", lg: "column" }}
+                >
                     <CustomButton
                         onClick={onView}
                         text="Profile"
@@ -116,12 +113,23 @@ const SearchedProfileCard: React.FC<Props> = ({
                         fullWidth
                     />
                     <CustomButton
-                        onClick={onFollow}
-                        text={isFollowed() ? "Following" : "Follow"}
+                        onClick={onContactRequest}
+                        text={
+                            contactStatus.inContact
+                                ? "Connected"
+                                : contactStatus.inContactRequest
+                                ? "Request Sent"
+                                : "Send Request"
+                        }
                         variant="contained"
                         size="small"
                         fullWidth
-                        disabled={isFollowed() ? true : false}
+                        disabled={
+                            contactStatus.inContact ||
+                            contactStatus.inContactRequest
+                                ? true
+                                : false
+                        }
                     />
                 </Stack>
             </Stack>
@@ -208,7 +216,7 @@ const SearchedProfileCard: React.FC<Props> = ({
                             {data.user.name}
                         </Typography>
                     </Stack>
-                    <Stack spacing={1} direction="row">
+                    <Stack spacing={1}>
                         <CustomButton
                             onClick={onView}
                             text="Profile"
@@ -217,12 +225,23 @@ const SearchedProfileCard: React.FC<Props> = ({
                             fullWidth
                         />
                         <CustomButton
-                            onClick={onFollow}
-                            text={isFollowed() ? "Following" : "Follow"}
+                            onClick={onContactRequest}
+                            text={
+                                contactStatus.inContact
+                                    ? "Connected"
+                                    : contactStatus.inContactRequest
+                                    ? "Request Sent"
+                                    : "Send Request"
+                            }
                             variant="contained"
                             size="small"
                             fullWidth
-                            disabled={isFollowed() ? true : false}
+                            disabled={
+                                contactStatus.inContact ||
+                                contactStatus.inContactRequest
+                                    ? true
+                                    : false
+                            }
                         />
                     </Stack>
                 </Stack>

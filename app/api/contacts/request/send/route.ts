@@ -1,9 +1,8 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../../auth/[...nextauth]/route";
 import errorHandler from "@/lib/error/errorHandler";
 import prisma from "@/prisma/client";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { ServiceProfile } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
     try {
@@ -17,10 +16,10 @@ export async function POST(req: NextRequest) {
                 { error: "You are not authorized" },
                 { status: 401 }
             );
-        } else {
-            userId = currentUser.id;
-            content = `<h3>You've received a contact request from ${currentUser.name}</h3>`;
         }
+
+        userId = currentUser.id;
+        content = `<h3>You've received a contact request from ${currentUser.name}</h3>`;
 
         if (!data) {
             return NextResponse.json(
@@ -29,11 +28,19 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        if (data.userId === userId) {
-            return NextResponse.json(
-                { error: "You are not allowed send request to your self" },
-                { status: 400 }
-            );
+        const servicePorfileForTest = await prisma.serviceProfile.findFirst({
+            where: {
+                userId,
+            },
+        });
+
+        if (servicePorfileForTest) {
+            if (data.serviceProfileId === servicePorfileForTest?.id) {
+                return NextResponse.json(
+                    { error: "You are not allowed send request to your self" },
+                    { status: 400 }
+                );
+            }
         }
 
         const isContact = await prisma.contact.findFirst({
@@ -48,9 +55,18 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        if (isContact || isContactRequest) {
+        if (isContact) {
             return NextResponse.json(
-                { error: "This user already in your contact list" },
+                { error: "This profile already in your contacts." },
+                { status: 400 }
+            );
+        }
+
+        if (isContactRequest) {
+            return NextResponse.json(
+                {
+                    error: "You've already sent a request to this service profile",
+                },
                 { status: 400 }
             );
         }
@@ -82,7 +98,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json({ msg: "Request Sent" });
+        return NextResponse.json({ message: "Contact Request Sent" });
     } catch (error) {
         console.log(error);
         return errorHandler(error);

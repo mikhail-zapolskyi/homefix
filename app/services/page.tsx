@@ -24,8 +24,8 @@ const ViewServices = () => {
         throw new Error(error.message);
     }
 
-    const followBusiness = async (serviceProfileId: any) => {
-        const data = { serviceProfileId, userId: session?.user.id };
+    const handleContactRequest = async (serviceProfileId: string) => {
+        const data = { serviceProfileId };
 
         if (!data) {
             toast.error(
@@ -34,21 +34,17 @@ const ViewServices = () => {
         }
 
         try {
-            // await axios.post(
-            //     "http://localhost:3000/api/users/businesses",
-            //     {
-            //         serviceProfileId,
-            //     }
-            // );
-            toast.success("You are following this account now");
             const response = await axios.post(
                 "http://localhost:3000/api/contacts/request/send",
                 data
             );
-            console.log(response);
+
+            if (response.status === 200) {
+                toast.success(response.data.message);
+            }
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast.warning(error.response?.data.error);
+                toast.error(error.response?.data.error);
             }
         }
     };
@@ -65,7 +61,9 @@ const ViewServices = () => {
                         onView={() =>
                             router.push(`/services/${serviceProfile.id}`)
                         }
-                        onFollow={() => followBusiness(serviceProfile.id)}
+                        onContactRequest={() =>
+                            handleContactRequest(serviceProfile.id)
+                        }
                     />
                 </Grid>
             ))}

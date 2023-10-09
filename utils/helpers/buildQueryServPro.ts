@@ -51,6 +51,8 @@ const buildQueryServPro = (searchParams: URLSearchParams) => {
                     userId: true,
                 },
             },
+            contacts: true,
+            contact_requests: true,
         },
     };
 
