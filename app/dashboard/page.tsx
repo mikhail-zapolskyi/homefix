@@ -24,7 +24,7 @@ const Page = () => {
     if (error) {
         toast.error(error.message);
     }
-    console.log(data);
+
     return isLoading ? (
         <Loader />
     ) : (

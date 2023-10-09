@@ -6,9 +6,6 @@ import {
     RadarChart,
     PolarGrid,
     PolarAngleAxis,
-    PolarRadiusAxis,
-    ResponsiveContainer,
-    Legend,
     AreaChart,
     XAxis,
     YAxis,
@@ -30,7 +27,7 @@ const ViewProUserDashboard: React.FC<Props> = ({ data }) => {
             { year: 2023, value: 5 },
         ],
     };
-    console.log(data);
+
     return (
         data && (
             <Stack
