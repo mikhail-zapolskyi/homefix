@@ -15,18 +15,21 @@ import {
     MessagesSquare,
     DoorOpen,
     ChevronLeft,
+    Loader,
 } from "lucide-react";
+import useSWR from "swr";
+import { toast } from "react-toastify";
+
+const fetcher = (url: URL) => fetch(url).then((r) => r.json());
+const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
 }));
-
-const drawerWidth = 240;
 
 interface SlideMenuProps {
     slideMenuState: boolean;
@@ -37,9 +40,22 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
     slideMenuState,
     handleslideMenuClose,
 }) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const { push } = useRouter();
-    return (
+
+    let url: string = "/api/messages/unread";
+
+    const { data, error, isLoading } = useSWR(url, fetcher, {
+        refreshInterval: 1000,
+    });
+
+    if (error) {
+        toast.error(error.message);
+    }
+
+    return isLoading ? (
+        <Loader />
+    ) : (
         <Drawer
             variant="persistent"
             anchor="left"
@@ -90,6 +106,7 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                 <MenuOption
                     text="Messages"
                     icon={<Mails />}
+                    totalMessages={data.total_unread_messages}
                     onClick={() => {
                         push("/dashboard/messages");
                     }}
