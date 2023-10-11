@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
                 },
             });
 
-            await prisma.conversations.delete({
+            await prisma.conversation.delete({
                 where: {
                     id: data.conversationId,
                 },

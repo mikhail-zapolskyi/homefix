@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
             content += data.message;
         }
 
-        const conversations = await prisma.conversations.create({
+        const conversations = await prisma.conversation.create({
             data: {
                 userId,
                 serviceProfileId: data.serviceProfileId,

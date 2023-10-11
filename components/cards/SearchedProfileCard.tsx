@@ -32,7 +32,6 @@ const SearchedProfileCard: React.FC<Props> = ({
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
-    const h: Record<string, any> = {};
     const contactStatus = useContactStatus({ activeUserId, data });
 
     const renderArrayValues = (

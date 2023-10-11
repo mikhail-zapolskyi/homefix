@@ -4,7 +4,7 @@ import * as React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Drawer, List, IconButton } from "@mui/material";
-import { MenuOption } from "@/components";
+import { Loader, MenuOption } from "@/components";
 import { styled } from "@mui/material/styles";
 import {
     Mails,
@@ -15,7 +15,6 @@ import {
     MessagesSquare,
     DoorOpen,
     ChevronLeft,
-    Loader,
 } from "lucide-react";
 import useSWR from "swr";
 import { toast } from "react-toastify";

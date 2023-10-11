@@ -1,22 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
-import { Grid } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Loader } from "@/components";
-
-const StyledWrapper = styled(Grid)(({ theme }) => ({
-    width: "100%",
-    justifyContent: "center",
-    [theme.breakpoints.up("sm")]: {
-        padding: "2rem",
-    },
-    [theme.breakpoints.up("xl")]: {
-        width: "85vw",
-        margin: "0 auto",
-    },
-}));
+import { DashboardContainer, Loader, PageContainer } from "@/components";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const { data: session, status } = useSession();
@@ -29,7 +15,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     }, [session, status, router]);
 
     return session && status === "authenticated" ? (
-        <StyledWrapper container>{children}</StyledWrapper>
+        <PageContainer>
+            <DashboardContainer>{children}</DashboardContainer>
+        </PageContainer>
     ) : (
         <Loader />
     );
