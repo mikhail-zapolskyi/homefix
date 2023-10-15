@@ -1,20 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-    Avatar,
-    AppBar,
-    Box,
-    Toolbar,
-    IconButton,
-    Typography,
-    MenuItem,
-    Menu,
-    Divider,
-    ListItemIcon,
-    useTheme,
-    Grid,
-} from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -24,6 +11,18 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { CustomButton, SlideMenu } from "@/components";
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import useTheme from "@mui/material/styles/useTheme";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import Typography from "@mui/material/Typography";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 
 const PrimaryAppBar = () => {
     const { data: session, status } = useSession();

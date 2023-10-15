@@ -1,10 +1,8 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
 import { buildQueryServPro } from "@/utils";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -16,19 +14,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: Request) {
     const data = await req.json();
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    if (!session?.user?.email) {
-        redirect("/api/auth/signin");
-    }
-
-    if (session.user.type === "USER") {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
-            "You are not authorized to create Service Profile. Please register as PRO user"
+            { error: "You are not authorized" },
+            { status: 401 }
         );
     }
-
-    data.userId = session.user.id;
 
     try {
         const serviceProfiles = await prisma.serviceProfile.create({
@@ -42,7 +35,7 @@ export async function POST(req: Request) {
                 specialties_Do: data.specialtiesDo,
                 specialties_No: data.specialtiesNo,
                 employees: data.employees,
-                userId: data.userId,
+                userId: currentUser.id,
                 location: {
                     create: {
                         address: data.address,
@@ -58,7 +51,7 @@ export async function POST(req: Request) {
         });
         return NextResponse.json(serviceProfiles);
     } catch (error) {
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }
 
@@ -82,43 +75,20 @@ export async function PUT(req: Request) {
     delete data.categories;
     delete data.customers;
 
-    // Retrieve the user's session to check authorization
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
         );
     }
 
-    // Get the user from the session
-    const user = session.user;
-
-    // Check if the user exists and is of type 'PRO' (professional)
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    // Get the user's ID
-    const userId = user.id;
-
-    // Check if the user's ID exists
-    if (!userId) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
     try {
         // Find the service profile associated with the user
         const servPro = await prisma.serviceProfile.findUnique({
             where: {
-                userId,
+                userId: currentUser.id,
             },
         });
 
@@ -145,6 +115,6 @@ export async function PUT(req: Request) {
     } catch (error) {
         console.log(error);
         // Handle any errors that occur during the process
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

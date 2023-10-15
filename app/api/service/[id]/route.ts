@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
 
 export async function GET(
     req: NextRequest,
@@ -18,15 +18,42 @@ export async function GET(
                 id,
             },
             include: {
-                location: true,
+                location: {
+                    select: {
+                        id: true,
+                        address: true,
+                        city: true,
+                        state: true,
+                        country: true,
+                        postalCode: true,
+                    },
+                },
                 businessHours: true,
                 categories: {
-                    include: {
-                        category: true,
+                    select: {
+                        id: true,
+                        category: {
+                            select: {
+                                title: true,
+                            },
+                        },
                     },
                 },
                 posts: true,
-                reviews: true,
+                reviews: {
+                    select: {
+                        comment: true,
+                        rating: true,
+                        id: true,
+                        user: {
+                            select: {
+                                name: true,
+                                image: true,
+                            },
+                        },
+                        createdAt: true,
+                    },
+                },
             },
         });
 
@@ -41,7 +68,6 @@ export async function GET(
 
         return NextResponse.json(serviceProfile);
     } catch (error) {
-        console.log(error);
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

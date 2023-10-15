@@ -46,6 +46,11 @@ const buildQueryServPro = (searchParams: URLSearchParams) => {
                     image: true,
                 },
             },
+            customers: {
+                select: {
+                    userId: true,
+                },
+            },
         },
     };
 

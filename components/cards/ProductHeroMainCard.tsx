@@ -1,20 +1,21 @@
 "use client";
-import { styled, Paper, Typography, Box } from "@mui/material";
+import { Paper, Typography, Box } from "@mui/material";
+import { styled  } from "@mui/material/styles";
 import { SearchCard, TextAnimation } from "@/components";
 import { useEffect, useState } from "react";
 
 const StyledWrapper = styled(Paper)(({ theme }) => ({
-    maxWidth: "32rem",
-    minWidth: "25rem",
-    minHeight: "25rem",
     padding: "2rem",
     [theme.breakpoints.up("sm")]: {
         left: "5rem",
+        maxWidth: "32rem",
+        minWidth: "25rem",
+        minHeight: "20rem",
     },
     position: "absolute",
     top: "50%",
     transform: "translate(0, -50%)",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
         top: "50%",
         left: "10%",
         transform: "translate(-10%, -50%)",

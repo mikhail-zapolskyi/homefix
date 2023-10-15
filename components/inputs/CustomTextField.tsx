@@ -1,13 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-    Box,
-    FormControl,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    styled,
-} from "@mui/material";
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { styled } from "@mui/material/styles";
 
 import React from "react";
 
@@ -16,6 +15,8 @@ interface TextFieldProps {
     name: string;
     placeholder?: string;
     value?: string | number;
+    error?: boolean | undefined;
+    errorText?: string | null;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -24,8 +25,13 @@ const StyledTextField = styled(OutlinedInput)(({ theme }) => ({
         padding: ".4rem",
     },
     ".MuiInputBase-input": {
+        backgroundColor: `${theme.palette.background.paper} !important`,
         "&:-webkit-autofill": {
             borderRadius: "0.8rem",
+        },
+        "&:-internal-autofill-selected": {
+            backgroundColor: `${theme.palette.background.paper} !important`,
+            transition: "background-color 600000s 0s",
         },
     },
 }));
@@ -35,10 +41,17 @@ const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
     padding: "0 .3rem",
 }));
 
+const StyledAlert = styled(Alert)(({ theme }) => ({
+    border: "none",
+    background: "none",
+}));
+
 export const CustomTextField: React.FC<TextFieldProps> = ({
     name,
     onChange,
     value,
+    error,
+    errorText,
     placeholder,
     type = "text",
 }) => {
@@ -77,8 +90,10 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                     name={name}
                     type={showPassword ? "text" : type}
                     value={value}
+                    error={!!errorText}
                     onChange={onChange}
-                    autoComplete="new-password"
+                    placeholder={placeholder}
+                    inputProps={{ autoComplete: "off" }}
                     endAdornment={
                         type === "password" && (
                             <InputAdornment position="end">
@@ -98,6 +113,9 @@ export const CustomTextField: React.FC<TextFieldProps> = ({
                         )
                     }
                 />
+                {error && errorText && (
+                    <StyledAlert severity="error">{errorText}</StyledAlert>
+                )}
             </FormControl>
         </Box>
     );

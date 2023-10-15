@@ -1,31 +1,12 @@
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import handlePrismaError from "@/prisma/prismaErrorHandler";
+import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    const user = session.user;
-
-    if (!user || user.type !== "PRO") {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    const userId = user.id;
-
-    if (!userId) {
+    if (!currentUser || currentUser.type !== "PRO") {
         return NextResponse.json(
             { error: "You are not authorized" },
             { status: 401 }
@@ -35,7 +16,7 @@ export async function GET() {
     try {
         const serviceProfile = await prisma.serviceProfile.findUnique({
             where: {
-                userId,
+                userId: currentUser.id,
             },
             include: {
                 location: true,
@@ -43,6 +24,12 @@ export async function GET() {
                 categories: {
                     include: {
                         category: true,
+                    },
+                },
+                reviews: {
+                    select: {
+                        id: true,
+                        rating: true,
                     },
                 },
             },
@@ -59,7 +46,6 @@ export async function GET() {
 
         return NextResponse.json(serviceProfile);
     } catch (error) {
-        console.log(error);
-        return handlePrismaError(error);
+        return errorHandler(error);
     }
 }

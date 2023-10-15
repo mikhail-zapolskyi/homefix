@@ -74,42 +74,6 @@ const EditorMenu: React.FC<Props> = ({ editor }) => {
                 </Button>
                 <Button
                     onClick={() =>
-                        editor.chain().focus().toggleHeading({ level: 4 }).run()
-                    }
-                    className={
-                        editor.isActive("heading", { level: 4 })
-                            ? "is-active"
-                            : ""
-                    }
-                >
-                    h4
-                </Button>
-                <Button
-                    onClick={() =>
-                        editor.chain().focus().toggleHeading({ level: 5 }).run()
-                    }
-                    className={
-                        editor.isActive("heading", { level: 5 })
-                            ? "is-active"
-                            : ""
-                    }
-                >
-                    h5
-                </Button>
-                <Button
-                    onClick={() =>
-                        editor.chain().focus().toggleHeading({ level: 6 }).run()
-                    }
-                    className={
-                        editor.isActive("heading", { level: 6 })
-                            ? "is-active"
-                            : ""
-                    }
-                >
-                    h6
-                </Button>
-                <Button
-                    onClick={() =>
                         editor.chain().focus().toggleBulletList().run()
                     }
                     className={editor.isActive("bulletList") ? "is-active" : ""}

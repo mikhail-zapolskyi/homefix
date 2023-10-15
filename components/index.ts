@@ -15,6 +15,10 @@ export { default as ViewDashServPro } from "./views/ViewDashServPro";
 export { default as UserReviewsView } from "./views/UserReviewsView";
 export { default as ViewDashUserPro } from "./views/ViewDashUserPro";
 export { default as ViewServProPage } from "./views/ViewServProPage";
+export { default as ViewSignUp } from "./views/ViewSignUp";
+export { default as ViewProSignUp } from "./views/ViewProSignUp";
+export { default as ViewReqPasswordReset } from "./views/ViewReqPasswordReset";
+export { default as ViewResetPassword } from "./views/ViewResetPassword";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
@@ -31,10 +35,12 @@ export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
 export { default as ViewSearchServPro } from "./cards/ViewSearchServPro";
+export { default as ViewProUserDashboard } from "./views/ViewProUserDashboard";
+export { default as ViewUserDashboard } from "./views/ViewUserDashboard";
 
 // Animation
 export { default as TextAnimation } from "./animation/TextAnimation";
-export { default as CustomCarousel } from "./animation/Carousel"
+
 
 // Inputs
 export { default as CustomRadioGroup } from "./inputs/CustomRadioGroup";
@@ -58,8 +64,11 @@ export { default as Email } from "./emails/email";
 // Containers
 export { default as PageContainer } from "./container/PageContainer";
 export { default as SectionWithTitle } from "./container/SectionWithTitle";
-export { default as ExploreSection } from "./container/ExploreSection"
 
 
 // Progress
 export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";
+
+// Carousel 
+export { default as CustomCarousel } from "./carousel/Carousel"
+export { default as CarouselPostItem } from "./carousel/items/CarouselPostItem"

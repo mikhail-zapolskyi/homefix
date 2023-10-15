@@ -233,8 +233,8 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
                             bio: serviceProfileFormData?.bio,
                             experience: serviceProfileFormData?.experience,
                             employees: serviceProfileFormData?.employees,
-                            schedualPolicy:
-                                serviceProfileFormData?.schedual_policy,
+                            schedule_policy:
+                                serviceProfileFormData?.schedule_policy,
                         }}
                         title="Service Profile Details"
                         saveCallback={handleCallbackFormDetails}
@@ -285,7 +285,7 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
                                 serviceProfileFormData?.specialties_Do,
                             specialties_No:
                                 serviceProfileFormData?.specialties_No,
-                            payment_Methods:
+                            payment_methods:
                                 serviceProfileFormData?.payment_methods,
                         }}
                         handleCallback={handleCallbackFormDetails}

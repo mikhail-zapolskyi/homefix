@@ -12,6 +12,7 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import GroupIcon from "@mui/icons-material/Group";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import { MenuOption } from "@/components";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -63,6 +64,13 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                 </IconButton>
             </DrawerHeader>
             <List onClick={handleslideMenuClose}>
+                <MenuOption
+                    text="Dashboard"
+                    icon={<DashboardIcon />}
+                    onClick={() => {
+                        push("/dashboard");
+                    }}
+                />
                 <MenuOption
                     text="Profile"
                     icon={<ManageAccountsIcon />}

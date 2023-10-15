@@ -1,3 +1,4 @@
+import errorHandler from "@/lib/error/errorHandler";
 import prisma from "@/prisma/client";
 import { Password, sendEmail } from "@/utils";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
             { status: 200 }
         );
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return errorHandler(error);
     }
 }
 
@@ -63,6 +64,6 @@ export async function PUT(req: NextRequest) {
             { status: 200 }
         );
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return errorHandler(error);
     }
 }

@@ -12,7 +12,7 @@ import {
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CustomTextField from "../inputs/CustomTextField";
-import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";
 import EditorField from "../editors/EditorField";
 import EditorView from "../editors/EditorView";
 
@@ -78,7 +78,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
     const isTextAreaNeeded = (key: string) => {
         if (
             key === "bio" ||
-            key === "schedualPolicy" ||
+            key === "schedule_policy" ||
             key === "introduction"
         ) {
             return true;
@@ -113,7 +113,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
         />
     );
 
-    const renderInfo = (
+    const renderData = (
         <Grid container item xs={12}>
             <TableContainer>
                 <Table>
@@ -138,15 +138,13 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                         fontWeight: 800,
                                                     }}
                                                 >
-                                                    {first_letter_uppercase(
-                                                        key
-                                                    )}
+                                                    {capitalizeFirstLetter(key)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 {key !== "introduction" &&
                                                 key !== "bio" &&
-                                                key !== "schedual_policy" ? (
+                                                key !== "schedule_policy" ? (
                                                     <Typography
                                                         variant="body2"
                                                         sx={{
@@ -155,7 +153,9 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                                     >
                                                         {value
                                                             ? value
-                                                            : `Please add your ${key}`}
+                                                            : `Add Your ${capitalizeFirstLetter(
+                                                                  key
+                                                              )}`}
                                                     </Typography>
                                                 ) : (
                                                     <EditorView
@@ -188,7 +188,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
             </TableContainer>
         </Grid>
     );
-    const renderEditInfo = (
+    const renderDataEdit = (
         <Grid container item xs={12} spacing={2}>
             {data &&
                 Object.entries(data).map(([key, value]) => {
@@ -202,11 +202,6 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                                 flexDirection: "column",
                             }}
                         >
-                            {/* <TextareaAutosize
-                                name={key}
-                                placeholder={value}
-                                onChange={handleFormData}
-                            /> */}
                             <EditorField
                                 name={key}
                                 label={key}
@@ -270,7 +265,7 @@ const ViewEditDefaultCard: React.FC<ViewEditDefaultCardProps> = ({
                         renderEditButton
                     )}
                 </Grid>
-                {editMode ? renderEditInfo : renderInfo}
+                {editMode ? renderDataEdit : renderData}
             </Grid>
         </CustomDashboardCard>
     );

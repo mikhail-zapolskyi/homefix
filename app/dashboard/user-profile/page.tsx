@@ -6,7 +6,9 @@ import useSWR from "swr";
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const UserProfile = () => {
-    const { data, error, isLoading } = useSWR("/api/users/single", fetcher);
+    const { data, error, isLoading } = useSWR("/api/users/single", fetcher, {
+        refreshInterval: 1000,
+    });
 
     if (error) {
         throw new Error(error.message);

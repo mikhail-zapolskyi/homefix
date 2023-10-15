@@ -1,5 +1,5 @@
 "use client";
-import { keyframes, styled } from "@mui/material";
+import { keyframes, styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 
 interface TextAnimationProps {

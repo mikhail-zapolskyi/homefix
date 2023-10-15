@@ -1,11 +1,7 @@
-import styled from "@emotion/styled";
-import {
-    Autocomplete,
-    AutocompleteRenderInputParams,
-    OutlinedInput,
-    TextField,
-    createFilterOptions,
-} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 import React from "react";
 
 interface CategoryOptionType {
@@ -26,7 +22,7 @@ interface SelectCreateFieldProps {
 
 const StyledTextField = styled(TextField)(({ ...params }) => ({
     "& fieldset": {
-        borderRadius: "0.8rem",
+        borderRadius: "0.7rem",
     },
 }));
 
@@ -100,7 +96,7 @@ const SelectCreateField: React.FC<SelectCreateFieldProps> = ({
                 return option.title;
             }}
             renderOption={(props, option) => (
-                <li key={option.title} {...props}>
+                <li {...props} key={option.title}>
                     {option.title}
                 </li>
             )}

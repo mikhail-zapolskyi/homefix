@@ -1,5 +1,6 @@
 "use client";
-import { Container, styled } from "@mui/material";
+import { Container } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import React from "react";
 
 const StyledWrapper = styled(Container)(({ theme }) => ({

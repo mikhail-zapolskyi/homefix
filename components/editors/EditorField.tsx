@@ -1,15 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
-import { styled } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import EditorMenu from "./elements/EditorMenu";
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import ListItem from "@tiptap/extension-list-item";
-import TextStyle from "@tiptap/extension-text-style";
 import EditorLabel from "./elements/EditorLabel";
 
 interface Props {
@@ -36,15 +31,8 @@ const StyledEditorContent = styled(EditorContent)(() => ({
 
 const EditorField: React.FC<Props> = ({ name, content, label, onChange }) => {
     const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Dropcursor,
-            Paragraph,
-            Text,
-            TextStyle,
-            ListItem,
-        ],
-        content: content || "Enter som text here",
+        extensions: [StarterKit],
+        content: content || "Enter some text here",
     });
 
     useEffect(() => {

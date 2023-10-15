@@ -1,29 +1,31 @@
-//New Professional, Semi Pro, Pro, Expert
-
-const determineFixerSkillLevel = (experience: any) => {
-    switch (experience) {
-        case 0:
-            return "New Professional";
-        case 1:
-            return "New Professional";
-        case 2:
-            return "New Professional";
-        case 3:
-            return "Semi Professional";
-        case 5:
-            return "Semi Professional";
-        case 6:
-            return "Semi Professional";
-        case 7:
-            return "Professional";
-        case 8:
-            return "Professional";
-        case 9:
-            return "Professional";
-        case 10:
+/**
+ * Determine the skill level of a fixer based on their years of experience.
+ *
+ * @param {number} experience - The years of experience of the fixer (0 to 40).
+ * @returns {string} - The skill level of the fixer.
+ */
+const determineFixerSkillLevel = (experience: number) => {
+    switch (true) {
+        case experience <= 2:
+            return "Beginner";
+        case experience <= 5:
+            return "Novice";
+        case experience <= 10:
+            return "Intermediate";
+        case experience <= 15:
+            return "Skilled";
+        case experience <= 20:
+            return "Seasoned";
+        case experience <= 25:
+            return "Experienced";
+        case experience <= 30:
+            return "Advanced";
+        case experience <= 35:
             return "Expert";
+        case experience <= 40:
+            return "Master";
         default:
-            return "Expert";
+            return "Legendary"; // Handle values greater than 40.
     }
 };
 

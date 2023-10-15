@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { SelectField, Loader, CustomButton } from "@/components";
 import useSWR from "swr";
 import { URL } from "url";
+import { toast } from "react-toastify";
 
 const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 
@@ -26,24 +27,30 @@ const SearchBar = () => {
         data: location,
         error: locationError,
         isLoading: locationIsLoading,
-    } = useSWR(`/api/location${locationParams}`, fetcher);
+    } = useSWR(`/api/location${locationParams}`, fetcher, {});
 
     const {
         data: categories,
         error: categoriesError,
         isLoading: categoriesIsLoading,
-    } = useSWR(`/api/category`, fetcher);
+    } = useSWR(`/api/category`, fetcher, {});
 
     useEffect(() => {
         setLocationParams(
-            `?country=${formData.country}&state=${formData.state}`
+            `?country=${formData.country}&state=${formData.state}&city=${formData.city}`
         );
-    }, [formData.country, formData.state]);
+    }, [formData.country, formData.state, formData.city]);
 
     if (locationError && categoriesError) return <div>Failed to load</div>;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!formData.country) {
+            toast.error("Please choose the country to start your search");
+            return;
+        }
+
         let query = "?";
         const params = new URLSearchParams();
 
@@ -108,35 +115,55 @@ const SearchBar = () => {
                     <Divider
                         sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
                     ></Divider>
-                    <Grid item xs={12}>
-                        <SelectField
-                            id="state"
-                            name="state"
-                            emptyValue="Select State/Province"
-                            value={formData.state}
-                            array={location.states}
-                            onChange={handleSelectOnChange}
-                            fieldState={formData.country ? false : true}
-                        />
-                    </Grid>
-                    <Divider
-                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                    ></Divider>
-                    <Grid item xs={12}>
-                        <SelectField
-                            id="city"
-                            name="city"
-                            emptyValue="Select City"
-                            value={formData.city}
-                            array={location.cities}
-                            onChange={handleSelectOnChange}
-                            fieldState={formData.state ? false : true}
-                        />
-                    </Grid>
+                    {location.states && location.states.length > 0 && (
+                        <>
+                            <Grid item xs={12}>
+                                <SelectField
+                                    id="state"
+                                    name="state"
+                                    emptyValue="Select State/Province"
+                                    value={formData.state}
+                                    array={location.states}
+                                    onChange={handleSelectOnChange}
+                                    fieldState={
+                                        formData.postalCode ? true : false
+                                    }
+                                />
+                            </Grid>
+                            <Divider
+                                sx={{
+                                    width: "85%",
+                                    mx: "auto",
+                                    fontSize: ".7rem",
+                                }}
+                            ></Divider>
+                        </>
+                    )}
+                    {location.cities && location.cities.length > 0 && (
+                        <>
+                            <Grid item xs={12}>
+                                <SelectField
+                                    id="city"
+                                    name="city"
+                                    emptyValue="Select City"
+                                    value={formData.city}
+                                    array={location.cities}
+                                    onChange={handleSelectOnChange}
+                                    fieldState={
+                                        formData.postalCode ? true : false
+                                    }
+                                />
+                            </Grid>
+                            <Divider
+                                sx={{
+                                    width: "85%",
+                                    mx: "auto",
+                                    fontSize: ".7rem",
+                                }}
+                            ></Divider>
+                        </>
+                    )}
 
-                    <Divider
-                        sx={{ width: "85%", mx: "auto", fontSize: ".7rem" }}
-                    ></Divider>
                     <Grid item xs={12}>
                         <SelectField
                             id="category"
@@ -148,7 +175,7 @@ const SearchBar = () => {
                             )}
                             onChange={handleSelectOnChange}
                             fieldState={
-                                formData.state || formData.postalCode
+                                formData.country || formData.postalCode
                                     ? false
                                     : true
                             }
@@ -166,7 +193,7 @@ const SearchBar = () => {
                             array={[1, 2, 3, 4, 5]}
                             onChange={handleSelectOnChange}
                             fieldState={
-                                formData.state || formData.postalCode
+                                formData.country || formData.postalCode
                                     ? false
                                     : true
                             }

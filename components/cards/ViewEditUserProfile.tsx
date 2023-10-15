@@ -17,8 +17,9 @@ import {
     ImageUploadButton,
 } from "@/components";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";
 import { toast } from "react-toastify";
+import { emptyObjectValues } from "@/utils/helpers/emptyObjectValues";
 
 interface ViewEditUserProfileProps {
     data?: Record<string, any>;
@@ -41,7 +42,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
     );
 
     useEffect(() => {
-        if (data) setFormData(data);
+        if (data) setFormData(emptyObjectValues(data));
     }, [data]);
 
     const handleEditMode = () => {
@@ -57,12 +58,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
     };
 
     const handleFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        let value: string | number = e.target.value;
-        if (e.target.type === "number") {
-            value = parseFloat(e.target.value);
-        }
-        setFormData({ ...formData, [e.target.name]: value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleUploadImage = (file: File) => {
@@ -118,9 +114,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                                                         fontWeight: 800,
                                                     }}
                                                 >
-                                                    {first_letter_uppercase(
-                                                        key
-                                                    )}
+                                                    {capitalizeFirstLetter(key)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -182,6 +176,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                                     }
                                     value={formData.value}
                                     onChange={handleFormData}
+                                    placeholder={`Type your ${key}`}
                                 />
                             </Grid>
                         )
@@ -203,7 +198,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
 
     return (
         <CustomDashboardCard>
-            {formData && (
+            {data && (
                 <Grid container rowSpacing={3}>
                     <Grid container item xs={12} spacing={2}>
                         <Grid
@@ -219,8 +214,8 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                         >
                             <Grid item>
                                 <Avatar
-                                    src={`${formData.image}`}
-                                    alt={`${formData?.name}`}
+                                    src={`${data.image}`}
+                                    alt={`${data?.name}`}
                                     sx={{
                                         width: 70,
                                         height: 70,
@@ -230,7 +225,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                             <Grid container item xs={8}>
                                 <Grid item xs={12}>
                                     <Typography variant="body1">
-                                        {formData?.name}
+                                        {data?.name}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>

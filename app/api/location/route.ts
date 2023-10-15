@@ -1,18 +1,45 @@
-import { NextRequest, NextResponse } from "next/server";
+/**
+ * This code defines two asynchronous functions for handling HTTP requests: GET and PUT.
+ *
+ * @GET
+ *   - Accepts a GET request and retrieves a list of locations based on specified parameters.
+ *   - It parses query parameters from the request URL, fetches locations from a local directory,
+ *     and returns them as JSON.
+ *
+ * @PUT
+ *   - Accepts a PUT request and updates or creates a location record in a database using Prisma.
+ *   - It first checks if the user is authenticated using NextAuth.js session management.
+ *   - If authenticated, it either updates an existing location or creates a new one based on the data received in the request.
+ *
+ * Dependencies:
+ *   - next/server: Provides the NextResponse object for handling HTTP responses.
+ *   - path: For working with file paths.
+ *   - "@/utils": Custom utility functions for processing query parameters and fetching locations.
+ *   - "next-auth": For managing authentication sessions.
+ *   - "../auth/[...nextauth]/route": Imports authentication options.
+ *   - "@/prisma/client": Imports Prisma for database operations.
+ *   - "@/lib/error/errorHandler": Handles errors that may occur during request processing.
+ */
+
+import { NextResponse } from "next/server";
 import path from "path";
 import { getLocations, getSearchParams } from "@/utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import { Prisma } from "@prisma/client";
+import errorHandler from "@/lib/error/errorHandler";
 
-const getLocation = async (req: NextRequest) => {
-    const { searchParams } = new URL(req.url);
-    const params = getSearchParams(searchParams);
-    const locationDir = path.join(process.cwd(), "assets/locations");
-    const locations = await getLocations(locationDir, params);
-    return NextResponse.json(locations);
-};
+export async function GET(req: Request) {
+    try {
+        const { searchParams } = new URL(req.url);
+        const params = getSearchParams(searchParams);
+        const locationDir = path.join(process.cwd(), "assets/locations");
+        const locations = await getLocations(locationDir, params);
+        return NextResponse.json(locations);
+    } catch (error) {
+        return errorHandler(error);
+    }
+}
 
 export async function PUT(req: Request) {
     const data = await req.json();
@@ -58,20 +85,6 @@ export async function PUT(req: Request) {
             return NextResponse.json(newLocation);
         }
     } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === "P2002") {
-                console.log(error.message);
-                return NextResponse.json(
-                    {
-                        message: "Address exist or you are not authorized",
-                    },
-                    { status: 400 }
-                );
-            }
-        }
-
-        return console.error(error);
+        return errorHandler(error);
     }
 }
-
-export { getLocation as GET };

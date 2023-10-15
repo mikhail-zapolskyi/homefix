@@ -42,6 +42,7 @@ const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
                             updateSession({
                                 name: data.data.name,
                                 image: data.data.image,
+                                type: data.data.type,
                             });
                         }
                         return "Changes Saved";
@@ -71,6 +72,7 @@ const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
                             updateSession({
                                 name: data.data.name,
                                 image: data.data.image,
+                                type: data.data.type,
                             });
                             return "Changes Saved";
                         }
@@ -93,6 +95,7 @@ const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
                             updateSession({
                                 name: data.data.name,
                                 image: data.data.image,
+                                type: data.data.type,
                             });
                         }
                         return "Changes Saved";

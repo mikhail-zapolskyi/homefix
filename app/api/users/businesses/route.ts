@@ -1,61 +1,64 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import errorHandler from "@/lib/error/errorHandler";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET() {
-    const session = await getServerSession(authOptions);
+    const currentUser = await getCurrentUser();
 
-    if (!session) {
-        redirect("/api/auth/signin");
-    }
-
-    const { id } = session.user;
-
-    if (!id) {
-        return NextResponse.json("You are not authorized");
+    if (!currentUser) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
     try {
         const businesses = await prisma.customer.findMany({
-            where: { userId: id },
+            where: { userId: currentUser.id },
             include: { service: true, user: true },
         });
         return NextResponse.json(businesses);
     } catch (error) {
-        return NextResponse.error();
+        return errorHandler(error);
     }
 }
 export async function POST(req: NextRequest) {
-    const serviceProfileId = await req.json();
-    const session = await getServerSession(authOptions);
+    const { serviceProfileId } = await req.json();
+    const query: Record<string, any> = {};
+    const currentUser = await getCurrentUser();
 
-    if (!session) {
-        redirect("/api/auth/signin");
+    if (!currentUser) {
+        return NextResponse.json(
+            { error: "You are not authorized" },
+            { status: 401 }
+        );
     }
 
-    const { id } = session.user;
-
-    if (!id) {
-        return NextResponse.json("You are not authorized");
-    }
+    query.userId = currentUser.id;
+    query.serviceProfileId = serviceProfileId;
 
     try {
         const existingCustomer = await prisma.customer.findFirst({
-            where: { userId: id, serviceProfileId },
+            where: query,
         });
+
         if (existingCustomer) {
-            return NextResponse.json("Customer already exists", {
-                status: 400,
-            });
+            return NextResponse.json(
+                { error: "You already following this account" },
+                { status: 400 }
+            );
         }
 
         const newCustomer = await prisma.customer.create({
-            data: { userId: id, serviceProfileId },
+            data: {
+                userId: currentUser.id,
+                serviceProfileId: serviceProfileId,
+            },
         });
+
         return NextResponse.json(newCustomer, { status: 201 });
     } catch (error) {
-        return NextResponse.error();
+        return errorHandler(error);
     }
 }

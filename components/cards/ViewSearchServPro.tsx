@@ -9,18 +9,25 @@ import {
 } from "@mui/material";
 import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
-import { useTheme, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
+import EditorView from "../editors/EditorView";
+import StarIcon from "@mui/icons-material/Star";
 
 interface ViewSearchServProProps {
     data?: Record<string, any>;
+    activeUserId?: string | false | null | undefined;
     onView?: () => void;
     onFollow?: () => void;
+    onUnfollow?: () => void;
 }
 
 const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
     data,
+    activeUserId,
     onView,
     onFollow,
+    onUnfollow,
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -48,11 +55,18 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
         </Stack>
     );
 
+    const isFollowed = () => {
+        const result = data?.customers.some(
+            (customer: Record<string, any>) => customer.userId === activeUserId
+        );
+        return result;
+    };
+
     const renderDataMobile = data && (
         <Stack
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
-            onClick={onView}
+            sx={{ width: "100%" }}
         >
             <Stack direction="row" spacing={1}>
                 <Avatar
@@ -75,7 +89,14 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                         <Rating
                             defaultValue={data.rating}
                             size="small"
+                            precision={0.1}
                             readOnly
+                            emptyIcon={
+                                <StarIcon
+                                    style={{ opacity: 0.55 }}
+                                    fontSize="inherit"
+                                />
+                            }
                         />
                         <Typography variant="body2">{data.rating}</Typography>
                     </Stack>
@@ -85,9 +106,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                 spacing={2}
                 divider={<Divider orientation="horizontal" flexItem />}
             >
-                <Typography variant="body1">
-                    {data.introduction.slice(0, 100)}
-                </Typography>
+                <EditorView content={data.introduction.slice(0, 100)} />
                 <Stack spacing={1} direction="row">
                     <CustomButton
                         onClick={onView}
@@ -98,17 +117,18 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     />
                     <CustomButton
                         onClick={onFollow}
-                        text="Follow"
+                        text={isFollowed() ? "Following" : "Follow"}
                         variant="contained"
                         size="small"
                         fullWidth
+                        disabled={isFollowed() ? true : false}
                     />
                 </Stack>
             </Stack>
         </Stack>
     );
     const renderData = data && (
-        <Stack direction="row">
+        <Stack direction="row" sx={{ width: "100%" }}>
             <Avatar
                 src={data.image}
                 alt={data.name}
@@ -154,9 +174,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                     </Typography>
                 </Stack>
                 <Stack spacing={2}>
-                    <Typography variant="body1">
-                        {data.introduction.slice(0, 150)}...
-                    </Typography>
+                    <EditorView content={data.introduction.slice(0, 150)} />
                 </Stack>
                 {renderArrayValues}
             </Stack>
@@ -179,7 +197,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
             </Grid>
             {/* This is in place of the company logo */}
             <Grid container item xs={10}>
-                <Stack direction="column" spacing={2}>
+                <Stack direction="column" spacing={2} sx={{ width: "100%" }}>
                     <Stack alignItems="center" direction="row">
                         <Avatar
                             alt={data.user.name}
@@ -196,12 +214,15 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                             text="Profile"
                             variant="outlined"
                             size="small"
+                            fullWidth
                         />
                         <CustomButton
                             onClick={onFollow}
-                            text="Follow"
+                            text={isFollowed() ? "Following" : "Follow"}
                             variant="contained"
                             size="small"
+                            fullWidth
+                            disabled={isFollowed() ? true : false}
                         />
                     </Stack>
                 </Stack>

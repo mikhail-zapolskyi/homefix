@@ -8,11 +8,11 @@ import {
     TableContainer,
     TableRow,
     Typography,
-    styled,
 } from "@mui/material";
+import { styled } from "@mui/material/styles"
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { first_letter_uppercase } from "@/utils/helpers/first_letter_uppercase";
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";
 // Define the props for the BusinessHoursEditCard component
 interface ViewEditBusinessHoursProps {
     businessHours?: Record<string, any>[];
@@ -153,7 +153,7 @@ const ViewEditBusinessHours: React.FC<ViewEditBusinessHoursProps> = ({
                                                     fontWeight: 800,
                                                 }}
                                             >
-                                                {first_letter_uppercase(
+                                                {capitalizeFirstLetter(
                                                     time.type
                                                 )}
                                             </Typography>
