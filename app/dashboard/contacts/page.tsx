@@ -12,9 +12,13 @@ const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const page = () => {
     const { data: session } = useSession();
-    const { data, error, isLoading } = useSWR("/api/contacts", fetcher, {
-        refreshInterval: 1000,
-    });
+    const { data, error, isLoading, mutate } = useSWR(
+        "/api/contacts",
+        fetcher,
+        {
+            revalidateOnFocus: true,
+        }
+    );
 
     if (error) {
         toast.error(error.message);
@@ -31,7 +35,7 @@ const page = () => {
                 contactRequestId,
                 sender,
             });
-
+            mutate();
             toast.success(response.data.message);
         } catch (error: any) {
             toast.error(error.response.data.error);
@@ -44,7 +48,7 @@ const page = () => {
                 contactId,
                 userId,
             });
-
+            mutate();
             toast.success(response.data.message);
         } catch (error: any) {
             toast.error(error.response.data.error);
@@ -59,7 +63,7 @@ const page = () => {
                     userId,
                 },
             });
-
+            mutate();
             toast.success(response.data.message);
         } catch (error: any) {
             toast.error(error.response.data.error);

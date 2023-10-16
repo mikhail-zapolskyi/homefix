@@ -15,10 +15,10 @@ const ViewServices = () => {
     const router = useRouter();
     const { data: session, status } = useSession();
     const searchParams = useSearchParams().toString();
-    const { data, error, isLoading } = useSWR(
+    const { data, error, isLoading, mutate } = useSWR(
         `/api/service?${searchParams}`,
         fetcher,
-        { refreshInterval: 1000 }
+        {}
     );
     if (error) {
         throw new Error(error.message);
@@ -39,6 +39,7 @@ const ViewServices = () => {
 
             if (response.status === 200) {
                 toast.success(response.data.message);
+                mutate();
             }
         } catch (error) {
             if (error instanceof AxiosError) {

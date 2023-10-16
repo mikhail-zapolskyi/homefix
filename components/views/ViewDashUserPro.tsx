@@ -4,19 +4,22 @@ import { ViewEditLocation, ViewEditUserProfile } from "@/components";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import { Grid } from "@mui/material";
 import { User, Location } from "@prisma/client";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { KeyedMutator } from "swr";
 
-interface ViewDashUserProProps {
+interface Props {
     userProfile?: User;
     location?: Location;
+    mutate: KeyedMutator<any>;
 }
 
-const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
+const ViewDashUserPro: React.FC<Props> = ({
     userProfile,
     location,
+    mutate,
 }) => {
     const [userProfileFormData, setUserProfileFormData] = useState<User>();
     const [locationFormData, setLocationFormData] = useState<Location>();
@@ -34,28 +37,25 @@ const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
         const notEmptyData = filterEmptyValues(data);
 
         try {
-            toast.promise(axios.put("/api/users", notEmptyData), {
-                success: {
-                    render({ data }) {
-                        if (data) {
-                            setUserProfileFormData(data.data);
-                            updateSession({
-                                name: data.data.name,
-                                image: data.data.image,
-                                type: data.data.type,
-                            });
-                        }
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/users", notEmptyData);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+                updateSession({
+                    name: response.data.name,
+                    image: response.data.image,
+                    type: response.data.type,
+                });
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleSaveProfileImage = (file: File) => {
+    const handleSaveProfileImage = async (file: File) => {
         if (!file) {
             return toast.error("Something went wrong");
         }
@@ -64,65 +64,62 @@ const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
         data.append("file", file);
 
         try {
-            toast.promise(axios.put("/api/users/image-upload", data), {
-                success: {
-                    render({ data }) {
-                        if (data) {
-                            setUserProfileFormData(data.data);
-                            updateSession({
-                                name: data.data.name,
-                                image: data.data.image,
-                                type: data.data.type,
-                            });
-                            return "Changes Saved";
-                        }
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/users/image-upload", data);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+                updateSession({
+                    name: response.data.name,
+                    image: response.data.image,
+                    type: response.data.type,
+                });
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleDelete = async (data: Record<string, any>) => {
+    const handleDeleteData = async (data: Record<string, any>) => {
         try {
-            toast.promise(axios.put("/api/users", data), {
-                success: {
-                    render({ data }) {
-                        if (data) {
-                            setUserProfileFormData(data.data);
-                            updateSession({
-                                name: data.data.name,
-                                image: data.data.image,
-                                type: data.data.type,
-                            });
-                        }
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/users", data);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Item Delete Successfully");
+                updateSession({
+                    name: response.data.name,
+                    image: response.data.image,
+                    type: response.data.type,
+                });
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
     const handleLocationSave = async (data: Record<string, any>) => {
         const notEmptyData = filterEmptyValues(data);
-
         try {
-            toast.promise(axios.put("/api/location", notEmptyData), {
-                success: {
-                    render({ data }) {
-                        if (data) setLocationFormData(data.data);
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/location", notEmptyData);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+                updateSession({
+                    name: response.data.name,
+                    image: response.data.image,
+                    type: response.data.type,
+                });
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
@@ -146,7 +143,7 @@ const ViewDashUserPro: React.FC<ViewDashUserProProps> = ({
                             phone: userProfileFormData.phone,
                         }}
                         updateCallback={handleSave}
-                        deleteCallback={handleDelete}
+                        deleteCallback={handleDeleteData}
                         imageUploadCallback={handleSaveProfileImage}
                     />
                 </Grid>

@@ -22,6 +22,7 @@ export async function GET() {
                 email: true,
                 image: true,
                 type: true,
+                phone: true,
                 location: {
                     select: {
                         address: true,

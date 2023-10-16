@@ -41,7 +41,7 @@ export async function DELETE(
             },
         });
 
-        return NextResponse.json({ msg: "deleted" }, { status: 200 });
+        return new Response(null, { status: 204 });
     } catch (error) {
         return errorHandler(error);
     }

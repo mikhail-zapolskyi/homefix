@@ -113,10 +113,11 @@ export async function DELETE() {
     }
 
     try {
-        const user = await prisma.user.delete({
+        await prisma.user.delete({
             where: { id: currentUser.id },
         });
-        return NextResponse.json(user.id, { status: 200 });
+
+        return NextResponse.json({}, { status: 204 });
     } catch (error) {
         return errorHandler(error);
     }

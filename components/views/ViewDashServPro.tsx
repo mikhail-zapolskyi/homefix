@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ServiceProfile, Location, Day } from "@prisma/client";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import {
@@ -15,20 +15,23 @@ import {
     ViewEditCategory,
 } from "@/components";
 import { Grid, Stack } from "@mui/material";
+import { KeyedMutator } from "swr";
 
-interface ViewDashServProProps {
+interface Props {
     serviceProfile?: ServiceProfile;
     location?: Location;
     businessHours?: Day[];
     categories?: Record<string, any>[];
+    mutate: KeyedMutator<any>;
 }
 
 // Define the ServiceProfile component
-const ViewDashServPro: React.FC<ViewDashServProProps> = ({
+const ViewDashServPro: React.FC<Props> = ({
     serviceProfile,
     location,
     businessHours,
     categories,
+    mutate,
 }) => {
     // Use SWR to fetch data from "/api/service/single"
     const [serviceProfileFormData, setServiceProfileFormData] =
@@ -56,7 +59,7 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
     }, [categories]);
 
     // Callback function for handling uploaded image
-    const handleSaveProfileImage = (file: File) => {
+    const handleSaveProfileImage = async (file: File) => {
         if (!file) {
             return toast.error("Something went wrong");
         }
@@ -65,22 +68,21 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
         data.append("file", file);
 
         try {
-            toast.promise(axios.put("/api/service/image-upload", data), {
-                success: {
-                    render({ data }) {
-                        if (data) setServiceProfileFormData(data.data);
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/service/image-upload", data);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
     // Callback function for handling form details
-    const handleCallbackFormDetails = (data: Record<string, any>) => {
+    const handleCallbackFormDetails = async (data: Record<string, any>) => {
         if (!data) {
             return toast.error("Something went wrong");
         }
@@ -89,41 +91,39 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
             ...data,
         } as ServiceProfile;
         const notEmptyData = filterEmptyValues(newData);
+
         try {
-            // Send a PUT request to update service data
-            toast.promise(axios.put("/api/service", notEmptyData), {
-                success: {
-                    render({ data }) {
-                        if (data) setServiceProfileFormData(data.data);
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/service", notEmptyData);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleDeleteServiceProfileDetails = (data: Record<string, any>) => {
+    const handleDeleteServiceProfileDetails = async (
+        data: Record<string, any>
+    ) => {
         const key = Object.keys(data)[0];
         if (key === "employees" || key === "experience") {
             data[`${key}`] = 0;
         }
-
         try {
-            // Send a PUT request to update service data
-            toast.promise(axios.put("/api/service", data), {
-                success: {
-                    render({ data }) {
-                        if (data) setServiceProfileFormData(data.data);
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/service", data);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
@@ -132,75 +132,85 @@ const ViewDashServPro: React.FC<ViewDashServProProps> = ({
         if (!notEmptyData.serviceProfileId && serviceProfileFormData) {
             notEmptyData.serviceProfileId = serviceProfileFormData.id;
         }
-
         try {
-            toast.promise(axios.put("/api/location", notEmptyData), {
-                success: {
-                    render({ data }) {
-                        if (data) setLocationFormData(data.data);
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put("/api/location", notEmptyData);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleBusinessHoursSave = (data: Record<string, any>[]) => {
+    const handleBusinessHoursSave = async (data: Record<string, any>[]) => {
         try {
-            toast.promise(axios.put("/api/service/business-hours", data), {
-                success: {
-                    render({ data }) {
-                        if (data) setBusinessHoursFormData(data.data);
-                        return "Changes Saved";
-                    },
-                },
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.put(
+                "/api/service/business-hours",
+                data
+            );
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Changes Saved");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleDeleteDayCallback = (data: Record<string, any>) => {
+    const handleDeleteDayCallback = async (data: Record<string, any>) => {
         if (!data.id) {
             return;
         }
-
         try {
-            toast.promise(
-                axios.delete(`/api/service/business-hours/${data.id}`),
-                {
-                    success: "Changes Saved",
-                    error: "Something went wrong",
-                }
+            const response = await axios.delete(
+                `/api/service/business-hours/${data.id}`
             );
-        } catch (error: any) {
-            throw new Error(error.message);
+
+            if (response.status === 204) {
+                mutate();
+                toast.success("Hours Deleted");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleCategorySave = (data: Record<string, any>) => {
+    const handleCategorySave = async (data: Record<string, any>) => {
         try {
-            toast.promise(axios.post(`/api/service/category`, data), {
-                success: "Category Added",
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.post(`/api/service/category`, data);
+
+            if (response.status === 200) {
+                mutate();
+                toast.success("Category Added");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleCategoryDelete = (id: string) => {
+    const handleCategoryDelete = async (id: string) => {
         try {
-            toast.promise(axios.delete(`/api/service/category/${id}`), {
-                success: "Category Deleted",
-                error: "Something went wrong",
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+            const response = await axios.delete(`/api/service/category/${id}`);
+
+            if (response.status === 204) {
+                mutate();
+                toast.success("Category Added");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
         }
     };
 

@@ -6,9 +6,11 @@ import useSWR from "swr";
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const UserProfile = () => {
-    const { data, error, isLoading } = useSWR("/api/users/single", fetcher, {
-        refreshInterval: 1000,
-    });
+    const { data, error, isLoading, mutate } = useSWR(
+        "/api/users/single",
+        fetcher,
+        { revalidateOnFocus: true }
+    );
 
     if (error) {
         throw new Error(error.message);
@@ -17,7 +19,11 @@ const UserProfile = () => {
     return isLoading ? (
         <Loader />
     ) : (
-        <ViewDashUserPro userProfile={data} location={data.location[0]} />
+        <ViewDashUserPro
+            userProfile={data}
+            location={data.location[0]}
+            mutate={() => mutate()}
+        />
     );
 };
 
