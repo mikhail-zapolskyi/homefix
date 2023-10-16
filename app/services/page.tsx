@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
+import { SearchServiceProfilesType } from "../types";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
@@ -17,7 +18,7 @@ const ViewServices = () => {
     const { data, error, isLoading } = useSWR(
         `/api/service?${searchParams}`,
         fetcher,
-        {}
+        { refreshInterval: 1000 }
     );
     if (error) {
         throw new Error(error.message);
@@ -50,17 +51,15 @@ const ViewServices = () => {
         <Loader />
     ) : (
         <Grid container spacing={2} pt={2}>
-            {data.map((serviceProfile: Record<string, any>) => (
-                <Grid item xs={12} key={serviceProfile.id} sx={{ py: "-4rem" }}>
+            {data.map((obj: SearchServiceProfilesType) => (
+                <Grid item xs={12} key={obj.id} sx={{ py: "-4rem" }}>
                     <SearchedProfileCard
-                        data={serviceProfile}
+                        data={obj}
                         currentUser={session?.user.id}
-                        serviceProfileUser={serviceProfile.userId}
-                        onView={() =>
-                            router.push(`/services/${serviceProfile.id}`)
-                        }
+                        serviceProfileUser={obj.userId}
+                        onView={() => router.push(`/services/${obj.id}`)}
                         onContactRequest={() =>
-                            handleContactRequest(serviceProfile.userId)
+                            handleContactRequest(obj.userId)
                         }
                     />
                 </Grid>

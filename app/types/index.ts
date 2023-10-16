@@ -1,4 +1,11 @@
-import { Conversation, Message, ServiceProfile, User } from "@prisma/client";
+import {
+    Category,
+    Conversation,
+    Location,
+    Message,
+    ServiceProfile,
+    User,
+} from "@prisma/client";
 
 export type FullMessageType = Message & {
     sender: User;
@@ -11,4 +18,10 @@ type UserWithServiceProfile = User & {
 
 export type ConversationContactsType = Conversation & {
     user: UserWithServiceProfile[];
+};
+
+export type SearchServiceProfilesType = ServiceProfile & {
+    category: Category[];
+    location: Location[];
+    user: User;
 };
