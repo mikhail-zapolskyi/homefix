@@ -31,6 +31,8 @@ const page = () => {
     const [activeConversationId, setActiveConversationId] =
         useState<string>("");
 
+    const [message, setMessage] = useState<string>("");
+
     if (error) {
         toast.error(error.message);
     }
@@ -62,6 +64,15 @@ const page = () => {
         } catch (error: any) {
             toast.error(error.response.data.error);
         }
+    };
+
+    const handleMessageContent = (content: string) => {
+        setMessage(content);
+    };
+
+    const handleSendMessage = () => {
+        console.log(message);
+        setMessage("");
     };
 
     const renderEmptyListItem = (
@@ -103,8 +114,9 @@ const page = () => {
                 }}
             >
                 <EditorMessageFeild
-                    onChange={() => console.log("Change text area")}
-                    onClick={() => console.log("Click Send")}
+                    content={message}
+                    onChange={handleMessageContent}
+                    onClick={handleSendMessage}
                 />
             </Stack>
         </MessageList>

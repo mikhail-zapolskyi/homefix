@@ -11,9 +11,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 
 interface Props {
     content?: string;
-    label?: string;
-    name?: string;
-    onChange: (data: Record<string, any>) => void;
+    onChange: (content: string) => void;
     onClick: () => void;
 }
 
@@ -54,9 +52,7 @@ const StyledButtonContainer = styled("span")(({}) => ({
 }));
 
 const EditorMessageFeild: React.FC<Props> = ({
-    name,
     content,
-    label,
     onChange,
     onClick,
 }) => {
@@ -72,7 +68,7 @@ const EditorMessageFeild: React.FC<Props> = ({
                 class: "test",
             },
         },
-        content: "",
+        content: content,
     });
 
     useEffect(() => {
@@ -86,7 +82,7 @@ const EditorMessageFeild: React.FC<Props> = ({
 
             // Call the onChange callback with the updated content
             if (onChange) {
-                onChange({ [name as string]: updatedHtml });
+                onChange(updatedHtml as string);
             }
         };
 
@@ -99,16 +95,25 @@ const EditorMessageFeild: React.FC<Props> = ({
         };
     }, [editor, onChange]);
 
+    const onClear = () => {
+        if (!editor) {
+            return;
+        }
+        editor.commands.clearContent();
+    };
+
     return (
         <StyledDivWrapper>
-            <EditorLabel label={label} />
             <StyledEditorContent editor={editor} />
             <Divider />
             <StyledButtonContainer>
                 <CustomButton
                     endIcon={<SendHorizontal size={16} />}
                     text="Send"
-                    onClick={onClick}
+                    onClick={() => {
+                        onClick();
+                        onClear();
+                    }}
                 />
             </StyledButtonContainer>
         </StyledDivWrapper>
