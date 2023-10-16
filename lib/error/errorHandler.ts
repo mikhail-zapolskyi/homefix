@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 const errorHandler = (error: Error | unknown) => {
     if (error instanceof PrismaClientKnownRequestError) {
+        console.log(error.code);
         const errorMessage = getPrismaErrorMessage(error);
         return NextResponse.json({ error: errorMessage }, { status: 400 });
     } else if (error instanceof Error) {
@@ -27,7 +28,8 @@ const getPrismaErrorMessage = (error: PrismaClientKnownRequestError) => {
         case "P2023":
             return "Incorrect object ID";
         // Handle other Prisma Client error codes here...
-
+        case "P2025":
+            return "Record to delete does not exist";
         default:
             return "An error occurred with Prisma Client.";
     }

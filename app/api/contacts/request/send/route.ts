@@ -1,106 +1,85 @@
+/**
+ * Module Name: Send Contact Request
+ *
+ * Description:
+ * This code module handles the sending of contact requests. It exports a single function, POST, which is designed to 
+ * handle incoming HTTP POST requests. The function processes the request's data and performs the necessary checks 
+ * and operations to send a contact request to another user in the system.
+ *
+ * Request Data Expected:
+ * - The function POST expects an HTTP POST request with a JSON payload containing information about the recipient user (userId).
+
+ * Dependencies:
+ * - NextRequest and NextResponse from "next/server": These are used for handling HTTP requests and responses in a Next.js 
+ * application.
+ * - errorHandler from "@/lib/error/errorHandler": This is a custom error handling utility.
+ * - prisma from "@/prisma/client": Prisma client for interacting with the database.
+ * - getCurrentUser from "@/app/actions/getCurrentUser": A function to fetch the currently logged-in user.
+ * - isContactRequest from "@/app/actions/isContactRequest": A function to check if a contact request has already been 
+ * sent to a user.
+ *
+ * Exported Functions:
+ * - POST(req: NextRequest): This function handles incoming POST requests for sending contact requests. It expects a 
+ * JSON payload containing information about the recipient user (userId). It performs authorization checks, verifies 
+ * that a request is not sent to oneself, and checks if a request has already been sent to the recipient. If all checks 
+ * pass, it creates a contact request in the database and responds with a success message. In case of errors, it delegates 
+ * error handling to the errorHandler utility.
+ */
+
 import { NextRequest, NextResponse } from "next/server";
 import errorHandler from "@/lib/error/errorHandler";
 import prisma from "@/prisma/client";
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import { ServiceProfile } from "@prisma/client";
+import { isContactRequest } from "@/app/actions/isContactRequest";
 
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
         const currentUser = await getCurrentUser();
-        let userId: string | null = null;
-        let content: string = "";
 
-        if (!currentUser) {
+        if (!currentUser || !currentUser.id) {
             return NextResponse.json(
                 { error: "You are not authorized" },
                 { status: 401 }
             );
         }
 
-        userId = currentUser.id;
-        content = `<h3>You've received a contact request from ${currentUser.name}</h3>`;
-
-        if (!data) {
-            return NextResponse.json(
-                { error: "Service Profile ID missing" },
-                { status: 400 }
-            );
-        }
-
-        const servicePorfileForTest = await prisma.serviceProfile.findFirst({
-            where: {
-                userId,
-            },
-        });
-
-        if (servicePorfileForTest) {
-            if (data.serviceProfileId === servicePorfileForTest?.id) {
-                return NextResponse.json(
-                    { error: "You are not allowed send request to your self" },
-                    { status: 400 }
-                );
-            }
-        }
-
-        const isContact = await prisma.contact.findFirst({
-            where: {
-                AND: [{ userId }, { serviceProfileId: data.serviceProfileId }],
-            },
-        });
-
-        const isContactRequest = await prisma.contactRequest.findFirst({
-            where: {
-                AND: [{ userId }, { serviceProfileId: data.serviceProfileId }],
-            },
-        });
-
-        if (isContact) {
-            return NextResponse.json(
-                { error: "This profile already in your contacts." },
-                { status: 400 }
-            );
-        }
-
-        if (isContactRequest) {
+        if (currentUser.id === data.userId) {
             return NextResponse.json(
                 {
-                    error: "You've already sent a request to this service profile",
+                    error: "You are prohibited from sending a contact request to yourself",
                 },
+                { status: 400 }
+            );
+        }
+
+        if (await isContactRequest(currentUser.id, data.userId)) {
+            return NextResponse.json(
+                { error: "Contact Request has been already sent" },
                 { status: 400 }
             );
         }
 
         await prisma.contactRequest.create({
             data: {
-                userId,
-                serviceProfileId: data.serviceProfileId,
+                sender: currentUser.id,
+                contact: {
+                    create: {
+                        user: {
+                            connect: [
+                                { id: currentUser.id },
+                                { id: data.userId },
+                            ],
+                        },
+                    },
+                },
             },
         });
 
-        if (data.message) {
-            content += data.message;
-        }
-
-        const conversations = await prisma.conversation.create({
-            data: {
-                userId,
-                serviceProfileId: data.serviceProfileId,
-            },
+        return NextResponse.json({
+            message: "Contact Request Sent",
         });
-
-        await prisma.message.create({
-            data: {
-                content,
-                userId,
-                serviceProfileId: data.serviceProfileId,
-                conversationId: conversations.id,
-            },
-        });
-
-        return NextResponse.json({ message: "Contact Request Sent" });
     } catch (error) {
-        console.log(error);
         return errorHandler(error);
     }
 }

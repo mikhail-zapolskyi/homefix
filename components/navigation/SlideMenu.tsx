@@ -45,9 +45,8 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
     let url: string = "/api/messages/unread";
 
     const { data, error, isLoading } = useSWR(url, fetcher, {
-        refreshInterval: 1000,
+        revalidateOnFocus: true,
     });
-
     if (error) {
         toast.error(error.message);
     }
@@ -93,15 +92,22 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                         push("/dashboard/user-profile");
                     }}
                 />
-                {session?.user.type === "USER" && (
+                {session?.user.type === "PRO" && (
                     <MenuOption
-                        text="Businesses"
+                        text="Service Profile"
                         icon={<Building2 />}
                         onClick={() => {
-                            push("/dashboard/businesses");
+                            push("/dashboard/service-profile");
                         }}
                     />
                 )}
+                <MenuOption
+                    text="Contacts"
+                    icon={<Users />}
+                    onClick={() => {
+                        push("/dashboard/contacts");
+                    }}
+                />
                 <MenuOption
                     text="Messages"
                     icon={<Mails />}
@@ -110,24 +116,6 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                         push("/dashboard/messages");
                     }}
                 />
-                {session?.user.type === "PRO" && (
-                    <>
-                        <MenuOption
-                            text="Service Profile"
-                            icon={<Building2 />}
-                            onClick={() => {
-                                push("/dashboard/service-profile");
-                            }}
-                        />
-                        <MenuOption
-                            text="Customers"
-                            icon={<Users />}
-                            onClick={() => {
-                                push("/dashboard/customers");
-                            }}
-                        />
-                    </>
-                )}
                 <MenuOption
                     text="Reviews"
                     icon={<MessagesSquare />}

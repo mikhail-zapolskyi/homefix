@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, Typography, Grid } from "@mui/material";
 import { CustomDashboardCard } from "@/components";
 import { ServiceProfile, User } from "@prisma/client";

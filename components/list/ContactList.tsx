@@ -1,12 +1,13 @@
 "use client";
 import { ReactNode, FC } from "react";
-import { List } from "@mui/material";
+import {
+    Avatar,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
-
-interface Props {
-    children: ReactNode;
-    fullLength?: boolean;
-}
 
 const StyledList = styled(List)(({ theme }) => ({
     width: "100%",
@@ -14,7 +15,6 @@ const StyledList = styled(List)(({ theme }) => ({
     padding: "1rem",
     position: "relative",
     boxShadow: `${theme.shadows[4]}`,
-
     overflowY: "auto",
     maxHeight: "8rem",
 
@@ -27,6 +27,10 @@ const StyledList = styled(List)(({ theme }) => ({
         maxHeight: "none",
     },
 }));
+
+interface Props {
+    children?: ReactNode;
+}
 
 const ContactList: FC<Props> = ({ children }) => {
     return <StyledList>{children}</StyledList>;

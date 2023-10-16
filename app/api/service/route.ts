@@ -6,9 +6,11 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
+
     const query = buildQueryServPro(searchParams);
 
     const serviceProfiles = await prisma.serviceProfile.findMany(query);
+
     return NextResponse.json(serviceProfiles);
 }
 

@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React, { MouseEvent, ReactNode } from "react";

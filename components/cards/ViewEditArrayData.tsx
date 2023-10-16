@@ -1,3 +1,4 @@
+"use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomDashboardCard from "./CustomDashboardCard";
 import {

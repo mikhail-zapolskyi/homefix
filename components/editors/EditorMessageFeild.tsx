@@ -10,7 +10,7 @@ import { Divider } from "@mui/material";
 import Placeholder from "@tiptap/extension-placeholder";
 
 interface Props {
-    content: string;
+    content?: string;
     label?: string;
     name?: string;
     onChange: (data: Record<string, any>) => void;
@@ -37,7 +37,7 @@ const StyledEditorContent = styled(EditorContent)(() => ({
         display: "none",
     },
 
-    "& .tiptap p.is-editor-empty:first-child::before": {
+    "& .tiptap p.is-editor-empty:first-of-type::before": {
         color: "#adb5bd",
         content: "attr(data-placeholder)",
         float: "left",
@@ -72,7 +72,7 @@ const EditorMessageFeild: React.FC<Props> = ({
                 class: "test",
             },
         },
-        content: content,
+        content: "",
     });
 
     useEffect(() => {

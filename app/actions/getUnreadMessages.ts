@@ -1,11 +1,15 @@
 import prisma from "@/prisma/client";
 
-export default async function getUnreadMessages(query: Record<string, any>) {
+export default async function getUnreadMessages(currentUserId: string) {
     // query.status = "UNREAD"
 
     try {
         const unreadMessages = await prisma.message.count({
-            where: query,
+            where: {
+                seenId: {
+                    has: currentUserId,
+                },
+            },
         });
 
         return unreadMessages;

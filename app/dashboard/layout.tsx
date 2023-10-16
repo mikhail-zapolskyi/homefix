@@ -14,12 +14,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         }
     }, [session, status, router]);
 
-    return session && status === "authenticated" ? (
+    return (
         <PageContainer>
-            <DashboardContainer>{children}</DashboardContainer>
+            {session && status === "authenticated" && (
+                <DashboardContainer>{children}</DashboardContainer>
+            )}
         </PageContainer>
-    ) : (
-        <Loader />
     );
 };
 

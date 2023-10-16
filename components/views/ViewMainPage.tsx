@@ -1,3 +1,4 @@
+"use client";
 import { styled } from "@mui/material/styles";
 import React from "react";
 import { PageContainer, ProductHeroMainCard } from "@/components";

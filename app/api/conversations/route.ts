@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try {
         const currentUser = await getCurrentUser();
-        let conversations: Record<string, any> = {};
 
         if (!currentUser) {
             return NextResponse.json(
@@ -15,23 +14,9 @@ export async function GET() {
             );
         }
 
-        if (currentUser.type === "PRO") {
-            const serviceProfile = await prisma?.serviceProfile.findFirst({
-                where: {
-                    userId: currentUser.id,
-                },
-            });
+        const conversations = await getConversations(currentUser.id);
 
-            conversations = await getConversations({
-                serviceProfileId: serviceProfile?.id,
-            });
-        } else {
-            conversations = await getConversations({
-                userId: currentUser.id,
-            });
-        }
-
-        return NextResponse.json({ conversations });
+        return NextResponse.json(conversations);
     } catch (error) {
         return errorHandler(error);
     }

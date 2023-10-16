@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
     Grid,
@@ -14,25 +15,30 @@ import useTheme from "@mui/material/styles/useTheme";
 import EditorView from "../editors/EditorView";
 import StarIcon from "@mui/icons-material/Star";
 import useContactStatus from "@/hooks/useContactStatus";
+import { useAccountHolder } from "@/hooks";
 
 interface Props {
     data?: Record<string, any>;
-    serviceOwner?: string;
-    activeUserId?: string | false | null | undefined;
+    currentUser?: string | false | null | undefined;
+    serviceProfileUser?: string | false | null | undefined;
     onView?: () => void;
     onContactRequest?: () => void;
 }
 
 const SearchedProfileCard: React.FC<Props> = ({
     data,
-    serviceOwner,
-    activeUserId,
+    currentUser,
+    serviceProfileUser,
     onView,
     onContactRequest,
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
-    const contactStatus = useContactStatus({ activeUserId, data });
+    const contactStatus = useContactStatus({
+        currentUser,
+        serviceProfileUser: data?.user,
+    });
+    const accountHolder = useAccountHolder({ currentUser, serviceProfileUser });
 
     const renderArrayValues = (
         <Stack direction="row" flexWrap="wrap">
@@ -113,25 +119,18 @@ const SearchedProfileCard: React.FC<Props> = ({
                         size="small"
                         fullWidth
                     />
-                    {serviceOwner !== activeUserId && (
+                    {!accountHolder.state && (
                         <CustomButton
                             onClick={onContactRequest}
                             text={
-                                contactStatus.inContact
-                                    ? contactStatus.connected
-                                    : contactStatus.inContactRequest
-                                    ? contactStatus.sent
+                                contactStatus.status
+                                    ? contactStatus.status
                                     : contactStatus.default
                             }
                             variant="contained"
                             size="small"
                             fullWidth
-                            disabled={
-                                contactStatus.inContact ||
-                                contactStatus.inContactRequest
-                                    ? true
-                                    : false
-                            }
+                            disabled={contactStatus.status ? true : false}
                         />
                     )}
                 </Stack>
@@ -227,25 +226,18 @@ const SearchedProfileCard: React.FC<Props> = ({
                             size="small"
                             fullWidth
                         />
-                        {serviceOwner !== activeUserId && (
+                        {!accountHolder.state && (
                             <CustomButton
                                 onClick={onContactRequest}
                                 text={
-                                    contactStatus.inContact
-                                        ? contactStatus.connected
-                                        : contactStatus.inContactRequest
-                                        ? contactStatus.sent
+                                    contactStatus.status
+                                        ? contactStatus.status
                                         : contactStatus.default
                                 }
                                 variant="contained"
                                 size="small"
                                 fullWidth
-                                disabled={
-                                    contactStatus.inContact ||
-                                    contactStatus.inContactRequest
-                                        ? true
-                                        : false
-                                }
+                                disabled={contactStatus.status ? true : false}
                             />
                         )}
                     </Stack>

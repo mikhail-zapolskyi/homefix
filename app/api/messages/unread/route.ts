@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try {
         const currentUser = await getCurrentUser();
-        let total_unread_messages: number | null = 0;
 
         if (!currentUser) {
             return NextResponse.json(
@@ -15,21 +14,7 @@ export async function GET() {
             );
         }
 
-        if (currentUser.type === "PRO") {
-            const serviceProfile = await prisma?.serviceProfile.findFirst({
-                where: {
-                    userId: currentUser.id,
-                },
-            });
-
-            total_unread_messages = await getUnreadMessages({
-                serviceProfileId: serviceProfile?.id,
-            });
-        } else {
-            total_unread_messages = await getUnreadMessages({
-                userId: currentUser.id,
-            });
-        }
+        const total_unread_messages = await getUnreadMessages(currentUser.id);
 
         return NextResponse.json({ total_unread_messages });
     } catch (error) {

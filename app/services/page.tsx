@@ -19,18 +19,15 @@ const ViewServices = () => {
         fetcher,
         {}
     );
-
     if (error) {
         throw new Error(error.message);
     }
 
-    const handleContactRequest = async (serviceProfileId: string) => {
-        const data = { serviceProfileId };
+    const handleContactRequest = async (userId: string) => {
+        const data = { userId };
 
         if (!data) {
-            toast.error(
-                "Something went wrong. Service Profile Id or User Id missing"
-            );
+            toast.error("Something went wrong. User Id missing");
         }
 
         try {
@@ -57,13 +54,13 @@ const ViewServices = () => {
                 <Grid item xs={12} key={serviceProfile.id} sx={{ py: "-4rem" }}>
                     <SearchedProfileCard
                         data={serviceProfile}
-                        serviceOwner={serviceProfile.userId}
-                        activeUserId={session?.user.id}
+                        currentUser={session?.user.id}
+                        serviceProfileUser={serviceProfile.userId}
                         onView={() =>
                             router.push(`/services/${serviceProfile.id}`)
                         }
                         onContactRequest={() =>
-                            handleContactRequest(serviceProfile.id)
+                            handleContactRequest(serviceProfile.userId)
                         }
                     />
                 </Grid>

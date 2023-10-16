@@ -1,3 +1,4 @@
+"use client";
 import React, { ChangeEvent, useRef } from "react";
 import { CustomButton } from "@/components";
 import { styled } from "@mui/material/styles";

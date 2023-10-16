@@ -1,3 +1,4 @@
+"use client";
 import {
     Box,
     FormControl,
@@ -6,7 +7,6 @@ import {
     Select,
     SelectChangeEvent,
     SelectProps,
-
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React from "react";

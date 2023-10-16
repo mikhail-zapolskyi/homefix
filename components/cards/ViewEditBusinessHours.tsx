@@ -1,3 +1,4 @@
+"use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomDashboardCard from "./CustomDashboardCard";
 import {
@@ -9,7 +10,7 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles"
+import { styled } from "@mui/material/styles";
 import CustomButton from "../button/CustomButton";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";

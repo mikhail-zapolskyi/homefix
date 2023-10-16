@@ -5,8 +5,7 @@ import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
+
 import { signIn, signOut, useSession } from "next-auth/react";
 import { CustomButton, SlideMenu } from "@/components";
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
@@ -23,6 +22,8 @@ import Typography from "@mui/material/Typography";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
+// ICONS
+import { LogOut, LayoutDashboard, Settings } from "lucide-react";
 
 const PrimaryAppBar = () => {
     const { data: session, status } = useSession();
@@ -83,7 +84,7 @@ const PrimaryAppBar = () => {
                 }}
             >
                 <ListItemIcon>
-                    <DashboardIcon />
+                    <LayoutDashboard />
                 </ListItemIcon>
                 Dashboard
             </MenuItem>
@@ -95,7 +96,7 @@ const PrimaryAppBar = () => {
                 }}
             >
                 <ListItemIcon>
-                    <Settings fontSize="small" />
+                    <Settings />
                 </ListItemIcon>
                 Settings
             </MenuItem>
@@ -106,7 +107,7 @@ const PrimaryAppBar = () => {
                 }}
             >
                 <ListItemIcon>
-                    <Logout fontSize="small" />
+                    <LogOut />
                 </ListItemIcon>
                 Logout
             </MenuItem>

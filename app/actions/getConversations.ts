@@ -1,39 +1,23 @@
 import prisma from "@/prisma/client";
 
-const getConversations = async (query: Record<string, any>) => {
+const getConversations = async (currentUserId: string) => {
     try {
         const conversations = await prisma.conversation.findMany({
             orderBy: {
                 lastMessageAt: "desc",
             },
-            where: query,
+            where: {
+                userId: {
+                    has: currentUserId,
+                },
+            },
             include: {
                 user: {
-                    select: {
-                        name: true,
-                        image: true,
+                    where: {
+                        id: { not: currentUserId },
                     },
-                },
-                service: {
-                    select: {
-                        name: true,
-                        image: true,
-                    },
-                },
-                messages: {
                     include: {
-                        service: {
-                            select: {
-                                name: true,
-                                image: true,
-                            },
-                        },
-                        user: {
-                            select: {
-                                name: true,
-                                image: true,
-                            },
-                        },
+                        serviceProfile: true,
                     },
                 },
             },

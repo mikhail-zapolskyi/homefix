@@ -6,7 +6,6 @@ import { styled } from "@mui/material/styles";
 interface Props {
     children: ReactNode;
     fullLength?: boolean;
-    textarea: ReactNode;
 }
 
 const StyledDiv = styled("div")(({ theme }) => ({
@@ -31,11 +30,10 @@ const StyledList = styled(Stack)(({ theme }) => ({
     },
 }));
 
-const MessageList: FC<Props> = ({ children, textarea }) => {
+const MessageList: FC<Props> = ({ children }) => {
     return (
         <StyledDiv>
             <StyledList spacing={1}>{children}</StyledList>
-            {textarea}
         </StyledDiv>
     );
 };
