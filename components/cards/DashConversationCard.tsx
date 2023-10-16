@@ -1,6 +1,12 @@
 import { ConversationContactsType } from "@/app/types";
 import { useConversations } from "@/hooks";
-import { Avatar, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import {
+    Avatar,
+    Badge,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+} from "@mui/material";
 import React, { FC } from "react";
 
 type Props = ConversationContactsType & {
@@ -22,9 +28,19 @@ const DashConversationCard: FC<Props> = ({
                 cursor: "pointer",
                 borderRight:
                     activeConversationId === converasation.id ? 4 : "none",
-                borderColor: "success.main",
+                borderColor: "info.main",
+                padding: 0,
             }}
             onClick={onClick}
+            secondaryAction={
+                <Badge
+                    color="success"
+                    anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                    badgeContent=""
+                    overlap="circular"
+                    variant="dot"
+                />
+            }
         >
             <ListItemAvatar>
                 <Avatar alt="avatar" src={converasation.userImage} />
