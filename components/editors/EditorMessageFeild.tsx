@@ -10,6 +10,7 @@ import { Divider } from "@mui/material";
 import Placeholder from "@tiptap/extension-placeholder";
 
 interface Props {
+    conversationId?: string;
     content?: string;
     onChange: (content: string) => void;
     onClick: () => void;
@@ -52,6 +53,7 @@ const StyledButtonContainer = styled("span")(({}) => ({
 }));
 
 const EditorMessageFeild: React.FC<Props> = ({
+    conversationId,
     content,
     onChange,
     onClick,
@@ -110,6 +112,7 @@ const EditorMessageFeild: React.FC<Props> = ({
                 <CustomButton
                     endIcon={<SendHorizontal size={16} />}
                     text="Send"
+                    disabled={conversationId ? false : true}
                     onClick={() => {
                         onClick();
                         onClear();

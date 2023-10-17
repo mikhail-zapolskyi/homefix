@@ -22,16 +22,15 @@ const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const page = () => {
     const { data, error } = useSWR("/api/conversations", fetcher, {
-        refreshInterval: 1000,
+        revalidateOnFocus: true,
     });
     const [messages, setMessages] = useState<FullMessageType[]>([]);
     const [converasation, setConversation] = useState<
         ConversationContactsType[]
     >([]);
-    const [activeConversationId, setActiveConversationId] =
-        useState<string>("");
+    const [conversationId, setConversationId] = useState<string>("");
 
-    const [message, setMessage] = useState<string>("");
+    const [content, setContent] = useState<string>("");
 
     if (error) {
         toast.error(error.message);
@@ -47,19 +46,25 @@ const page = () => {
         try {
             const response = await axios.get(`/api/messages/${conversationId}`);
 
-            setActiveConversationId(conversationId);
-            setMessages(response.data);
+            if (response.status === 200) {
+                setConversationId(conversationId);
+                setMessages(response.data);
+            }
         } catch (error: any) {
             toast.error(error.response.data.error);
         }
     };
 
     const hadnleDeleteMessage = async (messageId: string) => {
+        // Need to create endpoint
         try {
             const response = await axios.delete(
                 `/api/messages/delete/${messageId}`
             );
-
+            if (response.status === 200) {
+                setConversationId(conversationId);
+                setMessages(response.data);
+            }
             setMessages(response.data);
         } catch (error: any) {
             toast.error(error.response.data.error);
@@ -67,12 +72,22 @@ const page = () => {
     };
 
     const handleMessageContent = (content: string) => {
-        setMessage(content);
+        setContent(content);
     };
 
-    const handleSendMessage = () => {
-        console.log(message);
-        setMessage("");
+    const handleSendMessage = async () => {
+        try {
+            const response = await axios.post(`/api/messages`, {
+                content,
+                conversationId,
+            });
+
+            if (response.status === 200) {
+                setContent("");
+            }
+        } catch (error: any) {
+            toast.error(error.response.data.error);
+        }
     };
 
     const renderEmptyListItem = (
@@ -87,7 +102,7 @@ const page = () => {
                 ? converasation.map((obj: ConversationContactsType) => (
                       <DashConversationCard
                           key={obj.id}
-                          activeConversationId={activeConversationId}
+                          activeConversationId={conversationId}
                           onClick={() => handleGetMessages(obj.id)}
                           {...obj}
                       />
@@ -114,7 +129,8 @@ const page = () => {
                 }}
             >
                 <EditorMessageFeild
-                    content={message}
+                    conversationId={conversationId}
+                    content={content}
                     onChange={handleMessageContent}
                     onClick={handleSendMessage}
                 />
