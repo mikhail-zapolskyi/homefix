@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { to_base_sixty_four, upload_image } from "@/utils";
+import { to_base_sixty_four, upload_image } from "@/lib";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
 import getCurrentUser from "@/app/actions/getCurrentUser";
