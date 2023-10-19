@@ -15,36 +15,36 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
     }
     return (
         <Card
-            onClick={() => handleOnClick(data.id)}
+            // onClick={() => handleOnClick(data.id)}
             sx={{ cursor: 'pointer'}}
-            elevation={4}
         >
             <CardHeader
                 sx={{display: {xs: 'none', md: 'flex'}}}
+                
+                title={data.businessName}
+                titleTypographyProps={{variant: 'body1'}}
+                
+                subheader={data.date}
+                subheaderTypographyProps={{variant: 'body2'}}
+
                 avatar={
                     <Avatar 
                         sx={{mx: '1rem'}}
                     />
                 }
-                subheaderTypographyProps={{variant: 'body2'}}
-                titleTypographyProps={{variant: 'body1'}}
-                title={data.businessName}
-                subheader={data.date}
-                action={
-                    <IconButton>
-                        <FaLongArrowAltRight />
-                    </IconButton>
-                }
+
+
             />
-            <CardMedia>
+            <CardMedia sx={{
+                maxHeight: '20rem',
+                borderRadius: "0.8rem",
+            }}>
                 <Avatar
-                    src={data.image}
+                    // src={data.image}
                     alt={data.businessName}
                     sx={{
                         width: '100%',
                         height: 'auto',
-                        maxHeight: '30rem',
-                        borderRadius: "0.8rem",
                     }}
                     variant="square"
                 />
