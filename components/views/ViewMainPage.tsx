@@ -70,7 +70,7 @@ export const ViewMainPage = () => {
                 <Image src={heroImage.src} alt="hero-image" />
                 <ProductHeroMainCard />
             </PageContainer>
-            <Stack sx={{ width: { md: "70%" }, py: { xs: "2rem" }, mx: "auto", justifyContent: 'center' }}>
+            <Stack sx={{ width: { md: "70%" }, py: { xs: "2rem" }, mx: "auto", justifyContent: 'center', p: '1rem' }}>
                 <SectionWithTitle title="Recent Posts">
                     <CustomCarousel>
                         {content.map((obj) => (
