@@ -1,3 +1,4 @@
+"use client";
 import { styled } from "@mui/material/styles";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";

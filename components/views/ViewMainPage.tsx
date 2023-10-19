@@ -1,24 +1,11 @@
+"use client";
 import { styled } from "@mui/material/styles";
 import React from "react";
-import { ProductHeroMainCard, SectionWithTitle, CustomCarousel, CarouselPostItem } from "@/components";
+import { ProductHeroMainCard, SectionWithTitle, CustomCarousel, CarouselPostItem, PageContainer } from "@/components";
 import heroImage from "@/assets/hero.webp";
 import { Stack, Typography, Box } from "@mui/material";
 
-const HeroContainer = styled("div")(({ theme }) => ({
-    position: "relative",
-    display: "flex",
-    width: "100vw",
-    maxWidth: "100%",
-    alignItems: "center",
-    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
-    "@media (min-width:0px)": {
-        "@media (orientation: landscape)": { height: "calc(100vh - 48px)" },
-    },
-    "@media (min-width:600px)": { height: "calc(100vh - 64px)" },
-    maxHeight: "100%",
-}));
-
-const Image = styled("img")(({ theme }) => ({
+const Image = styled("img")(({}) => ({
     width: "100%",
     height: "100%",
     objectFit: "cover",
@@ -62,15 +49,27 @@ const content = [
         businessName: `Dishwasher Reviverz`,
         date: `MM/DD/YY`,
     },
+    {
+        id: '7',
+        image: "https://i2.wp.com/www.geeksaresexy.net/wp-content/uploads/2020/04/movie1.jpg?resize=600,892&ssl=1",
+        businessName: `Dishwasher Reviverz`,
+        date: `MM/DD/YY`,
+    },
+    {
+        id: '8',
+        image: "https://i2.wp.com/www.geeksaresexy.net/wp-content/uploads/2020/04/movie1.jpg?resize=600,892&ssl=1",
+        businessName: `Dishwasher Reviverz`,
+        date: `MM/DD/YY`,
+    },
 ];
 
 export const ViewMainPage = () => {
     return (
         <>
-            <HeroContainer>
+            <PageContainer>
                 <Image src={heroImage.src} alt="hero-image" />
                 <ProductHeroMainCard />
-            </HeroContainer>
+            </PageContainer>
             <Stack sx={{ width: { md: "70%" }, py: { xs: "2rem" }, mx: "auto", justifyContent: 'center' }}>
                 <SectionWithTitle title="Recent Posts">
                     <CustomCarousel>
@@ -79,14 +78,6 @@ export const ViewMainPage = () => {
                         ))}
                     </CustomCarousel>
                 </SectionWithTitle>
-                <Box sx={{width: '20rem'}}>
-                    <CustomCarousel>
-                            {content.map((obj) => (
-                                <CarouselPostItem data={obj} key={obj.id}/>
-                            ))}
-                    </CustomCarousel>
-                </Box>
-
             </Stack>
         </>
     );

@@ -137,7 +137,6 @@ export const authOptions: NextAuthOptions = {
             return redirectUrl;
         },
     },
-    secret: process.env.PROVIDER_SECRET,
     session: {
         strategy: "jwt",
     },

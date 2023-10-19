@@ -2,13 +2,12 @@
 import React, { ReactNode } from "react";
 import Card from "@mui/material/Card";
 
-interface CustomDashboardCardProps {
+interface Props {
     children: ReactNode;
+    onClick?: () => void;
 }
 
-const CustomDashboardCard: React.FC<CustomDashboardCardProps> = ({
-    children,
-}) => {
+const CustomDashboardCard: React.FC<Props> = ({ children, onClick }) => {
     return (
         <Card
             sx={{
@@ -19,6 +18,7 @@ const CustomDashboardCard: React.FC<CustomDashboardCardProps> = ({
                 position: "relative",
             }}
             elevation={4}
+            onClick={onClick}
         >
             {children}
         </Card>

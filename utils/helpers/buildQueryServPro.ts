@@ -44,11 +44,13 @@ const buildQueryServPro = (searchParams: URLSearchParams) => {
                 select: {
                     name: true,
                     image: true,
-                },
-            },
-            customers: {
-                select: {
-                    userId: true,
+                    contact: {
+                        include: {
+                            contactRequest: {
+                                select: { id: true, request_status: true },
+                            },
+                        },
+                    },
                 },
             },
         },

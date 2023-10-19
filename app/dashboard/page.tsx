@@ -17,8 +17,8 @@ const Page = () => {
     if (session?.user.type === "USER" && status === "authenticated")
         url = "/api/users/single";
 
-    const { data, error, isLoading } = useSWR(url, fetcher, {
-        refreshInterval: 1000,
+    const { data, error, isLoading, mutate } = useSWR(url, fetcher, {
+        revalidateOnFocus: true,
     });
 
     if (error) {

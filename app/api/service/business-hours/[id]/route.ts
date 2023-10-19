@@ -13,6 +13,7 @@ export async function DELETE(
     }
 ) {
     const { id } = params;
+
     const currentUser = await getCurrentUser();
 
     if (!currentUser || currentUser.type !== "PRO") {
@@ -40,14 +41,15 @@ export async function DELETE(
     }
 
     try {
-        const businessHours = await prisma.day.delete({
+        await prisma.day.delete({
             where: {
                 id,
             },
         });
 
-        return NextResponse.json(businessHours, { status: 200 });
+        return new Response(null, { status: 204 });
     } catch (error: any) {
+        console.log(error);
         return errorHandler(error);
     }
 }

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
     Grid,
@@ -13,24 +14,31 @@ import { useMediaQuery } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
 import EditorView from "../editors/EditorView";
 import StarIcon from "@mui/icons-material/Star";
+import useContactStatus from "@/hooks/useContactStatus";
+import { useAccountHolder } from "@/hooks";
 
-interface ViewSearchServProProps {
+interface Props {
     data?: Record<string, any>;
-    activeUserId?: string | false | null | undefined;
+    currentUser?: string | false | null | undefined;
+    serviceProfileUser?: string | false | null | undefined;
     onView?: () => void;
-    onFollow?: () => void;
-    onUnfollow?: () => void;
+    onContactRequest?: () => void;
 }
 
-const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
+const SearchedProfileCard: React.FC<Props> = ({
     data,
-    activeUserId,
+    currentUser,
+    serviceProfileUser,
     onView,
-    onFollow,
-    onUnfollow,
+    onContactRequest,
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
+    const contactStatus = useContactStatus({
+        currentUser,
+        serviceProfileUser: data?.user,
+    });
+    const accountHolder = useAccountHolder({ currentUser, serviceProfileUser });
 
     const renderArrayValues = (
         <Stack direction="row" flexWrap="wrap">
@@ -54,13 +62,6 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                 ))}
         </Stack>
     );
-
-    const isFollowed = () => {
-        const result = data?.customers.some(
-            (customer: Record<string, any>) => customer.userId === activeUserId
-        );
-        return result;
-    };
 
     const renderDataMobile = data && (
         <Stack
@@ -107,7 +108,10 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                 divider={<Divider orientation="horizontal" flexItem />}
             >
                 <EditorView content={data.introduction.slice(0, 100)} />
-                <Stack spacing={1} direction="row">
+                <Stack
+                    spacing={1}
+                    direction={{ xs: "column", sm: "row", lg: "column" }}
+                >
                     <CustomButton
                         onClick={onView}
                         text="Profile"
@@ -115,14 +119,20 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                         size="small"
                         fullWidth
                     />
-                    <CustomButton
-                        onClick={onFollow}
-                        text={isFollowed() ? "Following" : "Follow"}
-                        variant="contained"
-                        size="small"
-                        fullWidth
-                        disabled={isFollowed() ? true : false}
-                    />
+                    {!accountHolder.state && (
+                        <CustomButton
+                            onClick={onContactRequest}
+                            text={
+                                contactStatus.status
+                                    ? contactStatus.status
+                                    : contactStatus.default
+                            }
+                            variant="contained"
+                            size="small"
+                            fullWidth
+                            disabled={contactStatus.status ? true : false}
+                        />
+                    )}
                 </Stack>
             </Stack>
         </Stack>
@@ -208,7 +218,7 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                             {data.user.name}
                         </Typography>
                     </Stack>
-                    <Stack spacing={1} direction="row">
+                    <Stack spacing={1}>
                         <CustomButton
                             onClick={onView}
                             text="Profile"
@@ -216,14 +226,20 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
                             size="small"
                             fullWidth
                         />
-                        <CustomButton
-                            onClick={onFollow}
-                            text={isFollowed() ? "Following" : "Follow"}
-                            variant="contained"
-                            size="small"
-                            fullWidth
-                            disabled={isFollowed() ? true : false}
-                        />
+                        {!accountHolder.state && (
+                            <CustomButton
+                                onClick={onContactRequest}
+                                text={
+                                    contactStatus.status
+                                        ? contactStatus.status
+                                        : contactStatus.default
+                                }
+                                variant="contained"
+                                size="small"
+                                fullWidth
+                                disabled={contactStatus.status ? true : false}
+                            />
+                        )}
                     </Stack>
                 </Stack>
             </Grid>
@@ -256,4 +272,4 @@ const ViewSearchServPro: React.FC<ViewSearchServProProps> = ({
     );
 };
 
-export default ViewSearchServPro;
+export default SearchedProfileCard;

@@ -1,3 +1,4 @@
+"use client";
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import CustomDashboardCard from "../cards/CustomDashboardCard";
@@ -6,9 +7,6 @@ import {
     RadarChart,
     PolarGrid,
     PolarAngleAxis,
-    PolarRadiusAxis,
-    ResponsiveContainer,
-    Legend,
     AreaChart,
     XAxis,
     YAxis,
@@ -22,15 +20,6 @@ interface Props {
 }
 
 const ViewProUserDashboard: React.FC<Props> = ({ data }) => {
-    const d = {
-        customers_stats: [
-            { year: 2020, value: 2 },
-            { year: 2021, value: 5 },
-            { year: 2022, value: 10 },
-            { year: 2023, value: 5 },
-        ],
-    };
-    console.log(data);
     return (
         data && (
             <Stack

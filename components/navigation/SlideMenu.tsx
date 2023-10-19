@@ -1,32 +1,34 @@
 "use client";
 
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import BusinessIcon from "@mui/icons-material/Business";
-import ReviewsIcon from "@mui/icons-material/Reviews";
-import GroupIcon from "@mui/icons-material/Group";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import { MenuOption } from "@/components";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Drawer, List, IconButton } from "@mui/material";
+import { Loader, MenuOption } from "@/components";
+import { styled } from "@mui/material/styles";
+import {
+    Mails,
+    User2,
+    LayoutDashboard,
+    Building2,
+    Users,
+    MessagesSquare,
+    DoorOpen,
+    ChevronLeft,
+} from "lucide-react";
+import useSWR from "swr";
+import { toast } from "react-toastify";
+
+const fetcher = (url: URL) => fetch(url).then((r) => r.json());
+const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
 }));
-
-const drawerWidth = 240;
 
 interface SlideMenuProps {
     slideMenuState: boolean;
@@ -37,9 +39,21 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
     slideMenuState,
     handleslideMenuClose,
 }) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const { push } = useRouter();
-    return (
+
+    let url: string = "/api/messages/unread";
+
+    const { data, error, isLoading } = useSWR(url, fetcher, {
+        revalidateOnFocus: true,
+    });
+    if (error) {
+        toast.error(error.message);
+    }
+
+    return isLoading ? (
+        <Loader />
+    ) : (
         <Drawer
             variant="persistent"
             anchor="left"
@@ -60,61 +74,58 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
         >
             <DrawerHeader>
                 <IconButton onClick={handleslideMenuClose}>
-                    <ChevronLeftIcon />
+                    <ChevronLeft />
                 </IconButton>
             </DrawerHeader>
             <List onClick={handleslideMenuClose}>
                 <MenuOption
                     text="Dashboard"
-                    icon={<DashboardIcon />}
+                    icon={<LayoutDashboard />}
                     onClick={() => {
                         push("/dashboard");
                     }}
                 />
                 <MenuOption
                     text="Profile"
-                    icon={<ManageAccountsIcon />}
+                    icon={<User2 />}
                     onClick={() => {
                         push("/dashboard/user-profile");
                     }}
                 />
-                {session?.user.type === "USER" && (
+                {session?.user.type === "PRO" && (
                     <MenuOption
-                        text="Businesses"
-                        icon={<BusinessIcon />}
+                        text="Service Profile"
+                        icon={<Building2 />}
                         onClick={() => {
-                            push("/dashboard/businesses");
+                            push("/dashboard/service-profile");
                         }}
                     />
                 )}
-                {session?.user.type === "PRO" && (
-                    <>
-                        <MenuOption
-                            text="Service Profile"
-                            icon={<BusinessCenterIcon />}
-                            onClick={() => {
-                                push("/dashboard/service-profile");
-                            }}
-                        />
-                        <MenuOption
-                            text="Customers"
-                            icon={<GroupIcon />}
-                            onClick={() => {
-                                push("/dashboard/customers");
-                            }}
-                        />
-                    </>
-                )}
+                <MenuOption
+                    text="Contacts"
+                    icon={<Users />}
+                    onClick={() => {
+                        push("/dashboard/contacts");
+                    }}
+                />
+                <MenuOption
+                    text="Messages"
+                    icon={<Mails />}
+                    totalMessages={data.total_unread_messages}
+                    onClick={() => {
+                        push("/dashboard/messages");
+                    }}
+                />
                 <MenuOption
                     text="Reviews"
-                    icon={<ReviewsIcon />}
+                    icon={<MessagesSquare />}
                     onClick={() => {
                         push("/dashboard/reviews");
                     }}
                 />
                 <MenuOption
-                    text="Go Main Page"
-                    icon={<ExitToAppIcon />}
+                    text="Main Page"
+                    icon={<DoorOpen />}
                     onClick={() => {
                         push("/");
                     }}

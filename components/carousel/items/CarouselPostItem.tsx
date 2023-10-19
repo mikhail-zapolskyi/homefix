@@ -18,9 +18,9 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
             // onClick={() => handleOnClick(data.id)}
             sx={{ cursor: 'pointer'}}
         >
+            {/* CardHeader for desktop/tablet view */}
             <CardHeader
                 sx={{display: {xs: 'none', md: 'flex'}}}
-                
                 title={data.businessName}
                 titleTypographyProps={{variant: 'body1'}}
                 
@@ -33,10 +33,9 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
                     />
                 }
 
-
             />
             <CardMedia sx={{
-                maxHeight: '20rem',
+                width: 'fill',
                 borderRadius: "0.8rem",
             }}>
                 <Avatar
@@ -50,13 +49,26 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
                 />
             </CardMedia>
             <CardContent>
+                <Typography variant="h6">Blog Post Title</Typography>
                 <Typography variant="body1">
                     {
                         "Small snippet of post should be shown here"
                     }
                 </Typography>
             </CardContent>
+            <CardHeader
+                sx={{display: {xs: 'flex', md: 'none'}}}
+                title={data.businessName}
+                titleTypographyProps={{variant: 'body1'}}
+                
+                subheader={data.date}
+                subheaderTypographyProps={{variant: 'body2'}}
+                avatar={
+                    <Avatar 
+                    />
+                }
 
+            />
 
         </Card>
 

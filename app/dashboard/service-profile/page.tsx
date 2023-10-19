@@ -8,9 +8,13 @@ import useSWR from "swr";
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const Page = () => {
-    const { data, error, isLoading } = useSWR("/api/service/single", fetcher, {
-        refreshInterval: 1000,
-    });
+    const { data, error, isLoading, mutate } = useSWR(
+        "/api/service/single",
+        fetcher,
+        {
+            revalidateOnFocus: true,
+        }
+    );
 
     if (error) {
         toast.error(error.message);
@@ -24,6 +28,7 @@ const Page = () => {
             location={data.location[0]}
             businessHours={data.businessHours}
             categories={data.categories}
+            mutate={() => mutate()}
         />
     );
 };

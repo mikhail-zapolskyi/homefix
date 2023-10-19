@@ -1,3 +1,4 @@
+"use client";
 import React, {
     ChangeEvent,
     DragEvent,
@@ -6,7 +7,7 @@ import React, {
     useState,
 } from "react";
 import { CustomButton, CustomDashboardCard } from "@/components";
-import { Avatar, Grid, Typography,  } from "@mui/material";
+import { Avatar, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { toast } from "react-toastify";

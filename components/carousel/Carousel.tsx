@@ -78,7 +78,6 @@ const CustomCarousel: React.FC<Props> = ({ children }) => {
             responsive={responsive}
             rewind={false}
             rewindWithAnimation={false}
-            rtl
             shouldResetAutoplay
             sliderClass=""
             slidesToSlide={1}
