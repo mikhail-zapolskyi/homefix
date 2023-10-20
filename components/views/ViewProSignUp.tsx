@@ -1,7 +1,16 @@
 "use client";
 
-import { Grid, Link, Typography, Box, SelectChangeEvent } from "@mui/material";
-import { CustomButton, CustomTextField, PageContainer } from "@/components";
+import {
+    Grid,
+    Link,
+    Typography,
+    Box,
+    SelectChangeEvent,
+    Divider,
+    Stack,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { AuthContainer, CustomButton, CustomTextField } from "@/components";
 import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -35,6 +44,7 @@ interface Form {
 
 const ViewProSignUp = () => {
     const router = useRouter();
+    const theme = useTheme();
     const [formData, setFormData] = useState<Form>({ type: "PRO" });
     const [locationParams, setLocationParams] = useState("");
     const {
@@ -169,130 +179,122 @@ const ViewProSignUp = () => {
     };
 
     return (
-        <PageContainer maxWidth={"md"}>
+        <AuthContainer>
+            <Typography component="h1" variant="h5" sx={{ padding: "1rem" }}>
+                Sign in as Pro
+            </Typography>
             {formData && !isLoading && (
                 <Box
-                    sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
+                    component="form"
+                    noValidate
+                    onSubmit={handleSubmit}
+                    sx={{ padding: "1rem" }}
                 >
-                    <Typography component="h1" variant="h5">
-                        Sign up / Create Your Account
-                    </Typography>
-                    <Box
-                        component="form"
-                        noValidate
-                        onSubmit={handleSubmit}
-                        sx={{ mt: 3 }}
-                    >
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <CustomTextField
-                                    name="email"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={handleFormData}
-                                    error={emailError !== null}
-                                    errorText={emailError}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <CustomTextField
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleFormData}
-                                    error={nameError !== null}
-                                    errorText={nameError}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <CustomTextField
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleFormData}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <SelectField
-                                    id="country"
-                                    name="country"
-                                    value={formData.country}
-                                    array={location.countries}
-                                    onChange={handleSelectOnChange}
-                                    border={true}
-                                    label={true}
-                                    fieldState={false}
-                                    padSize="default"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <SelectField
-                                    id="state"
-                                    name="state"
-                                    value={formData.state}
-                                    array={location.states}
-                                    onChange={handleSelectOnChange}
-                                    border={true}
-                                    label={true}
-                                    fieldState={formData.country ? false : true}
-                                    padSize="default"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <SelectField
-                                    id="city"
-                                    name="city"
-                                    value={formData.city}
-                                    array={location.cities}
-                                    onChange={handleSelectOnChange}
-                                    border={true}
-                                    label={true}
-                                    fieldState={formData.state ? false : true}
-                                    padSize="default"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <CustomTextField
-                                    name="postalCode"
-                                    value={formData.postalCode}
-                                    onChange={handleFormData}
-                                    error={postalCodeError !== null}
-                                    errorText={postalCodeError}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <CustomTextField
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleFormData}
-                                    error={phoneError !== null}
-                                    errorText={phoneError}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <CustomTextField
-                                    name="password"
-                                    type="password"
-                                    value={formData.password}
-                                    onChange={handleFormData}
-                                    error={passwordError !== null}
-                                    errorText={passwordError}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <CustomTextField
-                                    name="confirmPassword"
-                                    type="password"
-                                    value={formData.confirmPassword}
-                                    onChange={handleFormData}
-                                    error={confirmPasswordError !== null}
-                                    errorText={confirmPasswordError}
-                                />
-                            </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleFormData}
+                                error={emailError !== null}
+                                errorText={emailError}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="name"
+                                value={formData.name}
+                                onChange={handleFormData}
+                                error={nameError !== null}
+                                errorText={nameError}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="address"
+                                value={formData.address}
+                                onChange={handleFormData}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <SelectField
+                                id="country"
+                                name="country"
+                                value={formData.country}
+                                array={location.countries}
+                                onChange={handleSelectOnChange}
+                                border={true}
+                                label={true}
+                                fieldState={false}
+                                padSize="default"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <SelectField
+                                id="state"
+                                name="state"
+                                value={formData.state}
+                                array={location.states}
+                                onChange={handleSelectOnChange}
+                                border={true}
+                                label={true}
+                                fieldState={formData.country ? false : true}
+                                padSize="default"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <SelectField
+                                id="city"
+                                name="city"
+                                value={formData.city}
+                                array={location.cities}
+                                onChange={handleSelectOnChange}
+                                border={true}
+                                label={true}
+                                fieldState={formData.state ? false : true}
+                                padSize="default"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <CustomTextField
+                                name="postalCode"
+                                value={formData.postalCode}
+                                onChange={handleFormData}
+                                error={postalCodeError !== null}
+                                errorText={postalCodeError}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <CustomTextField
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleFormData}
+                                error={phoneError !== null}
+                                errorText={phoneError}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="password"
+                                type="password"
+                                value={formData.password}
+                                onChange={handleFormData}
+                                error={passwordError !== null}
+                                errorText={passwordError}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomTextField
+                                name="confirmPassword"
+                                type="password"
+                                value={formData.confirmPassword}
+                                onChange={handleFormData}
+                                error={confirmPasswordError !== null}
+                                errorText={confirmPasswordError}
+                            />
+                        </Grid>
+                        {nameError !== null && (
                             <Grid item sm={12}>
                                 <Typography>Your password must:</Typography>
                                 <Typography component={"ul"}>
@@ -313,31 +315,36 @@ const ViewProSignUp = () => {
                                     </Typography>
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                                <CustomButton
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    text="Sign Up"
-                                />
-                            </Grid>
-                            <Grid
-                                container
-                                item
-                                xs={12}
-                                justifyContent="flex-end"
-                            >
-                                <Grid item>
-                                    <Link href="signin" variant="body2">
-                                        Already have an account? Sign in
-                                    </Link>
-                                </Grid>
-                            </Grid>
+                        )}
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                text="Sign Up"
+                            />
                         </Grid>
-                    </Box>
+                    </Grid>
                 </Box>
             )}
-        </PageContainer>
+            <Divider variant="middle" sx={{ width: "100%" }}></Divider>
+            <Stack
+                sx={{
+                    padding: "1rem",
+                    width: "100%",
+                    backgroundColor: `${theme.palette.grey[200]}`,
+                    borderEndStartRadius: ".8rem",
+                    borderEndEndRadius: ".8rem",
+                }}
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={2}
+            >
+                <Link href="signin" variant="body2" color="primary.dark">
+                    Already have an account? Sign in
+                </Link>
+            </Stack>
+        </AuthContainer>
     );
 };
 

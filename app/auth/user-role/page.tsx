@@ -1,6 +1,6 @@
 "use client";
-import { CustomRadioGroup, PageContainer } from "@/components";
-import { Box } from "@mui/material";
+import { AuthContainer, CustomRadioGroup, PageContainer } from "@/components";
+import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -51,25 +51,19 @@ const UserRole = () => {
     };
 
     return (
-        <PageContainer maxWidth="md">
-            <Box
-                sx={{
-                    height: "80%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
+        <AuthContainer>
+            <Typography component="h1" variant="h5" sx={{ padding: "1rem" }}>
+                Please choose the profile you wish to create
+            </Typography>
+            <Box sx={{ padding: "1rem" }}>
                 <CustomRadioGroup
-                    title="Please choose the profile you wish to create"
                     value={value}
                     values={["USER", "PRO"]}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                 />
             </Box>
-        </PageContainer>
+        </AuthContainer>
     );
 };
 

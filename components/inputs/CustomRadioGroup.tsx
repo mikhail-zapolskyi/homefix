@@ -12,7 +12,7 @@ import { ChangeEvent, FormEvent } from "react";
 import CustomButton from "../button/CustomButton";
 
 interface Props {
-    title: string;
+    title?: string;
     values: string[];
     value: string;
     handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -80,7 +80,11 @@ const CustomRadioGroup = ({
                         alignItems: "center",
                     }}
                 >
-                    <CustomButton text="Submit" type="submit" fullWidth />
+                    <CustomButton
+                        text="Submit"
+                        type="submit"
+                        fullWidth={true}
+                    />
                 </Grid>
             </Grid>
         </FormControl>

@@ -76,3 +76,4 @@ export { default as ViewReqPasswordReset } from "./views/ViewReqPasswordReset";
 export { default as ViewResetPassword } from "./views/ViewResetPassword";
 export { default as ViewProUserDashboard } from "./views/ViewProUserDashboard";
 export { default as ViewUserDashboard } from "./views/ViewUserDashboard";
+export { default as ViewSignIn } from "./views/ViewSignIn";

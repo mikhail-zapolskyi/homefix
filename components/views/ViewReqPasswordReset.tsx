@@ -1,15 +1,16 @@
 "use client";
 
-import { CustomButton, CustomTextField, PageContainer } from "@/components";
+import { AuthContainer, CustomButton, CustomTextField } from "@/components";
 import { validateEmail } from "@/utils/regEx/patternValidation";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, Link } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 const ViewReqPasswordReset = () => {
     const router = useRouter();
-
+    const theme = useTheme();
     const [emailError, setEmailError] = useState<string | null>(null);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,48 +54,54 @@ const ViewReqPasswordReset = () => {
     };
 
     return (
-        <PageContainer maxWidth="md">
+        <AuthContainer>
+            <Typography component="h1" variant="h5" sx={{ padding: "1rem" }}>
+                Forgot Password
+            </Typography>
             <Box
-                sx={{
-                    height: "80%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ padding: "1rem" }}
             >
-                <Typography component="h1" variant="h5">
-                    Forgot your password?
-                </Typography>
-                <Box
-                    component="form"
-                    noValidate
-                    onSubmit={handleSubmit}
-                    sx={{ mt: 3 }}
-                >
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <CustomTextField
-                                name="email"
-                                type="email"
-                                placeholder="Email"
-                                error={emailError !== null}
-                                errorText={emailError}
-                                onChange={handleInputChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <CustomButton
-                                type="submit"
-                                fullWidth={true}
-                                variant="contained"
-                                text="Request Password Reset"
-                            />
-                        </Grid>
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12}>
+                        <CustomTextField
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            error={emailError !== null}
+                            errorText={emailError}
+                            onChange={handleInputChange}
+                        />
                     </Grid>
-                </Box>
+                    <Grid item xs={12}>
+                        <CustomButton
+                            type="submit"
+                            fullWidth={true}
+                            variant="contained"
+                            text="Request Password Reset"
+                        />
+                    </Grid>
+                </Grid>
             </Box>
-        </PageContainer>
+            <Stack
+                sx={{
+                    padding: "1rem",
+                    width: "100%",
+                    backgroundColor: `${theme.palette.grey[200]}`,
+                    borderEndStartRadius: ".8rem",
+                    borderEndEndRadius: ".8rem",
+                }}
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={2}
+            >
+                <Link href="signin" variant="body2" color="primary.dark">
+                    Back to Sign In
+                </Link>
+            </Stack>
+        </AuthContainer>
     );
 };
 
