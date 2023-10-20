@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, FC } from "react";
+import { ReactNode, FC, RefObject, useRef, useEffect } from "react";
 import { Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -31,9 +31,25 @@ const StyledList = styled(Stack)(({ theme }) => ({
 }));
 
 const MessageList: FC<Props> = ({ children }) => {
+    const bottomRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const scrollToTheBottom = setTimeout(() => {
+            const scrollEl = bottomRef.current;
+            scrollEl?.scroll({
+                top: scrollEl?.scrollHeight,
+                behavior: "smooth",
+            });
+        }, 100);
+
+        return () => clearTimeout(scrollToTheBottom);
+    }, [children, bottomRef]);
+
     return (
         <StyledDiv>
-            <StyledList spacing={1}>{children}</StyledList>
+            <StyledList spacing={1} ref={bottomRef}>
+                {children}
+            </StyledList>
         </StyledDiv>
     );
 };

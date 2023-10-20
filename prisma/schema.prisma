@@ -35,6 +35,15 @@ model Session {
   @@unique([sessionToken])
 }
 
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime @map("expiresAt")
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
 
 model User {
   id                            String      @id @default(auto()) @map("_id") @db.ObjectId
@@ -58,7 +67,6 @@ model User {
   verifyTokenExpiry             DateTime?
   forgotPasswordToken           String?
   forgotPasswordTokenExpiry     DateTime?
-  businesses                    Customer[]
   messages                      Message[]
 
   contactId                     String[]          @db.ObjectId
@@ -73,168 +81,10 @@ model User {
   @@unique([email])
 }
 
-
 enum UserType {
   USER
   PRO
   ADMIN
-}
-
-model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
-  token      String   @unique
-  expires    DateTime @map("expiresAt")
-
-  @@unique([identifier, token])
-  @@map("verification_tokens")
-}
-
-
-model ServiceProfile {
-  id              String     @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?    @default("Service Name")
-  email           String?    @default("service@profile.email")
-  phone           String?    @default("000-000-0000")
-  rating          Float?     @default(0) @db.Double
-  introduction    String?    @default("Write your service introduction")
-  experience      Int?       @default(0)
-  bio             String?    @default("Write your own bio as specialist")
-  image           String?
-  employees       Int?       @default(1)
-  hiredTimes      Int?       @default(0)
-  bgChecked       Boolean    @default(false)
-  published       Boolean    @default(false)
-  specialties_Do  String[]   @default(["Service You can do"])
-  specialties_No  String[]   @default(["Service You can't do"])
-  payment_methods String[]   @default(["Service Payment Methods"])
-  schedule_policy String?    @default("Service Schedule Policy")
-  businessHours   Day[]
-  reviews         Review[]
-  posts           Post[]
-  location        Location[]
-  customers       Customer[]
-  categories      ServiceCategory[]
-
-  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String     @db.ObjectId
-
-  @@unique([userId])
-}
-
-
-model Customer {
-  id               String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId           String          @db.ObjectId
-  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  date             DateTime        @default(now())
-
-  serviceProfileId String          @db.ObjectId
-  service          ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-  
-}
-
-model Day {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  type             DayType        
-  from             String
-  to               String
-  date             DateTime       @default(now())
-
-  serviceProfileId String         @db.ObjectId
-  service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-  @@unique([date])
-}
-
-enum DayType {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
-}
-
-model Category {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-  title            String
-  serviceProfileId ServiceCategory[]
-  
-  @@unique([title])
-}
-
-model ServiceCategory {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-
-  categoryId       String          @db.ObjectId
-  category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  
-  serviceProfileId String          @db.ObjectId
-  service   ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-  
-  @@unique([categoryId, serviceProfileId])
-}
-
-model Review {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  rating           Int?
-  comment          String?
-  createdAt        DateTime?         @default(now())
-  updatedAt        DateTime?         @updatedAt
-
-  serviceProfileId String           @db.ObjectId
-  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-  
-  userId           String           @db.ObjectId
-  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Post {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  title            String?
-  content          String?
-  image            String?
-  date             DateTime?        @default(now())
-  likes            Like[]
-  comments         Comment[]
-
-  serviceProfileId String           @db.ObjectId
-  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-}
-
-model Like {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  userId           String
-
-  postId           String           @db.ObjectId
-  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
-}
-
-model Comment {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  content          String
-
-  postId           String           @db.ObjectId
-  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
-}
-
-model Location {
-  id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  address           String?
-  city              String?
-  state             String?
-  country           String?
-  postalCode        String?
-  postal_code       String?
-  lng               String?
-  lat               String?
-
-  serviceProfileId  String?          @db.ObjectId
-  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-
-  userId            String?          @db.ObjectId
-  user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Contact {
@@ -290,4 +140,137 @@ model Message {
 
   senderId          String?         @db.ObjectId
   sender            User?           @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Location {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  address           String?
+  city              String?
+  state             String?
+  country           String?
+  postalCode        String?
+  postal_code       String?
+  lng               String?
+  lat               String?
+
+  serviceProfileId  String?          @db.ObjectId
+  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+
+  userId            String?          @db.ObjectId
+  user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ServiceProfile {
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  name            String?    @default("Service Name")
+  email           String?    @default("service@profile.email")
+  phone           String?    @default("000-000-0000")
+  rating          Float?     @default(0) @db.Double
+  introduction    String?    @default("Write your service introduction")
+  experience      Int?       @default(0)
+  bio             String?    @default("Write your own bio as specialist")
+  image           String?
+  employees       Int?       @default(1)
+  hiredTimes      Int?       @default(0)
+  bgChecked       Boolean    @default(false)
+  published       Boolean    @default(false)
+  specialties_Do  String[]   @default(["Service You can do"])
+  specialties_No  String[]   @default(["Service You can't do"])
+  payment_methods String[]   @default(["Service Payment Methods"])
+  schedule_policy String?    @default("Service Schedule Policy")
+  businessHours   Day[]
+  reviews         Review[]
+  posts           Post[]
+  location        Location[]
+  categories      ServiceCategory[]
+
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String     @db.ObjectId
+
+  @@unique([userId])
+}
+
+model Category {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  serviceProfileId ServiceCategory[]
+  
+  @@unique([title])
+}
+
+model ServiceCategory {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+
+  categoryId       String          @db.ObjectId
+  category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  serviceProfileId String          @db.ObjectId
+  service   ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  
+  @@unique([categoryId, serviceProfileId])
+}
+
+model Day {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  type             DayType        
+  from             String
+  to               String
+  date             DateTime       @default(now())
+
+  serviceProfileId String         @db.ObjectId
+  service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  @@unique([date])
+}
+
+enum DayType {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model Review {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  rating           Int?
+  comment          String?
+  createdAt        DateTime?         @default(now())
+  updatedAt        DateTime?         @updatedAt
+
+  serviceProfileId String           @db.ObjectId
+  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  
+  userId           String           @db.ObjectId
+  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  title            String?
+  content          String?
+  image            String?
+  date             DateTime?        @default(now())
+  likes            Like[]
+  comments         Comment[]
+
+  serviceProfileId String           @db.ObjectId
+  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String
+
+  postId           String           @db.ObjectId
+  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  content          String
+
+  postId           String           @db.ObjectId
+  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

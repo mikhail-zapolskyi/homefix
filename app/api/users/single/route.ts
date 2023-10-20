@@ -32,7 +32,6 @@ export async function GET() {
                         postalCode: true,
                     },
                 },
-                businesses: true,
             },
         });
         return NextResponse.json(user);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { to_base_sixty_four, upload_image } from "@/lib";
+import { to_base_sixty_four } from "@/lib/cloudinary/to_base_sixty_four";
+import { upload_image } from "@/lib/cloudinary/upload_image";
 import prisma from "@/prisma/client";
 import errorHandler from "@/lib/error/errorHandler";
 import getCurrentUser from "@/app/actions/getCurrentUser";

@@ -45,6 +45,7 @@
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.40.0",
     "cors": "^2.8.5",
+    "encoding": "^0.1.13",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
     "lodash": "^4.17.21",
