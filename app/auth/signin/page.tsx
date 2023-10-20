@@ -135,13 +135,6 @@ const SignIn = () => {
                     >
                         <GoogleSigninButton />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sx={{ display: "flex", justifyContent: "center" }}
-                    >
-                        <FacebookSigninButton />
-                    </Grid>
                 </Box>
             </Box>
         </PageContainer>

@@ -3,7 +3,6 @@ export { default as TextAnimation } from "./animation/TextAnimation";
 
 // Buttons
 export { default as CustomButton } from "./button/CustomButton";
-export { default as FacebookSigninButton } from "./button/FacebookSigninButton";
 export { default as GoogleSigninButton } from "./button/GoogleSigninButton";
 export { default as ImageUploadButton } from "./button/ImageUploadButton";
 
