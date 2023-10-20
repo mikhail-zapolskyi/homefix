@@ -1,14 +1,15 @@
 "use client";
 
-import { Grid, Link, Typography, Box, Divider } from "@mui/material";
+import { Grid, Link, Typography, Box, Divider, Stack } from "@mui/material";
 
 import {
     GoogleSigninButton,
-    FacebookSigninButton,
     CustomTextField,
     CustomButton,
     PageContainer,
+    AuthContainer,
 } from "@/components";
+import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -22,7 +23,7 @@ import {
 
 const ViewSignUp = () => {
     const router = useRouter();
-
+    const theme = useTheme();
     const [nameError, setNameError] = useState<string | null>(null);
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -97,15 +98,7 @@ const ViewSignUp = () => {
 
     return (
         <PageContainer maxWidth={"md"}>
-            <Box
-                sx={{
-                    height: "80%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
+            <AuthContainer>
                 <Typography component="h1" variant="h5">
                     Sign up / Create Your Account
                 </Typography>
@@ -113,7 +106,7 @@ const ViewSignUp = () => {
                     component="form"
                     noValidate
                     onSubmit={handleSubmit}
-                    sx={{ mt: 3 }}
+                    sx={{ padding: "1rem" }}
                 >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -155,26 +148,28 @@ const ViewSignUp = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Typography>Your password must:</Typography>
-                            <Typography component={"ul"}>
-                                <Typography component={"li"}>
-                                    Minimum length of 8 characters
+                        {emailError !== null && (
+                            <Grid item xs={12}>
+                                <Typography>Your password must:</Typography>
+                                <Typography component={"ul"}>
+                                    <Typography component={"li"}>
+                                        Minimum length of 8 characters
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include uppercase letters
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include lowercase letters
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include numbers
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include special characters
+                                    </Typography>
                                 </Typography>
-                                <Typography component={"li"}>
-                                    Must include uppercase letters
-                                </Typography>
-                                <Typography component={"li"}>
-                                    Must include lowercase letters
-                                </Typography>
-                                <Typography component={"li"}>
-                                    Must include numbers
-                                </Typography>
-                                <Typography component={"li"}>
-                                    Must include special characters
-                                </Typography>
-                            </Typography>
-                        </Grid>
+                            </Grid>
+                        )}
                         <Grid item xs={12}>
                             <CustomButton
                                 type="submit"
@@ -183,46 +178,17 @@ const ViewSignUp = () => {
                                 text="Sign Up"
                             />
                         </Grid>
-                        <Grid container item xs={12} spacing={2}>
-                            <Grid
-                                item
-                                xs={12}
-                                sm={6}
-                                container
-                                justifyContent={{
-                                    xs: "center",
-                                    sm: "flex-start",
-                                }}
-                            >
-                                <Link href="pro-signup" variant="body2">
-                                    Pro? click here to sign up
-                                </Link>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                sm={6}
-                                container
-                                justifyContent={{
-                                    xs: "center",
-                                    sm: "flex-end",
-                                }}
-                            >
-                                <Link href="signin" variant="body2">
-                                    Already have an account? Sign in
-                                </Link>
-                            </Grid>
-                        </Grid>
                     </Grid>
-                    <Divider variant="middle" sx={{ width: "100%" }}>
-                        <Typography
-                            variant="body2"
-                            sx={{ color: "text.secondary" }}
-                        >
-                            OR
-                        </Typography>
-                    </Divider>
-
+                    <Grid item xs={12} p={4}>
+                        <Divider sx={{ width: "100%" }}>
+                            <Typography
+                                variant="body2"
+                                sx={{ color: "text.secondary" }}
+                            >
+                                OR
+                            </Typography>
+                        </Divider>
+                    </Grid>
                     <Grid
                         item
                         xs={12}
@@ -231,7 +197,30 @@ const ViewSignUp = () => {
                         <GoogleSigninButton />
                     </Grid>
                 </Box>
-            </Box>
+                <Stack
+                    sx={{
+                        padding: "1rem",
+                        width: "100%",
+                        backgroundColor: `${theme.palette.grey[200]}`,
+                        borderEndStartRadius: ".8rem",
+                        borderEndEndRadius: ".8rem",
+                    }}
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Link
+                        href="pro-signup"
+                        variant="body2"
+                        color="primary.dark"
+                    >
+                        Are you a home Pro? click here to sign up
+                    </Link>
+                    <Link href="signin" variant="body2" color="primary.dark">
+                        Already have an account? Sign in
+                    </Link>
+                </Stack>
+            </AuthContainer>
         </PageContainer>
     );
 };
