@@ -30,6 +30,7 @@ export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
 export { default as DashboardContainer } from "./container/DashboardContainer";
 export { default as PageContainer } from "./container/PageContainer";
 export { default as SectionWithTitle } from "./container/SectionWithTitle";
+export { default as AuthContainer } from "./container/AuthContainer";
 
 // Editor
 export { default as EditorField } from "./editors/EditorField";
