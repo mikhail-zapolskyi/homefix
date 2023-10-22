@@ -1,6 +1,11 @@
 "use client";
 
-import { CustomButton, CustomTextField, PageContainer } from "@/components";
+import {
+    AuthContainer,
+    CustomButton,
+    CustomTextField,
+    PageContainer,
+} from "@/components";
 import {
     validatePassword,
     validateStrongPassword,
@@ -92,7 +97,7 @@ const ViewResetPassword = () => {
         }
     };
     return (
-        <PageContainer maxWidth={"md"}>
+        <AuthContainer>
             <Box
                 sx={{
                     height: "80%",
@@ -103,15 +108,15 @@ const ViewResetPassword = () => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    Reset your password
+                    Reset Password
                 </Typography>
                 <Box
                     component="form"
                     noValidate
                     onSubmit={handleSubmit}
-                    sx={{ mt: 3 }}
+                    sx={{ padding: "1rem" }}
                 >
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} justifyContent="center">
                         <Grid item sm={12}>
                             <CustomTextField
                                 name="password"
@@ -132,36 +137,40 @@ const ViewResetPassword = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item sm={12}>
-                            <Typography>Your password must:</Typography>
-                            <Typography component={"ul"}>
-                                <Typography component={"li"}>
-                                    Minimum length of 8 characters
+                        {passwordError !== null && (
+                            <Grid item sm={12}>
+                                <Typography>Your password must:</Typography>
+                                <Typography component={"ul"}>
+                                    <Typography component={"li"}>
+                                        Minimum length of 8 characters
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include uppercase letters
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include lowercase letters
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include numbers
+                                    </Typography>
+                                    <Typography component={"li"}>
+                                        Must include special characters
+                                    </Typography>
                                 </Typography>
-                                <Typography component={"li"}>
-                                    Must include uppercase letters
-                                </Typography>
-                                <Typography component={"li"}>
-                                    Must include lowercase letters
-                                </Typography>
-                                <Typography component={"li"}>
-                                    Must include numbers
-                                </Typography>
-                                <Typography component={"li"}>
-                                    Must include special characters
-                                </Typography>
-                            </Typography>
+                            </Grid>
+                        )}
+                        <Grid item xs={12}>
+                            <CustomButton
+                                type="submit"
+                                fullWidth={true}
+                                variant="contained"
+                                text="Reset Password"
+                            />
                         </Grid>
                     </Grid>
-                    <CustomButton
-                        type="submit"
-                        fullWidth={true}
-                        variant="contained"
-                        text="Reset password"
-                    />
                 </Box>
             </Box>
-        </PageContainer>
+        </AuthContainer>
     );
 };
 

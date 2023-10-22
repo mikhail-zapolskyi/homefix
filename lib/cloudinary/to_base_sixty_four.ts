@@ -4,7 +4,7 @@
  * @param {FormData} data - The FormData object containing the file to be converted.
  * @returns {Promise<string|null>} - A promise that resolves to a data URI string in the format "data:[MIME_TYPE];base64,[BASE64_DATA]" or null if the file is not found in the FormData.
  */
-const to_base_sixty_four = async (data: FormData) => {
+export const to_base_sixty_four = async (data: FormData) => {
     if (data.has("file")) {
         const file = data.get("file") as Blob;
 
@@ -19,5 +19,3 @@ const to_base_sixty_four = async (data: FormData) => {
         return null;
     }
 };
-
-export default to_base_sixty_four;

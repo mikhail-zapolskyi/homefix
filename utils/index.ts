@@ -6,6 +6,4 @@ export { default as getLocations } from "./helpers/getLocations";
 export { default as determineFixerSkillLevel } from "./helpers/determineFixerSkillLevel";
 export { default as sendEmail } from "./helpers/mailer";
 export { default as joinArrayWithDelimiter } from "./helpers/joinArrayWithDelimiter";
-export { default as upload_image } from "./cloudinary/upload_image";
-export { default as to_base_sixty_four } from "./cloudinary/to_base_sixty_four";
 export { default as buildQueryReviews } from "./helpers/buildQueryReviews";

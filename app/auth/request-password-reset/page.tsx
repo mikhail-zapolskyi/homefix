@@ -2,8 +2,8 @@
 
 import { ViewReqPasswordReset } from "@/components";
 
-const RequestPasswordReset = async () => {
+const Page = async () => {
     return <ViewReqPasswordReset />;
 };
 
-export default RequestPasswordReset;
+export default Page;

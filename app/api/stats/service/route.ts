@@ -26,11 +26,15 @@ export async function GET() {
                         category: true,
                     },
                 },
-                customers: true,
                 reviews: {
                     select: {
                         id: true,
                         rating: true,
+                    },
+                },
+                user: {
+                    include: {
+                        contact: true,
                     },
                 },
             },
@@ -67,8 +71,8 @@ export async function GET() {
             }
         }
 
-        for (const obj of serviceProfile.customers) {
-            const year = obj.date.getFullYear();
+        for (const obj of serviceProfile.user.contact) {
+            const year = obj.createdAt.getFullYear();
 
             const existingYearEntry = stats.customers.find(
                 (obj: Record<string, any>) => obj.year === year

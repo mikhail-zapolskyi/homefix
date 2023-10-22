@@ -6,7 +6,6 @@ import useSWR from "swr";
 import axios from "axios";
 
 import {
-    Loader,
     ContactList,
     MessageList,
     EditorMessageFeild,
@@ -17,6 +16,9 @@ import {
 import { Grid, ListItem, ListItemText, Stack } from "@mui/material";
 
 import { ConversationContactsType, FullMessageType } from "@/app/types";
+import pusherClient from "@/lib/pusher/pusher";
+import _ from "lodash";
+import { Message } from "@prisma/client";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
@@ -29,11 +31,14 @@ const page = () => {
         ConversationContactsType[]
     >([]);
     const [conversationId, setConversationId] = useState<string>("");
-
     const [content, setContent] = useState<string>("");
 
     if (error) {
         toast.error(error.message);
+    }
+
+    if (!pusherClient) {
+        toast.error("Something went wrong");
     }
 
     useEffect(() => {
@@ -41,6 +46,41 @@ const page = () => {
             setConversation(data);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (conversationId) {
+            axios.post(`/api/messages/${conversationId}/seen`);
+        }
+    }, [conversationId]);
+
+    useEffect(() => {
+        pusherClient.subscribe(conversationId);
+
+        const messageHandler = (message: FullMessageType) => {
+            setMessages((current) => {
+                if (_.find(current, { id: message.id })) {
+                    return current;
+                }
+
+                return [...current, message];
+            });
+        };
+
+        const deleteHandler = (message: Message) => {
+            setMessages((current) => {
+                return _.remove(current, (o) => o.id !== message.id);
+            });
+        };
+
+        pusherClient.bind("messages:new", messageHandler);
+        pusherClient.bind("messages:delete", deleteHandler);
+
+        return () => {
+            pusherClient.unsubscribe(conversationId);
+            pusherClient.unbind("messages:new", messageHandler);
+            pusherClient.unbind("messages:delete", deleteHandler);
+        };
+    }, [conversationId]);
 
     const handleGetMessages = async (conversationId: string) => {
         try {
@@ -58,14 +98,12 @@ const page = () => {
     const hadnleDeleteMessage = async (messageId: string) => {
         // Need to create endpoint
         try {
-            const response = await axios.delete(
-                `/api/messages/delete/${messageId}`
-            );
+            const response = await axios.delete(`/api/messages`, {
+                data: { messageId },
+            });
             if (response.status === 200) {
-                setConversationId(conversationId);
-                setMessages(response.data);
+                console.log(response.status);
             }
-            setMessages(response.data);
         } catch (error: any) {
             toast.error(error.response.data.error);
         }
@@ -76,6 +114,10 @@ const page = () => {
     };
 
     const handleSendMessage = async () => {
+        if (!content) {
+            return toast.error("Please provide a message with content");
+        }
+
         try {
             const response = await axios.post(`/api/messages`, {
                 content,

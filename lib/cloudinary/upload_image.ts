@@ -8,7 +8,7 @@
  */
 import { v2 as cloudinary } from "cloudinary";
 
-const upload_image = async (
+export const upload_image = async (
     base64String: string,
     id: string,
     folder: string
@@ -47,5 +47,3 @@ const upload_image = async (
         return null;
     }
 };
-
-export default upload_image;

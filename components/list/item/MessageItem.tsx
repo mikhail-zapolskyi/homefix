@@ -11,7 +11,7 @@ import {
     Menu,
     MenuItem,
 } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import React, { FC } from "react";
 import { MoreVertical } from "lucide-react";
 import { EditorView } from "@/components";
@@ -28,7 +28,6 @@ type Props = FullMessageType & {
 
 const MessageItem: FC<Props> = ({ onDelete, ...props }) => {
     const message = useMessage(props);
-    const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
