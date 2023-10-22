@@ -233,11 +233,30 @@ enum DayType {
 }
 
 model Review {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  id               String     @id @default(auto()) @map("_id") @db.ObjectId
   rating           Int?
   comment          String?
-  createdAt        DateTime?         @default(now())
-  updatedAt        DateTime?         @updatedAt
+  content          String?
+  service_quality  Int?
+  punctuality      Int?
+  communication    Int?
+  consultations    Int?
+  professionalism  Int?
+  expertise        Int?
+  efficiency       Int?
+  accuracy         Int?
+  friendliness     Int?
+  problem_solving  Int?
+  emergency        Int?
+  value_for_money  Int?
+  reliability      Int?
+  safety           Int?
+  transparency     Int?
+  discounts        Int?
+  innovation       Int?
+  accountability   Int?
+  overall_rating   Float?     @default(0) @db.Double
+  createdAt        DateTime?  @default(now())
 
   serviceProfileId String           @db.ObjectId
   service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
