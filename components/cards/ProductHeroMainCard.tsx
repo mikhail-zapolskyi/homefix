@@ -1,6 +1,6 @@
 "use client";
 import { Paper, Typography, Box } from "@mui/material";
-import { styled  } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { SearchCard, TextAnimation } from "@/components";
 import { useEffect, useState } from "react";
 
@@ -15,6 +15,12 @@ const StyledWrapper = styled(Paper)(({ theme }) => ({
     position: "absolute",
     top: "50%",
     transform: "translate(0, -50%)",
+    "@media (min-width:0px)": {
+        "@media (orientation: landscape)": {
+            marginTop: "2rem",
+            position: "reletive",
+        },
+    },
     [theme.breakpoints.up("md")]: {
         top: "50%",
         left: "10%",

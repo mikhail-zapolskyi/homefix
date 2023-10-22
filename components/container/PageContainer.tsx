@@ -5,15 +5,18 @@ import { styled } from "@mui/material/styles";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
     position: "relative",
-    display: "flex",
     width: "100vw",
     maxWidth: "100%",
-    alignItems: "center",
     height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
     "@media (min-width:0px)": {
+        height: "calc(100vh - 48px)",
         "@media (orientation: landscape)": { height: "calc(100vh - 48px)" },
     },
-    "@media (min-width:600px)": { height: "calc(100vh - 64px)" },
+    "@media (min-width:600px) and (min-height:900px)": {
+        height: "calc(100vh - 64px)",
+        display: "flex",
+        alignItems: "center",
+    },
     maxHeight: "100%",
     overflowY: "scroll",
     "&::-webkit-scrollbar": {

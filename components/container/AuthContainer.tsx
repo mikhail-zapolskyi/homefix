@@ -4,12 +4,12 @@ import { styled } from "@mui/material/styles";
 const StyledAuthBox = styled(Box)(({ theme }) => ({
     height: "min-content",
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
     paddingTop: "1rem",
     borderRadius: ".8rem",
-    [theme.breakpoints.up("sm")]: {
+    "@media (min-width:600px) and (min-height:900px)": {
         boxShadow: `${theme.shadows[4]}`,
         backgroundColor: `${theme.palette.common.white}`,
     },

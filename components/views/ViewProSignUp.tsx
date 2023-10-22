@@ -12,7 +12,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { AuthContainer, CustomButton, CustomTextField } from "@/components";
 import { redirect, useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { SelectField } from "@/components";
 import { useEffect, useState } from "react";
@@ -72,7 +72,7 @@ const ViewProSignUp = () => {
         );
     }, [formData?.country, formData?.state]);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const {
             name,
@@ -119,21 +119,19 @@ const ViewProSignUp = () => {
 
         delete formData.confirmPassword;
 
-        axios
-            .post("/api/users", formData)
-            .then((res) => {
-                console.log(res.status);
+        try {
+            const response = await axios.post("/api/users", formData);
 
-                if (res.status === 201) {
-                    toast.success("Signed up successfully");
-                    setFormData({ type: "PRO" });
-                    router.push("/auth/signin");
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-                throw new Error(error.message);
-            });
+            if (response.status === 201) {
+                toast.success("Signed up successfully");
+                setFormData({ type: "PRO" });
+                router.push("/dashboard");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.message);
+            }
+        }
     };
 
     const handleFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,11 +177,17 @@ const ViewProSignUp = () => {
     };
 
     return (
-        <AuthContainer>
-            <Typography component="h1" variant="h5" sx={{ padding: "1rem" }}>
-                Sign in as Pro
-            </Typography>
-            {formData && !isLoading && (
+        formData &&
+        !isLoading && (
+            <AuthContainer>
+                <Typography
+                    component="h1"
+                    variant="h5"
+                    sx={{ padding: "1rem" }}
+                >
+                    Sign in as Pro
+                </Typography>
+
                 <Box
                     component="form"
                     noValidate
@@ -326,25 +330,25 @@ const ViewProSignUp = () => {
                         </Grid>
                     </Grid>
                 </Box>
-            )}
-            <Divider variant="middle" sx={{ width: "100%" }}></Divider>
-            <Stack
-                sx={{
-                    padding: "1rem",
-                    width: "100%",
-                    backgroundColor: `${theme.palette.grey[200]}`,
-                    borderEndStartRadius: ".8rem",
-                    borderEndEndRadius: ".8rem",
-                }}
-                justifyContent="flex-end"
-                alignItems="center"
-                spacing={2}
-            >
-                <Link href="signin" variant="body2" color="primary.dark">
-                    Already have an account? Sign in
-                </Link>
-            </Stack>
-        </AuthContainer>
+                <Divider variant="middle" sx={{ width: "100%" }}></Divider>
+                <Stack
+                    sx={{
+                        padding: "1rem",
+                        width: "100%",
+                        backgroundColor: `${theme.palette.grey[200]}`,
+                        borderEndStartRadius: ".8rem",
+                        borderEndEndRadius: ".8rem",
+                    }}
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Link href="signin" variant="body2" color="primary.dark">
+                        Already have an account? Sign in
+                    </Link>
+                </Stack>
+            </AuthContainer>
+        )
     );
 };
 
