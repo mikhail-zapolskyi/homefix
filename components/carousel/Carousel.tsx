@@ -1,4 +1,8 @@
 "use client"
+// Carousel component that takes in an array of data, and props from a parent. 
+// Takes in a component that styles the carousel item.
+// Should be put inside a parent component with a specified width.
+
 import React from "react";
 import {
     Paper,
@@ -22,7 +26,7 @@ const responsive = {
     desktop: {
         breakpoint: {
             max: 3000,
-            min: 1024
+            min: 1460
         },
         items: 3,
         partialVisibilityGutter: 40
@@ -37,7 +41,7 @@ const responsive = {
     },
     tablet: {
         breakpoint: {
-            max: 1024,
+            max: 1460,
             min: 464
         },
         items: 2,

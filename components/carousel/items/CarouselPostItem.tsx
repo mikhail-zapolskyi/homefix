@@ -1,4 +1,9 @@
 "use client"
+// Carousel Post Item component. Made for the CustomCarousel component. 
+// Takes in styling probs from the viewPage file. 
+// Specifically made for a carousel item for blog posts. 
+// It takes in data and populates the fields of the card according.
+
 import { Stack, Typography, Avatar, Card, CardHeader, IconButton, CardMedia, CardContent } from "@mui/material";
 import { MoreVert } from '@mui/icons-material';
 import { useRouter } from "next/navigation";
@@ -49,10 +54,10 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
                 />
             </CardMedia>
             <CardContent>
-                <Typography variant="h6">Blog Post Title</Typography>
+                <Typography variant="h6">{data.postTitle}</Typography>
                 <Typography variant="body1">
                     {
-                        "Small snippet of post should be shown here"
+                        data.postSummary
                     }
                 </Typography>
             </CardContent>
