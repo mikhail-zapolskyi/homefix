@@ -34,6 +34,7 @@ export { default as AuthContainer } from "./container/AuthContainer";
 
 // Editor
 export { default as EditorField } from "./editors/EditorField";
+export { default as EditorRequestField } from "./editors/EditorRequestField";
 export { default as EditorMessageFeild } from "./editors/EditorMessageFeild";
 export { default as EditorView } from "./editors/EditorView";
 export { default as MessageItem } from "./list/item/MessageItem";

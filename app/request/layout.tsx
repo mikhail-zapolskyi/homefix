@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         }
     }, [session, status, router]);
 
-    return <PageContainer maxWidth="sm">{children}</PageContainer>;
+    return <PageContainer maxWidth="md">{children}</PageContainer>;
 };
 
 export default DashboardLayout;
