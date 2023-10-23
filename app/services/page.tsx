@@ -62,6 +62,7 @@ const ViewServices = () => {
                         onContactRequest={() =>
                             handleContactRequest(obj.userId)
                         }
+                        onQuoteRequest={() => router.push(`/request/${obj.id}`)}
                     />
                 </Grid>
             ))}
