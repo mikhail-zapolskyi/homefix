@@ -27,9 +27,7 @@ const page = () => {
         revalidateOnFocus: true,
     });
     const [messages, setMessages] = useState<FullMessageType[]>([]);
-    const [converasation, setConversation] = useState<
-        ConversationContactsType[]
-    >([]);
+    const [converasation, setConversation] = useState<ConversationContactsType[]>([]);
     const [conversationId, setConversationId] = useState<string>("");
     const [content, setContent] = useState<string>("");
 

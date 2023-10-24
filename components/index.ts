@@ -69,10 +69,12 @@ export { default as ProgressWithPercentage } from "./progress/ProgressWithPercen
 // Carousel 
 export { default as CustomCarousel } from "./carousel/Carousel"
 export { default as CarouselPostItem } from "./carousel/items/CarouselPostItem"
+
 // Views
 export { default as UserReviewsView } from "./views/UserReviewsView";
 export { default as ViewMainPage } from "./views/ViewMainPage";
 export { default as ViewDashServPro } from "./views/ViewDashServPro";
+export { default as ViewDashUserPro} from "./views/ViewDashUserPro"
 export { default as ViewServProPage } from "./views/ViewServProPage";
 export { default as ViewSignUp } from "./views/ViewSignUp";
 export { default as ViewProSignUp } from "./views/ViewProSignUp";
