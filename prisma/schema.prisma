@@ -242,12 +242,12 @@ enum DayType {
 
 model Project {
     id               String     @id @default(auto()) @map("_id") @db.ObjectId
-    approved         Boolean     @default(false)
+    approved         Boolean?     @default(false)
     title            String?
     content          String?
+    budget           Int?
     categories       String[]
     specialties      String[]
-    budget           String?
     offers           ReverseOffer[]
 
     interestedId     String[]            @db.ObjectId

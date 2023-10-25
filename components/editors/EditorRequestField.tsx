@@ -2,14 +2,13 @@
 import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { SendHorizontal } from "lucide-react";
-import { CustomButton } from "@/components";
+import { CustomButton, Loader } from "@/components";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Divider } from "@mui/material";
 import Placeholder from "@tiptap/extension-placeholder";
 
 interface Props {
-    conversationId?: string;
     content?: string;
     onChange: (content: string) => void;
     onClick: () => void;
@@ -54,7 +53,6 @@ const StyledButtonContainer = styled("span")(({}) => ({
 }));
 
 const EditorRequestField: React.FC<Props> = ({
-    conversationId,
     content,
     onChange,
     onClick,
