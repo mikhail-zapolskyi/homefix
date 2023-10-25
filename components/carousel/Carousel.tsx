@@ -4,24 +4,13 @@
 // Should be put inside a parent component with a specified width.
 
 import React from "react";
-import {
-    Paper,
-    MobileStepper,
-    Typography,
-    Button,
-    Box,
-    Avatar,
-    Grid,
-    Stack
-} from "@mui/material";
 import { styled } from '@mui/material/styles'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import Image from 'next/image'
 import { ReactNode } from "react";
-import { PictureAsPdf } from "@mui/icons-material";
 
 
+// Viewports 
 const responsive = {
     desktop: {
         breakpoint: {

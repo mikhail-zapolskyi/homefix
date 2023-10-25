@@ -22,7 +22,7 @@ import { Message } from "@prisma/client";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
-const page = () => {
+const Page = () => {
     const { data, error } = useSWR("/api/conversations", fetcher, {
         revalidateOnFocus: true,
     });
@@ -200,4 +200,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

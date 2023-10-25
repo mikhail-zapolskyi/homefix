@@ -8,9 +8,11 @@ import { Stack, Typography, Avatar, Card, CardHeader, IconButton, CardMedia, Car
 import { MoreVert } from '@mui/icons-material';
 import { useRouter } from "next/navigation";
 import {FaLongArrowAltRight} from 'react-icons/fa'
+import { FullPost } from "@/app/types";
+import moment from "moment";
 
 interface Props {
-    data: Record<string, any>;
+    data: FullPost;
 }
 
 const CarouselPostItem: React.FC<Props> = ({ data }) => {
@@ -20,20 +22,22 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
     }
     return (
         <Card
-            // onClick={() => handleOnClick(data.id)}
+            onClick={() => handleOnClick(data.id)}
             sx={{ cursor: 'pointer'}}
         >
             {/* CardHeader for desktop/tablet view */}
             <CardHeader
                 sx={{display: {xs: 'none', md: 'flex'}}}
-                title={data.businessName}
+                title={data.title}
                 titleTypographyProps={{variant: 'body1'}}
                 
-                subheader={data.date}
+                subheader={moment(data.createdAt).format("LLL")}
                 subheaderTypographyProps={{variant: 'body2'}}
 
                 avatar={
                     <Avatar 
+                        alt="user avatar"
+                        src={data.serviceProfile.image || ''}
                         sx={{mx: '1rem'}}
                     />
                 }
@@ -44,8 +48,7 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
                 borderRadius: "0.8rem",
             }}>
                 <Avatar
-                    // src={data.image}
-                    alt={data.businessName}
+                    src={data.image || ''}
                     sx={{
                         width: '100%',
                         height: 'auto',
@@ -54,19 +57,14 @@ const CarouselPostItem: React.FC<Props> = ({ data }) => {
                 />
             </CardMedia>
             <CardContent>
-                <Typography variant="h6">{data.postTitle}</Typography>
-                <Typography variant="body1">
-                    {
-                        data.postSummary
-                    }
-                </Typography>
+                <Typography variant="h6">{data.title}</Typography>
             </CardContent>
             <CardHeader
                 sx={{display: {xs: 'flex', md: 'none'}}}
-                title={data.businessName}
+                title={data.serviceProfile.name}
                 titleTypographyProps={{variant: 'body1'}}
                 
-                subheader={data.date}
+                subheader={moment(data.createdAt).format("LLL")}
                 subheaderTypographyProps={{variant: 'body2'}}
                 avatar={
                     <Avatar 
