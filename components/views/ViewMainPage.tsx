@@ -1,9 +1,9 @@
 "use client";
 import { styled } from "@mui/material/styles";
 import React from "react";
-import { ProductHeroMainCard, SectionWithTitle, CustomCarousel, CarouselPostItem, PageContainer } from "@/components";
+import { ProductHeroMainCard, SectionWithTitle, CustomCarousel, CarouselPostItem, PageContainer, SignUpCTACard } from "@/components";
 import heroImage from "@/assets/hero.webp";
-import { Stack} from "@mui/material";
+import { Divider, Stack} from "@mui/material";
 import { FullPost } from "@/app/types";
 
 const Image = styled("img")(({}) => ({
@@ -130,7 +130,7 @@ const content: FullPost[]  = [
 
 export const ViewMainPage = () => {
     return (
-        <>
+        <Stack>
             <PageContainer>
                 <Image src={heroImage.src} alt="hero-image" />
                 <ProductHeroMainCard />
@@ -144,7 +144,28 @@ export const ViewMainPage = () => {
                     </CustomCarousel>
                 </SectionWithTitle>
             </Stack>
-        </>
+
+            <Stack sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: '5rem', justifyContent: 'center', p: '1rem' }}>
+                <SignUpCTACard
+                    CTAButtonText='Become a Fixer'
+                    CTAText='Make Some Money!' 
+                    CTAImage="https://images.unsplash.com/photo-1473621038790-b778b4750efe?auto=format&fit=crop&q=80&w=2672&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                />
+            </Stack>
+
+            <Stack sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: '5rem' }}>
+                <Divider />            
+            </Stack>
+
+            <Stack sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: '5rem', justifyContent: 'center', p: '1rem' }}>
+                <SignUpCTACard
+                    direction='rtl'
+                    CTAButtonText='Sign Up'
+                    CTAText='Create Your FREE Account' 
+                    CTAImage="https://images.unsplash.com/photo-1680626090716-4a6954d39d2a?auto=format&fit=crop&q=80&w=2670&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                />
+            </Stack>
+        </Stack>
     );
 };
 

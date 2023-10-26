@@ -25,6 +25,7 @@ export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditDefaultCard } from "./cards/ViewEditDefaultCard";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
+export { default as SignUpCTACard } from "./cards/SignUpCTACard"
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";
