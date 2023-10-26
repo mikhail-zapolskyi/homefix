@@ -8,29 +8,30 @@ datasource db {
 }
 
 model Account {
-  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId              String      @db.ObjectId
-  type                String
-  provider            String
-  providerAccountId   String
-  refresh_token       String?
-  access_token        String?
-  expires_at          Int?
-  token_type          String?
-  scope               String?
-  id_token            String?
-  session_state       String?
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
-  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken    String   
-  expires         DateTime
-  userId          String   @db.ObjectId
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String
+  expires      DateTime
+  userId       String   @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([sessionToken])
 }
@@ -89,96 +90,96 @@ enum UserType {
 }
 
 model Contact {
-  id                  String            @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt           DateTime          @default(now())
-  conversation        Conversation[]
-  contactRequest      ContactRequest[]
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt      DateTime         @default(now())
+  conversation   Conversation[]
+  contactRequest ContactRequest[]
 
-  userId              String[]          @db.ObjectId
-  user                User[]            @relation(fields: [userId], references: [id])
+  userId String[] @db.ObjectId
+  user   User[]   @relation(fields: [userId], references: [id])
 }
 
 model ContactRequest {
-  id                String            @id @default(auto()) @map("_id") @db.ObjectId
-  request_status    RequestStatus?    @default(PENDING)
-  createdAt         DateTime          @default(now())
-  sender            String            @db.ObjectId
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  request_status RequestStatus? @default(PENDING)
+  createdAt      DateTime       @default(now())
+  sender         String         @db.ObjectId
 
-  contactId         String            @db.ObjectId
-  contact           Contact    @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String  @db.ObjectId
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 }
 
 enum RequestStatus {
-    PENDING 
-    ACCEPTED
+  PENDING
+  ACCEPTED
 }
 
 model Conversation {
-  id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt         DateTime        @default(now())
-  lastMessageAt     DateTime        @default(now())
-  isGroup           Boolean?
-  messages          Message[]       
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime  @default(now())
+  lastMessageAt DateTime  @default(now())
+  isGroup       Boolean?
+  messages      Message[]
 
-  contactId         String          @db.ObjectId
-  contact           Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String  @db.ObjectId
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
-  userId            String[]        @db.ObjectId
-  user              User[]          @relation(fields: [userId], references: [id])
+  userId String[] @db.ObjectId
+  user   User[]   @relation(fields: [userId], references: [id])
 }
 
 model Message {
-  id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  content           String
-  createdAt         DateTime        @default(now())
-  updateAt          DateTime        @default(now())
-  
-  conversationId    String          @db.ObjectId
-  conversation      Conversation    @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @default(now())
 
-  seenId            String[]        @db.ObjectId
-  seen              User[]          @relation("Seen", fields: [seenId], references: [id])
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
-  senderId          String?         @db.ObjectId
-  sender            User?           @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  seenId String[] @db.ObjectId
+  seen   User[]   @relation("Seen", fields: [seenId], references: [id])
+
+  senderId String? @db.ObjectId
+  sender   User?   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 }
 
 model Location {
-  id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  address           String?
-  city              String?
-  state             String?
-  country           String?
-  postalCode        String?
-  postal_code       String?
-  lng               String?
-  lat               String?
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  address     String?
+  city        String?
+  state       String?
+  country     String?
+  postalCode  String?
+  postal_code String?
+  lng         String?
+  lat         String?
 
-  serviceProfileId  String?          @db.ObjectId
-  service           ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  serviceProfileId String?         @db.ObjectId
+  service          ServiceProfile? @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 
-  userId            String?          @db.ObjectId
-  user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @db.ObjectId
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ServiceProfile {
-  id              String     @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?    @default("Service Name")
-  email           String?    @default("service@profile.email")
-  phone           String?    @default("000-000-0000")
-  rating          Float?     @default(0) @db.Double
-  introduction    String?    @default("Write your service introduction")
-  experience      Int?       @default(0)
-  bio             String?    @default("Write your own bio as specialist")
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  name            String?           @default("Service Name")
+  email           String?           @default("service@profile.email")
+  phone           String?           @default("000-000-0000")
+  rating          Float?            @default(0) @db.Double
+  introduction    String?           @default("Write your service introduction")
+  experience      Int?              @default(0)
+  bio             String?           @default("Write your own bio as specialist")
   image           String?
-  employees       Int?       @default(1)
-  hiredTimes      Int?       @default(0)
-  bgChecked       Boolean    @default(false)
-  published       Boolean    @default(false)
-  specialties_Do  String[]   @default(["Service You can do"])
-  specialties_No  String[]   @default(["Service You can't do"])
-  payment_methods String[]   @default(["Service Payment Methods"])
-  schedule_policy String?    @default("Service Schedule Policy")
+  employees       Int?              @default(1)
+  hiredTimes      Int?              @default(0)
+  bgChecked       Boolean           @default(false)
+  published       Boolean           @default(false)
+  specialties_Do  String[]          @default(["Service You can do"])
+  specialties_No  String[]          @default(["Service You can't do"])
+  payment_methods String[]          @default(["Service Payment Methods"])
+  schedule_policy String?           @default("Service Schedule Policy")
   businessHours   Day[]
   reviews         Review[]
   posts           Post[]
@@ -192,41 +193,42 @@ model ServiceProfile {
   projectId       String[]          @db.ObjectId
   projects        Project[]         @relation(fields: [projectId], references: [id])
 
-  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String     @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
 
   @@unique([userId])
 }
 
 model Category {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
   title            String
   serviceProfileId ServiceCategory[]
-  
+
   @@unique([title])
 }
 
 model ServiceCategory {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  categoryId       String          @db.ObjectId
-  category         Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  
-  serviceProfileId String          @db.ObjectId
-  service   ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-  
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  serviceProfileId String         @db.ObjectId
+  service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+
   @@unique([categoryId, serviceProfileId])
 }
 
 model Day {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  type             DayType        
-  from             String
-  to               String
-  date             DateTime       @default(now())
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  type DayType
+  from String
+  to   String
+  date DateTime @default(now())
 
   serviceProfileId String         @db.ObjectId
   service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+
   @@unique([date])
 }
 
@@ -307,30 +309,30 @@ model Review {
 }
 
 model Post {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  title            String?
-  content          String?
-  image            String?
-  date             DateTime?        @default(now())
-  likes            Like[]
-  comments         Comment[]
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  title     String?
+  content   String?
+  image     String?
+  createdAt DateTime? @default(now())
+  likes     Like[]
+  comments  Comment[]
 
-  serviceProfileId String           @db.ObjectId
-  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  serviceProfileId String          @db.ObjectId
+  service          ServiceProfile? @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
 model Like {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  userId           String
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
 
-  postId           String           @db.ObjectId
-  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String @db.ObjectId
+  post   Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  content          String
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
 
-  postId           String           @db.ObjectId
-  post             Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String @db.ObjectId
+  post   Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

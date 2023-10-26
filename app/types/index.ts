@@ -6,6 +6,7 @@ import {
     Project,
     ServiceProfile,
     User,
+    Post
 } from "@prisma/client";
 
 export type FullMessageType = Message & {
@@ -30,3 +31,7 @@ export type SearchServiceProfilesType = ServiceProfile & {
 export type FullProjectType = Project & {
     service: ServiceProfile[];
 };
+
+export type FullPost = Post & {
+    serviceProfile: ServiceProfile; 
+}
