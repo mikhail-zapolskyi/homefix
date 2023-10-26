@@ -15,6 +15,8 @@ import {
     MessagesSquare,
     DoorOpen,
     ChevronLeft,
+    Activity,
+    DraftingCompass,
 } from "lucide-react";
 import useSWR from "swr";
 import { toast } from "react-toastify";
@@ -93,14 +95,30 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                     }}
                 />
                 {session?.user.type === "PRO" && (
-                    <MenuOption
-                        text="Service Profile"
-                        icon={<Building2 />}
-                        onClick={() => {
-                            push("/dashboard/service-profile");
-                        }}
-                    />
+                    <>
+                        <MenuOption
+                            text="Service Profile"
+                            icon={<Building2 />}
+                            onClick={() => {
+                                push("/dashboard/service-profile");
+                            }}
+                        />
+                        <MenuOption
+                            text="Leads"
+                            icon={<Activity />}
+                            onClick={() => {
+                                push("/dashboard/leads");
+                            }}
+                        />
+                    </>
                 )}
+                <MenuOption
+                    text="Projects"
+                    icon={<DraftingCompass />}
+                    onClick={() => {
+                        push("/dashboard/projects");
+                    }}
+                />
                 <MenuOption
                     text="Contacts"
                     icon={<Users />}

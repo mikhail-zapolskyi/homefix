@@ -47,38 +47,39 @@ model VerificationToken {
 }
 
 model User {
-  id                        String          @id @default(auto()) @map("_id") @db.ObjectId
-  name                      String?         @default("Guest User")
-  email                     String
-  emailVerified             Boolean?        @map("email_verified")
-  password                  String?
-  image                     String?
-  phone                     String?
-  new_user                  Boolean?        @default(true)
-  online                    Boolean?
-  accounts                  Account[]
-  sessions                  Session[]
-  serviceProfile            ServiceProfile?
-  reviews                   Review[]
-  type                      UserType        @default(USER)
-  createdAt                 DateTime        @default(now())
-  updatedAt                 DateTime        @updatedAt
-  location                  Location[]
-  verifyToken               String?
-  verifyTokenExpiry         DateTime?
-  forgotPasswordToken       String?
-  forgotPasswordTokenExpiry DateTime?
-  messages                  Message[]
+  id                            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name                          String?     @default("Guest User")
+  email                         String
+  emailVerified                 Boolean?    @map("email_verified")
+  password                      String?
+  image                         String?
+  phone                         String?
+  new_user                      Boolean?    @default(true)
+  online                        Boolean?
+  accounts                      Account[]
+  sessions                      Session[]
+  serviceProfile                ServiceProfile?
+  reviews                       Review[]
+  type                          UserType    @default(USER)
+  createdAt                     DateTime    @default(now())
+  updatedAt                     DateTime    @updatedAt
+  location                      Location[]
+  verifyToken                   String?
+  verifyTokenExpiry             DateTime?
+  forgotPasswordToken           String?
+  forgotPasswordTokenExpiry     DateTime?
+  messages                      Message[]
+  projects                      Project[]
 
-  contactId String[]  @db.ObjectId
-  contact   Contact[] @relation(fields: [contactId], references: [id])
+  contactId                     String[]          @db.ObjectId
+  contact                       Contact[]         @relation(fields: [contactId], references: [id])
 
-  conversationId String[]       @db.ObjectId
-  conversation   Conversation[] @relation(fields: [conversationId], references: [id])
+  conversationId                String[]          @db.ObjectId
+  conversation                  Conversation[]    @relation(fields: [conversationId], references: [id])
 
-  seenMessageId String[]  @db.ObjectId
-  seenMessages  Message[] @relation("Seen", fields: [seenMessageId], references: [id])
-
+  seenMessageId                 String[]          @db.ObjectId
+  seenMessages                  Message[]         @relation("Seen", fields: [seenMessageId], references: [id])
+  
   @@unique([email])
 }
 
@@ -184,6 +185,13 @@ model ServiceProfile {
   posts           Post[]
   location        Location[]
   categories      ServiceCategory[]
+  offers          ReverseOffer[]
+
+  interestedInProjectId String[]          @db.ObjectId
+  interestedInProject   Project[]         @relation("interested", fields: [interestedInProjectId], references: [id])
+
+  projectId       String[]          @db.ObjectId
+  projects        Project[]         @relation(fields: [projectId], references: [id])
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
@@ -234,18 +242,70 @@ enum DayType {
   SUNDAY
 }
 
+model Project {
+    id               String     @id @default(auto()) @map("_id") @db.ObjectId
+    approved         Boolean?     @default(false)
+    title            String?
+    content          String?
+    budget           Int?
+    createAt         DateTime   @default(now())
+    categories       String[]
+    specialties      String[]
+    offers           ReverseOffer[]
+
+    interestedId     String[]            @db.ObjectId
+    interested       ServiceProfile[]    @relation("interested", fields: [interestedId], references: [id])
+
+    serviceProfileId String[]           @db.ObjectId
+    service          ServiceProfile[]  @relation(fields: [serviceProfileId], references: [id])
+    
+    userId           String           @db.ObjectId
+    user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ReverseOffer {
+  id                String     @id @default(auto()) @map("_id") @db.ObjectId
+  budget            String?
+
+  projectId         String         @db.ObjectId
+  project           Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  serviceProfileId String         @db.ObjectId
+  service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+}
+
 model Review {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  rating    Int?
-  comment   String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  id               String     @id @default(auto()) @map("_id") @db.ObjectId
+  rating           Int?
+  comment          String?
+  content          String?
+  service_quality  Int?
+  punctuality      Int?
+  communication    Int?
+  consultations    Int?
+  professionalism  Int?
+  expertise        Int?
+  efficiency       Int?
+  accuracy         Int?
+  friendliness     Int?
+  problem_solving  Int?
+  emergency        Int?
+  value_for_money  Int?
+  reliability      Int?
+  safety           Int?
+  transparency     Int?
+  discounts        Int?
+  innovation       Int?
+  accountability   Int?
+  overall_rating   Float?     @default(0) @db.Double
+  createdAt        DateTime?  @default(now())
+  projectId        String           @db.ObjectId
 
-  serviceProfileId String          @db.ObjectId
-  service          ServiceProfile? @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
-
-  userId String @db.ObjectId
-  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceProfileId String           @db.ObjectId
+  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  
+  userId           String           @db.ObjectId
+  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {

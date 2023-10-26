@@ -7,6 +7,10 @@ import {
     Avatar,
     Rating,
     Stack,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    List,
 } from "@mui/material";
 import { CustomButton, CustomDashboardCard, Loader } from "..";
 import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
@@ -23,6 +27,7 @@ interface Props {
     serviceProfileUser?: string | false | null | undefined;
     onView?: () => void;
     onContactRequest?: () => void;
+    onQuoteRequest?: () => void;
 }
 
 const SearchedProfileCard: React.FC<Props> = ({
@@ -31,6 +36,7 @@ const SearchedProfileCard: React.FC<Props> = ({
     serviceProfileUser,
     onView,
     onContactRequest,
+    onQuoteRequest,
 }) => {
     const theme = useTheme();
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -52,9 +58,9 @@ const SearchedProfileCard: React.FC<Props> = ({
                             fontSize: "small",
                             px: "0.6rem",
                             m: ".2rem",
-                            backgroundColor: "secondary.dark",
+                            backgroundColor: "primary.main",
                             borderRadius: "0.4rem",
-                            color: "white",
+                            color: "common.white",
                         }}
                     >
                         {i}
@@ -103,40 +109,9 @@ const SearchedProfileCard: React.FC<Props> = ({
                     </Stack>
                 </Stack>
             </Stack>
-            <Stack
-                spacing={2}
-                divider={<Divider orientation="horizontal" flexItem />}
-            >
-                <EditorView content={data.introduction.slice(0, 100)} />
-                <Stack
-                    spacing={1}
-                    direction={{ xs: "column", sm: "row", lg: "column" }}
-                >
-                    <CustomButton
-                        onClick={onView}
-                        text="Profile"
-                        variant="outlined"
-                        size="small"
-                        fullWidth
-                    />
-                    {!accountHolder.state && (
-                        <CustomButton
-                            onClick={onContactRequest}
-                            text={
-                                contactStatus.status
-                                    ? contactStatus.status
-                                    : contactStatus.default
-                            }
-                            variant="contained"
-                            size="small"
-                            fullWidth
-                            disabled={contactStatus.status ? true : false}
-                        />
-                    )}
-                </Stack>
-            </Stack>
         </Stack>
     );
+
     const renderData = data && (
         <Stack direction="row" sx={{ width: "100%" }}>
             <Avatar
@@ -183,92 +158,116 @@ const SearchedProfileCard: React.FC<Props> = ({
                         {data.location[0].country}
                     </Typography>
                 </Stack>
-                <Stack spacing={2}>
-                    <EditorView content={data.introduction.slice(0, 150)} />
-                </Stack>
-                {renderArrayValues}
+                <Stack spacing={2}>{renderArrayValues}</Stack>
             </Stack>
         </Stack>
     );
 
     const renderActionButtons = data && (
-        <Grid
-            container
-            item
-            md={4}
-            lg={3}
-            spacing={2}
-            sx={{
-                alignContent: "end",
-            }}
+        <List
+            disablePadding={true}
+            dense={true}
+            sx={{ width: "100%", height: "100%" }}
         >
-            <Grid item xs={1}>
-                <Divider orientation="vertical" sx={{ height: "10rem" }} />
-            </Grid>
-            {/* This is in place of the company logo */}
-            <Grid container item xs={10}>
-                <Stack direction="column" spacing={2} sx={{ width: "100%" }}>
-                    <Stack alignItems="center" direction="row">
-                        <Avatar
-                            alt={data.user.name}
-                            src={data.user.image}
-                            sx={{ mr: "1rem", mt: "0.3rem" }}
-                        />
-                        <Typography fontWeight="700">
-                            {data.user.name}
-                        </Typography>
-                    </Stack>
-                    <Stack spacing={1}>
-                        <CustomButton
-                            onClick={onView}
-                            text="Profile"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                        />
-                        {!accountHolder.state && (
-                            <CustomButton
-                                onClick={onContactRequest}
-                                text={
-                                    contactStatus.status
-                                        ? contactStatus.status
-                                        : contactStatus.default
-                                }
-                                variant="contained"
-                                size="small"
-                                fullWidth
-                                disabled={contactStatus.status ? true : false}
-                            />
-                        )}
-                    </Stack>
-                </Stack>
-            </Grid>
-        </Grid>
+            {screenMd && (
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar alt="avatar" src={data.user.image} />
+                    </ListItemAvatar>
+                    <ListItemText primary={data.user.name} secondary="Owner" />
+                </ListItem>
+            )}
+            <ListItem>
+                <CustomButton
+                    onClick={onView}
+                    text="Profile"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                />
+            </ListItem>
+            <ListItem>
+                <CustomButton
+                    onClick={onQuoteRequest}
+                    text="Quote Request"
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    fullWidth
+                />
+            </ListItem>
+            {!accountHolder.state && (
+                <ListItem>
+                    <CustomButton
+                        onClick={onContactRequest}
+                        text={
+                            contactStatus.status
+                                ? contactStatus.status
+                                : contactStatus.default
+                        }
+                        variant="contained"
+                        size="small"
+                        fullWidth
+                        disabled={contactStatus.status ? true : false}
+                    />
+                </ListItem>
+            )}
+        </List>
     );
 
-    return data ? (
-        <CustomDashboardCard>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
+    return (
+        data && (
+            <CustomDashboardCard>
                 <Grid
                     container
-                    item
-                    xs={12}
-                    md={8}
-                    lg={9}
-                    sx={{
-                        justifyContent: { md: "center" },
-                    }}
+                    spacing={{ xs: 2, md: 1 }}
+                    sx={{ alignItems: "center" }}
                 >
-                    {!screenMd && renderDataMobile}
-                    {screenMd && renderData}
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        md={8}
+                        lg={9}
+                        sx={{
+                            justifyContent: { md: "center" },
+                        }}
+                    >
+                        {!screenMd && renderDataMobile}
+                        {screenMd && renderData}
+                    </Grid>
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        md={4}
+                        lg={3}
+                        spacing={2}
+                        sx={{
+                            alignContent: "end",
+                        }}
+                    >
+                        <Grid item xs={12} md={1}>
+                            <Divider
+                                orientation={
+                                    screenMd ? "vertical" : "horizontal"
+                                }
+                                sx={{ height: { md: "100%" }, width: "100%" }}
+                            />
+                        </Grid>
+                        {/* This is in place of the company logo */}
+                        <Grid container item xs={12} md={10}>
+                            {renderActionButtons}
+                        </Grid>
+                    </Grid>
                 </Grid>
-                {screenMd && renderActionButtons}
-            </Grid>
-        </CustomDashboardCard>
-    ) : (
-        <CustomDashboardCard>
-            <Loader />
-        </CustomDashboardCard>
+                {screenMd && (
+                    <Stack spacing={2}>
+                        <EditorView content={data.introduction.slice(0, 150)} />
+                    </Stack>
+                )}
+            </CustomDashboardCard>
+        )
     );
 };
 

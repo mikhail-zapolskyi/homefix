@@ -3,6 +3,7 @@ import {
     Conversation,
     Location,
     Message,
+    Project,
     ServiceProfile,
     User,
     Post
@@ -25,6 +26,10 @@ export type SearchServiceProfilesType = ServiceProfile & {
     category: Category[];
     location: Location[];
     user: User;
+};
+
+export type FullProjectType = Project & {
+    service: ServiceProfile[];
 };
 
 export type FullPost = Post & {

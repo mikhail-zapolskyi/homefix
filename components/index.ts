@@ -11,6 +11,7 @@ export { default as AddReviewModal } from "./cards/AddReviewModal";
 export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 export { default as DashContactCard } from "./cards/DashContactCard";
 export { default as DashConversationCard } from "./cards/DashConversationCard";
+export { default as DashProjectCard } from "./cards/DashProjectCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
 export { default as ListCard } from "./cards/ListCard";
@@ -34,6 +35,7 @@ export { default as AuthContainer } from "./container/AuthContainer";
 
 // Editor
 export { default as EditorField } from "./editors/EditorField";
+export { default as EditorRequestField } from "./editors/EditorRequestField";
 export { default as EditorMessageFeild } from "./editors/EditorMessageFeild";
 export { default as EditorView } from "./editors/EditorView";
 export { default as MessageItem } from "./list/item/MessageItem";

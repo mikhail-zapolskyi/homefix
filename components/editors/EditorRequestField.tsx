@@ -1,26 +1,25 @@
 "use client";
 import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import EditorMenu from "./elements/EditorMenu";
-
+import { SendHorizontal } from "lucide-react";
+import { CustomButton, Loader } from "@/components";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import EditorLabel from "./elements/EditorLabel";
+import { Divider } from "@mui/material";
 import Placeholder from "@tiptap/extension-placeholder";
 
 interface Props {
-    content: string;
-    label?: string;
-    name?: string;
-    onChange: (data: Record<string, any>) => void;
+    content?: string;
+    onChange: (content: string) => void;
+    onClick: () => void;
 }
 
-const StyledDivWrapper = styled("div")(() => ({
+const StyledDivWrapper = styled("div")(({ theme }) => ({
     width: "100%",
-    padding: "0 .5rem",
-    border: "1px solid darkgrey",
-    borderRadius: "0.8rem",
+    borderEndStartRadius: "0.8rem",
+    borderEndEndRadius: "0.8rem",
     position: "relative",
+    backgroundColor: `${theme.palette.common.white}`,
 }));
 
 const StyledEditorContent = styled(EditorContent)(() => ({
@@ -28,7 +27,8 @@ const StyledEditorContent = styled(EditorContent)(() => ({
         outline: "none",
         paddingLeft: "1rem",
         paddingRight: "1rem",
-        maxHeight: "8rem",
+        minHeight: "70vh",
+        maxHeight: "90vh",
         overflowY: "scroll",
     },
 
@@ -45,12 +45,24 @@ const StyledEditorContent = styled(EditorContent)(() => ({
     },
 }));
 
-const EditorField: React.FC<Props> = ({ name, content, label, onChange }) => {
+const StyledButtonContainer = styled("span")(({}) => ({
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    padding: "1rem",
+}));
+
+const EditorRequestField: React.FC<Props> = ({
+    content,
+    onChange,
+    onClick,
+}) => {
     const editor = useEditor({
         extensions: [
             StarterKit,
             Placeholder.configure({
-                placeholder: "Type here …",
+                placeholder:
+                    "Please describe your project, scope of work, budget,  here …",
             }),
         ],
         content: content,
@@ -67,7 +79,7 @@ const EditorField: React.FC<Props> = ({ name, content, label, onChange }) => {
 
             // Call the onChange callback with the updated content
             if (onChange) {
-                onChange({ [name as string]: updatedHtml });
+                onChange(updatedHtml as string);
             }
         };
 
@@ -89,11 +101,20 @@ const EditorField: React.FC<Props> = ({ name, content, label, onChange }) => {
 
     return (
         <StyledDivWrapper>
-            <EditorLabel label={label} />
-            <EditorMenu editor={editor} />
             <StyledEditorContent editor={editor} />
+            <Divider />
+            <StyledButtonContainer>
+                <CustomButton
+                    endIcon={<SendHorizontal size={16} />}
+                    text="Process Request"
+                    onClick={() => {
+                        onClick();
+                    }}
+                    padsize="none"
+                />
+            </StyledButtonContainer>
         </StyledDivWrapper>
     );
 };
 
-export default EditorField;
+export default EditorRequestField;
