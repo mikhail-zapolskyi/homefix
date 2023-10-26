@@ -246,6 +246,7 @@ model Project {
     title            String?
     content          String?
     budget           Int?
+    createAt         DateTime   @default(now())
     categories       String[]
     specialties      String[]
     offers           ReverseOffer[]

@@ -3,6 +3,7 @@ import {
     Conversation,
     Location,
     Message,
+    Project,
     ServiceProfile,
     User,
 } from "@prisma/client";
@@ -24,4 +25,8 @@ export type SearchServiceProfilesType = ServiceProfile & {
     category: Category[];
     location: Location[];
     user: User;
+};
+
+export type FullProjectType = Project & {
+    service: ServiceProfile[];
 };

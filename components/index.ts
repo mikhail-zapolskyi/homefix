@@ -11,6 +11,7 @@ export { default as AddReviewModal } from "./cards/AddReviewModal";
 export { default as CustomDashboardCard } from "./cards/CustomDashboardCard";
 export { default as DashContactCard } from "./cards/DashContactCard";
 export { default as DashConversationCard } from "./cards/DashConversationCard";
+export { default as DashProjectCard } from "./cards/DashProjectCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
 export { default as ListCard } from "./cards/ListCard";
