@@ -22,14 +22,12 @@ import { Message } from "@prisma/client";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
-const page = () => {
+const Page = () => {
     const { data, error } = useSWR("/api/conversations", fetcher, {
         revalidateOnFocus: true,
     });
     const [messages, setMessages] = useState<FullMessageType[]>([]);
-    const [converasation, setConversation] = useState<
-        ConversationContactsType[]
-    >([]);
+    const [converasation, setConversation] = useState<ConversationContactsType[]>([]);
     const [conversationId, setConversationId] = useState<string>("");
     const [content, setContent] = useState<string>("");
 
@@ -202,4 +200,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;
