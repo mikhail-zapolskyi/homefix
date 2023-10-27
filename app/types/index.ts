@@ -6,7 +6,10 @@ import {
     Project,
     ServiceProfile,
     User,
-    Post
+    Post,
+    Contact,
+    ContactRequest,
+    $Enums,
 } from "@prisma/client";
 
 export type FullMessageType = Message & {
@@ -33,5 +36,14 @@ export type FullProjectType = Project & {
 };
 
 export type FullPost = Post & {
-    serviceProfile: ServiceProfile; 
-}
+    serviceProfile: ServiceProfile;
+};
+
+type UserWithServiceProfileOrNull = User & {
+    serviceProfile: ServiceProfile | null;
+};
+
+export type FullContactType = Contact & {
+    contactRequest: ContactRequest[];
+    user: UserWithServiceProfileOrNull[];
+};

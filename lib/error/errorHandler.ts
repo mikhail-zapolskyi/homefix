@@ -30,6 +30,7 @@ const getPrismaErrorMessage = (error: PrismaClientKnownRequestError) => {
         // Handle other Prisma Client error codes here...
         case "P2025":
             return "Record to delete does not exist";
+        // case "P2032": ""
         default:
             return "An error occurred with Prisma Client.";
     }

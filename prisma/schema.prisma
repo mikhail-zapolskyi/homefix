@@ -101,7 +101,7 @@ model Contact {
 
 model ContactRequest {
   id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  request_status RequestStatus? @default(PENDING)
+  request_status RequestStatus @default(PENDING)
   createdAt      DateTime       @default(now())
   sender         String         @db.ObjectId
 
@@ -247,9 +247,8 @@ model Project {
     title            String?
     content          String?
     budget           Int?
-    createAt         DateTime     @default(now())
-    approved         Boolean?     @default(false)
-    status           ProjectState @default(INITIATED) 
+    createdAt        DateTime     @default(now())
+    status           ProjectStatus @default(INITIATED) 
     categories       String[]
     specialties      String[]
     offers           ReverseOffer[]
@@ -264,7 +263,7 @@ model Project {
     user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum ProjectState {
+enum ProjectStatus {
     INITIATED
     APPROVED
     INPROGRESS

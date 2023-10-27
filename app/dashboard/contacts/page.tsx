@@ -1,4 +1,5 @@
 "use client";
+import { FullContactType } from "@/app/types";
 import { DashContactCard, Loader } from "@/components";
 import { Grid } from "@mui/material";
 import axios from "axios";
@@ -76,31 +77,32 @@ const page = () => {
         <Grid container justifyContent="center">
             <Grid container item xs={12} spacing={2}>
                 {data &&
-                    data.map((obj: Record<string, any>) => (
-                        <Grid item xs={12} md={4} key={obj.id}>
+                    data.map((obj: FullContactType) => (
+                        <Grid item xs={12} md={6} lg={4} key={obj.id}>
                             <DashContactCard
                                 currentUserId={session?.user.id}
-                                sender={obj.contactRequest.sender}
-                                userName={obj.user.name}
-                                userImage={obj.user.image}
-                                userType={obj.user.type}
-                                contactData={obj.createdAt}
+                                data={obj}
+                                sender={obj.contactRequest[0].sender}
+                                userName={obj.user[0].name}
+                                userImage={obj.user[0].image}
+                                userType={obj.user[0].type}
+                                contactDate={obj.createdAt}
                                 request_status={
-                                    obj.contactRequest.request_status
+                                    obj.contactRequest[0].request_status
                                 }
-                                serviceProfile={obj.user.serviceProfile}
+                                serviceProfile={obj.user[0].serviceProfile}
                                 onAccept={() =>
                                     handleAcceptRequest(
                                         obj.id,
-                                        obj.contactRequest.id,
-                                        obj.contactRequest.sender
+                                        obj.contactRequest[0].id,
+                                        obj.contactRequest[0].sender
                                     )
                                 }
                                 onDecline={() =>
-                                    handleDeclineRequest(obj.id, obj.user.id)
+                                    handleDeclineRequest(obj.id, obj.user[0].id)
                                 }
                                 onDelete={() =>
-                                    handleDeleteContact(obj.id, obj.user.id)
+                                    handleDeleteContact(obj.id, obj.user[0].id)
                                 }
                             />
                         </Grid>

@@ -1,4 +1,5 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { FullContactType } from "@/app/types";
 import errorHandler from "@/lib/error/errorHandler";
 import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
@@ -20,46 +21,26 @@ export async function GET() {
                     has: currentUser.id,
                 },
             },
-            select: {
-                id: true,
-                createdAt: true,
-                contactRequest: {
-                    select: {
-                        id: true,
-                        createdAt: true,
-                        request_status: true,
-                        sender: true,
-                    },
-                },
+            include: {
+                contactRequest: true,
                 user: {
                     where: {
                         id: { not: currentUser.id },
                     },
-                    select: {
-                        id: true,
-                        name: true,
-                        image: true,
-                        type: true,
+                    include: {
                         serviceProfile: true,
                     },
                 },
             },
         });
 
-        const aggregateContacts = contacts
-            .map((obj: Record<string, any>) => {
-                const contact: Record<string, any> = {
-                    id: obj.id,
-                    createdAt: obj.createdAt,
-                    contactRequest: obj.contactRequest[0],
-                    user: obj.user[0],
-                };
-
-                return contact;
+        const aggregateContacts: FullContactType[] = contacts
+            .map((obj: FullContactType) => {
+                return obj;
             })
             .sort((contactA, contactB) => {
-                const userNameA = contactA.user.name;
-                const userNameB = contactB.user.name;
+                const userNameA = contactA.user[0].name!;
+                const userNameB = contactB.user[0].name!;
 
                 return userNameA.localeCompare(userNameB);
             });

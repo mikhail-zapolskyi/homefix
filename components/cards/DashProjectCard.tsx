@@ -17,17 +17,28 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FullProjectType } from "@/app/types";
-import { MoreVertical, UserPlus, Trash2, DraftingCompass } from "lucide-react";
+import { MoreVertical, Trash2, DraftingCompass } from "lucide-react";
 import moment from "moment";
 import { blue, green, orange, purple, red } from "@mui/material/colors";
+import { $Enums } from "@prisma/client";
 
-interface Props {
-    data: FullProjectType;
+type Props = {
+    title: string | null;
+    createdAt: Date;
+    budget: number | null;
+    status: $Enums.ProjectStatus;
     onProceed?: () => void;
     onDelete?: () => void;
-}
+};
 
-const DashProjectCard: FC<Props> = ({ data, onProceed, onDelete }) => {
+const DashProjectCard: FC<Props> = ({
+    onProceed,
+    onDelete,
+    title,
+    createdAt,
+    budget,
+    status,
+}) => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -48,11 +59,10 @@ const DashProjectCard: FC<Props> = ({ data, onProceed, onDelete }) => {
     };
 
     return (
-        // NEED TO IMPLEMET DEFERENT COLORS ON DIFFERENT PROJECT STATES
         <CustomDashboardCard>
             <CardHeader
-                title={data.title}
-                subheader={moment(data.createAt).format("LLL")}
+                title={title}
+                subheader={moment(createdAt).format("LLL")}
                 action={
                     <>
                         <IconButton
@@ -140,7 +150,7 @@ const DashProjectCard: FC<Props> = ({ data, onProceed, onDelete }) => {
                                 </TableCell>
                                 <TableCell align="right">
                                     <Typography variant="body2">
-                                        ${data.budget}
+                                        ${budget}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -153,9 +163,9 @@ const DashProjectCard: FC<Props> = ({ data, onProceed, onDelete }) => {
                                 <TableCell align="right">
                                     <Typography
                                         variant="body2"
-                                        color={color[data.project_state]}
+                                        color={color[status]}
                                     >
-                                        {data.project_state}
+                                        {status}
                                     </Typography>
                                 </TableCell>
                             </TableRow>

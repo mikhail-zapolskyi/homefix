@@ -67,7 +67,7 @@ const Page = () => {
 
     return !_.isEmpty(data) ? (
         <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12} md={6} xl={3}>
+            <Grid item xs={12}>
                 <SectionWithTitle title="Projects Board">
                     {renderCreateProjectButton}
                 </SectionWithTitle>
@@ -76,7 +76,10 @@ const Page = () => {
                 {data.map((obj: FullProjectType) => (
                     <Grid item xs={12} lg={6} key={obj.id}>
                         <DashProjectCard
-                            data={obj}
+                            title={obj.title}
+                            createdAt={obj.createdAt}
+                            budget={obj.budget}
+                            status={obj.status}
                             onProceed={() => handleProceed(obj.id)}
                             onDelete={() => handleDelete(obj.id)}
                         />

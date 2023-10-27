@@ -23,12 +23,13 @@ export async function GET(req: NextRequest) {
                 service: true,
             },
             orderBy: {
-                createAt: "desc",
+                createdAt: "desc",
             },
         });
 
         return NextResponse.json(project);
     } catch (error) {
+        console.log(error);
         return errorHandler(error);
     }
 }
