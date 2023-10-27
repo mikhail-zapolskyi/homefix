@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
                 service: true,
             },
             orderBy: {
-                createAt: "desc",
+                createdAt: "desc",
             },
         });
 

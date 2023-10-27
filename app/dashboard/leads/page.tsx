@@ -43,7 +43,10 @@ const Page = () => {
                 {data.map((obj: FullProjectType) => (
                     <Grid item xs={4} key={obj.id}>
                         <DashProjectCard
-                            data={obj}
+                            title={obj.title}
+                            createdAt={obj.createdAt}
+                            budget={obj.budget}
+                            status={obj.status}
                             onProceed={() => handleProceed(obj.id)}
                         />
                     </Grid>
