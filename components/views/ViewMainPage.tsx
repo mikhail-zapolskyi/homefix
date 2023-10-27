@@ -130,7 +130,7 @@ const content: FullPost[]  = [
 
 export const ViewMainPage = () => {
     return (
-        <Stack>
+        <>
             <PageContainer>
                 <Image src={heroImage.src} alt="hero-image" />
                 <ProductHeroMainCard />
@@ -145,20 +145,14 @@ export const ViewMainPage = () => {
                 </SectionWithTitle>
             </Stack>
 
-            <Stack sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: '5rem', justifyContent: 'center', p: '1rem' }}>
+            <Stack spacing={10} sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: {xs: 0, lg: '5rem'}, justifyContent: 'center', p: '1rem' }}>
                 <SignUpCTACard
                     CTAButtonText='Become a Fixer'
                     CTAText='Make Some Money!' 
                     CTAImage="https://images.unsplash.com/photo-1473621038790-b778b4750efe?auto=format&fit=crop&q=80&w=2672&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     CTALink="auth/signup"
                 />
-            </Stack>
-
-            <Stack sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: '5rem' }}>
-                <Divider />            
-            </Stack>
-
-            <Stack sx={{ width: { md: "80%", lg: '70%'}, py: { xs: "2rem" }, mx: "auto", my: '5rem', justifyContent: 'center', p: '1rem' }}>
+                <Divider variant="middle"/>            
                 <SignUpCTACard
                     direction='rtl'
                     CTAButtonText='Sign Up'
@@ -167,7 +161,7 @@ export const ViewMainPage = () => {
                     CTALink="auth/signup"
                 />
             </Stack>
-        </Stack>
+        </>
     );
 };
 

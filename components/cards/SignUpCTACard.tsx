@@ -10,7 +10,7 @@ interface Props {
     direction?: string;
     CTAButtonText: string;
     CTAText: string;
-    CTAImage: string;
+    CTAImage?: string;
     CTALink: string;
 }
 
@@ -20,25 +20,27 @@ const SignUpCTACard: React.FC<Props> = ({ direction, CTAButtonText, CTAText, CTA
         router.push(`/${id}`)
     }
     return (
-        <Grid container spacing={3} sx={{width: '100%', height: '20rem', borderRadius: '2rem'}} dir={direction}>
-            <Grid item xs={8} sx={{justifyItems: 'end', maxHeight: '20rem'}}>
-                <Avatar
-                        src={CTAImage}
-                        alt="Call to action image"
-                        sx={{
-                            width: 'auto',
-                            height: '100%',
-                            borderRadius: '1rem'
-                        }}
-                        variant="square"
-                />
+        <Grid container sx={{height: '20rem', borderRadius: '2rem'}} dir={direction}>
+            <Grid item container xs={12} lg={8} sx={{ maxHeight: '20rem', p: '1rem'}} justifyContent='center' alignItems='center'>
+                <Grid item xs={12}>
+                    <Avatar
+                            src={CTAImage}
+                            alt="Call to action image"
+                            sx={{
+                                width: 'auto',
+                                height: '15rem',
+                                borderRadius: '1rem'
+                            }}
+                            variant="square"
+                    />
+                </Grid>
             </Grid>
-            <Grid item container xs={4} spacing={1} sx={{alignContent: 'center'}}>
+            <Grid item container xs={12} lg={4} spacing={1} sx={{ p: '1rem'}} alignContent='center' alignItems='center'>
                 <Grid item container xs={12} sx={{justifyContent: 'center'}}>
                     <Typography variant="h2"> {CTAText} </Typography>
                 </Grid>
                 <Grid item container xs={12} sx={{justifyContent: 'center'}}>
-                    <CustomButton text={CTAButtonText} variant="contained" padsize="small" onClick={() => handleOnClick(CTALink)}/>
+                    <CustomButton text={CTAButtonText} variant="contained" padsize="none" width="12rem" onClick={() => handleOnClick(CTALink)}/>
                 </Grid>
             </Grid>
         </Grid>
