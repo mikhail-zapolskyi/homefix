@@ -1,49 +1,48 @@
-"use client"
-// Carousel component that takes in an array of data, and props from a parent. 
+"use client";
+// Carousel component that takes in an array of data, and props from a parent.
 // Takes in a component that styles the carousel item.
 // Should be put inside a parent component with a specified width.
 
 import React from "react";
-import { styled } from '@mui/material/styles'
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import { styled } from "@mui/material/styles";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { ReactNode } from "react";
 
-
-// Viewports 
+// Viewports
 const responsive = {
     desktop: {
         breakpoint: {
             max: 3000,
-            min: 1460
+            min: 1460,
         },
         items: 3,
-        partialVisibilityGutter: 40
+        partialVisibilityGutter: 40,
     },
     mobile: {
         breakpoint: {
             max: 464,
-            min: 0
+            min: 0,
         },
         items: 1,
-        partialVisibilityGutter: 30
+        partialVisibilityGutter: 30,
     },
     tablet: {
         breakpoint: {
             max: 1460,
-            min: 464
+            min: 464,
         },
         items: 2,
-        partialVisibilityGutter: 30
-    }
+        partialVisibilityGutter: 30,
+    },
 };
 
-const StyledCarousel = styled(Carousel) (({}) => ({
+const StyledCarousel = styled(Carousel)(({}) => ({
     "& .react-multi-carousel-item": {
-        paddingRight: '0.5rem',
-        paddingLeft: '0.5rem'
-    }
-}))
+        paddingRight: "0.5rem",
+        paddingLeft: "0.5rem",
+    },
+}));
 
 interface Props {
     children: ReactNode;
@@ -51,6 +50,7 @@ interface Props {
 
 const CustomCarousel: React.FC<Props> = ({ children }) => {
     return (
+        /* eslint-disable */
         <StyledCarousel
             additionalTransfrom={0}
             arrows
@@ -77,8 +77,7 @@ const CustomCarousel: React.FC<Props> = ({ children }) => {
             swipeable
         >
             {children}
-        </ StyledCarousel>
-
+        </StyledCarousel>
     );
 };
 

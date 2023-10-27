@@ -27,7 +27,7 @@ const output_request = {
     budget: 10000,
 };
 
-const page = ({ params }: { params: { serviceProfileId: string } }) => {
+const Page = ({ params }: { params: { serviceProfileId: string } }) => {
     const { serviceProfileId } = params;
     const router = useRouter();
     const [content, setContent] = useState<string>("");
@@ -108,4 +108,4 @@ const page = ({ params }: { params: { serviceProfileId: string } }) => {
     );
 };
 
-export default page;
+export default Page;

@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
     height: "100%",
+    padding: "2rem 0.5rem",
 
     [theme.breakpoints.up("md")]: {
         padding: "2rem",

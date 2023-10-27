@@ -186,16 +186,18 @@ const SearchedProfileCard: React.FC<Props> = ({
                     fullWidth
                 />
             </ListItem>
-            <ListItem>
-                <CustomButton
-                    onClick={onQuoteRequest}
-                    text="Quote Request"
-                    variant="contained"
-                    color="success"
-                    size="small"
-                    fullWidth
-                />
-            </ListItem>
+            {!accountHolder.state && (
+                <ListItem>
+                    <CustomButton
+                        onClick={onQuoteRequest}
+                        text="Quote Request"
+                        variant="contained"
+                        color="success"
+                        size="small"
+                        fullWidth
+                    />
+                </ListItem>
+            )}
             {!accountHolder.state && (
                 <ListItem>
                     <CustomButton
