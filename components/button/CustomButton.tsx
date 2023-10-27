@@ -5,20 +5,26 @@ import React, { MouseEvent, ReactNode } from "react";
 
 interface StyledButtonProps {
     padsize: "small" | "none";
+    width?: string;
 }
 
-const StyledButton = styled(Button)<StyledButtonProps>(({ padsize }) => ({
-    ...(padsize === "small" && {
-        minWidth: "5rem",
-        padding: "0.2rem",
-    }),
-    height: "fit-content",
-    borderRadius: ".8rem",
-    fontSize: "1rem",
-    fontWeight: "500",
-    textTransform: "inherit",
-    backgroundBlendMode: "lighten",
-}));
+const StyledButton = styled(Button)<StyledButtonProps>(
+    ({ padsize, width }) => ({
+        ...(padsize === "small" && {
+            minWidth: "5rem",
+            padding: "0.2rem",
+        }),
+        ...(width && {
+            width: width,
+        }),
+        height: "fit-content",
+        borderRadius: ".8rem",
+        fontSize: "1rem",
+        fontWeight: "500",
+        textTransform: "inherit",
+        backgroundBlendMode: "lighten",
+    })
+);
 
 interface ButtonProps {
     fullWidth?: boolean;
@@ -39,6 +45,7 @@ interface ButtonProps {
         | "info"
         | "warning";
     padsize?: "small" | "none";
+    width?: string;
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
@@ -53,6 +60,7 @@ const CustomButton: React.FC<ButtonProps> = ({
     variant = "outlined",
     color = "primary",
     padsize = "small",
+    width,
 }) => {
     return (
         <StyledButton
@@ -66,6 +74,7 @@ const CustomButton: React.FC<ButtonProps> = ({
             type={type}
             color={color}
             padsize={padsize}
+            width={width}
         >
             {text}
         </StyledButton>

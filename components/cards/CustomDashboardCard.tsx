@@ -5,9 +5,14 @@ import Card from "@mui/material/Card";
 interface Props {
     children: ReactNode;
     onClick?: () => void;
+    bgColor?: string;
 }
 
-const CustomDashboardCard: React.FC<Props> = ({ children, onClick }) => {
+const CustomDashboardCard: React.FC<Props> = ({
+    children,
+    bgColor,
+    onClick,
+}) => {
     return (
         <Card
             sx={{
@@ -16,6 +21,7 @@ const CustomDashboardCard: React.FC<Props> = ({ children, onClick }) => {
                 padding: "1rem",
                 borderRadius: "1rem",
                 position: "relative",
+                bgcolor: bgColor,
             }}
             elevation={4}
             onClick={onClick}

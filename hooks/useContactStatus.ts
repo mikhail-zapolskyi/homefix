@@ -16,7 +16,7 @@ const useContactStatus = ({
 }: Props): ContactStatus => {
     const [contactStatus, setContactStatus] = useState<ContactStatus>({
         status: "",
-        default: "Send Request",
+        default: "Add to Contact",
     });
 
     useEffect(() => {

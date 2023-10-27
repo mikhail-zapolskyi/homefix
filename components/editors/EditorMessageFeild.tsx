@@ -5,7 +5,6 @@ import { SendHorizontal } from "lucide-react";
 import { CustomButton } from "@/components";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import EditorLabel from "./elements/EditorLabel";
 import { Divider } from "@mui/material";
 import Placeholder from "@tiptap/extension-placeholder";
 
@@ -18,6 +17,7 @@ interface Props {
 
 const StyledDivWrapper = styled("div")(({ theme }) => ({
     width: "100%",
+    borderEndStartRadius: "0.8rem",
     borderEndEndRadius: "0.8rem",
     position: "relative",
     backgroundColor: `${theme.palette.common.white}`,
@@ -65,11 +65,6 @@ const EditorMessageFeild: React.FC<Props> = ({
                 placeholder: "Type here …",
             }),
         ],
-        editorProps: {
-            attributes: {
-                class: "test",
-            },
-        },
         content: content,
     });
 
