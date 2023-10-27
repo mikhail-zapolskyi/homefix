@@ -150,6 +150,7 @@ export const ViewMainPage = () => {
                     CTAButtonText='Become a Fixer'
                     CTAText='Make Some Money!' 
                     CTAImage="https://images.unsplash.com/photo-1473621038790-b778b4750efe?auto=format&fit=crop&q=80&w=2672&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    CTALink="auth/signup"
                 />
             </Stack>
 
@@ -163,6 +164,7 @@ export const ViewMainPage = () => {
                     CTAButtonText='Sign Up'
                     CTAText='Create Your FREE Account' 
                     CTAImage="https://images.unsplash.com/photo-1680626090716-4a6954d39d2a?auto=format&fit=crop&q=80&w=2670&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    CTALink="auth/signup"
                 />
             </Stack>
         </Stack>

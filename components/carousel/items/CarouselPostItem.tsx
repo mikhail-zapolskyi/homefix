@@ -4,10 +4,8 @@
 // Specifically made for a carousel item for blog posts. 
 // It takes in data and populates the fields of the card according.
 
-import { Stack, Typography, Avatar, Card, CardHeader, IconButton, CardMedia, CardContent } from "@mui/material";
-import { MoreVert } from '@mui/icons-material';
+import { Typography, Avatar, Card, CardHeader, CardMedia, CardContent } from "@mui/material";
 import { useRouter } from "next/navigation";
-import {FaLongArrowAltRight} from 'react-icons/fa'
 import { FullPost } from "@/app/types";
 import moment from "moment";
 
