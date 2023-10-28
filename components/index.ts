@@ -26,6 +26,7 @@ export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditDefaultCard } from "./cards/ViewEditDefaultCard";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
+export { default as SignUpCTACard } from "./cards/SignUpCTACard"
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";
@@ -85,3 +86,4 @@ export { default as ViewResetPassword } from "./views/ViewResetPassword";
 export { default as ViewProUserDashboard } from "./views/ViewProUserDashboard";
 export { default as ViewUserDashboard } from "./views/ViewUserDashboard";
 export { default as ViewSignIn } from "./views/ViewSignIn";
+export { default as ViewFullProject } from "./views/ViewFullProject"
