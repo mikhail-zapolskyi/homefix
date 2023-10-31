@@ -9,6 +9,7 @@ import useSWR from "swr";
 import _ from "lodash";
 import { FullProjectType } from "@/app/types";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
@@ -41,13 +42,14 @@ const Page = () => {
             </Grid>
             <Grid container item xs={12} spacing={2}>
                 {data.map((obj: FullProjectType) => (
-                    <Grid item xs={4} key={obj.id}>
+                    <Grid item xs={12} lg={6} key={obj.id}>
                         <DashProjectCard
                             title={obj.title}
                             createdAt={obj.createdAt}
                             budget={obj.budget}
                             status={obj.status}
                             onProceed={() => handleProceed(obj.id)}
+                            interest={obj.interest}
                         />
                     </Grid>
                 ))}

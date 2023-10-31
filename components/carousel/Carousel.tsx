@@ -50,7 +50,7 @@ interface Props {
 
 const CustomCarousel: React.FC<Props> = ({ children }) => {
     return (
-        /* eslint-disable */
+        /* tslint-disable */
         <StyledCarousel
             additionalTransfrom={0}
             arrows

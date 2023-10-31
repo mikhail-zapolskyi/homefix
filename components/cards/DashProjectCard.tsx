@@ -16,7 +16,6 @@ import {
     Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { FullProjectType } from "@/app/types";
 import { MoreVertical, Trash2, DraftingCompass } from "lucide-react";
 import moment from "moment";
 import { blue, green, orange, purple, red } from "@mui/material/colors";
@@ -27,6 +26,7 @@ type Props = {
     createdAt: Date;
     budget: number | null;
     status: $Enums.ProjectStatus;
+    interest?: string | null | undefined;
     onProceed?: () => void;
     onDelete?: () => void;
 };
@@ -38,6 +38,7 @@ const DashProjectCard: FC<Props> = ({
     createdAt,
     budget,
     status,
+    interest,
 }) => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -169,6 +170,27 @@ const DashProjectCard: FC<Props> = ({
                                     </Typography>
                                 </TableCell>
                             </TableRow>
+                            {interest && (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        <Typography variant="body1">
+                                            Interest:
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography
+                                            variant="body2"
+                                            color={
+                                                color[
+                                                    interest as keyof typeof color
+                                                ]
+                                            }
+                                        >
+                                            {interest}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

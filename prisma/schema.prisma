@@ -187,6 +187,9 @@ model ServiceProfile {
   categories      ServiceCategory[]
   offers          ReverseOffer[]
 
+  approvedInProjectId String[]          @db.ObjectId
+  approvedInProject   Project[]         @relation("approved", fields: [approvedInProjectId], references: [id])
+
   interestedInProjectId String[]          @db.ObjectId
   interestedInProject   Project[]         @relation("interested", fields: [interestedInProjectId], references: [id])
 
@@ -255,6 +258,9 @@ model Project {
 
     interestedId     String[]            @db.ObjectId
     interested       ServiceProfile[]    @relation("interested", fields: [interestedId], references: [id])
+
+    approvedId     String[]            @db.ObjectId
+    approved       ServiceProfile[]    @relation("approved", fields: [approvedId], references: [id])
 
     serviceProfileId String[]           @db.ObjectId
     service          ServiceProfile[]  @relation(fields: [serviceProfileId], references: [id])

@@ -29,7 +29,6 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json(project);
     } catch (error) {
-        console.log(error);
         return errorHandler(error);
     }
 }
