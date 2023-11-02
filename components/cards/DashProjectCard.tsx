@@ -28,7 +28,7 @@ import {
     DraftingCompass,
 } from "lucide-react";
 import moment from "moment";
-import { blue, green, orange, purple, red } from "@mui/material/colors";
+import { blue, brown, green, orange, purple, red } from "@mui/material/colors";
 import { $Enums, ServiceProfile, User } from "@prisma/client";
 
 type Props = {
@@ -86,10 +86,11 @@ const DashProjectCard: FC<Props> = ({
     const color = {
         INITIATED: blue[600],
         APPROVED: green[400],
-        INPROGRESS: orange[600],
+        IN_PROGRESS: orange[600],
         COMPLETED: green[700],
         INCOMPLETED: red[600],
         ACCEPTED: purple[600],
+        REVIEWED: brown[500],
     };
 
     return (
@@ -184,13 +185,13 @@ const DashProjectCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <CircleDotDashed
-                                                color={color["INPROGRESS"]}
+                                                color={color["IN_PROGRESS"]}
                                             />
                                         </ListItemIcon>
                                         Project in Progress
                                     </MenuItem>
                                 )}
-                                {onComplete && status == "INPROGRESS" && (
+                                {onComplete && status == "IN_PROGRESS" && (
                                     <MenuItem
                                         onClick={() => {
                                             onComplete();
@@ -205,7 +206,7 @@ const DashProjectCard: FC<Props> = ({
                                         Complete Project
                                     </MenuItem>
                                 )}
-                                {onIncomplete && status == "INPROGRESS" && (
+                                {onIncomplete && status == "IN_PROGRESS" && (
                                     <MenuItem
                                         onClick={() => {
                                             onIncomplete();

@@ -4,8 +4,7 @@ import React, { FC } from "react";
 import { Stack, Grid } from "@mui/material";
 import { DashProjectCard } from "@/components";
 import { FullProjectType } from "@/app/types";
-import { useRouter } from "next/navigation";
-import { KeyedMutator, mutate } from "swr";
+import { KeyedMutator } from "swr";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
@@ -14,8 +13,6 @@ type Props = FullProjectType & {
 };
 
 const ViewDashLead: FC<Props> = ({ ...props }) => {
-    const router = useRouter();
-
     const handleInterest = async (projectId: string) => {
         try {
             const response = await axios.put(

@@ -272,10 +272,11 @@ model Project {
 enum ProjectStatus {
     INITIATED
     APPROVED
-    INPROGRESS
+    IN_PROGRESS
     COMPLETED
     INCOMPLETED
     ACCEPTED
+    REVIEWED
 }
 
 model ReverseOffer {

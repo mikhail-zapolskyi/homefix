@@ -30,7 +30,7 @@ export async function PUT(
         // Extract project and service profile IDs from the request body
         const { projectId } = params;
         const { serviceProfileId } = await req.json();
-        console.log(serviceProfileId);
+
         // Get the current user
         const currentUser = await getCurrentUser();
 

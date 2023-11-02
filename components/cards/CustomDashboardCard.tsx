@@ -6,12 +6,14 @@ interface Props {
     children: ReactNode;
     onClick?: () => void;
     bgColor?: string;
+    border?: string;
 }
 
 const CustomDashboardCard: React.FC<Props> = ({
     children,
     bgColor,
     onClick,
+    border = "none",
 }) => {
     return (
         <Card
@@ -22,6 +24,7 @@ const CustomDashboardCard: React.FC<Props> = ({
                 borderRadius: "1rem",
                 position: "relative",
                 bgcolor: bgColor,
+                border: border,
             }}
             elevation={4}
             onClick={onClick}
