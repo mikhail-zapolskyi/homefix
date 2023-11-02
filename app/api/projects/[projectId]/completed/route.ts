@@ -19,10 +19,13 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import _ from "lodash";
 
-export async function PUT(req: NextRequest) {
+export async function PUT(
+    req: NextRequest,
+    { params }: { params: { projectId: string } }
+) {
     try {
         // Extract project and service profile IDs from the request body
-        const { projectId } = await req.json();
+        const { projectId } = params;
 
         // Get the current user
         const currentUser = await getCurrentUser();

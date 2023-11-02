@@ -4,8 +4,7 @@ import { DashContactCard, Loader } from "@/components";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 

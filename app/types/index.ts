@@ -32,8 +32,11 @@ export type SearchServiceProfilesType = ServiceProfile & {
 };
 
 export type FullProjectType = Project & {
-    service: ServiceProfile[];
+    service?: ServiceProfile[];
+    interested?: ServiceProfile[];
+    approved?: ServiceProfile[];
     interest?: string | null;
+    user?: User;
 };
 
 export type FullPost = Post & {

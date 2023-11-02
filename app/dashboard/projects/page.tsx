@@ -80,7 +80,8 @@ const Page = () => {
                             createdAt={obj.createdAt}
                             budget={obj.budget}
                             status={obj.status}
-                            onProceed={() => handleProceed(obj.id)}
+                            interested={obj.interested}
+                            onProceedToProject={() => handleProceed(obj.id)}
                             onDelete={() => handleDelete(obj.id)}
                         />
                     </Grid>

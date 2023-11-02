@@ -1,3 +1,5 @@
+"use client";
+
 import { ConversationContactsType } from "@/app/types";
 import moment from "moment";
 import { useMemo } from "react";

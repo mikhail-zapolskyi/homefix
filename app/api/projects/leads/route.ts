@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json([]);
         }
 
-        const projects: FullProjectType[] = await prisma.project.findMany({
+        const projects = await prisma.project.findMany({
             where: {
                 OR: [
                     {
@@ -49,6 +49,7 @@ export async function GET(req: NextRequest) {
             include: {
                 service: true,
                 interested: true,
+                approved: true,
             },
             orderBy: {
                 createdAt: "desc",
@@ -63,7 +64,7 @@ export async function GET(req: NextRequest) {
                 }
 
                 if (obj.approvedId.includes(serviceProfile.id)) {
-                    return { ...obj, interest: "APPROVED" };
+                    return { ...obj, interest: "ACCEPTED" };
                 }
 
                 return { ...obj, interest: null };

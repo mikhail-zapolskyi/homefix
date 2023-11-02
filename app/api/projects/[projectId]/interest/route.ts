@@ -19,9 +19,12 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import _ from "lodash";
 
-export async function PUT(req: NextRequest) {
+export async function PUT(
+    req: NextRequest,
+    { params }: { params: { projectId: string } }
+) {
     try {
-        const { projectId } = await req.json();
+        const { projectId } = params;
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {

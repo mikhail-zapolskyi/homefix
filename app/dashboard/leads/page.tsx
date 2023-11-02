@@ -32,7 +32,7 @@ const Page = () => {
     }
 
     const handleProceed = (projectId: string) => {
-        router.push(`/dashboard/projects/${projectId}`);
+        router.push(`/dashboard/leads/${projectId}`);
     };
 
     return !_.isEmpty(data) ? (
@@ -48,7 +48,7 @@ const Page = () => {
                             createdAt={obj.createdAt}
                             budget={obj.budget}
                             status={obj.status}
-                            onProceed={() => handleProceed(obj.id)}
+                            onProceedToProject={() => handleProceed(obj.id)}
                             interest={obj.interest}
                         />
                     </Grid>
