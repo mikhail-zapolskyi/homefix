@@ -47,3 +47,4 @@ export type FullContactType = Contact & {
     contactRequest: ContactRequest[];
     user: UserWithServiceProfileOrNull[];
 };
+
