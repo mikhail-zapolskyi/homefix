@@ -3,6 +3,7 @@ import errorHandler from "@/lib/error/errorHandler";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import _ from "lodash";
+import { FullProjectType } from "@/app/types";
 
 export async function GET(req: NextRequest) {
     try {
@@ -25,21 +26,52 @@ export async function GET(req: NextRequest) {
             return NextResponse.json([]);
         }
 
-        const project = await prisma.project.findMany({
+        const projects = await prisma.project.findMany({
             where: {
-                serviceProfileId: {
-                    has: serviceProfile.id,
-                },
+                OR: [
+                    {
+                        serviceProfileId: {
+                            has: serviceProfile.id,
+                        },
+                    },
+                    {
+                        interestedId: {
+                            has: serviceProfile.id,
+                        },
+                    },
+                    {
+                        approvedId: {
+                            has: serviceProfile.id,
+                        },
+                    },
+                ],
             },
             include: {
                 service: true,
+                interested: true,
+                approved: true,
             },
             orderBy: {
                 createdAt: "desc",
             },
         });
 
-        return NextResponse.json(project);
+        const aggregatedProjects = _.map(
+            projects,
+            function (obj: FullProjectType) {
+                if (obj.interestedId.includes(serviceProfile.id)) {
+                    return { ...obj, interest: "INITIATED" };
+                }
+
+                if (obj.approvedId.includes(serviceProfile.id)) {
+                    return { ...obj, interest: "ACCEPTED" };
+                }
+
+                return { ...obj, interest: null };
+            }
+        );
+
+        return NextResponse.json(aggregatedProjects);
     } catch (error) {
         return errorHandler(error);
     }

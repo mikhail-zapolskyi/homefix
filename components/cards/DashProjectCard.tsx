@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { CustomDashboardCard } from "@/components";
+import { CustomDashboardCard, EditorView } from "@/components";
 import {
     CardContent,
     CardHeader,
@@ -16,28 +16,62 @@ import {
     Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { FullProjectType } from "@/app/types";
-import { MoreVertical, Trash2, DraftingCompass } from "lucide-react";
+import {
+    MoreVertical,
+    Trash2,
+    ClipboardCheck,
+    MessageCircle,
+    CheckCircle,
+    CircleDotDashed,
+    User2,
+    ThumbsUp,
+    DraftingCompass,
+} from "lucide-react";
 import moment from "moment";
 import { blue, green, orange, purple, red } from "@mui/material/colors";
-import { $Enums } from "@prisma/client";
+import { $Enums, ServiceProfile, User } from "@prisma/client";
 
 type Props = {
     title: string | null;
     createdAt: Date;
     budget: number | null;
     status: $Enums.ProjectStatus;
-    onProceed?: () => void;
+    content?: string | null | undefined;
+    interest?: string | null | undefined;
+    user?: User;
+    interested?: ServiceProfile[];
+    approved?: ServiceProfile[];
+    onProceedToProject?: () => void;
+    onAccept?: () => void;
+    onInprogress?: () => void;
+    onComplete?: () => void;
+    onIncomplete?: () => void;
+    onApprove?: () => void;
     onDelete?: () => void;
+    onSendMessage?: () => void;
+    onInterest?: () => void;
+    onProceedToUserProfile?: () => void;
 };
 
 const DashProjectCard: FC<Props> = ({
-    onProceed,
-    onDelete,
     title,
     createdAt,
     budget,
+    content,
     status,
+    interest,
+    interested,
+    approved,
+    user,
+    onProceedToProject,
+    onInprogress,
+    onComplete,
+    onIncomplete,
+    onAccept,
+    onDelete,
+    onSendMessage,
+    onInterest,
+    onProceedToUserProfile,
 }) => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -51,9 +85,9 @@ const DashProjectCard: FC<Props> = ({
 
     const color = {
         INITIATED: blue[600],
-        APPROVED: green[600],
+        APPROVED: green[400],
         INPROGRESS: orange[600],
-        COMPLETED: green[200],
+        COMPLETED: green[700],
         INCOMPLETED: red[600],
         ACCEPTED: purple[600],
     };
@@ -100,10 +134,10 @@ const DashProjectCard: FC<Props> = ({
                                     },
                                 }}
                             >
-                                {onProceed && (
+                                {onProceedToProject && (
                                     <MenuItem
                                         onClick={() => {
-                                            onProceed();
+                                            onProceedToProject();
                                             handleClose();
                                         }}
                                     >
@@ -111,6 +145,97 @@ const DashProjectCard: FC<Props> = ({
                                             <DraftingCompass />
                                         </ListItemIcon>
                                         Proceed to Project
+                                    </MenuItem>
+                                )}
+                                {onProceedToUserProfile && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onProceedToUserProfile();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <User2 />
+                                        </ListItemIcon>
+                                        Proceed to User Profile
+                                    </MenuItem>
+                                )}
+                                {onInterest && status == "INITIATED" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onInterest();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <ThumbsUp
+                                                color={`${theme.palette.primary.light}`}
+                                            />
+                                        </ListItemIcon>
+                                        Express Interest
+                                    </MenuItem>
+                                )}
+                                {onInprogress && status == "APPROVED" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onInprogress();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <CircleDotDashed
+                                                color={color["INPROGRESS"]}
+                                            />
+                                        </ListItemIcon>
+                                        Project in Progress
+                                    </MenuItem>
+                                )}
+                                {onComplete && status == "INPROGRESS" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onComplete();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <ClipboardCheck
+                                                color={color["COMPLETED"]}
+                                            />
+                                        </ListItemIcon>
+                                        Complete Project
+                                    </MenuItem>
+                                )}
+                                {onIncomplete && status == "INPROGRESS" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onIncomplete();
+                                            handleClose();
+                                        }}
+                                        sx={{
+                                            color: "warning.main",
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <Trash2
+                                                color={color["INCOMPLETED"]}
+                                            />
+                                        </ListItemIcon>
+                                        Incomplete Project
+                                    </MenuItem>
+                                )}
+                                {onAccept && status == "COMPLETED" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onAccept();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <CheckCircle
+                                                color={color["ACCEPTED"]}
+                                            />
+                                        </ListItemIcon>
+                                        Accept Project Completion
                                     </MenuItem>
                                 )}
                                 {onDelete && (
@@ -133,12 +258,28 @@ const DashProjectCard: FC<Props> = ({
                                         Delete Project
                                     </MenuItem>
                                 )}
+                                {onSendMessage && status !== "INITIATED" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onSendMessage();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <MessageCircle
+                                                color={`${theme.palette.primary.main}`}
+                                            />
+                                        </ListItemIcon>
+                                        Send a Message
+                                    </MenuItem>
+                                )}
                             </Menu>
                         )}
                     </>
                 }
             />
             <CardContent>
+                {content && <EditorView content={content || ""} />}
                 <TableContainer>
                     <Table aria-label="customized table">
                         <TableBody>
@@ -169,6 +310,84 @@ const DashProjectCard: FC<Props> = ({
                                     </Typography>
                                 </TableCell>
                             </TableRow>
+                            {interest && (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        <Typography variant="body1">
+                                            Interest:
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography
+                                            variant="body2"
+                                            color={
+                                                color[
+                                                    interest as keyof typeof color
+                                                ]
+                                            }
+                                        >
+                                            {interest}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                            {interested && (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        <Typography variant="body1">
+                                            Project Contractor:
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography variant="body2">
+                                            {interested.length}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                            {approved &&
+                                approved.map((obj: ServiceProfile) => (
+                                    <TableRow key={obj.id}>
+                                        <TableCell component="th" scope="row">
+                                            <Typography variant="body1">
+                                                Project Contractor:
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Typography
+                                                variant="body2"
+                                                color={
+                                                    color[
+                                                        interest as keyof typeof color
+                                                    ]
+                                                }
+                                            >
+                                                {obj.name}
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            {user && (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        <Typography variant="body1">
+                                            Project Owner:
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography
+                                            variant="body2"
+                                            color={
+                                                color[
+                                                    interest as keyof typeof color
+                                                ]
+                                            }
+                                        >
+                                            {user.name}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

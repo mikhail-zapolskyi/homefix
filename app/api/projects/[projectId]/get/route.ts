@@ -4,8 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import _ from "lodash";
 
-export async function GET(req: NextRequest) {
+export async function GET(
+    req: NextRequest,
+    { params }: { params: { projectId: string } }
+) {
     try {
+        const { projectId } = params;
+
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {
@@ -15,15 +20,14 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        const project = await prisma.project.findMany({
+        const project = await prisma.project.findFirst({
             where: {
-                userId: currentUser.id,
+                AND: [{ id: projectId }, { userId: currentUser.id }],
             },
             include: {
                 service: true,
-            },
-            orderBy: {
-                createdAt: "desc",
+                interested: true,
+                approved: true,
             },
         });
 

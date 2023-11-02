@@ -26,7 +26,8 @@ export { default as ViewEditCategory } from "./cards/ViewEditCategory";
 export { default as ViewEditDefaultCard } from "./cards/ViewEditDefaultCard";
 export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
-export { default as SignUpCTACard } from "./cards/SignUpCTACard"
+export { default as SignUpCTACard } from "./cards/SignUpCTACard";
+export { default as DashProjectServiceCard } from "./cards/DashProjectServiceCard";
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";
@@ -43,7 +44,6 @@ export { default as MessageItem } from "./list/item/MessageItem";
 
 // Emails
 export { default as Email } from "./emails/email";
-
 
 // Inputs
 export { default as CustomRadioGroup } from "./inputs/CustomRadioGroup";
@@ -65,19 +65,18 @@ export { default as AppBar } from "./navigation/AppBar";
 export { default as MenuOption } from "./navigation/MenuOption";
 export { default as SlideMenu } from "./navigation/SlideMenu";
 
-
 // Progress
 export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";
 
-// Carousel 
-export { default as CustomCarousel } from "./carousel/Carousel"
-export { default as CarouselPostItem } from "./carousel/items/CarouselPostItem"
+// Carousel
+export { default as CustomCarousel } from "./carousel/Carousel";
+export { default as CarouselPostItem } from "./carousel/items/CarouselPostItem";
 
 // Views
 export { default as UserReviewsView } from "./views/UserReviewsView";
 export { default as ViewMainPage } from "./views/ViewMainPage";
 export { default as ViewDashServPro } from "./views/ViewDashServPro";
-export { default as ViewDashUserPro} from "./views/ViewDashUserPro"
+export { default as ViewDashUserPro } from "./views/ViewDashUserPro";
 export { default as ViewServProPage } from "./views/ViewServProPage";
 export { default as ViewSignUp } from "./views/ViewSignUp";
 export { default as ViewProSignUp } from "./views/ViewProSignUp";
@@ -86,4 +85,6 @@ export { default as ViewResetPassword } from "./views/ViewResetPassword";
 export { default as ViewProUserDashboard } from "./views/ViewProUserDashboard";
 export { default as ViewUserDashboard } from "./views/ViewUserDashboard";
 export { default as ViewSignIn } from "./views/ViewSignIn";
-export { default as ViewFullProject } from "./views/ViewFullProject"
+export { default as ViewFullProject } from "./views/ViewFullProject";
+export { default as ViewDashProject } from "./views/ViewDashProject";
+export { default as ViewDashLead } from "./views/ViewDashLead";

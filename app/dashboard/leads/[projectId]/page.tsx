@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, ViewDashProject } from "@/components";
+import { Loader, ViewDashLead } from "@/components";
 import React from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
@@ -10,7 +10,7 @@ const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 const Page = ({ params }: { params: { projectId: string } }) => {
     const { projectId } = params;
     const { data, error, isLoading, mutate } = useSWR(
-        `/api/projects/${projectId}/get`,
+        `/api/projects/leads/${projectId}`,
         fetcher,
         {
             revalidateOnFocus: true,
@@ -26,7 +26,7 @@ const Page = ({ params }: { params: { projectId: string } }) => {
     }
 
     return (
-        <ViewDashProject
+        <ViewDashLead
             id={data.id}
             title={data.title}
             content={data.content}
@@ -40,8 +40,9 @@ const Page = ({ params }: { params: { projectId: string } }) => {
             serviceProfileId={data.serviceProfileId}
             userId={data.userId}
             service={data.service}
-            interested={data.interested}
+            intersted={data.interested}
             approved={data.approved}
+            user={data.user}
             mutate={() => mutate()}
         />
     );
