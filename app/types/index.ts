@@ -36,7 +36,7 @@ export type FullProjectType = Project & {
     interested?: ServiceProfile[];
     approved?: ServiceProfile[];
     interest?: string | null;
-    user?: User;
+    user: User;
 };
 
 export type FullPost = Post & {

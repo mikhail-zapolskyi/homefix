@@ -11,6 +11,7 @@ export async function GET(
     }
 ) {
     const { id } = params;
+    console.log(id)
     try {
         const user = await prisma.user.findUnique({
             where: { id },
