@@ -10,6 +10,7 @@ import {
     Contact,
     ContactRequest,
     $Enums,
+    Review,
 } from "@prisma/client";
 
 export type FullMessageType = Message & {
@@ -50,4 +51,8 @@ type UserWithServiceProfileOrNull = User & {
 export type FullContactType = Contact & {
     contactRequest: ContactRequest[];
     user: UserWithServiceProfileOrNull[];
+};
+
+export type ReviewCreationType = Review & {
+    id?: string;
 };

@@ -58,7 +58,7 @@ const Page = () => {
             variant="contained"
             width="10rem"
             onClick={() =>
-                console.log(
+                alert(
                     "Need to create end point to create project and send to all realted services in the area of the user"
                 )
             }

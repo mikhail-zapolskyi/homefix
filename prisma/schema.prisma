@@ -167,7 +167,7 @@ model ServiceProfile {
   name            String?           @default("Service Name")
   email           String?           @default("service@profile.email")
   phone           String?           @default("000-000-0000")
-  rating          Float?            @default(0) @db.Double
+  rating          Int?              @default(0)
   introduction    String?           @default("Write your service introduction")
   experience      Int?              @default(0)
   bio             String?           @default("Write your own bio as specialist")
@@ -292,10 +292,8 @@ model ReverseOffer {
 
 model Review {
   id               String     @id @default(auto()) @map("_id") @db.ObjectId
-  rating           Int?
-  comment          String?
   content          String?
-  service_quality  Int?
+  service_quality  Int?       
   punctuality      Int?
   communication    Int?
   consultations    Int?
@@ -308,12 +306,11 @@ model Review {
   emergency        Int?
   value_for_money  Int?
   reliability      Int?
-  safety           Int?
   transparency     Int?
   discounts        Int?
   innovation       Int?
   accountability   Int?
-  overall_rating   Float?     @default(0) @db.Double
+  overall_rating   Int?     @default(0)
   createdAt        DateTime?  @default(now())
   projectId        String           @db.ObjectId
 

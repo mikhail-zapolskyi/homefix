@@ -239,7 +239,7 @@ const DashProjectCard: FC<Props> = ({
                                         Accept Project Completion
                                     </MenuItem>
                                 )}
-                                {onDelete && (
+                                {onDelete && status !== "ACCEPTED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onDelete();
@@ -284,18 +284,46 @@ const DashProjectCard: FC<Props> = ({
                 <TableContainer>
                     <Table aria-label="customized table">
                         <TableBody>
-                            <TableRow>
-                                <TableCell component="th" scope="row">
-                                    <Typography variant="body1">
-                                        Budget:
-                                    </Typography>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Typography variant="body2">
-                                        ${budget}
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
+                            {status !== "ACCEPTED" && (
+                                <>
+                                    <TableRow>
+                                        <TableCell component="th" scope="row">
+                                            <Typography variant="body1">
+                                                Budget:
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Typography variant="body2">
+                                                ${budget}
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                    {interest && (
+                                        <TableRow>
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                <Typography variant="body1">
+                                                    Interest:
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <Typography
+                                                    variant="body2"
+                                                    color={
+                                                        color[
+                                                            interest as keyof typeof color
+                                                        ]
+                                                    }
+                                                >
+                                                    {interest}
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </>
+                            )}
                             <TableRow>
                                 <TableCell component="th" scope="row">
                                     <Typography variant="body1">
@@ -311,27 +339,7 @@ const DashProjectCard: FC<Props> = ({
                                     </Typography>
                                 </TableCell>
                             </TableRow>
-                            {interest && (
-                                <TableRow>
-                                    <TableCell component="th" scope="row">
-                                        <Typography variant="body1">
-                                            Interest:
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Typography
-                                            variant="body2"
-                                            color={
-                                                color[
-                                                    interest as keyof typeof color
-                                                ]
-                                            }
-                                        >
-                                            {interest}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            )}
+
                             {interested && (
                                 <TableRow>
                                     <TableCell component="th" scope="row">
@@ -387,6 +395,17 @@ const DashProjectCard: FC<Props> = ({
                                             {user.name}
                                         </Typography>
                                     </TableCell>
+                                </TableRow>
+                            )}
+                            {status === "ACCEPTED" && (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        <Typography variant="body1">
+                                            Job has been successfully completed
+                                            and is now awaiting review.
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right"></TableCell>
                                 </TableRow>
                             )}
                         </TableBody>

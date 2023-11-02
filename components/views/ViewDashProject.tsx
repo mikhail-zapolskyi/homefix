@@ -78,9 +78,6 @@ const ViewDashProject: FC<Props> = ({ ...props }) => {
                         content={props.content}
                         approved={props.approved}
                         onAccept={() => handleAccept(props.id)}
-                        onComplete={() =>
-                            alert("connect end point to complete")
-                        }
                         onDelete={() => alert("connect end point to delete")}
                     />
                     {props.service && !_.isEmpty(props.service) && (
@@ -136,7 +133,7 @@ const ViewDashProject: FC<Props> = ({ ...props }) => {
                                         }
                                         onReview={() =>
                                             router.push(
-                                                `/services/${obj.id}/review`
+                                                `/services/${obj.id}/review/${props.id}`
                                             )
                                         }
                                         onSendMessage={() =>

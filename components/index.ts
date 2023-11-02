@@ -34,6 +34,7 @@ export { default as DashboardContainer } from "./container/DashboardContainer";
 export { default as PageContainer } from "./container/PageContainer";
 export { default as SectionWithTitle } from "./container/SectionWithTitle";
 export { default as AuthContainer } from "./container/AuthContainer";
+export { default as ReviewContainer } from "./container/ReviewContainer";
 
 // Editor
 export { default as EditorField } from "./editors/EditorField";
@@ -52,6 +53,7 @@ export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectCreateField } from "./inputs/SelectCreateField";
 export { default as SelectField } from "./inputs/SelectField";
+export { default as SliderInput } from "./inputs/SliderInput";
 
 // Lists
 export { default as ContactList } from "./list/ContactList";
