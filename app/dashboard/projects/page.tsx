@@ -53,44 +53,40 @@ const Page = () => {
 
     const renderCreateProjectButton = (
         <CustomButton
-            text="Create Project"
+            text="Create Project and Send Request"
             padsize="none"
             variant="contained"
-            width="10rem"
+            width="18rem"
             onClick={() => router.push("/projects/quote/multi-request")}
         />
     );
 
-    return !_.isEmpty(data) ? (
+    return (
         <Grid container justifyContent="center" spacing={2}>
             <Grid item xs={12}>
-                <SectionWithTitle title="Projects Board">
+                <SectionWithTitle
+                    title={`Projects Board / Currently you have ${data.length} projects`}
+                >
                     {renderCreateProjectButton}
                 </SectionWithTitle>
             </Grid>
-            <Grid container item xs={12} spacing={2}>
-                {data.map((obj: FullProjectType) => (
-                    <Grid item xs={12} lg={6} key={obj.id}>
-                        <DashProjectCard
-                            title={obj.title}
-                            createdAt={obj.createdAt}
-                            budget={obj.budget}
-                            status={obj.status}
-                            interested={obj.interested}
-                            onProceedToProject={() => handleProceed(obj.id)}
-                            onDelete={() => handleDelete(obj.id)}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        </Grid>
-    ) : (
-        <Grid container>
-            <Grid item xs={12}>
-                <SectionWithTitle title="You currently lack any projects">
-                    {renderCreateProjectButton}
-                </SectionWithTitle>
-            </Grid>
+            {!_.isEmpty(data) && (
+                <Grid container item xs={12} spacing={2}>
+                    {data.map((obj: FullProjectType) => (
+                        <Grid item xs={12} lg={6} key={obj.id}>
+                            <DashProjectCard
+                                title={obj.title}
+                                createdAt={obj.createdAt}
+                                budget={obj.budget}
+                                status={obj.status}
+                                interested={obj.interested}
+                                onProceedToProject={() => handleProceed(obj.id)}
+                                onDelete={() => handleDelete(obj.id)}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
         </Grid>
     );
 };

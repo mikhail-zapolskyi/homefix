@@ -35,31 +35,29 @@ const Page = () => {
         router.push(`/dashboard/leads/${projectId}`);
     };
 
-    return !_.isEmpty(data) ? (
+    return (
         <Grid container justifyContent="center" spacing={2}>
             <Grid item xs={12}>
-                <SectionWithTitle title="Leads Board" />
+                <SectionWithTitle
+                    title={`Leads Board / Currently you have ${data.length} leads`}
+                />
             </Grid>
-            <Grid container item xs={12} spacing={2}>
-                {data.map((obj: FullProjectType) => (
-                    <Grid item xs={12} lg={6} key={obj.id}>
-                        <DashProjectCard
-                            title={obj.title}
-                            createdAt={obj.createdAt}
-                            budget={obj.budget}
-                            status={obj.status}
-                            onProceedToProject={() => handleProceed(obj.id)}
-                            interest={obj.interest}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        </Grid>
-    ) : (
-        <Grid container justifyContent="center">
-            <Grid item xs={12}>
-                <SectionWithTitle title="You currently lack any leads" />
-            </Grid>
+            {!_.isEmpty(data) && (
+                <Grid container item xs={12} spacing={2}>
+                    {data.map((obj: FullProjectType) => (
+                        <Grid item xs={12} lg={6} key={obj.id}>
+                            <DashProjectCard
+                                title={obj.title}
+                                createdAt={obj.createdAt}
+                                budget={obj.budget}
+                                status={obj.status}
+                                onProceedToProject={() => handleProceed(obj.id)}
+                                interest={obj.interest}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
         </Grid>
     );
 };
