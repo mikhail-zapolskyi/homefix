@@ -57,11 +57,7 @@ const Page = () => {
             padsize="none"
             variant="contained"
             width="10rem"
-            onClick={() =>
-                alert(
-                    "Need to create end point to create project and send to all realted services in the area of the user"
-                )
-            }
+            onClick={() => router.push("/projects/quote/multi-request")}
         />
     );
 
