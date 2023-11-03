@@ -8,65 +8,14 @@ import {
     SliderInput,
 } from "@/components";
 import { useValidateReviewFields } from "@/hooks";
-import { Fields } from "@/hooks/useValidateReviewFields";
 import { Box, Stack } from "@mui/material";
-import { Review } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import _ from "lodash";
 import { toast } from "react-toastify";
-
-type ReviewCreationType = Omit<
-    Review,
-    | "id"
-    | "createdAt"
-    | "userId"
-    | "serviceProfileId"
-    | "projectId"
-    | "overall_rating"
-    | "content"
->;
-
-const explanation = {
-    service_quality:
-        "The cornerstone of any exceptional service experience, it reflects the overall standard and satisfaction derived from the service provided.",
-    punctuality:
-        "Punctuality pertains to the service provider's ability to consistently adhere to scheduled appointments or delivery times. It ensures that the service is reliable and dependable in terms of timing.",
-    communication:
-        "Communication involves the effectiveness of interactions with the service professional. It encompasses responsiveness, clarity, and the ability to convey information and address concerns promptly and accurately.",
-    consultations:
-        "Offering free consultations or assessments before providing the service.",
-    professionalism:
-        "Professionalism refers to the overall conduct, attitude, and appearance of the service provider. It reflects their commitment to maintaining a high standard of service and treating customers with respect.",
-    expertise:
-        "Demonstrating excellence and deep knowledge in the specific field of service, assuring customers of the provider's competence and ability to deliver high-quality results.",
-    efficiency:
-        "Efficiency evaluates the speed and effectiveness with which the service is delivered, ensuring that the service is completed in a timely and satisfactory manner.",
-    accuracy:
-        "Accuracy is critical for services that require precision and attention to detail. It ensures that the service is performed with a high degree of precision and correctness.",
-    problem_solving:
-        "Problem-solving assesses the service provider's ability to address issues and challenges in a friendly and courteous manner, ensuring that the customer's concerns are resolved effectively.",
-    emergency:
-        "Emergency services are available 24/7 to address urgent needs. This provides customers with peace of mind, knowing that help is readily available in critical situations.",
-    value_for_money:
-        "Value for money evaluates whether the service provided justifies its cost. It considers the quality and benefits of the service in relation to the price paid.",
-    reliability:
-        "Reliability focuses on the consistency and dependability of the service professional. Customers can count on the service being delivered as promised every time.",
-    transparency:
-        "Transparency involves openness and clarity in all aspects of the service, including pricing, terms, and conditions. Customers should have a clear understanding of what they are receiving.",
-    discounts:
-        "By participating in referral programs, customers can receive discounts or rewards for successfully referring others to the service, making it more affordable and enticing. Any other discounts",
-    innovation:
-        "Innovation signifies the use of new and inventive methods or technology in service delivery, ensuring that the service remains up-to-date and efficient.",
-    accountability:
-        "Accountability entails taking responsibility for any mistakes or issues that may arise during the service. It demonstrates a commitment to rectifying problems and ensuring customer satisfaction.",
-    friendliness:
-        "Friendliness evaluates the service provider's approachability and courtesy during interactions with the customer. A friendly demeanor creates a positive and welcoming service experience",
-    overall_rating: "",
-    content: "",
-    projectId: "",
-    serviceProfileId: "",
-};
+import axios, { AxiosError } from "axios";
+import { ReviewCriteria, ReviewCreationType } from "@/app/types";
+import { explanation } from "@/assets/review/explanation";
 
 const Page = ({
     params,
@@ -124,15 +73,28 @@ const Page = ({
     };
 
     const handleSubmitReview = async () => {
-        const isValid = validateForm(review as Fields);
-        console.log({ errorContent, isValid });
+        // Get validation results
+        const isValid = validateForm(review as ReviewCriteria);
 
+        // Validate if the evaluation is complete and all fields are present.
         if (!isValid) {
-            return toast.error("Not VAlid");
+            return;
         }
+        // Combine review data with other details into a single review object for sending to an endpoint.
         const data = { ...review, ...otherDetails };
-        alert(JSON.stringify(data));
-        // router.push("/dashboard/projects");
+
+        try {
+            const response = await axios.post("/api/reviews", data);
+
+            if (response.status === 201) {
+                toast.success("Review added");
+                router.push("/dashboard/projects");
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data.error);
+            }
+        }
     };
 
     return (

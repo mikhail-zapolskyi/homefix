@@ -105,6 +105,23 @@ export async function PUT(
             },
         });
 
+        // Set hiredTimes value for update when user approve service profile for work
+        let hiredTimes = 0;
+        if (!serviceProfile.hiredTimes) {
+            hiredTimes = 1;
+        } else {
+            hiredTimes = serviceProfile.hiredTimes + 1;
+        }
+
+        await prisma.serviceProfile.update({
+            where: {
+                id: serviceProfile.id,
+            },
+            data: {
+                hiredTimes,
+            },
+        });
+
         // Return the updated project as the response
         return NextResponse.json(updatedProject);
     } catch (error) {

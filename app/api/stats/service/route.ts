@@ -29,7 +29,7 @@ export async function GET() {
                 reviews: {
                     select: {
                         id: true,
-                        rating: true,
+                        overall_rating: true,
                     },
                 },
                 user: {
@@ -64,8 +64,12 @@ export async function GET() {
         };
 
         for (const obj of serviceProfile.reviews) {
-            if (obj.rating && obj.rating >= 1 && obj.rating <= 5) {
-                const index = obj.rating - 1;
+            if (
+                obj.overall_rating &&
+                obj.overall_rating >= 1 &&
+                obj.overall_rating <= 5
+            ) {
+                const index = obj.overall_rating - 1;
                 stats.ratings[index].value++;
                 stats.total_reviews++;
             }

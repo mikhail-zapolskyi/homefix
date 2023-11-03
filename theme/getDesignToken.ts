@@ -91,6 +91,12 @@ const getDesignToken = (mode: PaletteMode) => ({
                       dark: "#58B35E",
                       contrastText: "#fff",
                   },
+                  info: {
+                      main: "#ffd60a",
+                      light: "#ffe45e",
+                      dark: "#ffc300",
+                      contrastText: "#fff",
+                  },
               }
             : {
                   // palette values for dark mode
@@ -116,6 +122,12 @@ const getDesignToken = (mode: PaletteMode) => ({
                       main: "#7DCE82",
                       light: "#85C489",
                       dark: "#58B35E",
+                      contrastText: "#fff",
+                  },
+                  info: {
+                      main: "#ffd60a",
+                      light: "#ffe45e",
+                      dark: "#ffc300",
                       contrastText: "#fff",
                   },
               }),

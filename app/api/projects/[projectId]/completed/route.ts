@@ -58,7 +58,7 @@ export async function PUT(
                 AND: [
                     { id: projectId },
                     { approvedId: { has: serviceProfile.id } },
-                    { status: "INPROGRESS" },
+                    { status: "IN_PROGRESS" },
                 ],
             },
         });

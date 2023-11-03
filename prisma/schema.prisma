@@ -315,10 +315,10 @@ model Review {
   projectId        String           @db.ObjectId
 
   serviceProfileId String           @db.ObjectId
-  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  service          ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
   
   userId           String           @db.ObjectId
-  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {

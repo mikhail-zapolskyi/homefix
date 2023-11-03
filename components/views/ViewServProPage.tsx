@@ -1,15 +1,18 @@
 "use client";
-import React from "react";
+import React, { FC } from "react";
 import {
     Avatar,
     Divider,
     Grid,
+    LinearProgress,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
     Paper,
-    Rating,
     Stack,
     Typography,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 import { ProgressWithPercentage, SectionWithTitle } from "@/components";
 import WorkIcon from "@mui/icons-material/Work";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -19,55 +22,112 @@ import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import CheckIcon from "@mui/icons-material/Check";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import EditorView from "../editors/EditorView";
+import { ViewServiceProfileType } from "@/app/types";
+import { useDefineSkillLevel } from "@/hooks";
+import { useTheme } from "@mui/material/styles";
+import { Star } from "lucide-react";
+import useDefineColorByRating from "@/hooks/useDefineColorByRating";
+import moment from "moment";
 
-interface ViewServProPageProps {
-    data: Record<string, any>;
-}
+type Props = { data: ViewServiceProfileType };
 
-const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
+const ViewServProPage: FC<Props> = ({ ...props }) => {
+    const theme = useTheme();
+    const { data } = props;
+    const skillLevel = useDefineSkillLevel(data.experience || 0);
+    const color = useDefineColorByRating({ number: data.rating });
+
     return (
         <Stack
             spacing={6}
             sx={{ width: { md: "70%" }, py: { xs: "2rem" }, mx: "auto" }}
         >
-            <Stack direction="row" spacing={4}>
+            <Stack direction={{ xs: "column", md: "row" }} spacing={4}>
                 <Stack alignItems="center">
                     <Avatar
                         alt={`${data.name}`}
                         src={`${data.image}`}
                         variant="rounded"
                         sx={{
-                            width: { xs: 80, md: 150 },
-                            height: { xs: 80, md: 150 },
+                            width: { xs: 100, md: 150 },
+                            height: { xs: 100, md: 150 },
                         }}
                     />
                 </Stack>
-                <Stack direction="column" spacing={2}>
-                    <Typography
-                        variant="h1"
-                        sx={{ fontSize: { xs: "1.375rem", md: "1.625rem" } }}
+                <Stack direction="column" spacing={1} sx={{ width: "100%" }}>
+                    <Stack
+                        alignItems={{ xs: "center", md: "start" }}
+                        justifyContent={{ xs: "center", md: "start" }}
+                        direction="column"
+                        spacing={1}
                     >
-                        {data.name}
-                    </Typography>
-                    <Stack alignItems="center" direction="row" spacing={1}>
-                        <Rating
-                            name="text-feedback"
-                            value={data.rating}
-                            readOnly
-                            precision={0.1}
-                            size="small"
-                            emptyIcon={
-                                <StarIcon
-                                    style={{ opacity: 0.55 }}
-                                    fontSize="inherit"
-                                />
-                            }
-                        />
-                        <Typography variant="caption">
-                            {data.rating !== 0 ? data.rating : "Not rated"}
+                        <Typography
+                            variant="h1"
+                            sx={{
+                                fontSize: { xs: "1.375rem", md: "1.625rem" },
+                            }}
+                        >
+                            {data.name}
                         </Typography>
                     </Stack>
-                    <Typography variant="body2">Professional</Typography>
+                    <Stack direction="row" spacing={1}>
+                        <Stack
+                            alignItems="center"
+                            direction="row"
+                            spacing={1}
+                            sx={{ width: "100%" }}
+                        >
+                            <Stack
+                                alignItems="center"
+                                direction="row"
+                                spacing={1}
+                                sx={{ minWidth: "fit-content" }}
+                            >
+                                <Typography variant="caption">
+                                    Overall Rating
+                                </Typography>
+
+                                <Star
+                                    color={`${theme.palette.info.main}`}
+                                    fontSize="large"
+                                />
+                            </Stack>
+                            <Stack
+                                alignItems="center"
+                                direction="row"
+                                spacing={1}
+                                sx={{ width: "100%" }}
+                            >
+                                <LinearProgress
+                                    variant="determinate"
+                                    value={data.rating || 0}
+                                    color={color}
+                                    sx={{
+                                        width: { xs: "100%", md: "50%" },
+                                        height: "1rem",
+                                        borderRadius: "2rem",
+                                    }}
+                                    valueBuffer={100}
+                                />
+                                <Typography variant="caption">
+                                    {data.rating !== 0
+                                        ? `${data.rating}%`
+                                        : "Not rated"}
+                                </Typography>
+                            </Stack>
+                        </Stack>
+                    </Stack>
+                    <Stack
+                        alignItems="center"
+                        justifyContent={{ xs: "center", md: "start" }}
+                        direction="row"
+                        spacing={1}
+                        sx={{ width: "100%" }}
+                    >
+                        <Typography variant="caption">
+                            Skill Level: {skillLevel}
+                        </Typography>
+                    </Stack>
                 </Stack>
             </Stack>
             {data.introduction && (
@@ -154,64 +214,111 @@ const ViewServProPage: React.FC<ViewServProPageProps> = ({ data }) => {
                 </SectionWithTitle>
             )}
             <SectionWithTitle title="Reviews">
-                <Typography variant="body2">
-                    Customers rated this pro highly for work quality,
-                    professionalism, and responsiveness.
+                <Typography variant="body1">
+                    <strong>
+                        Customers rated this pro highly for work quality,
+                        professionalism, and responsiveness.
+                    </strong>
                 </Typography>
                 <ProgressWithPercentage
-                    number={data.rating}
+                    number={data.rating || 0}
                     array={data.reviews}
                 />
                 <Divider />
-                {data.reviews.map((review: Record<string, any>) => (
-                    <Paper
-                        elevation={2}
-                        sx={{ padding: "1rem", borderRadius: "1rem" }}
-                        key={review.id}
-                    >
-                        <Stack spacing={1} sx={{ width: "100%" }}>
-                            <Stack
-                                direction="row"
-                                spacing={1}
-                                alignItems="center"
-                            >
-                                <Avatar
-                                    sx={{ w: 6, h: 6 }}
-                                    src={review.user.image}
-                                />
-                                <Stack sx={{ p: 1 }}>
-                                    <Typography>{review.user.name}</Typography>
-                                    <Stack
-                                        direction="row"
-                                        spacing={1}
-                                        alignItems="center"
+                {data.reviews.map((review: Record<string, any>) => {
+                    const color = useDefineColorByRating({
+                        number: review.overall_rating,
+                    });
+                    return (
+                        <Paper
+                            elevation={2}
+                            sx={{ padding: "1rem", borderRadius: "1rem" }}
+                            key={review.id}
+                        >
+                            <Stack spacing={1} sx={{ width: "100%" }}>
+                                <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
+                                >
+                                    <List
+                                        disablePadding={true}
+                                        dense={true}
+                                        sx={{ width: "100%", height: "100%" }}
                                     >
-                                        <Rating
-                                            name="text-feedback"
-                                            value={review.rating}
-                                            readOnly
-                                            precision={0.1}
-                                            size="small"
-                                            emptyIcon={
-                                                <StarIcon
-                                                    style={{ opacity: 0.55 }}
-                                                    fontSize="inherit"
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar
+                                                    alt={review.user.name || ""}
+                                                    src={
+                                                        review.user.image || ""
+                                                    }
                                                 />
-                                            }
-                                        />
-                                        <Typography>
-                                            {review.rating} rating
-                                        </Typography>
-                                    </Stack>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={
+                                                    <Typography variant="caption">
+                                                        {review.user.name}
+                                                    </Typography>
+                                                }
+                                                secondary={moment(
+                                                    review.createdAt
+                                                ).format("LLL")}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <Stack
+                                                direction="row"
+                                                spacing={1}
+                                                sx={{ width: "100%" }}
+                                            >
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={1}
+                                                    alignItems="center"
+                                                >
+                                                    <Typography variant="body2">
+                                                        Rated
+                                                    </Typography>
+                                                </Stack>
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={1}
+                                                    alignItems="center"
+                                                    sx={{ width: "70%" }}
+                                                >
+                                                    <LinearProgress
+                                                        variant="determinate"
+                                                        value={
+                                                            review.overall_rating ||
+                                                            0
+                                                        }
+                                                        color={color}
+                                                        sx={{
+                                                            width: "100%",
+                                                            height: "0.6rem",
+                                                            borderRadius:
+                                                                "0.6rem",
+                                                        }}
+                                                        valueBuffer={100}
+                                                    />
+                                                    <Star
+                                                        color={`${theme.palette.info.main}`}
+                                                        fontSize="small"
+                                                    />
+                                                    <Typography variant="body2">
+                                                        {review.overall_rating}%
+                                                    </Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </ListItem>
+                                    </List>
                                 </Stack>
+                                <EditorView content={review.content} />
                             </Stack>
-                            <Typography variant="body2" sx={{ opacity: 0.55 }}>
-                                {review.createdAt}
-                            </Typography>
-                            <EditorView content={review.comment} />
-                        </Stack>
-                    </Paper>
-                ))}
+                        </Paper>
+                    );
+                })}
             </SectionWithTitle>
         </Stack>
     );

@@ -40,7 +40,7 @@ const Page = ({ params }: { params: { projectId: string } }) => {
             serviceProfileId={data.serviceProfileId}
             userId={data.userId}
             service={data.service}
-            intersted={data.interested}
+            interested={data.interested}
             approved={data.approved}
             user={data.user}
             mutate={() => mutate()}
