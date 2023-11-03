@@ -16,7 +16,7 @@ const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 const Page = () => {
     const router = useRouter();
     const { data, error, isLoading, mutate } = useSWR(
-        "/api/projects/projects",
+        "/api/projects",
         fetcher,
         {
             revalidateOnFocus: true,

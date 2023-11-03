@@ -45,13 +45,12 @@ const Page = ({ params }: { params: { serviceProfileId: string } }) => {
 
     const sendRequest = async () => {
         try {
-            const response = await axios.post("/api/projects/request", {
-                serviceProfileId,
+            const response = await axios.post("/api/projects/multi-request", {
                 ...output_request,
             });
 
             if (response.status === 200) {
-                toast.success("Quote request sent successfully");
+                toast.success("Quote requests sent successfully");
                 router.push("/dashboard/projects");
             }
         } catch (error) {
