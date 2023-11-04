@@ -7,6 +7,8 @@ interface Props {
     onClick?: () => void;
     bgColor?: string;
     border?: string;
+    padding?: string;
+    minHeight?: string;
 }
 
 const CustomDashboardCard: React.FC<Props> = ({
@@ -14,13 +16,15 @@ const CustomDashboardCard: React.FC<Props> = ({
     bgColor,
     onClick,
     border = "none",
+    padding = "1rem",
+    minHeight = "3rem",
 }) => {
     return (
         <Card
             sx={{
                 minWidth: 275,
-                minHeight: "3rem",
-                padding: "1rem",
+                minHeight: minHeight,
+                padding: padding,
                 borderRadius: "1rem",
                 position: "relative",
                 bgcolor: bgColor,

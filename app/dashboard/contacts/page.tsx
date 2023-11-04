@@ -4,6 +4,7 @@ import { DashContactCard, Loader } from "@/components";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
@@ -11,6 +12,7 @@ import useSWR from "swr";
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const page = () => {
+    const router = useRouter();
     const { data: session } = useSession();
     const { data, error, isLoading, mutate } = useSWR(
         "/api/contacts",
@@ -102,6 +104,15 @@ const page = () => {
                                 }
                                 onDelete={() =>
                                     handleDeleteContact(obj.id, obj.user[0].id)
+                                }
+                                onSendMessage={() =>
+                                    alert(" NEED END POINT FOR SENDING MESSAGE")
+                                }
+                                onSendProjectRequest={() =>
+                                    obj.user[0].serviceProfile &&
+                                    router.push(
+                                        `/projects/quote/${obj.user[0].serviceProfile.id}`
+                                    )
                                 }
                             />
                         </Grid>

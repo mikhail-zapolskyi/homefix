@@ -19,8 +19,8 @@ const StyledAuthBox = styled(Box)(({ theme }) => ({
 
 import React, { ReactNode } from "react";
 
-const AuthContainer = ({ children }: { children: ReactNode }) => {
+const ReviewContainer = ({ children }: { children: ReactNode }) => {
     return <StyledAuthBox>{children}</StyledAuthBox>;
 };
 
-export default AuthContainer;
+export default ReviewContainer;

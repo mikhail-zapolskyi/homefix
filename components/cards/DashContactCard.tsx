@@ -20,10 +20,18 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import moment from "moment";
-import { MoreVertical, UserMinus, UserPlus, UserX } from "lucide-react";
+import {
+    DraftingCompass,
+    MessageCircle,
+    MoreVertical,
+    UserMinus,
+    UserPlus,
+    UserX,
+} from "lucide-react";
 import { blue, green } from "@mui/material/colors";
 import { FullContactType } from "@/app/types";
-import { $Enums } from "@prisma/client";
+import { $Enums, ServiceProfile } from "@prisma/client";
+import useDefineColorByRating from "@/hooks/useDefineColorByRating";
 
 interface Props {
     currentUserId: string | null | undefined;
@@ -34,10 +42,12 @@ interface Props {
     contactDate: Date;
     request_status: $Enums.RequestStatus;
     sender: string;
-    serviceProfile: Record<string, any> | null;
+    serviceProfile: ServiceProfile | null;
     onAccept: () => void;
     onDecline: () => void;
     onDelete: () => void;
+    onSendMessage: () => void;
+    onSendProjectRequest: () => void;
 }
 
 const DashContactCard: FC<Props> = ({
@@ -52,6 +62,8 @@ const DashContactCard: FC<Props> = ({
     onAccept,
     onDecline,
     onDelete,
+    onSendMessage,
+    onSendProjectRequest,
 }) => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -62,6 +74,10 @@ const DashContactCard: FC<Props> = ({
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const ratingColor = useDefineColorByRating({
+        number: serviceProfile?.rating || 0,
+    });
 
     const color = {
         PENDING: blue[500],
@@ -118,9 +134,6 @@ const DashContactCard: FC<Props> = ({
                                                 handleClose();
                                                 onAccept();
                                             }}
-                                            sx={{
-                                                color: "success.dark",
-                                            }}
                                         >
                                             <ListItemIcon>
                                                 <UserPlus
@@ -139,7 +152,6 @@ const DashContactCard: FC<Props> = ({
                                             handleClose();
                                             onDecline();
                                         }}
-                                        sx={{ color: "warning.main" }}
                                     >
                                         <ListItemIcon>
                                             <UserX
@@ -152,20 +164,58 @@ const DashContactCard: FC<Props> = ({
                                     </MenuItem>
                                 )}
                                 {request_status === "ACCEPTED" && (
-                                    <MenuItem
-                                        onClick={() => {
-                                            handleClose();
-                                            onDelete();
-                                        }}
-                                        sx={{ color: "error.main" }}
-                                    >
-                                        <ListItemIcon>
-                                            <UserMinus
-                                                color={theme.palette.error.main}
-                                            />
-                                        </ListItemIcon>
-                                        Delete Contact
-                                    </MenuItem>
+                                    <>
+                                        {serviceProfile &&
+                                            serviceProfile.userId !==
+                                                currentUserId && (
+                                                <>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            handleClose();
+                                                            onSendMessage();
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <MessageCircle
+                                                                color={
+                                                                    theme
+                                                                        .palette
+                                                                        .primary
+                                                                        .main
+                                                                }
+                                                            />
+                                                        </ListItemIcon>
+                                                        Send Message
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            handleClose();
+                                                            onSendProjectRequest();
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <DraftingCompass />
+                                                        </ListItemIcon>
+                                                        Project Request
+                                                    </MenuItem>
+                                                </>
+                                            )}
+                                        <MenuItem
+                                            onClick={() => {
+                                                handleClose();
+                                                onDelete();
+                                            }}
+                                        >
+                                            <ListItemIcon>
+                                                <UserMinus
+                                                    color={
+                                                        theme.palette.error.main
+                                                    }
+                                                />
+                                            </ListItemIcon>
+                                            Delete Contact
+                                        </MenuItem>
+                                    </>
                                 )}
                             </Menu>
                         )}
@@ -178,8 +228,8 @@ const DashContactCard: FC<Props> = ({
                         <TableBody>
                             <TableRow>
                                 <TableCell component="th" scope="row">
-                                    <Typography variant="body1">
-                                        User Type:
+                                    <Typography variant="body2">
+                                        Type:
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="right">
@@ -191,7 +241,7 @@ const DashContactCard: FC<Props> = ({
 
                             <TableRow>
                                 <TableCell component="th" scope="row">
-                                    <Typography variant="body1">
+                                    <Typography variant="body2">
                                         Status:
                                     </Typography>
                                 </TableCell>
@@ -208,7 +258,7 @@ const DashContactCard: FC<Props> = ({
                                 <>
                                     <TableRow>
                                         <TableCell component="th" scope="row">
-                                            <Typography variant="body1">
+                                            <Typography variant="body2">
                                                 Business:
                                             </Typography>
                                         </TableCell>
@@ -225,8 +275,11 @@ const DashContactCard: FC<Props> = ({
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Typography variant="body2">
-                                                {serviceProfile.rating}
+                                            <Typography
+                                                variant="body2"
+                                                color={`${ratingColor}.main`}
+                                            >
+                                                {serviceProfile.rating}%
                                             </Typography>
                                         </TableCell>
                                     </TableRow>

@@ -96,3 +96,8 @@ export type ReviewCreationType = Omit<
     | "overall_rating"
     | "content"
 >;
+
+export type ReviewWithUserAndServiceProfile = Review & {
+    user: User;
+    service: ServiceProfile;
+};

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 
@@ -6,15 +6,17 @@ interface SectionWithTitleProps {
     title?: string;
     children?: React.ReactNode;
     variant?: "h1" | "h2" | "h3" | "h4";
+    maxWidth?: string;
 }
 
 const SectionWithTitle: React.FC<SectionWithTitleProps> = ({
     title,
     children,
     variant = "h2",
+    maxWidth = "inherite",
 }) => {
     return (
-        <Stack direction="column" spacing={2}>
+        <Stack direction="column" spacing={2} sx={{ maxWidth: maxWidth }}>
             {title && <Typography variant={variant}>{title}</Typography>}
             {children}
         </Stack>

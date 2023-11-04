@@ -255,6 +255,7 @@ model Project {
     categories       String[]
     specialties      String[]
     offers           ReverseOffer[]
+    reviews          Review[]
 
     interestedId     String[]            @db.ObjectId
     interested       ServiceProfile[]    @relation("interested", fields: [interestedId], references: [id])
@@ -267,6 +268,7 @@ model Project {
     
     userId           String           @db.ObjectId
     user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
 }
 
 enum ProjectStatus {
@@ -310,14 +312,16 @@ model Review {
   discounts        Int?
   innovation       Int?
   accountability   Int?
-  overall_rating   Int?     @default(0)
-  createdAt        DateTime?  @default(now())
-  projectId        String           @db.ObjectId
+  overall_rating   Int?            @default(0)
+  createdAt        DateTime?       @default(now())
 
-  serviceProfileId String           @db.ObjectId
+  projectId        String          @db.ObjectId
+  projects         Project         @relation(fields: [projectId], references: [id])
+
+  serviceProfileId String          @db.ObjectId
   service          ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
   
-  userId           String           @db.ObjectId
+  userId           String          @db.ObjectId
   user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

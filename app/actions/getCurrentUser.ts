@@ -24,6 +24,9 @@ export default async function getCurrentUser() {
             where: {
                 id: session.user.id,
             },
+            include: {
+                serviceProfile: true,
+            },
         });
 
         if (!currentUser) {

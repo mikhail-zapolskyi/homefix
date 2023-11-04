@@ -1,3 +1,51 @@
+import { NextRequest, NextResponse } from "next/server";
+import { calcualteAverage } from "@/utils";
+import prisma from "@/prisma/client";
+import { Review } from "@prisma/client";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import errorHandler from "@/lib/error/errorHandler";
+import _ from "lodash";
+
+export async function GET(req: NextRequest) {
+    try {
+        // GET CURRENT USER
+        const currentUser = await getCurrentUser();
+        // DEFINE QUERY FOR SEARCH
+        let query;
+
+        // VERIFY IF CURRENT USER EXIST
+        if (!currentUser) {
+            return NextResponse.json(
+                { error: "You are not authorized" },
+                { status: 401 }
+            );
+        }
+        // DEFINE QUERY BY TESTING IF ONLY USER PRESENT OR BOTH
+        if (currentUser && currentUser.serviceProfile) {
+            query = {
+                OR: [
+                    { userId: currentUser.id },
+                    { serviceProfileId: currentUser.serviceProfile.id },
+                ],
+            };
+        } else {
+            query = { userId: currentUser.id };
+        }
+
+        const reviews = await prisma.review.findMany({
+            where: query,
+            include: {
+                service: true,
+                user: true,
+            },
+        });
+
+        return NextResponse.json(reviews);
+    } catch (error) {
+        return errorHandler(error);
+    }
+}
+
 /**
  * This code defines a Next.js API route that handles the creation of reviews for service profiles. It uses Next.js authentication (likely with NextAuth.js) to ensure the user is authorized.
  *
@@ -10,15 +58,6 @@
  *
  * This code should be used as an API endpoint in a Next.js application to handle the submission of user reviews for service profiles.
  */
-
-import { NextRequest, NextResponse } from "next/server";
-import { calcualteAverage } from "@/utils";
-import prisma from "@/prisma/client";
-import { Review } from "@prisma/client";
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import errorHandler from "@/lib/error/errorHandler";
-import _ from "lodash";
-
 export async function POST(req: NextRequest) {
     try {
         const data: Review = await req.json();
