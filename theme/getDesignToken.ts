@@ -36,41 +36,104 @@
  * @module DesignToken
  */
 
-import { PaletteMode, Shadows } from "@mui/material";
+import {
+    PaletteColor,
+    PaletteMode,
+    Shadows,
+    SimplePaletteColorOptions,
+} from "@mui/material";
 import { Nunito, PT_Sans } from "next/font/google";
 import { Typography } from "@mui/material/styles/createTypography";
 
-export const nunito = Nunito({
-    weight: ["300", "400", "500", "700", "800", "900"],
-    subsets: ["latin"],
-    display: "swap",
-    fallback: ["Helvetica", "Arial", "sans-serif"],
-});
+const nunitoFontFamily = '"Nunito", sans-serif';
+const ptFontFamily = '"PT Sans", sans-serif';
 
-export const pt = PT_Sans({
-    weight: ["400", "700"],
-    subsets: ["latin"],
-    display: "swap",
-    fallback: ["Helvetica", "Arial", "sans-serif"],
-});
+declare module "@mui/material/styles" {
+    interface Palette {
+        star: PaletteColor;
+        exellent: PaletteColor;
+        very_good: PaletteColor;
+        good: PaletteColor;
+        fair: PaletteColor;
+        poor: PaletteColor;
+        bad: PaletteColor;
+    }
+
+    interface PaletteOptions {
+        star: SimplePaletteColorOptions;
+        exellent: SimplePaletteColorOptions;
+        very_good: SimplePaletteColorOptions;
+        good: SimplePaletteColorOptions;
+        fair: SimplePaletteColorOptions;
+        poor: SimplePaletteColorOptions;
+        bad: SimplePaletteColorOptions;
+    }
+}
 
 const getDesignToken = (mode: PaletteMode) => ({
     palette: {
+        primary: {
+            main: "#00A76F",
+            lighter: "#C8FAD6",
+            light: "#5BE49B",
+            dark: "#007867",
+            darker: "#004B50",
+            contrastText: "#FBFEF9",
+        },
+        secondary: {
+            main: "#8E33FF",
+            lighter: "#EFD6FF",
+            light: "#C684FF",
+            dark: "#5119B7",
+            darker: "#27097A",
+            contrastText: "#FBFEF9",
+        },
+        success: {
+            main: "#22C55E",
+            lighter: "#D3FCD2",
+            light: "#77ED8B",
+            dark: "#118D57",
+            darker: "#065E49",
+            contrastText: "#fff",
+        },
+        info: {
+            main: "#00B8D9",
+            lighter: "#CAFDF5",
+            light: "#61F3F3",
+            dark: "#006C9C",
+            darker: "#003768",
+            contrastText: "#fff",
+        },
+        warning: {
+            main: "#FFAB00",
+            lighter: "#FFF5CC",
+            light: "#FFD666",
+            dark: "#B76E00",
+            darker: "#7A4100",
+            contrastText: "#fff",
+        },
+        error: {
+            main: "#FF5630",
+            lighter: "#FFE9D5",
+            light: "#FFAC82",
+            dark: "#B71D18",
+            darker: "#7A0916",
+            contrastText: "#fff",
+        },
+        star: {
+            main: "#FAC30F",
+        },
+
+        exellent: { main: "#229B00" },
+        very_good: { main: "#62B500" },
+        good: { main: "#A5D742" },
+        fair: { main: "#FFDD00" },
+        poor: { main: "#FF5733" },
+        bad: { main: "#FF0000" },
+
         mode,
         ...(mode === "light"
             ? {
-                  primary: {
-                      main: "#009FFD",
-                      light: "#62C5FF",
-                      dark: "#01629A",
-                      contrastText: "#FBFEF9",
-                  },
-                  secondary: {
-                      main: "#837A75",
-                      light: "#BFB5AC",
-                      dark: "#4F4A46",
-                      contrastText: "#FBFEF9",
-                  },
                   text: {
                       primary: "#252627",
                       secondary: "#424242",
@@ -79,30 +142,8 @@ const getDesignToken = (mode: PaletteMode) => ({
                       default: "#FAFAFA",
                       paper: "#FAFAFA",
                   },
-                  warning: {
-                      main: "#FF6663",
-                      light: "#FF7977",
-                      dark: "#F34E4B",
-                      contrastText: "#fff",
-                  },
-                  success: {
-                      main: "#7DCE82",
-                      light: "#85C489",
-                      dark: "#58B35E",
-                      contrastText: "#fff",
-                  },
-                  info: {
-                      main: "#ffd60a",
-                      light: "#ffe45e",
-                      dark: "#ffc300",
-                      contrastText: "#fff",
-                  },
               }
             : {
-                  // palette values for dark mode
-                  primary: {
-                      main: "#dbf4ff",
-                  },
                   divider: "#004282",
                   text: {
                       primary: "#F8F8F8",
@@ -112,84 +153,66 @@ const getDesignToken = (mode: PaletteMode) => ({
                       default: "#272727",
                       paper: "#272727",
                   },
-                  warning: {
-                      main: "#FF6663",
-                      light: "#FF7977",
-                      dark: "#F34E4B",
-                      contrastText: "#fff",
-                  },
-                  success: {
-                      main: "#7DCE82",
-                      light: "#85C489",
-                      dark: "#58B35E",
-                      contrastText: "#fff",
-                  },
-                  info: {
-                      main: "#ffd60a",
-                      light: "#ffe45e",
-                      dark: "#ffc300",
-                      contrastText: "#fff",
-                  },
               }),
     },
     typography: {
-        fontFamily: [nunito.style.fontFamily, pt.style.fontFamily].join(","),
+        fontFamily: [nunitoFontFamily, ptFontFamily].join(","),
         h1: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 600,
             fontSize: "1.625rem",
         },
         h2: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 700,
             fontSize: "1.375rem",
         },
         h3: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 700,
             fontSize: "1.2rem",
         },
         h4: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 300,
         },
         h5: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 300,
         },
         h6: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 300,
         },
         subtitle1: {
-            fontFamily: pt.style.fontFamily,
+            fontFamily: ptFontFamily,
             fontWeight: 400,
         },
         subtitle2: {
-            fontFamily: pt.style.fontFamily,
+            fontFamily: ptFontFamily,
             fontWeight: 400,
         },
         body1: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontSize: "1rem",
             fontWeight: 400,
         },
         body2: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontSize: "0.8rem",
             fontWeight: 700,
         },
         button: {
-            fontFamily: nunito.style.fontFamily,
+            fontFamily: nunitoFontFamily,
             fontWeight: 700,
         },
         caption: {
-            fontFamily: pt.style.fontFamily,
+            fontFamily: ptFontFamily,
             fontSize: "1rem",
             fontWeight: 800,
         },
         overline: {
-            fontFamily: pt.style.fontFamily,
+            fontFamily: ptFontFamily,
             fontWeight: 400,
         },
     } as Typography,
