@@ -101,3 +101,7 @@ export type ReviewWithUserAndServiceProfile = Review & {
     user: User;
     service: ServiceProfile;
 };
+
+export type FulllUserType = User & {
+    location: Location[];
+};

@@ -28,6 +28,7 @@ export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
 export { default as SignUpCTACard } from "./cards/SignUpCTACard";
 export { default as DashProjectServiceCard } from "./cards/DashProjectServiceCard";
+export { default as WelcomeCard } from "./cards/WelcomeCard";
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";

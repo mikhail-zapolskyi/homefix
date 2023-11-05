@@ -1,11 +1,20 @@
+import { FulllUserType } from "@/app/types";
+import { Grid } from "@mui/material";
 import React from "react";
+import WelcomeCard from "../cards/WelcomeCard";
 
 interface Props {
-    data?: Record<string, any>;
+    data: FulllUserType;
 }
 
 const ViewUserDashboard: React.FC<Props> = ({ data }) => {
-    return <div>{data && JSON.stringify(data)}</div>;
+    return (
+        <Grid container spacing={1}>
+            <Grid container item xs={12}>
+                <WelcomeCard data={data} />
+            </Grid>
+        </Grid>
+    );
 };
 
 export default ViewUserDashboard;

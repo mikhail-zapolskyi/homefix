@@ -36,13 +36,7 @@
  * @module DesignToken
  */
 
-import {
-    PaletteColor,
-    PaletteMode,
-    Shadows,
-    SimplePaletteColorOptions,
-} from "@mui/material";
-import { Nunito, PT_Sans } from "next/font/google";
+import { PaletteMode, Shadows } from "@mui/material";
 import { Typography } from "@mui/material/styles/createTypography";
 
 const nunitoFontFamily = '"Nunito", sans-serif';
@@ -68,13 +62,23 @@ declare module "@mui/material/styles" {
         poor: SimplePaletteColorOptions;
         bad: SimplePaletteColorOptions;
     }
+
+    interface PaletteColor {
+        lighter?: string;
+        darker?: string;
+    }
+
+    interface SimplePaletteColorOptions {
+        lighter?: string;
+        darker?: string;
+    }
 }
 
 const getDesignToken = (mode: PaletteMode) => ({
     palette: {
         primary: {
             main: "#00A76F",
-            lighter: "#C8FAD6",
+            lighter: "#DEF1E3",
             light: "#5BE49B",
             dark: "#007867",
             darker: "#004B50",
@@ -158,13 +162,13 @@ const getDesignToken = (mode: PaletteMode) => ({
     typography: {
         fontFamily: [nunitoFontFamily, ptFontFamily].join(","),
         h1: {
-            fontFamily: nunitoFontFamily,
-            fontWeight: 600,
+            fontFamily: ptFontFamily,
+            fontWeight: 200,
             fontSize: "1.625rem",
         },
         h2: {
-            fontFamily: nunitoFontFamily,
-            fontWeight: 700,
+            fontFamily: ptFontFamily,
+            fontWeight: 600,
             fontSize: "1.375rem",
         },
         h3: {
@@ -186,6 +190,7 @@ const getDesignToken = (mode: PaletteMode) => ({
         },
         subtitle1: {
             fontFamily: ptFontFamily,
+            fontSize: "1.825rem",
             fontWeight: 400,
         },
         subtitle2: {
@@ -194,17 +199,16 @@ const getDesignToken = (mode: PaletteMode) => ({
         },
         body1: {
             fontFamily: nunitoFontFamily,
-            fontSize: "1rem",
-            fontWeight: 400,
+            fontSize: "1.1rem",
+            fontWeight: 500,
         },
         body2: {
             fontFamily: nunitoFontFamily,
-            fontSize: "0.8rem",
             fontWeight: 700,
         },
         button: {
             fontFamily: nunitoFontFamily,
-            fontWeight: 700,
+            fontWeight: 900,
         },
         caption: {
             fontFamily: ptFontFamily,
@@ -225,6 +229,15 @@ const getDesignToken = (mode: PaletteMode) => ({
         "0px 0.0625em 0.0625em rgba(0, 0, 0, 0.25), 0px 0.125em 0.5em rgba(0, 0, 0, 0.25), 0px 0px 0px 1px inset rgba(255, 255, 255, 0.1)",
         ...Array(19).fill("none"),
     ] as Shadows,
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                contained: {
+                    fontSize: "1rem",
+                },
+            },
+        },
+    },
 });
 
 export default getDesignToken;
