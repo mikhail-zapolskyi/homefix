@@ -235,6 +235,12 @@ const getDesignToken = (mode: PaletteMode) => ({
                 contained: {
                     fontSize: "1rem",
                 },
+                outlined: {
+                    fontSize: "1rem",
+                },
+                text: {
+                    fontSize: "1rem",
+                },
             },
         },
     },

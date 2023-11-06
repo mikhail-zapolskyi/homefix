@@ -4,6 +4,7 @@ import * as React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Drawer, List, IconButton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Loader, MenuOption } from "@/components";
 import { styled } from "@mui/material/styles";
 import {
@@ -43,6 +44,7 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
 }) => {
     const { data: session, status } = useSession();
     const { push } = useRouter();
+    const theme = useTheme();
 
     let url: string = "/api/messages/unread";
 
@@ -82,14 +84,20 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
             <List onClick={handleslideMenuClose}>
                 <MenuOption
                     text="Dashboard"
-                    icon={<LayoutDashboard />}
+                    icon={
+                        <LayoutDashboard
+                            color={`${theme.palette.primary.main}`}
+                        />
+                    }
+                    activePathname="/dashboard"
                     onClick={() => {
                         push("/dashboard");
                     }}
                 />
                 <MenuOption
-                    text="Profile"
-                    icon={<User2 />}
+                    text="User Profile"
+                    icon={<User2 color={`${theme.palette.primary.dark}`} />}
+                    activePathname="/dashboard/user-profile"
                     onClick={() => {
                         push("/dashboard/user-profile");
                     }}
@@ -98,14 +106,24 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                     <>
                         <MenuOption
                             text="Service Profile"
-                            icon={<Building2 />}
+                            icon={
+                                <Building2
+                                    color={`${theme.palette.secondary.main}`}
+                                />
+                            }
+                            activePathname="/dashboard/service-profile"
                             onClick={() => {
                                 push("/dashboard/service-profile");
                             }}
                         />
                         <MenuOption
                             text="Leads"
-                            icon={<Activity />}
+                            icon={
+                                <Activity
+                                    color={`${theme.palette.info.main}`}
+                                />
+                            }
+                            activePathname="/dashboard/leads"
                             onClick={() => {
                                 push("/dashboard/leads");
                             }}
@@ -114,36 +132,46 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                 )}
                 <MenuOption
                     text="Projects"
-                    icon={<DraftingCompass />}
+                    icon={
+                        <DraftingCompass
+                            color={`${theme.palette.secondary.dark}`}
+                        />
+                    }
+                    activePathname="/dashboard/projects"
                     onClick={() => {
                         push("/dashboard/projects");
                     }}
                 />
                 <MenuOption
                     text="Contacts"
-                    icon={<Users />}
+                    icon={<Users color={`${theme.palette.star.main}`} />}
+                    activePathname="/dashboard/contacts"
                     onClick={() => {
                         push("/dashboard/contacts");
                     }}
                 />
                 <MenuOption
                     text="Messages"
-                    icon={<Mails />}
+                    icon={<Mails color={`${theme.palette.warning.main}`} />}
                     totalMessages={data.total_unread_messages}
+                    activePathname="/dashboard/messages"
                     onClick={() => {
                         push("/dashboard/messages");
                     }}
                 />
                 <MenuOption
                     text="Reviews"
-                    icon={<MessagesSquare />}
+                    icon={
+                        <MessagesSquare color={`${theme.palette.info.light}`} />
+                    }
+                    activePathname="/dashboard/reviews"
                     onClick={() => {
                         push("/dashboard/reviews");
                     }}
                 />
                 <MenuOption
                     text="Main Page"
-                    icon={<DoorOpen />}
+                    icon={<DoorOpen color={`${theme.palette.error.dark}`} />}
                     onClick={() => {
                         push("/");
                     }}

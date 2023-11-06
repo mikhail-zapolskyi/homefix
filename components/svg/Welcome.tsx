@@ -5,7 +5,7 @@ type Props = {
     height?: string;
 };
 
-const Welcome: FC<Props> = ({ width = "auto", height = "auto" }) => {
+const Welcome: FC<Props> = ({ width = "1rem", height = "1rem" }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

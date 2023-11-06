@@ -3,7 +3,7 @@ import { Grid, Stack, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import React, { FC, ReactNode } from "react";
 import CustomButton from "../button/CustomButton";
-import Welcome from "@/assets/svg/Welcome";
+import { Welcome } from "@/components";
 
 const StyledGrid = styled(Grid)(({ theme, ...props }) => ({
     borderRadius: "1rem",
@@ -12,11 +12,10 @@ const StyledGrid = styled(Grid)(({ theme, ...props }) => ({
 }));
 
 type Props = {
-    data: FulllUserType;
+    user: FulllUserType;
 };
 
-const WelcomeCard: FC<Props> = ({ data }) => {
-    const theme = useTheme();
+const WelcomeCard: FC<Props> = ({ user }) => {
     return (
         <StyledGrid container item xs={12} md={8}>
             <Grid item xs={12} sm={6} p={{ xs: "1.8rem", md: "2.6rem" }}>
@@ -26,7 +25,7 @@ const WelcomeCard: FC<Props> = ({ data }) => {
                             Welcome back,
                         </Typography>
                         <Typography variant="h2" color="secondary.dark">
-                            {data.name}
+                            {user.name}
                         </Typography>
                     </Stack>
                     <Typography variant="body1">
@@ -47,8 +46,9 @@ const WelcomeCard: FC<Props> = ({ data }) => {
                 sm={6}
                 p={{ xs: "1.3rem", md: "2rem" }}
                 sx={{ display: { xs: "none", sm: "flex" } }}
+                justifyContent="end"
             >
-                <Welcome height="15rem" />
+                <Welcome width="15rem" height="15rem" />
             </Grid>
         </StyledGrid>
     );

@@ -29,6 +29,7 @@ export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
 export { default as SignUpCTACard } from "./cards/SignUpCTACard";
 export { default as DashProjectServiceCard } from "./cards/DashProjectServiceCard";
 export { default as WelcomeCard } from "./cards/WelcomeCard";
+export { default as StatsCard } from "./cards/StatsCard";
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";
@@ -91,3 +92,9 @@ export { default as ViewSignIn } from "./views/ViewSignIn";
 export { default as ViewFullProject } from "./views/ViewFullProject";
 export { default as ViewDashProject } from "./views/ViewDashProject";
 export { default as ViewDashLead } from "./views/ViewDashLead";
+
+// SVG
+export { default as Welcome } from "./svg/Welcome";
+
+// Charts
+export { default as BarCharts } from "./charts/BarCharts";

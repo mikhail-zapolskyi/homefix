@@ -104,4 +104,5 @@ export type ReviewWithUserAndServiceProfile = Review & {
 
 export type FulllUserType = User & {
     location: Location[];
+    projects: Project[];
 };
