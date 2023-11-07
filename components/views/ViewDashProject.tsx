@@ -80,45 +80,6 @@ const ViewDashProject: FC<Props> = ({ ...props }) => {
                         onAccept={() => handleAccept(props.id)}
                         onDelete={() => alert("connect end point to delete")}
                     />
-                    {props.service && !_.isEmpty(props.service) && (
-                        <SectionWithTitle title="Requests sent">
-                            {props.service.map((obj: ServiceProfile) => (
-                                <DashProjectServiceCard
-                                    key={obj.id}
-                                    name={obj.name}
-                                    onProceed={() =>
-                                        router.push(`/services/${obj.id}`)
-                                    }
-                                />
-                            ))}
-                        </SectionWithTitle>
-                    )}
-                    {props.interested && !_.isEmpty(props.interested) && (
-                        <SectionWithTitle title="Interested in project">
-                            {props.interested.map((obj: ServiceProfile) => (
-                                <DashProjectServiceCard
-                                    key={obj.id}
-                                    name={obj.name}
-                                    onProceed={() =>
-                                        router.push(`/services/${obj.id}`)
-                                    }
-                                    onApprove={() =>
-                                        handleApprove(obj.id, props.id)
-                                    }
-                                    onDecline={() =>
-                                        alert(
-                                            "Need to connect end point decline"
-                                        )
-                                    }
-                                    onSendMessage={() =>
-                                        alert(
-                                            "need to connect end point message"
-                                        )
-                                    }
-                                />
-                            ))}
-                        </SectionWithTitle>
-                    )}
                     {props.approved &&
                         !_.isEmpty(props.approved) &&
                         props.status === "ACCEPTED" && (
@@ -145,6 +106,51 @@ const ViewDashProject: FC<Props> = ({ ...props }) => {
                                 ))}
                             </SectionWithTitle>
                         )}
+                    {props.interested && !_.isEmpty(props.interested) && (
+                        <SectionWithTitle
+                            title="Interested in project"
+                            color="primary.main"
+                        >
+                            {props.interested.map((obj: ServiceProfile) => (
+                                <DashProjectServiceCard
+                                    key={obj.id}
+                                    name={obj.name}
+                                    onProceed={() =>
+                                        router.push(`/services/${obj.id}`)
+                                    }
+                                    onApprove={() =>
+                                        handleApprove(obj.id, props.id)
+                                    }
+                                    onDecline={() =>
+                                        alert(
+                                            "Need to connect end point decline"
+                                        )
+                                    }
+                                    onSendMessage={() =>
+                                        alert(
+                                            "need to connect end point message"
+                                        )
+                                    }
+                                />
+                            ))}
+                        </SectionWithTitle>
+                    )}
+                    {props.service && !_.isEmpty(props.service) && (
+                        <SectionWithTitle
+                            title="Requests sent"
+                            color="info.main"
+                        >
+                            {props.service.map((obj: ServiceProfile) => (
+                                <DashProjectServiceCard
+                                    key={obj.id}
+                                    name={obj.name}
+                                    onProceed={() =>
+                                        router.push(`/services/${obj.id}`)
+                                    }
+                                />
+                            ))}
+                        </SectionWithTitle>
+                    )}
                 </Stack>
             </Grid>
         </Grid>

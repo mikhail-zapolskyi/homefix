@@ -72,6 +72,7 @@ export { default as SlideMenu } from "./navigation/SlideMenu";
 // Progress
 export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";
 export { default as SingleProgressLine } from "./progress/SingleProgressLine";
+export { default as StatsProgress } from "./progress/StatsProgress";
 // Carousel
 export { default as CustomCarousel } from "./carousel/Carousel";
 export { default as CarouselPostItem } from "./carousel/items/CarouselPostItem";

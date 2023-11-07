@@ -74,6 +74,18 @@ declare module "@mui/material/styles" {
     }
 }
 
+declare module "@mui/material/LinearProgress" {
+    interface LinearProgressPropsColorOverrides {
+        star: true;
+        exellent: true;
+        very_good: true;
+        good: true;
+        fair: true;
+        poor: true;
+        bad: true;
+    }
+}
+
 const getDesignToken = (mode: PaletteMode) => ({
     palette: {
         primary: {
@@ -126,6 +138,7 @@ const getDesignToken = (mode: PaletteMode) => ({
         },
         star: {
             main: "#FAC30F",
+            dark: "#82612C",
         },
 
         exellent: { main: "#229B00" },

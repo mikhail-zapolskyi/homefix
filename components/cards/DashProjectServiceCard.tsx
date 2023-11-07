@@ -59,16 +59,6 @@ const DashProjectServiceCard: FC<Props> = ({
         setAnchorEl(null);
     };
 
-    const color = {
-        INITIATED: blue[600],
-        APPROVED: green[400],
-        INPROGRESS: orange[600],
-        COMPLETED: green[700],
-        INCOMPLETED: red[600],
-        ACCEPTED: purple[600],
-        REVIEWED: brown[500],
-    };
-
     return (
         <CustomDashboardCard
             bgColor={
@@ -139,7 +129,7 @@ const DashProjectServiceCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <CheckCircle
-                                                color={color["ACCEPTED"]}
+                                                color={`${theme.palette.primary.light}`}
                                             />
                                         </ListItemIcon>
                                         Approve Contractor
@@ -154,7 +144,7 @@ const DashProjectServiceCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <XCircle
-                                                color={`${theme.palette.warning.main}`}
+                                                color={`${theme.palette.error.main}`}
                                             />
                                         </ListItemIcon>
                                         Decline Contractor
@@ -169,7 +159,7 @@ const DashProjectServiceCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <MessageCircle
-                                                color={`${theme.palette.primary.main}`}
+                                                color={`${theme.palette.info.main}`}
                                             />
                                         </ListItemIcon>
                                         Send a Message
@@ -183,7 +173,9 @@ const DashProjectServiceCard: FC<Props> = ({
                                         }}
                                     >
                                         <ListItemIcon>
-                                            <Star color={color[status]} />
+                                            <Star
+                                                color={`${theme.palette.star.main}`}
+                                            />
                                         </ListItemIcon>
                                         Review Business
                                     </MenuItem>

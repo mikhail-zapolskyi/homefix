@@ -7,6 +7,7 @@ interface SectionWithTitleProps {
     children?: React.ReactNode;
     variant?: "h1" | "h2" | "h3" | "h4";
     maxWidth?: string;
+    color?: string;
 }
 
 const SectionWithTitle: React.FC<SectionWithTitleProps> = ({
@@ -14,10 +15,15 @@ const SectionWithTitle: React.FC<SectionWithTitleProps> = ({
     children,
     variant = "h2",
     maxWidth = "inherite",
+    color,
 }) => {
     return (
         <Stack direction="column" spacing={2} sx={{ maxWidth: maxWidth }}>
-            {title && <Typography variant={variant}>{title}</Typography>}
+            {title && (
+                <Typography variant={variant} color={color}>
+                    {title}
+                </Typography>
+            )}
             {children}
         </Stack>
     );

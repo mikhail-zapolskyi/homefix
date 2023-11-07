@@ -84,13 +84,13 @@ const DashProjectCard: FC<Props> = ({
     };
 
     const color = {
-        INITIATED: blue[600],
-        APPROVED: green[400],
-        IN_PROGRESS: orange[600],
-        COMPLETED: green[700],
-        INCOMPLETED: red[600],
-        ACCEPTED: purple[600],
-        REVIEWED: brown[500],
+        INITIATED: `${theme.palette.info.light}`,
+        APPROVED: `${theme.palette.primary.main}`,
+        IN_PROGRESS: `${theme.palette.fair.main}`,
+        COMPLETED: `${theme.palette.primary.dark}`,
+        INCOMPLETED: `${theme.palette.bad.main}`,
+        ACCEPTED: `${theme.palette.secondary.main}`,
+        REVIEWED: `${theme.palette.star.dark}`,
     };
 
     return (
@@ -161,7 +161,7 @@ const DashProjectCard: FC<Props> = ({
                                         Proceed to User Profile
                                     </MenuItem>
                                 )}
-                                {onInterest && status == "INITIATED" && (
+                                {onInterest && status === "INITIATED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onInterest();
@@ -176,7 +176,7 @@ const DashProjectCard: FC<Props> = ({
                                         Express Interest
                                     </MenuItem>
                                 )}
-                                {onInprogress && status == "APPROVED" && (
+                                {onInprogress && status === "APPROVED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onInprogress();
@@ -191,7 +191,7 @@ const DashProjectCard: FC<Props> = ({
                                         Project in Progress
                                     </MenuItem>
                                 )}
-                                {onComplete && status == "IN_PROGRESS" && (
+                                {onComplete && status === "IN_PROGRESS" && (
                                     <MenuItem
                                         onClick={() => {
                                             onComplete();
@@ -206,7 +206,7 @@ const DashProjectCard: FC<Props> = ({
                                         Complete Project
                                     </MenuItem>
                                 )}
-                                {onIncomplete && status == "IN_PROGRESS" && (
+                                {onIncomplete && status === "IN_PROGRESS" && (
                                     <MenuItem
                                         onClick={() => {
                                             onIncomplete();
@@ -224,7 +224,7 @@ const DashProjectCard: FC<Props> = ({
                                         Incomplete Project
                                     </MenuItem>
                                 )}
-                                {onAccept && status == "COMPLETED" && (
+                                {onAccept && status === "COMPLETED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onAccept();
@@ -245,15 +245,10 @@ const DashProjectCard: FC<Props> = ({
                                             onDelete();
                                             handleClose();
                                         }}
-                                        sx={{
-                                            color: "warning.main",
-                                        }}
                                     >
                                         <ListItemIcon>
                                             <Trash2
-                                                color={
-                                                    theme.palette.warning.main
-                                                }
+                                                color={theme.palette.error.main}
                                             />
                                         </ListItemIcon>
                                         Delete Project
@@ -268,7 +263,7 @@ const DashProjectCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <MessageCircle
-                                                color={`${theme.palette.primary.main}`}
+                                                color={`${theme.palette.info.main}`}
                                             />
                                         </ListItemIcon>
                                         Send a Message

@@ -6,7 +6,6 @@ interface Value {
 }
 
 const useDefineColorByRating = ({ number }: Value) => {
-    const theme = useTheme();
     return useMemo(() => {
         if (number) {
             if (number > 90) {

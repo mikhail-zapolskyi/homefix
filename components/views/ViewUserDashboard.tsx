@@ -1,16 +1,21 @@
 import { StatslUserType } from "@/app/types";
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import React from "react";
 import WelcomeCard from "../cards/WelcomeCard";
 import StatsCard from "../cards/StatsCard";
 import { useSession } from "next-auth/react";
+import {
+    CustomDashboardCard,
+    SectionWithTitle,
+    StatsProgress,
+} from "@/components";
 
 interface Props {
     data: StatslUserType;
 }
 const ViewUserDashboard: React.FC<Props> = ({ data }) => {
     const { data: session } = useSession();
-
+    console.log(data);
     return (
         <Grid container justifyContent="center">
             <Grid
@@ -53,6 +58,44 @@ const ViewUserDashboard: React.FC<Props> = ({ data }) => {
                             barColor="info"
                             data={data.reviewsStats.overYear}
                         />
+                    </Grid>
+                </Grid>
+                <Grid container item xs={12} spacing={2}>
+                    <Grid container item xs={12} md={8}>
+                        <CustomDashboardCard>
+                            <SectionWithTitle title="Projects Overview">
+                                <StatsProgress
+                                    title={`Projects Initiated`}
+                                    progress={data.initiated}
+                                    color="info"
+                                />
+                                <StatsProgress
+                                    title={`Projects Aproved`}
+                                    progress={data.approved}
+                                    color="fair"
+                                />
+                                <StatsProgress
+                                    title={`Projects In Progress`}
+                                    progress={data.in_progress}
+                                    color="warning"
+                                />
+                                <StatsProgress
+                                    title={`Projects Completed`}
+                                    progress={data.completed}
+                                    color="good"
+                                />
+                                <StatsProgress
+                                    title={`Projects Accepted`}
+                                    progress={data.accepted}
+                                    color="exellent"
+                                />
+                                <StatsProgress
+                                    title={`Projects Reviewd`}
+                                    progress={data.reviewed}
+                                    color="secondary"
+                                />
+                            </SectionWithTitle>
+                        </CustomDashboardCard>
                     </Grid>
                 </Grid>
             </Grid>

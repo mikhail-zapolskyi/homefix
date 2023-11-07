@@ -114,7 +114,7 @@ export type StatslUserType = {
     projectsStats: Stats;
     totalProjects: number;
     initiated: number;
-    aproved: number;
+    approved: number;
     in_progress: number;
     completed: number;
     accepted: number;

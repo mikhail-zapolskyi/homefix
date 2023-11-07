@@ -9,6 +9,7 @@ interface Props {
     border?: string;
     padding?: string;
     minHeight?: string;
+    width?: string;
 }
 
 const CustomDashboardCard: React.FC<Props> = ({
@@ -18,10 +19,12 @@ const CustomDashboardCard: React.FC<Props> = ({
     border = "none",
     padding = "1rem",
     minHeight = "3rem",
+    width = "inherit",
 }) => {
     return (
         <Card
             sx={{
+                width: width,
                 minWidth: 275,
                 minHeight: minHeight,
                 padding: padding,
