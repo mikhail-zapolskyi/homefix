@@ -48,7 +48,7 @@ const StatsCard: FC<Props> = ({
     };
 
     useEffect(() => {
-        if (!_.isNaN(number1) && number1 > 0) {
+        if (!_.isNaN(number1) && number1 >= 0) {
             setIsPositive(true);
         } else {
             setIsPositive(false);

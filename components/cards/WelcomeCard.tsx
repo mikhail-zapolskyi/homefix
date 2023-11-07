@@ -17,7 +17,7 @@ type Props = {
 const WelcomeCard: FC<Props> = ({ name }) => {
     return (
         <StyledGrid container item xs={12}>
-            <Grid item xs={12} sm={6} p={{ xs: "1.8rem", md: "2.6rem" }}>
+            <Grid item xs={12} sm={7} p={{ xs: "1.8rem", md: "2.6rem" }}>
                 <Stack justifyContent="center" spacing={3}>
                     <Stack>
                         <Typography variant="h1" color="secondary.dark">
@@ -28,8 +28,9 @@ const WelcomeCard: FC<Props> = ({ name }) => {
                         </Typography>
                     </Stack>
                     <Typography variant="body1">
-                        If you are going to use a passage of Lorem Ipsum, you
-                        need to be sure there isn't anything.
+                        Craft your project in a way that invites collaboration
+                        and empowers others to assist you in achieving your
+                        goals.
                     </Typography>
                     <CustomButton
                         text="Create Project"
@@ -42,7 +43,7 @@ const WelcomeCard: FC<Props> = ({ name }) => {
             </Grid>
             <Grid
                 item
-                sm={6}
+                sm={5}
                 p={{ xs: "1.3rem", md: "2rem" }}
                 sx={{ display: { xs: "none", sm: "flex" } }}
                 justifyContent="end"
