@@ -1,32 +1,44 @@
+// The StatsCard component is a React component used to display statistical data in a card-like format.
+// It is designed to show two main pieces of information: a title, and two numerical values, with the first
+// value represented as a percentage and an optional bar chart. It supports positive and negative trends using icons.
+
+// Props
+// title (string): The title to display at the top of the card.
+// number1 (number): The first numerical value, typically representing a percentage. It is displayed with an up or down arrow icon based on its positivity/negativity.
+// number2 (number): The second numerical value, which is displayed as-is.
+// barColor (optional, string): An optional string representing the color of the bar chart. It can be one of the following values: "primary," "secondary," "info," or "star." Default is "primary."
+// data (array of objects): An array of data objects used for rendering the bar chart. Each object should have a name and a value
+
+import React, { FC, useEffect, useState } from "react";
 import { Grid, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import React, { FC, useEffect, useState } from "react";
-import CustomDashboardCard from "./CustomDashboardCard";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import _ from "lodash";
 import { Bar, BarChart, Tooltip } from "recharts";
 
-type Props = {
+import CustomDashboardCard from "./CustomDashboardCard";
+
+// Define the Props interface for better type checking
+interface Props {
     title: string;
     number1: number;
     number2: number;
     barColor?: "primary" | "secondary" | "info" | "star";
-    data: Record<string, any>[];
-};
+    data: { name: string; value: number }[];
+}
 
-const CustomTooltip = ({
+// Create a separate CustomTooltip component
+const CustomTooltip: FC<{ active?: any; payload?: any }> = ({
     active,
     payload,
-}: {
-    active?: any;
-    payload?: any;
 }) => {
     if (active && payload && payload.length) {
         return (
-            <Typography className="label">{`${payload[0].payload.name} (${payload[0].value})`}</Typography>
+            <Typography className="label">
+                {`${payload[0].payload.name} (${payload[0].value})`}
+            </Typography>
         );
     }
-
     return null;
 };
 
@@ -40,20 +52,16 @@ const StatsCard: FC<Props> = ({
     const theme = useTheme();
     const [isPositive, setIsPositive] = useState<boolean>(false);
 
-    const color = {
-        primary: `${theme.palette.primary.light}`,
-        secondary: `${theme.palette.secondary.light}`,
-        info: `${theme.palette.info.light}`,
-        star: `${theme.palette.star.main}`,
-    };
-
     useEffect(() => {
-        if (!_.isNaN(number1) && number1 >= 0) {
-            setIsPositive(true);
-        } else {
-            setIsPositive(false);
-        }
+        setIsPositive(!_.isNaN(number1) && number1 >= 0);
     }, [number1]);
+
+    const color = {
+        primary: theme.palette.primary.light,
+        secondary: theme.palette.secondary.light,
+        info: theme.palette.info.light,
+        star: theme.palette.star.main,
+    };
 
     return (
         <CustomDashboardCard>
@@ -64,12 +72,12 @@ const StatsCard: FC<Props> = ({
                         {isPositive ? (
                             <TrendingUp
                                 size={40}
-                                color={`${theme.palette.primary.light}`}
+                                color={theme.palette.primary.light}
                             />
                         ) : (
                             <TrendingDown
                                 size={40}
-                                color={`${theme.palette.error.main}`}
+                                color={theme.palette.error.main}
                             />
                         )}
                         <Typography variant="body1">{number1}%</Typography>
