@@ -6,3 +6,4 @@ export { default as getLocations } from "./helpers/getLocations";
 export { default as sendEmail } from "./helpers/mailer";
 export { default as joinArrayWithDelimiter } from "./helpers/joinArrayWithDelimiter";
 export { default as buildQueryReviews } from "./helpers/buildQueryReviews";
+export { default as calculateYearToDataStats } from "./helpers/calculateYearToDataStats";

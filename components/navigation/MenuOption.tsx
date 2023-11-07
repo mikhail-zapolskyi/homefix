@@ -10,7 +10,7 @@ type Props = {
     icon?: React.ReactElement<SvgIconProps>;
     totalMessages?: number | null | undefined;
     onClick: () => void;
-    activePathname?: string;
+    activePathname?: boolean;
 };
 
 export const MenuOption: FC<Props> = ({
@@ -28,7 +28,7 @@ export const MenuOption: FC<Props> = ({
             onClick={onClick}
             sx={{
                 backgroundColor: `${
-                    activePathname === pathanme ? "primary.lighter" : "inherit"
+                    activePathname ? "primary.lighter" : "inherit"
                 }`,
             }}
         >

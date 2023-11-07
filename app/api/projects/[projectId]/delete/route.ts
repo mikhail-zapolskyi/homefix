@@ -41,7 +41,7 @@ export async function DELETE(
                 { status: 400 }
             );
         }
-        console.log(project.id);
+
         await prisma.$transaction([
             prisma.project.update({
                 where: {

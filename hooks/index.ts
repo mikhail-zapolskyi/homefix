@@ -5,4 +5,3 @@ export { default as useConversations } from "./useConversations";
 export { default as useValidateReviewFields } from "./useValidateReviewFields";
 export { default as useReviewCreteriaAverages } from "./useReviewCreteriaAverages";
 export { default as useDefineSkillLevel } from "./useDefineSkillLevel";
-export { default as ProjectsStats } from "./useProjectsStats";

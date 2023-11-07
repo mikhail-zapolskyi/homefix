@@ -1,4 +1,3 @@
-import { FulllUserType } from "@/app/types";
 import { Grid, Stack, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import React, { FC, ReactNode } from "react";
@@ -12,12 +11,12 @@ const StyledGrid = styled(Grid)(({ theme, ...props }) => ({
 }));
 
 type Props = {
-    user: FulllUserType;
+    name: string | null | undefined;
 };
 
-const WelcomeCard: FC<Props> = ({ user }) => {
+const WelcomeCard: FC<Props> = ({ name }) => {
     return (
-        <StyledGrid container item xs={12} md={8}>
+        <StyledGrid container item xs={12}>
             <Grid item xs={12} sm={6} p={{ xs: "1.8rem", md: "2.6rem" }}>
                 <Stack justifyContent="center" spacing={3}>
                     <Stack>
@@ -25,7 +24,7 @@ const WelcomeCard: FC<Props> = ({ user }) => {
                             Welcome back,
                         </Typography>
                         <Typography variant="h2" color="secondary.dark">
-                            {user.name}
+                            {name}
                         </Typography>
                     </Stack>
                     <Typography variant="body1">

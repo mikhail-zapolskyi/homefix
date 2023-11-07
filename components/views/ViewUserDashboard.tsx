@@ -1,57 +1,49 @@
-import { FulllUserType } from "@/app/types";
+import { StatslUserType } from "@/app/types";
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import WelcomeCard from "../cards/WelcomeCard";
 import StatsCard from "../cards/StatsCard";
-import useProjectsStats from "@/hooks/useProjectsStats";
-import { Project } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 interface Props {
-    data: FulllUserType;
+    data: StatslUserType;
 }
 const ViewUserDashboard: React.FC<Props> = ({ data }) => {
-    let projectsStats = useProjectsStats({ data: data.projects });
+    const { data: session } = useSession();
 
     return (
         <Grid container spacing={2}>
-            <Grid container item xs={12}>
-                <WelcomeCard user={data} />
+            <Grid container item xs={12} xl={6}>
+                <Grid container item xs={12} md={8}>
+                    <WelcomeCard name={session?.user.name} />
+                </Grid>
             </Grid>
             <Grid container item xs={12} spacing={2}>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={12} md={4}>
                     <StatsCard
                         title="Total Projects"
-                        number1={projectsStats.yearProjectComparison}
-                        number2={projectsStats.totalProjects}
+                        number1={data.projectsStats.yearToDate}
+                        number2={data.totalProjects}
                         barColor="primary"
-                        data={projectsStats.projectsOverYear}
+                        data={data.projectsStats.overYear}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={12} md={4}>
                     <StatsCard
-                        title="Total Initiated"
-                        number1={12}
-                        number2={projectsStats.initiated}
+                        title="Total Contacts"
+                        number1={data.contactsStats.yearToDate}
+                        number2={data.totalContacts}
                         barColor="secondary"
-                        data={[]}
+                        data={data.contactsStats.overYear}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={12} md={4}>
                     <StatsCard
-                        title="Total Completed"
-                        number1={-3}
-                        number2={projectsStats.completed}
+                        title="Total Reviews"
+                        number1={data.reviewsStats.yearToDate}
+                        number2={data.totalReviews}
                         barColor="info"
-                        data={[]}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
-                    <StatsCard
-                        title="Total Reviewed"
-                        number1={44.3}
-                        number2={projectsStats.reviewed}
-                        barColor="star"
-                        data={[]}
+                        data={data.reviewsStats.overYear}
                     />
                 </Grid>
             </Grid>

@@ -32,22 +32,9 @@ export async function GET() {
                         postalCode: true,
                     },
                 },
-                projects: {
-                    where: {
-                        OR: [
-                            { status: "INITIATED" },
-                            { status: "IN_PROGRESS" },
-                            { status: "COMPLETED" },
-                            { status: "REVIEWED" },
-                        ],
-                    },
-                    select: {
-                        status: true,
-                        createdAt: true,
-                    },
-                },
             },
         });
+
         return NextResponse.json(user);
     } catch (error) {
         return errorHandler(error);

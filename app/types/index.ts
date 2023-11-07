@@ -102,7 +102,25 @@ export type ReviewWithUserAndServiceProfile = Review & {
     service: ServiceProfile;
 };
 
-export type FulllUserType = User & {
-    location: Location[];
-    projects: Project[];
+type Stats = {
+    overYear: {
+        name: string;
+        value: number;
+    }[];
+    yearToDate: number;
+};
+
+export type StatslUserType = {
+    projectsStats: Stats;
+    totalProjects: number;
+    initiated: number;
+    aproved: number;
+    in_progress: number;
+    completed: number;
+    accepted: number;
+    reviewed: number;
+    contactsStats: Stats;
+    totalContacts: number;
+    reviewsStats: Stats;
+    totalReviews: number;
 };
