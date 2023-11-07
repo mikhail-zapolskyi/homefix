@@ -98,3 +98,6 @@ export { default as Welcome } from "./svg/Welcome";
 
 // Charts
 export { default as BarCharts } from "./charts/BarCharts";
+
+// Breadcrumbs
+export { default as ShowBreadcrumbs } from "./breadcrumbs/ShowBreadcrumbs";

@@ -1,14 +1,21 @@
 "use client";
 
-import { ViewEditLocation, ViewEditUserProfile } from "@/components";
+import {
+    SectionWithTitle,
+    ShowBreadcrumbs,
+    ViewEditLocation,
+    ViewEditUserProfile,
+} from "@/components";
 import { filterEmptyValues } from "@/utils/helpers/filterEmptyValues";
 import { Grid } from "@mui/material";
 import { User, Location } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
+
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { KeyedMutator } from "swr";
+import _ from "lodash";
 
 interface Props {
     userProfile?: User;
@@ -132,43 +139,59 @@ const ViewDashUserPro: React.FC<Props> = ({
 
     return (
         userProfileFormData && (
-            <Grid container rowSpacing={2}>
-                <Grid item xs={12}>
-                    <ViewEditUserProfile
-                        data={{
-                            name: userProfileFormData.name,
-                            email: userProfileFormData.email,
-                            password: "",
-                            image: userProfileFormData.image,
-                            phone: userProfileFormData.phone,
-                        }}
-                        updateCallback={handleSave}
-                        deleteCallback={handleDeleteData}
-                        imageUploadCallback={handleSaveProfileImage}
-                    />
-                </Grid>
-                {
+            <Grid container justifyContent="center">
+                <Grid
+                    container
+                    item
+                    xs={12}
+                    xl={6}
+                    justifyContent={{ xl: "center" }}
+                    spacing={2}
+                >
                     <Grid item xs={12}>
-                        <ViewEditLocation
-                            title="Personal Address"
+                        <SectionWithTitle title="Profile" />
+                        <ShowBreadcrumbs />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ViewEditUserProfile
                             data={{
-                                address:
-                                    locationFormData &&
-                                    locationFormData.address,
-                                city: locationFormData && locationFormData.city,
-                                state:
-                                    locationFormData && locationFormData.state,
-                                country:
-                                    locationFormData &&
-                                    locationFormData.country,
-                                postalCode:
-                                    locationFormData &&
-                                    locationFormData.postalCode,
+                                name: userProfileFormData.name,
+                                email: userProfileFormData.email,
+                                password: "",
+                                image: userProfileFormData.image,
+                                phone: userProfileFormData.phone,
                             }}
-                            updateCallback={handleLocationSave}
+                            updateCallback={handleSave}
+                            deleteCallback={handleDeleteData}
+                            imageUploadCallback={handleSaveProfileImage}
                         />
                     </Grid>
-                }
+                    {
+                        <Grid item xs={12}>
+                            <ViewEditLocation
+                                title="Personal Address"
+                                data={{
+                                    address:
+                                        locationFormData &&
+                                        locationFormData.address,
+                                    city:
+                                        locationFormData &&
+                                        locationFormData.city,
+                                    state:
+                                        locationFormData &&
+                                        locationFormData.state,
+                                    country:
+                                        locationFormData &&
+                                        locationFormData.country,
+                                    postalCode:
+                                        locationFormData &&
+                                        locationFormData.postalCode,
+                                }}
+                                updateCallback={handleLocationSave}
+                            />
+                        </Grid>
+                    }
+                </Grid>
             </Grid>
         )
     );

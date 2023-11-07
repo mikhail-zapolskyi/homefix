@@ -20,6 +20,7 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";
 import { toast } from "react-toastify";
 import { emptyObjectValues } from "@/utils/helpers/emptyObjectValues";
+import { Trash2 } from "lucide-react";
 
 interface ViewEditUserProfileProps {
     data?: Record<string, any>;
@@ -117,7 +118,7 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                                                     {capitalizeFirstLetter(key)}
                                                 </Typography>
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell align="right">
                                                 <Typography
                                                     variant="body2"
                                                     sx={{
@@ -128,21 +129,6 @@ const ViewEditUserProfile: React.FC<ViewEditUserProfileProps> = ({
                                                         ? value
                                                         : `Please add your ${key}`}
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {value && key !== "email" && (
-                                                    <CustomButton
-                                                        text="Delete"
-                                                        onClick={() =>
-                                                            handleDeleteCallback(
-                                                                key
-                                                            )
-                                                        }
-                                                        color="warning"
-                                                        variant="contained"
-                                                        padsize="none"
-                                                    />
-                                                )}
                                             </TableCell>
                                         </TableRow>
                                     )
