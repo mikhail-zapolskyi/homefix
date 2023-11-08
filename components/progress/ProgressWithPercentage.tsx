@@ -16,6 +16,7 @@ import { ReviewCreationType } from "@/app/types";
 import useDefineColorByRating from "@/hooks/useDefineColorByRating";
 import { Star, MessageCircle } from "lucide-react";
 import { useTheme } from "@mui/material/styles";
+import defineColorByRating from "@/utils/helpers/defineColorByRating";
 
 type Props = {
     number: number;
@@ -107,9 +108,7 @@ const ProgressWithPercentage: FC<Props> = ({ number, array }) => {
                     <Divider orientation="horizontal" flexItem />
                     {Object.entries(averages).map(([key, value]) => {
                         if (value !== null && typeof value === "number") {
-                            const color = useDefineColorByRating({
-                                number: value,
-                            });
+                            const color = defineColorByRating(value);
                             return (
                                 <Stack
                                     key={key}

@@ -11,7 +11,7 @@ import useSWR from "swr";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
-const page = () => {
+const Page = () => {
     const router = useRouter();
     const { data: session } = useSession();
     const { data, error, isLoading, mutate } = useSWR(
@@ -122,4 +122,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

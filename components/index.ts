@@ -14,7 +14,6 @@ export { default as DashConversationCard } from "./cards/DashConversationCard";
 export { default as DashProjectCard } from "./cards/DashProjectCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
-export { default as ListCard } from "./cards/ListCard";
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as PublishProfileEditCard } from "./cards/PublishProfileEditCard";
 export { default as ReviewListCard } from "./cards/ReviewListCard";

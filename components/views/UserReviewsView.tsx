@@ -1,15 +1,9 @@
 "use client";
 
-import { Grid, List, ListItem, ListItemText } from "@mui/material";
-import { Review, ServiceProfile, User } from "@prisma/client";
-import { FC, useEffect, useState } from "react";
-import { CustomDashboardCard } from "@/components";
-import SearchBar from "../inputs/SearchBar";
+import { Grid, ListItem, ListItemText } from "@mui/material";
+import { FC } from "react";
 import ReviewListCard from "../cards/ReviewListCard";
-import ReviewCard from "../cards/ReviewCard";
 import { ReviewWithUserAndServiceProfile } from "@/app/types";
-import ContactList from "../list/ContactList";
-import DashConversationCard from "../cards/DashConversationCard";
 import SectionWithTitle from "../container/SectionWithTitle";
 
 type Props = {

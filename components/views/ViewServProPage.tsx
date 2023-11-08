@@ -226,9 +226,6 @@ const ViewServProPage: FC<Props> = ({ ...props }) => {
                 />
                 <Divider />
                 {data.reviews.map((review: Record<string, any>) => {
-                    const color = useDefineColorByRating({
-                        number: review.overall_rating,
-                    });
                     return (
                         <Paper
                             elevation={2}

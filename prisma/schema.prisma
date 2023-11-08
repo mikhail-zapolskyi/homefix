@@ -335,7 +335,7 @@ model Post {
   comments  Comment[]
 
   serviceProfileId String          @db.ObjectId
-  service          ServiceProfile? @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
 model Like {
