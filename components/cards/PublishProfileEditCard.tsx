@@ -21,7 +21,7 @@ const PublishProfileEditCard: React.FC<PublishProfileEditCardProps> = ({
 
     useEffect(() => {
         setFormData({ ...formData, ...data });
-    }, [data, formData]);
+    }, [data]);
 
     const handleSave = () => {
         const newData = {

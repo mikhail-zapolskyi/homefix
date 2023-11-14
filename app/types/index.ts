@@ -124,3 +124,19 @@ export type StatslUserType = {
     reviewsStats: Stats;
     totalReviews: number;
 };
+
+type StatusKey =
+    | "ALL"
+    | "INITIATED"
+    | "APPROVED"
+    | "IN_PROGRESS"
+    | "COMPLETED"
+    | "INCOMPLETED"
+    | "ACCEPTED"
+    | "REVIEWED";
+
+export type StatusCount = {
+    [key in StatusKey]: number;
+};
+
+export type StatusCountsArray = Array<StatusCount>;

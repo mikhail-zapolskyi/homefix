@@ -3,22 +3,30 @@ import { usePathname } from "next/navigation";
 import _ from "lodash";
 
 const ShowBreadcrumbs = () => {
-    const breadcrumbs = usePathname().split("/");
+    const breadcrumbs = usePathname()
+        .split("/")
+        .filter((el) => el !== "");
 
     return (
         <Breadcrumbs>
             {breadcrumbs.map((obj, index, arr) => {
-                const lastItem = _.findLastIndex(arr);
-                return (
+                const path = `/${arr.slice(0, index + 1).join("/")}`;
+
+                return index !== arr.length - 1 ? (
                     <Link
                         key={obj}
-                        color="primary.dark"
-                        href={`${lastItem && "/" + obj}`}
+                        href={path}
+                        underline="none"
+                        variant="body2"
+                        color="primary.darker"
+                        sx={{ "&:hover": { color: "primary.main" } }}
                     >
-                        <Typography variant="body2">
-                            {_.capitalize(obj.replace("-", " "))}
-                        </Typography>
+                        {_.capitalize(obj.replace(/-/g, " "))}
                     </Link>
+                ) : (
+                    <Typography key={obj} variant="body2" color="grey">
+                        {_.capitalize(obj.replace(/-/g, " "))}
+                    </Typography>
                 );
             })}
         </Breadcrumbs>

@@ -32,6 +32,8 @@ export async function DELETE(
             },
             include: {
                 service: true,
+                interested: true,
+                approved: true,
             },
         });
 
@@ -50,6 +52,16 @@ export async function DELETE(
                 data: {
                     service: {
                         disconnect: project.service.map((obj) => ({
+                            id: obj.id,
+                        })),
+                    },
+                    interested: {
+                        disconnect: project.interested.map((obj) => ({
+                            id: obj.id,
+                        })),
+                    },
+                    approved: {
+                        disconnect: project.approved.map((obj) => ({
                             id: obj.id,
                         })),
                     },

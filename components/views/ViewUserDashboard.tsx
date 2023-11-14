@@ -22,7 +22,6 @@ const ViewUserDashboard: React.FC<Props> = ({ data }) => {
                 container
                 item
                 xs={12}
-                xl={6}
                 justifyContent={{ xl: "center" }}
                 spacing={2}
             >

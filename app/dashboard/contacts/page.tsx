@@ -1,6 +1,11 @@
 "use client";
 import { FullContactType } from "@/app/types";
-import { DashContactCard, Loader } from "@/components";
+import {
+    DashContactCard,
+    Loader,
+    SectionWithTitle,
+    ShowBreadcrumbs,
+} from "@/components";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -71,14 +76,24 @@ const Page = () => {
             toast.error(error.response.data.error);
         }
     };
-
+    console.log(data);
     return isLoading ? (
         <Loader />
     ) : (
         <Grid container justifyContent="center">
             <Grid container item xs={12} spacing={2}>
+                <Grid item xs={12}>
+                    <SectionWithTitle
+                        title={`${
+                            data.totalContacts === 0
+                                ? "There are 0 contacts"
+                                : data.totalContacts
+                        }`}
+                    />
+                    <ShowBreadcrumbs />
+                </Grid>
                 {data &&
-                    data.map((obj: FullContactType) => (
+                    data.contacts.map((obj: FullContactType) => (
                         <Grid item xs={12} md={6} lg={4} key={obj.id}>
                             <DashContactCard
                                 currentUserId={session?.user.id}

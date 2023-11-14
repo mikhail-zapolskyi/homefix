@@ -5,6 +5,8 @@ export { default as TextAnimation } from "./animation/TextAnimation";
 export { default as CustomButton } from "./button/CustomButton";
 export { default as GoogleSigninButton } from "./button/GoogleSigninButton";
 export { default as ImageUploadButton } from "./button/ImageUploadButton";
+export { default as IconButtonWithMenu } from "./button/IconButtonWithMenu";
+export { default as TotalButton } from "./button/TotalButton";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
@@ -101,3 +103,11 @@ export { default as BarCharts } from "./charts/BarCharts";
 
 // Breadcrumbs
 export { default as ShowBreadcrumbs } from "./breadcrumbs/ShowBreadcrumbs";
+
+// TABLES
+export { default as ProjectsTable } from "./tables/ProjectsTable";
+export { default as LeadsTable } from "./tables/LeadsTable";
+
+// Menu
+// Items
+export { default as ThemeMenuItem } from "./menu/items/ThemeMenuItem";

@@ -17,7 +17,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <PageContainer>
             {session && status === "authenticated" && (
-                <DashboardContainer>{children}</DashboardContainer>
+                <DashboardContainer maxWidth={"lg"}>
+                    {children}
+                </DashboardContainer>
             )}
         </PageContainer>
     );

@@ -26,52 +26,93 @@ export async function GET(req: NextRequest) {
             return NextResponse.json([]);
         }
 
-        const projects = await prisma.project.findMany({
-            where: {
-                OR: [
+        const query = {
+            OR: [
+                {
+                    serviceProfileId: {
+                        has: serviceProfile.id,
+                    },
+                },
+                {
+                    interestedId: {
+                        has: serviceProfile.id,
+                    },
+                },
+                {
+                    approvedId: {
+                        has: serviceProfile.id,
+                    },
+                },
+            ],
+        };
+
+        const transaction = await prisma.$transaction(async () => {
+            return {
+                projects: await prisma.project.findMany({
+                    where: query,
+                    include: {
+                        service: true,
+                        interested: true,
+                        approved: true,
+                        user: true,
+                    },
+                    orderBy: {
+                        createdAt: "desc",
+                    },
+                }),
+                count: [
+                    // GET TOTAL PROJECTS
                     {
-                        serviceProfileId: {
-                            has: serviceProfile.id,
-                        },
+                        ALL: await prisma.project.count({
+                            where: query,
+                        }),
+                    },
+                    // GET TOTAL INITIATED PROJECTS
+                    {
+                        INITIATED: await prisma.project.count({
+                            where: { ...query, status: "INITIATED" },
+                        }),
+                    },
+                    // GET TOTAL APPROVED PROJECTS
+                    {
+                        APPROVED: await prisma.project.count({
+                            where: { ...query, status: "APPROVED" },
+                        }),
+                    },
+                    // GET TOTAL IN PROGRESS PROJECTS
+                    {
+                        IN_PROGRESS: await prisma.project.count({
+                            where: { ...query, status: "IN_PROGRESS" },
+                        }),
+                    },
+                    // GET TOTAL COMLETED PROJECTS
+                    {
+                        COMPLETED: await prisma.project.count({
+                            where: { ...query, status: "COMPLETED" },
+                        }),
                     },
                     {
-                        interestedId: {
-                            has: serviceProfile.id,
-                        },
+                        INCOMPLETED: await prisma.project.count({
+                            where: { ...query, status: "INCOMPLETED" },
+                        }),
                     },
+                    // GET TOTAL ACCEPTED PROJECTS
                     {
-                        approvedId: {
-                            has: serviceProfile.id,
-                        },
+                        ACCEPTED: await prisma.project.count({
+                            where: { ...query, status: "ACCEPTED" },
+                        }),
+                    },
+                    // GET TOTAL REVIEWED PROJECTS
+                    {
+                        REVIEWED: await prisma.project.count({
+                            where: { ...query, status: "REVIEWED" },
+                        }),
                     },
                 ],
-            },
-            include: {
-                service: true,
-                interested: true,
-                approved: true,
-            },
-            orderBy: {
-                createdAt: "desc",
-            },
+            };
         });
 
-        const aggregatedProjects = _.map(
-            projects,
-            function (obj: FullProjectType) {
-                if (obj.interestedId.includes(serviceProfile.id)) {
-                    return { ...obj, interest: "INITIATED" };
-                }
-
-                if (obj.approvedId.includes(serviceProfile.id)) {
-                    return { ...obj, interest: "ACCEPTED" };
-                }
-
-                return { ...obj, interest: null };
-            }
-        );
-
-        return NextResponse.json(aggregatedProjects);
+        return NextResponse.json(transaction);
     } catch (error) {
         return errorHandler(error);
     }
