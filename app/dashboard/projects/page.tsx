@@ -1,7 +1,13 @@
 "use client";
 
 import { FullProjectType } from "@/app/types";
-import { CustomButton, DashProjectCard, SectionWithTitle } from "@/components";
+import {
+    CustomButton,
+    DashProjectCard,
+    SectionWithTitle,
+    ShowBreadcrumbs,
+    ProjectsTable,
+} from "@/components";
 import { Grid } from "@mui/material";
 import { Loader } from "@/components";
 import React from "react";
@@ -10,13 +16,14 @@ import useSWR from "swr";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
+import { Plus } from "lucide-react";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
 const Page = () => {
     const router = useRouter();
     const { data, error, isLoading, mutate } = useSWR(
-        "/api/projects/projects",
+        "/api/projects",
         fetcher,
         {
             revalidateOnFocus: true,
@@ -46,54 +53,64 @@ const Page = () => {
             }
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data.message);
+                toast.error(error.response?.data.error);
+            }
+        }
+    };
+
+    const handleBundleDelete = async (projectIds: string[]) => {
+        try {
+            const response = await axios.delete(`/api/projects/`, {
+                data: { projectIds },
+            });
+            if (response.status === 200) {
+                toast.success("Projects deleted");
+                mutate();
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data.error);
             }
         }
     };
 
     const renderCreateProjectButton = (
         <CustomButton
-            text="Create Project"
+            text="Create New Project"
             padsize="none"
-            variant="contained"
-            width="10rem"
-            onClick={() =>
-                console.log(
-                    "Need to create end point to create project and send to all realted services in the area of the user"
-                )
-            }
+            variant="outlined"
+            onClick={() => router.push("/projects/quote/multi-request")}
+            startIcon={<Plus />}
         />
     );
 
-    return !_.isEmpty(data) ? (
+    return (
         <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12}>
-                <SectionWithTitle title="Projects Board">
-                    {renderCreateProjectButton}
-                </SectionWithTitle>
-            </Grid>
             <Grid container item xs={12} spacing={2}>
-                {data.map((obj: FullProjectType) => (
-                    <Grid item xs={12} lg={6} key={obj.id}>
-                        <DashProjectCard
-                            title={obj.title}
-                            createdAt={obj.createdAt}
-                            budget={obj.budget}
-                            status={obj.status}
-                            interested={obj.interested}
-                            onProceedToProject={() => handleProceed(obj.id)}
-                            onDelete={() => handleDelete(obj.id)}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        </Grid>
-    ) : (
-        <Grid container>
-            <Grid item xs={12}>
-                <SectionWithTitle title="You currently lack any projects">
+                <Grid item xs={12} sm={8}>
+                    <SectionWithTitle title="Projects">
+                        <ShowBreadcrumbs />
+                    </SectionWithTitle>
+                </Grid>
+                <Grid
+                    container
+                    item
+                    xs={12}
+                    sm={4}
+                    justifyContent="end"
+                    alignItems="center"
+                >
                     {renderCreateProjectButton}
-                </SectionWithTitle>
+                </Grid>
+                <Grid item xs={12}>
+                    <ProjectsTable
+                        count={data.count}
+                        projects={data.projects}
+                        onProceedToProject={handleProceed}
+                        onDelete={handleDelete}
+                        onBundleDelete={handleBundleDelete}
+                    />
+                </Grid>
             </Grid>
         </Grid>
     );

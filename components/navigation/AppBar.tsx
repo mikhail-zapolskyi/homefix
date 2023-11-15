@@ -24,6 +24,7 @@ import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 // ICONS
 import { LogOut, LayoutDashboard, Settings } from "lucide-react";
+import { Button } from "@mui/material";
 
 const PrimaryAppBar = () => {
     const { data: session, status } = useSession();
@@ -117,7 +118,11 @@ const PrimaryAppBar = () => {
     const renderAuthButtons = (
         <Grid container columnSpacing={1}>
             <Grid item>
-                <CustomButton text="Sign In" onClick={() => signIn()} />
+                <CustomButton
+                    text="Sign In"
+                    onClick={() => signIn()}
+                    variant="contained"
+                />
             </Grid>
             <Grid item>
                 <CustomButton

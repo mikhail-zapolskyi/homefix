@@ -9,7 +9,7 @@ interface StyledButtonProps {
 }
 
 const StyledButton = styled(Button)<StyledButtonProps>(
-    ({ padsize, width }) => ({
+    ({ padsize, width, theme }) => ({
         ...(padsize === "small" && {
             minWidth: "5rem",
             padding: "0.2rem",
@@ -19,8 +19,6 @@ const StyledButton = styled(Button)<StyledButtonProps>(
         }),
         height: "fit-content",
         borderRadius: ".8rem",
-        fontSize: "1rem",
-        fontWeight: "500",
         textTransform: "inherit",
         backgroundBlendMode: "lighten",
     })

@@ -1,3 +1,51 @@
+import { NextRequest, NextResponse } from "next/server";
+import { calcualteAverage } from "@/utils";
+import prisma from "@/prisma/client";
+import { Review } from "@prisma/client";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import errorHandler from "@/lib/error/errorHandler";
+import _ from "lodash";
+
+export async function GET(req: NextRequest) {
+    try {
+        // GET CURRENT USER
+        const currentUser = await getCurrentUser();
+        // DEFINE QUERY FOR SEARCH
+        let query;
+
+        // VERIFY IF CURRENT USER EXIST
+        if (!currentUser) {
+            return NextResponse.json(
+                { error: "You are not authorized" },
+                { status: 401 }
+            );
+        }
+        // DEFINE QUERY BY TESTING IF ONLY USER PRESENT OR BOTH
+        if (currentUser && currentUser.serviceProfile) {
+            query = {
+                OR: [
+                    { userId: currentUser.id },
+                    { serviceProfileId: currentUser.serviceProfile.id },
+                ],
+            };
+        } else {
+            query = { userId: currentUser.id };
+        }
+
+        const reviews = await prisma.review.findMany({
+            where: query,
+            include: {
+                service: true,
+                user: true,
+            },
+        });
+
+        return NextResponse.json(reviews);
+    } catch (error) {
+        return errorHandler(error);
+    }
+}
+
 /**
  * This code defines a Next.js API route that handles the creation of reviews for service profiles. It uses Next.js authentication (likely with NextAuth.js) to ensure the user is authorized.
  *
@@ -10,74 +58,87 @@
  *
  * This code should be used as an API endpoint in a Next.js application to handle the submission of user reviews for service profiles.
  */
-
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { calcualteAverage } from "@/utils";
-import prisma from "@/prisma/client";
-
 export async function POST(req: NextRequest) {
-    const data = await req.json();
-    const session = await getServerSession(authOptions);
+    try {
+        const data: Review = await req.json();
+        const currentUser = await getCurrentUser();
 
-    // Check if a valid session exists
-    if (!session) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
+        // Check if a valid current user from session
+        if (!currentUser) {
+            return NextResponse.json(
+                { error: "You are not authorized" },
+                { status: 401 }
+            );
+        }
 
-    // Get the user from the session
-    const user = session.user;
-
-    // Check if the user exists
-    if (!user) {
-        return NextResponse.json(
-            { error: "You are not authorized" },
-            { status: 401 }
-        );
-    }
-
-    if (user.id == data.proId) {
-        NextResponse.json("Sorry you can not write a review for yourself!", {
-            status: 403,
+        // Get service profile
+        const serviceProfile = await prisma.serviceProfile.findFirst({
+            where: {
+                AND: [
+                    { id: data.serviceProfileId },
+                    { userId: currentUser.id },
+                ],
+            },
         });
-        return;
+
+        // Verify if this service is not associated with the user.
+        if (serviceProfile && serviceProfile.id === data.serviceProfileId) {
+            return NextResponse.json(
+                { error: "It is not allowed to assess your own work." },
+                { status: 403 }
+            );
+        }
+
+        // Verify if this review already has been completed
+        const isReviewed = await prisma.project.findFirst({
+            where: {
+                AND: [{ id: data.projectId }, { status: "REVIEWED" }],
+            },
+        });
+
+        // If Reviewed return message
+        if (isReviewed) {
+            return NextResponse.json(
+                { error: "Project was already reviewed" },
+                { status: 403 }
+            );
+        }
+
+        await prisma.review.create({
+            data: {
+                ...data,
+                userId: currentUser.id,
+            },
+        });
+
+        const project = await prisma.project.update({
+            where: {
+                id: data.projectId,
+            },
+            data: {
+                status: "REVIEWED",
+            },
+        });
+
+        // Get all overall_ratings
+        const serviceReviews = await prisma.review.findMany({
+            where: {
+                serviceProfileId: data.serviceProfileId,
+            },
+            select: { overall_rating: true },
+        });
+
+        // Update servicePorfile avarage rating
+        const ratings = _.map(serviceReviews, "overall_rating");
+        const average = Math.round(_.mean(ratings));
+
+        await prisma.serviceProfile.update({
+            where: { id: data.serviceProfileId },
+            data: { rating: average },
+        });
+
+        return NextResponse.json(project, { status: 201 });
+    } catch (error) {
+        errorHandler(error);
     }
-
-    data.userId = user.id;
-    const newData = {
-        userId: data.userId,
-        serviceProfileId: data.serviceId,
-        comment: data.comment,
-        rating: data.rating,
-    };
-
-    const reviews = await prisma.review.create({
-        data: newData,
-    });
-
-    // Update servicePorfile avarage rating
-    const serviceReviews = await prisma.review.findMany({
-        where: {
-            serviceProfileId: data.serviceId,
-        },
-        select: { rating: true },
-    });
-
-    const totalRating = serviceReviews.length;
-    const sumRatings = serviceReviews.reduce(
-        (sum, review) => sum + (review.rating || 0),
-        0
-    );
-    const averageRating = calcualteAverage(totalRating, sumRatings);
-
-    await prisma.serviceProfile.update({
-        where: { id: data.serviceId },
-        data: { rating: averageRating },
-    });
-
-    return NextResponse.json(reviews, { status: 201 });
 }

@@ -33,7 +33,7 @@ export const upload_image = async (
     try {
         const result = await cloudinary.uploader.upload(base64String, {
             folder: `homefix/${folder}`,
-            public_id: `homefix/${folder}/${id}`,
+            public_id: `${id}`,
             overwrite: true,
             use_filename: true,
             width: 200,

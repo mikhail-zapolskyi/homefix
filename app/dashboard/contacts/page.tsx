@@ -1,16 +1,23 @@
 "use client";
 import { FullContactType } from "@/app/types";
-import { DashContactCard, Loader } from "@/components";
+import {
+    DashContactCard,
+    Loader,
+    SectionWithTitle,
+    ShowBreadcrumbs,
+} from "@/components";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
-const page = () => {
+const Page = () => {
+    const router = useRouter();
     const { data: session } = useSession();
     const { data, error, isLoading, mutate } = useSWR(
         "/api/contacts",
@@ -69,14 +76,24 @@ const page = () => {
             toast.error(error.response.data.error);
         }
     };
-
+    console.log(data);
     return isLoading ? (
         <Loader />
     ) : (
         <Grid container justifyContent="center">
             <Grid container item xs={12} spacing={2}>
+                <Grid item xs={12}>
+                    <SectionWithTitle
+                        title={`${
+                            data.totalContacts === 0
+                                ? "There are 0 contacts"
+                                : data.totalContacts
+                        }`}
+                    />
+                    <ShowBreadcrumbs />
+                </Grid>
                 {data &&
-                    data.map((obj: FullContactType) => (
+                    data.contacts.map((obj: FullContactType) => (
                         <Grid item xs={12} md={6} lg={4} key={obj.id}>
                             <DashContactCard
                                 currentUserId={session?.user.id}
@@ -103,6 +120,15 @@ const page = () => {
                                 onDelete={() =>
                                     handleDeleteContact(obj.id, obj.user[0].id)
                                 }
+                                onSendMessage={() =>
+                                    alert(" NEED END POINT FOR SENDING MESSAGE")
+                                }
+                                onSendProjectRequest={() =>
+                                    obj.user[0].serviceProfile &&
+                                    router.push(
+                                        `/projects/quote/${obj.user[0].serviceProfile.id}`
+                                    )
+                                }
                             />
                         </Grid>
                     ))}
@@ -111,4 +137,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

@@ -15,7 +15,7 @@ const Page = () => {
     if (session?.user.type === "PRO" && status === "authenticated")
         url = "/api/stats/service";
     if (session?.user.type === "USER" && status === "authenticated")
-        url = "/api/users/single";
+        url = "/api/users/stats";
 
     const { data, error, isLoading, mutate } = useSWR(url, fetcher, {
         revalidateOnFocus: true,

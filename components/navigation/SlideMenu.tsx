@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Drawer, List, IconButton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Loader, MenuOption } from "@/components";
 import { styled } from "@mui/material/styles";
 import {
@@ -42,13 +43,76 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
     handleslideMenuClose,
 }) => {
     const { data: session, status } = useSession();
-    const { push } = useRouter();
-
     let url: string = "/api/messages/unread";
-
     const { data, error, isLoading } = useSWR(url, fetcher, {
         revalidateOnFocus: true,
     });
+
+    const { push } = useRouter();
+    const pathname = usePathname();
+    const theme = useTheme();
+
+    const iconColor: Record<string, any> = {
+        [pathname]: `${theme.palette.primary.main}`,
+    };
+
+    const menuItems = [
+        {
+            name: "Dashbord",
+            pathname: "/dashboard",
+            icon: <LayoutDashboard color={iconColor["/dashboard"]} />,
+            type: "USER",
+        },
+        {
+            name: "User Profile",
+            pathname: "/dashboard/user-profile",
+            icon: <User2 color={iconColor["/dashboard/user-profile"]} />,
+            type: "USER",
+        },
+        {
+            name: "Service Profile",
+            pathname: "/dashboard/service-profile",
+            icon: <Building2 color={iconColor["/dashboard/service-profile"]} />,
+            type: "PRO",
+        },
+        {
+            name: "Leads",
+            pathname: "/dashboard/leads",
+            icon: <Activity color={iconColor["/dashboard/leads"]} />,
+            type: "PRO",
+        },
+        {
+            name: "Projects",
+            pathname: "/dashboard/projects",
+            icon: <DraftingCompass color={iconColor["/dashboard/projects"]} />,
+            type: "USER",
+        },
+        {
+            name: "Contacts",
+            pathname: "/dashboard/contacts",
+            icon: <Users color={iconColor["/dashboard/contacts"]} />,
+            type: "USER",
+        },
+        {
+            name: "Messages",
+            pathname: "/dashboard/messages",
+            icon: <Mails color={iconColor["/dashboard/messages"]} />,
+            type: "USER",
+        },
+        {
+            name: "Reviews",
+            pathname: "/dashboard/reviews",
+            icon: <MessagesSquare color={iconColor["/dashboard/reviews"]} />,
+            type: "USER",
+        },
+        {
+            name: "Main Page",
+            pathname: "/",
+            icon: <DoorOpen />,
+            type: "USER",
+        },
+    ];
+
     if (error) {
         toast.error(error.message);
     }
@@ -80,74 +144,28 @@ const SlideMenu: React.FC<SlideMenuProps> = ({
                 </IconButton>
             </DrawerHeader>
             <List onClick={handleslideMenuClose}>
-                <MenuOption
-                    text="Dashboard"
-                    icon={<LayoutDashboard />}
-                    onClick={() => {
-                        push("/dashboard");
-                    }}
-                />
-                <MenuOption
-                    text="Profile"
-                    icon={<User2 />}
-                    onClick={() => {
-                        push("/dashboard/user-profile");
-                    }}
-                />
-                {session?.user.type === "PRO" && (
-                    <>
-                        <MenuOption
-                            text="Service Profile"
-                            icon={<Building2 />}
-                            onClick={() => {
-                                push("/dashboard/service-profile");
-                            }}
-                        />
-                        <MenuOption
-                            text="Leads"
-                            icon={<Activity />}
-                            onClick={() => {
-                                push("/dashboard/leads");
-                            }}
-                        />
-                    </>
-                )}
-                <MenuOption
-                    text="Projects"
-                    icon={<DraftingCompass />}
-                    onClick={() => {
-                        push("/dashboard/projects");
-                    }}
-                />
-                <MenuOption
-                    text="Contacts"
-                    icon={<Users />}
-                    onClick={() => {
-                        push("/dashboard/contacts");
-                    }}
-                />
-                <MenuOption
-                    text="Messages"
-                    icon={<Mails />}
-                    totalMessages={data.total_unread_messages}
-                    onClick={() => {
-                        push("/dashboard/messages");
-                    }}
-                />
-                <MenuOption
-                    text="Reviews"
-                    icon={<MessagesSquare />}
-                    onClick={() => {
-                        push("/dashboard/reviews");
-                    }}
-                />
-                <MenuOption
-                    text="Main Page"
-                    icon={<DoorOpen />}
-                    onClick={() => {
-                        push("/");
-                    }}
-                />
+                {menuItems.map((obj: Record<string, any>) => {
+                    // Check if the user's type is "PRO" or if the menu item type matches the user's type
+                    if (
+                        session?.user.type === "PRO" ||
+                        session?.user.type === obj.type
+                    ) {
+                        return (
+                            <MenuOption
+                                key={obj.name}
+                                text={obj.name}
+                                icon={obj.icon}
+                                activePathname={obj.pathname === pathname}
+                                onClick={() => {
+                                    push(obj.pathname);
+                                }}
+                            />
+                        );
+                    } else {
+                        // Return null for menu items that shouldn't be displayed
+                        return null;
+                    }
+                })}
             </List>
         </Drawer>
     );

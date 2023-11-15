@@ -1,6 +1,11 @@
 "use client";
 
-import { DashProjectCard, SectionWithTitle } from "@/components";
+import {
+    DashProjectCard,
+    LeadsTable,
+    SectionWithTitle,
+    ShowBreadcrumbs,
+} from "@/components";
 import { Grid } from "@mui/material";
 import { Loader } from "@/components";
 import React from "react";
@@ -10,6 +15,7 @@ import _ from "lodash";
 import { FullProjectType } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import axios, { AxiosError } from "axios";
 
 const fetcher = (url: URL) => fetch(url).then((r) => r.json());
 
@@ -35,30 +41,86 @@ const Page = () => {
         router.push(`/dashboard/leads/${projectId}`);
     };
 
-    return !_.isEmpty(data) ? (
+    const handleExpressInterest = async (projectId: string) => {
+        try {
+            const response = await axios.put(
+                `/api/projects/${projectId}/interest`
+            );
+
+            if (response.status === 200) {
+                toast.success("Your interest in the project has been sent");
+                mutate();
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data.error);
+            }
+        }
+    };
+
+    const handleInprogress = async (projectId: string) => {
+        try {
+            const response = await axios.put(
+                `/api/projects/${projectId}/inprogress`
+            );
+
+            if (response.status === 200) {
+                toast.success(
+                    "Great news! You're currently engaged in a project"
+                );
+                mutate();
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data.error);
+            }
+        }
+    };
+
+    const handleComplete = async (projectId: string) => {
+        try {
+            const response = await axios.put(
+                `/api/projects/${projectId}/completed`
+            );
+
+            if (response.status === 200) {
+                toast.success(
+                    `Great news! You're completed the project. 
+                    Now, please remember to request the client 
+                    to provide their feedback.`
+                );
+                mutate();
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data.error);
+            }
+        }
+    };
+
+    return (
         <Grid container justifyContent="center" spacing={2}>
             <Grid item xs={12}>
-                <SectionWithTitle title="Leads Board" />
+                <SectionWithTitle title="Leads">
+                    <ShowBreadcrumbs />
+                </SectionWithTitle>
             </Grid>
-            <Grid container item xs={12} spacing={2}>
-                {data.map((obj: FullProjectType) => (
-                    <Grid item xs={12} lg={6} key={obj.id}>
-                        <DashProjectCard
-                            title={obj.title}
-                            createdAt={obj.createdAt}
-                            budget={obj.budget}
-                            status={obj.status}
-                            onProceedToProject={() => handleProceed(obj.id)}
-                            interest={obj.interest}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        </Grid>
-    ) : (
-        <Grid container justifyContent="center">
             <Grid item xs={12}>
-                <SectionWithTitle title="You currently lack any leads" />
+                <LeadsTable
+                    count={data.count}
+                    projects={data.projects}
+                    onProceedToProject={handleProceed}
+                    onExpressInterest={handleExpressInterest}
+                    onInprogress={handleInprogress}
+                    onComplete={handleComplete}
+                    onProceedToUserProfile={() =>
+                        alert("NEED TO IMPLEMENT USER PROFILE")
+                    }
+                    onDelete={() => alert("NEED TO IMPLEMENT DELETE")}
+                    onBundleDelete={() =>
+                        alert("NEED TO IMPLEMENT BUNDLE DELETE")
+                    }
+                />
             </Grid>
         </Grid>
     );

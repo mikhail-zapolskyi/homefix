@@ -5,6 +5,8 @@ export { default as TextAnimation } from "./animation/TextAnimation";
 export { default as CustomButton } from "./button/CustomButton";
 export { default as GoogleSigninButton } from "./button/GoogleSigninButton";
 export { default as ImageUploadButton } from "./button/ImageUploadButton";
+export { default as IconButtonWithMenu } from "./button/IconButtonWithMenu";
+export { default as TotalButton } from "./button/TotalButton";
 
 // Cards
 export { default as AddReviewModal } from "./cards/AddReviewModal";
@@ -14,7 +16,6 @@ export { default as DashConversationCard } from "./cards/DashConversationCard";
 export { default as DashProjectCard } from "./cards/DashProjectCard";
 export { default as DetailsCard } from "./cards/DetailsCard";
 export { default as ImageUploadCard } from "./cards/ImageUploadCard";
-export { default as ListCard } from "./cards/ListCard";
 export { default as ProductHeroMainCard } from "./cards/ProductHeroMainCard";
 export { default as PublishProfileEditCard } from "./cards/PublishProfileEditCard";
 export { default as ReviewListCard } from "./cards/ReviewListCard";
@@ -28,12 +29,15 @@ export { default as ViewEditLocation } from "./cards/ViewEditLocation";
 export { default as ViewEditUserProfile } from "./cards/ViewEditUserProfile";
 export { default as SignUpCTACard } from "./cards/SignUpCTACard";
 export { default as DashProjectServiceCard } from "./cards/DashProjectServiceCard";
+export { default as WelcomeCard } from "./cards/WelcomeCard";
+export { default as StatsCard } from "./cards/StatsCard";
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";
 export { default as PageContainer } from "./container/PageContainer";
 export { default as SectionWithTitle } from "./container/SectionWithTitle";
 export { default as AuthContainer } from "./container/AuthContainer";
+export { default as ReviewContainer } from "./container/ReviewContainer";
 
 // Editor
 export { default as EditorField } from "./editors/EditorField";
@@ -52,6 +56,7 @@ export { default as DropDown } from "./inputs/DropDown";
 export { default as SearchBar } from "./inputs/SearchBar";
 export { default as SelectCreateField } from "./inputs/SelectCreateField";
 export { default as SelectField } from "./inputs/SelectField";
+export { default as SliderInput } from "./inputs/SliderInput";
 
 // Lists
 export { default as ContactList } from "./list/ContactList";
@@ -67,7 +72,8 @@ export { default as SlideMenu } from "./navigation/SlideMenu";
 
 // Progress
 export { default as ProgressWithPercentage } from "./progress/ProgressWithPercentage";
-
+export { default as SingleProgressLine } from "./progress/SingleProgressLine";
+export { default as StatsProgress } from "./progress/StatsProgress";
 // Carousel
 export { default as CustomCarousel } from "./carousel/Carousel";
 export { default as CarouselPostItem } from "./carousel/items/CarouselPostItem";
@@ -88,3 +94,20 @@ export { default as ViewSignIn } from "./views/ViewSignIn";
 export { default as ViewFullProject } from "./views/ViewFullProject";
 export { default as ViewDashProject } from "./views/ViewDashProject";
 export { default as ViewDashLead } from "./views/ViewDashLead";
+
+// SVG
+export { default as Welcome } from "./svg/Welcome";
+
+// Charts
+export { default as BarCharts } from "./charts/BarCharts";
+
+// Breadcrumbs
+export { default as ShowBreadcrumbs } from "./breadcrumbs/ShowBreadcrumbs";
+
+// TABLES
+export { default as ProjectsTable } from "./tables/ProjectsTable";
+export { default as LeadsTable } from "./tables/LeadsTable";
+
+// Menu
+// Items
+export { default as ThemeMenuItem } from "./menu/items/ThemeMenuItem";

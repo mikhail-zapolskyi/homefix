@@ -29,7 +29,7 @@ export async function GET() {
                 reviews: {
                     select: {
                         id: true,
-                        rating: true,
+                        overall_rating: true,
                     },
                 },
             },
@@ -43,9 +43,10 @@ export async function GET() {
                 { status: 404 }
             );
         }
-
+        console.log(serviceProfile);
         return NextResponse.json(serviceProfile);
     } catch (error) {
+        console.log(error);
         return errorHandler(error);
     }
 }

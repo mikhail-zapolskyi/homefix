@@ -167,7 +167,7 @@ model ServiceProfile {
   name            String?           @default("Service Name")
   email           String?           @default("service@profile.email")
   phone           String?           @default("000-000-0000")
-  rating          Float?            @default(0) @db.Double
+  rating          Int?              @default(0)
   introduction    String?           @default("Write your service introduction")
   experience      Int?              @default(0)
   bio             String?           @default("Write your own bio as specialist")
@@ -255,6 +255,7 @@ model Project {
     categories       String[]
     specialties      String[]
     offers           ReverseOffer[]
+    reviews          Review[]
 
     interestedId     String[]            @db.ObjectId
     interested       ServiceProfile[]    @relation("interested", fields: [interestedId], references: [id])
@@ -267,15 +268,17 @@ model Project {
     
     userId           String           @db.ObjectId
     user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
 }
 
 enum ProjectStatus {
     INITIATED
     APPROVED
-    INPROGRESS
+    IN_PROGRESS
     COMPLETED
     INCOMPLETED
     ACCEPTED
+    REVIEWED
 }
 
 model ReverseOffer {
@@ -291,10 +294,8 @@ model ReverseOffer {
 
 model Review {
   id               String     @id @default(auto()) @map("_id") @db.ObjectId
-  rating           Int?
-  comment          String?
   content          String?
-  service_quality  Int?
+  service_quality  Int?       
   punctuality      Int?
   communication    Int?
   consultations    Int?
@@ -307,20 +308,21 @@ model Review {
   emergency        Int?
   value_for_money  Int?
   reliability      Int?
-  safety           Int?
   transparency     Int?
   discounts        Int?
   innovation       Int?
   accountability   Int?
-  overall_rating   Float?     @default(0) @db.Double
-  createdAt        DateTime?  @default(now())
-  projectId        String           @db.ObjectId
+  overall_rating   Int?            @default(0)
+  createdAt        DateTime?       @default(now())
 
-  serviceProfileId String           @db.ObjectId
-  service          ServiceProfile?  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  projectId        String          @db.ObjectId
+  projects         Project         @relation(fields: [projectId], references: [id])
+
+  serviceProfileId String          @db.ObjectId
+  service          ServiceProfile  @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
   
-  userId           String           @db.ObjectId
-  user             User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String          @db.ObjectId
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -333,7 +335,7 @@ model Post {
   comments  Comment[]
 
   serviceProfileId String          @db.ObjectId
-  service          ServiceProfile? @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
+  service          ServiceProfile @relation(fields: [serviceProfileId], references: [id], onDelete: Cascade)
 }
 
 model Like {

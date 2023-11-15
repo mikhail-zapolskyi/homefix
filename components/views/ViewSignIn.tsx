@@ -129,14 +129,14 @@ const ViewSignIn = () => {
                 spacing={2}
             >
                 <Link href="signup" variant="body2" color="primary.dark">
-                    Don't have an account? Please Sign up.
+                    {`Don't have an account? Please Sign up.`}
                 </Link>
                 <Link
                     href="request-password-reset"
                     variant="body2"
                     color="primary.dark"
                 >
-                    Forgot password?
+                    {`Forgot password?`}
                 </Link>
             </Stack>
         </AuthContainer>

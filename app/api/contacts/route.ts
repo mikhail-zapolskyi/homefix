@@ -15,37 +15,52 @@ export async function GET() {
             );
         }
 
-        const contacts = await prisma.contact.findMany({
-            where: {
-                userId: {
-                    has: currentUser.id,
-                },
-            },
-            include: {
-                contactRequest: true,
-                user: {
+        const contacts = await prisma.$transaction(async () => {
+            return {
+                contacts: await prisma.contact.findMany({
                     where: {
-                        id: { not: currentUser.id },
+                        userId: {
+                            has: currentUser.id,
+                        },
                     },
                     include: {
-                        serviceProfile: true,
+                        contactRequest: true,
+                        user: {
+                            where: {
+                                id: { not: currentUser.id },
+                            },
+                            include: {
+                                serviceProfile: true,
+                            },
+                            orderBy: {
+                                name: "desc",
+                            },
+                        },
                     },
-                },
-            },
+                }),
+                totalContacts: await prisma.contact.count({
+                    where: {
+                        userId: {
+                            has: currentUser.id,
+                        },
+                    },
+                }),
+            };
         });
 
-        const aggregateContacts: FullContactType[] = contacts
-            .map((obj: FullContactType) => {
-                return obj;
-            })
-            .sort((contactA, contactB) => {
-                const userNameA = contactA.user[0].name!;
-                const userNameB = contactB.user[0].name!;
+        // const aggregateContacts: FullContactType[] = aggregate.contacts
+        //     .map((obj: FullContactType) => {
+        //         return obj;
+        //     })
+        //     .sort((contactA, contactB) => {
+        //         const userNameA = contactA.user[0].name!;
+        //         const userNameB = contactB.user[0].name!;
 
-                return userNameA.localeCompare(userNameB);
-            });
+        //         return userNameA.localeCompare(userNameB);
+        //     });
 
-        return NextResponse.json(aggregateContacts);
+        console.log(contacts);
+        return NextResponse.json(contacts);
     } catch (error) {
         errorHandler(error);
     }

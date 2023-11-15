@@ -30,7 +30,7 @@ export async function PUT(
         // Extract project and service profile IDs from the request body
         const { projectId } = params;
         const { serviceProfileId } = await req.json();
-        console.log(serviceProfileId);
+
         // Get the current user
         const currentUser = await getCurrentUser();
 
@@ -102,6 +102,23 @@ export async function PUT(
                 service: true,
                 interested: true,
                 approved: true,
+            },
+        });
+
+        // Set hiredTimes value for update when user approve service profile for work
+        let hiredTimes = 0;
+        if (!serviceProfile.hiredTimes) {
+            hiredTimes = 1;
+        } else {
+            hiredTimes = serviceProfile.hiredTimes + 1;
+        }
+
+        await prisma.serviceProfile.update({
+            where: {
+                id: serviceProfile.id,
+            },
+            data: {
+                hiredTimes,
             },
         });
 

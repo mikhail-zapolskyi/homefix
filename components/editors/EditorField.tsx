@@ -78,7 +78,7 @@ const EditorField: React.FC<Props> = ({ name, content, label, onChange }) => {
             // Unsubscribe from the editor's changes when the component unmounts
             editor.off("transaction", handleEditorChange);
         };
-    }, [editor, onChange]);
+    }, [editor, onChange, name]);
 
     const onClear = () => {
         if (!editor) {

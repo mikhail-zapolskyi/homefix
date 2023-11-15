@@ -44,7 +44,7 @@ export async function PUT(
                 id: projectId,
             },
             data: {
-                status: "INPROGRESS",
+                status: "IN_PROGRESS",
             },
             include: {
                 service: true,

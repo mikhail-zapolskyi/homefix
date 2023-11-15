@@ -11,32 +11,43 @@ import {
 import { useTheme } from "@mui/material/styles";
 import {
     MoreVertical,
-    Trash2,
-    ClipboardCheck,
     MessageCircle,
     CheckCircle,
-    CircleDotDashed,
     Building2,
     XCircle,
+    Star,
 } from "lucide-react";
-import { blue, green, orange, purple, red } from "@mui/material/colors";
+import {
+    blue,
+    brown,
+    green,
+    grey,
+    orange,
+    purple,
+    red,
+} from "@mui/material/colors";
+import { $Enums } from "@prisma/client";
 
 type Props = {
     name: string | null;
     rating?: number;
+    status?: $Enums.ProjectStatus;
     onProceed?: () => void;
     onApprove?: () => void;
     onDecline?: () => void;
     onSendMessage?: () => void;
+    onReview?: () => void;
 };
 
 const DashProjectServiceCard: FC<Props> = ({
     name,
     rating,
+    status,
     onProceed,
     onApprove,
     onDecline,
     onSendMessage,
+    onReview,
 }) => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -48,17 +59,15 @@ const DashProjectServiceCard: FC<Props> = ({
         setAnchorEl(null);
     };
 
-    const color = {
-        INITIATED: blue[600],
-        ACCEPTED: green[400],
-        INPROGRESS: orange[600],
-        COMPLETED: green[700],
-        INCOMPLETED: red[600],
-        APPROVED: purple[600],
-    };
-
     return (
-        <CustomDashboardCard>
+        <CustomDashboardCard
+            bgColor={
+                (status &&
+                    status === "ACCEPTED" &&
+                    theme.palette.success.main) ||
+                ""
+            }
+        >
             <CardHeader
                 subheader={name}
                 action={
@@ -111,7 +120,7 @@ const DashProjectServiceCard: FC<Props> = ({
                                         Proceed to Business Profile
                                     </MenuItem>
                                 )}
-                                {onApprove && (
+                                {onApprove && status !== "ACCEPTED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onApprove();
@@ -120,13 +129,13 @@ const DashProjectServiceCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <CheckCircle
-                                                color={color["ACCEPTED"]}
+                                                color={`${theme.palette.primary.light}`}
                                             />
                                         </ListItemIcon>
                                         Approve Contractor
                                     </MenuItem>
                                 )}
-                                {onDecline && (
+                                {onDecline && status !== "ACCEPTED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onDecline();
@@ -135,7 +144,7 @@ const DashProjectServiceCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <XCircle
-                                                color={`${theme.palette.warning.main}`}
+                                                color={`${theme.palette.error.main}`}
                                             />
                                         </ListItemIcon>
                                         Decline Contractor
@@ -150,10 +159,25 @@ const DashProjectServiceCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <MessageCircle
-                                                color={`${theme.palette.primary.main}`}
+                                                color={`${theme.palette.info.main}`}
                                             />
                                         </ListItemIcon>
                                         Send a Message
+                                    </MenuItem>
+                                )}
+                                {onReview && status === "ACCEPTED" && (
+                                    <MenuItem
+                                        onClick={() => {
+                                            onReview();
+                                            handleClose();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <Star
+                                                color={`${theme.palette.star.main}`}
+                                            />
+                                        </ListItemIcon>
+                                        Review Business
                                     </MenuItem>
                                 )}
                             </Menu>

@@ -28,7 +28,7 @@ import {
     DraftingCompass,
 } from "lucide-react";
 import moment from "moment";
-import { blue, green, orange, purple, red } from "@mui/material/colors";
+import { blue, brown, green, orange, purple, red } from "@mui/material/colors";
 import { $Enums, ServiceProfile, User } from "@prisma/client";
 
 type Props = {
@@ -84,12 +84,13 @@ const DashProjectCard: FC<Props> = ({
     };
 
     const color = {
-        INITIATED: blue[600],
-        APPROVED: green[400],
-        INPROGRESS: orange[600],
-        COMPLETED: green[700],
-        INCOMPLETED: red[600],
-        ACCEPTED: purple[600],
+        INITIATED: `${theme.palette.info.light}`,
+        APPROVED: `${theme.palette.primary.main}`,
+        IN_PROGRESS: `${theme.palette.fair.main}`,
+        COMPLETED: `${theme.palette.primary.dark}`,
+        INCOMPLETED: `${theme.palette.bad.main}`,
+        ACCEPTED: `${theme.palette.secondary.main}`,
+        REVIEWED: `${theme.palette.star.dark}`,
     };
 
     return (
@@ -160,7 +161,7 @@ const DashProjectCard: FC<Props> = ({
                                         Proceed to User Profile
                                     </MenuItem>
                                 )}
-                                {onInterest && status == "INITIATED" && (
+                                {onInterest && status === "INITIATED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onInterest();
@@ -175,7 +176,7 @@ const DashProjectCard: FC<Props> = ({
                                         Express Interest
                                     </MenuItem>
                                 )}
-                                {onInprogress && status == "APPROVED" && (
+                                {onInprogress && status === "APPROVED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onInprogress();
@@ -184,13 +185,13 @@ const DashProjectCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <CircleDotDashed
-                                                color={color["INPROGRESS"]}
+                                                color={color["IN_PROGRESS"]}
                                             />
                                         </ListItemIcon>
                                         Project in Progress
                                     </MenuItem>
                                 )}
-                                {onComplete && status == "INPROGRESS" && (
+                                {onComplete && status === "IN_PROGRESS" && (
                                     <MenuItem
                                         onClick={() => {
                                             onComplete();
@@ -205,7 +206,7 @@ const DashProjectCard: FC<Props> = ({
                                         Complete Project
                                     </MenuItem>
                                 )}
-                                {onIncomplete && status == "INPROGRESS" && (
+                                {onIncomplete && status === "IN_PROGRESS" && (
                                     <MenuItem
                                         onClick={() => {
                                             onIncomplete();
@@ -223,7 +224,7 @@ const DashProjectCard: FC<Props> = ({
                                         Incomplete Project
                                     </MenuItem>
                                 )}
-                                {onAccept && status == "COMPLETED" && (
+                                {onAccept && status === "COMPLETED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onAccept();
@@ -238,21 +239,16 @@ const DashProjectCard: FC<Props> = ({
                                         Accept Project Completion
                                     </MenuItem>
                                 )}
-                                {onDelete && (
+                                {onDelete && status !== "ACCEPTED" && (
                                     <MenuItem
                                         onClick={() => {
                                             onDelete();
                                             handleClose();
                                         }}
-                                        sx={{
-                                            color: "warning.main",
-                                        }}
                                     >
                                         <ListItemIcon>
                                             <Trash2
-                                                color={
-                                                    theme.palette.warning.main
-                                                }
+                                                color={theme.palette.error.main}
                                             />
                                         </ListItemIcon>
                                         Delete Project
@@ -267,7 +263,7 @@ const DashProjectCard: FC<Props> = ({
                                     >
                                         <ListItemIcon>
                                             <MessageCircle
-                                                color={`${theme.palette.primary.main}`}
+                                                color={`${theme.palette.info.main}`}
                                             />
                                         </ListItemIcon>
                                         Send a Message
@@ -283,18 +279,46 @@ const DashProjectCard: FC<Props> = ({
                 <TableContainer>
                     <Table aria-label="customized table">
                         <TableBody>
-                            <TableRow>
-                                <TableCell component="th" scope="row">
-                                    <Typography variant="body1">
-                                        Budget:
-                                    </Typography>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Typography variant="body2">
-                                        ${budget}
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
+                            {status !== "ACCEPTED" && (
+                                <>
+                                    <TableRow>
+                                        <TableCell component="th" scope="row">
+                                            <Typography variant="body1">
+                                                Budget:
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Typography variant="body2">
+                                                ${budget}
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                    {interest && (
+                                        <TableRow>
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                <Typography variant="body1">
+                                                    Interest:
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <Typography
+                                                    variant="body2"
+                                                    color={
+                                                        color[
+                                                            interest as keyof typeof color
+                                                        ]
+                                                    }
+                                                >
+                                                    {interest}
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </>
+                            )}
                             <TableRow>
                                 <TableCell component="th" scope="row">
                                     <Typography variant="body1">
@@ -310,27 +334,7 @@ const DashProjectCard: FC<Props> = ({
                                     </Typography>
                                 </TableCell>
                             </TableRow>
-                            {interest && (
-                                <TableRow>
-                                    <TableCell component="th" scope="row">
-                                        <Typography variant="body1">
-                                            Interest:
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Typography
-                                            variant="body2"
-                                            color={
-                                                color[
-                                                    interest as keyof typeof color
-                                                ]
-                                            }
-                                        >
-                                            {interest}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            )}
+
                             {interested && (
                                 <TableRow>
                                     <TableCell component="th" scope="row">
@@ -386,6 +390,17 @@ const DashProjectCard: FC<Props> = ({
                                             {user.name}
                                         </Typography>
                                     </TableCell>
+                                </TableRow>
+                            )}
+                            {status === "ACCEPTED" && (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        <Typography variant="body1">
+                                            Job has been successfully completed
+                                            and is now awaiting review.
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right"></TableCell>
                                 </TableRow>
                             )}
                         </TableBody>

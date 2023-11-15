@@ -5,30 +5,30 @@ import {
     Typography,
     Divider,
     Avatar,
-    Rating,
     Stack,
     ListItem,
     ListItemAvatar,
     ListItemText,
     List,
+    LinearProgress,
 } from "@mui/material";
-import { CustomButton, CustomDashboardCard, Loader } from "..";
-import determineFixerSkillLevel from "@/utils/helpers/determineFixerSkillLevel";
+import { CustomButton, CustomDashboardCard } from "..";
 import { useMediaQuery } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
-import EditorView from "../editors/EditorView";
-import StarIcon from "@mui/icons-material/Star";
 import useContactStatus from "@/hooks/useContactStatus";
-import { useAccountHolder } from "@/hooks";
+import { useAccountHolder, useDefineSkillLevel } from "@/hooks";
+import { Star } from "lucide-react";
+import useDefineColorByRating from "@/hooks/useDefineColorByRating";
+import { SearchServiceProfilesType } from "@/app/types";
 
-interface Props {
-    data?: Record<string, any>;
-    currentUser?: string | false | null | undefined;
-    serviceProfileUser?: string | false | null | undefined;
+type Props = {
+    data: SearchServiceProfilesType;
+    currentUser: string | false | null | undefined;
+    serviceProfileUser: string | false | null | undefined;
     onView?: () => void;
     onContactRequest?: () => void;
     onQuoteRequest?: () => void;
-}
+};
 
 const SearchedProfileCard: React.FC<Props> = ({
     data,
@@ -39,12 +39,15 @@ const SearchedProfileCard: React.FC<Props> = ({
     onQuoteRequest,
 }) => {
     const theme = useTheme();
+    const screenSm = useMediaQuery(theme.breakpoints.up("sm"));
     const screenMd = useMediaQuery(theme.breakpoints.up("md"));
     const contactStatus = useContactStatus({
         currentUser,
         serviceProfileUser: data?.user,
     });
     const accountHolder = useAccountHolder({ currentUser, serviceProfileUser });
+    const skillLevel = useDefineSkillLevel(data?.experience || 0);
+    const color = useDefineColorByRating({ number: data.rating });
 
     const renderArrayValues = (
         <Stack direction="row" flexWrap="wrap">
@@ -69,97 +72,106 @@ const SearchedProfileCard: React.FC<Props> = ({
         </Stack>
     );
 
-    const renderDataMobile = data && (
-        <Stack
-            divider={<Divider orientation="vertical" flexItem />}
-            spacing={2}
-            sx={{ width: "100%" }}
-        >
-            <Stack direction="row" spacing={1}>
-                <Avatar
-                    src={data.image}
-                    alt={data.name}
-                    sx={{
-                        height: 80,
-                        width: 80,
-                        borderRadius: "0.8rem",
-                        mr: 2,
-                    }}
-                    variant="square"
-                />
-                <Stack spacing={0.5}>
-                    <Typography variant="h6">{data.name}</Typography>
-                    <Typography variant="body2">
-                        Skill Level: {determineFixerSkillLevel(data.experience)}
-                    </Typography>
-                    <Stack direction="row" spacing={1}>
-                        <Rating
-                            defaultValue={data.rating}
-                            size="small"
-                            precision={0.1}
-                            readOnly
-                            emptyIcon={
-                                <StarIcon
-                                    style={{ opacity: 0.55 }}
-                                    fontSize="inherit"
-                                />
-                            }
-                        />
-                        <Typography variant="body2">{data.rating}</Typography>
-                    </Stack>
-                </Stack>
-            </Stack>
-        </Stack>
-    );
-
     const renderData = data && (
         <Stack direction="row" sx={{ width: "100%" }}>
-            <Avatar
-                src={data.image}
-                alt={data.name}
-                sx={{
-                    height: 150,
-                    width: 150,
-                    borderRadius: "0.8rem",
-                    mr: 2,
-                }}
-                variant="square"
-            />
-            <Stack spacing={1}>
-                <Stack spacing={1} direction="column">
-                    <Typography variant="h6">{data.name}</Typography>
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        divider={<Divider orientation="vertical" flexItem />}
-                    >
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                            <Rating
-                                defaultValue={data.rating}
-                                size="small"
-                                readOnly
-                            />
-                            <Typography variant="body1">
-                                {data.rating}
+            <List
+                disablePadding={true}
+                dense={true}
+                sx={{ width: "100%", height: "100%" }}
+            >
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar
+                            alt={data.name || ""}
+                            src={data.image || ""}
+                            variant="square"
+                            sx={{
+                                height: 80,
+                                width: 80,
+                                borderRadius: "0.8rem",
+                                mr: "1rem",
+                            }}
+                        />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={
+                            <Typography variant="caption">
+                                {data.name}
+                            </Typography>
+                        }
+                        secondary={
+                            <>
+                                <strong>Skill Level: {skillLevel}</strong> |{" "}
+                                <strong>Hired Times: {data.hiredTimes}</strong>
+                            </>
+                        }
+                    />
+                </ListItem>
+                <ListItem>
+                    <Stack direction="row" spacing={1} sx={{ width: "100%" }}>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Typography variant="body2">
+                                Overall Rating
                             </Typography>
                         </Stack>
-                        <Typography variant="body2">
-                            Skill Level:{" "}
-                            {determineFixerSkillLevel(data.experience)}
-                        </Typography>
 
+                        <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                            sx={{ width: "70%" }}
+                        >
+                            <LinearProgress
+                                variant="determinate"
+                                value={data.rating || 0}
+                                color={color}
+                                sx={{
+                                    width: "100%",
+                                    height: "0.6rem",
+                                    borderRadius: "0.6rem",
+                                }}
+                                valueBuffer={100}
+                            />
+                            <Star
+                                color={`${theme.palette.info.main}`}
+                                fontSize="small"
+                            />
+                            <Typography variant="body2">
+                                {data.rating}%
+                            </Typography>
+                        </Stack>
+                    </Stack>
+                </ListItem>
+                <ListItem>
+                    <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={1}
+                        alignItems="center"
+                    >
+                        {screenSm && (
+                            <Typography variant="body2">Serves:</Typography>
+                        )}
                         <Typography variant="body2">
-                            Hired Times: {data.hiredTimes}
+                            {data.location[0].city}, {data.location[0].state},
+                            {data.location[0].country}
                         </Typography>
                     </Stack>
-                    <Typography variant="body2">
-                        {data.location[0].city}, {data.location[0].state},{" "}
-                        {data.location[0].country}
-                    </Typography>
-                </Stack>
-                <Stack spacing={2}>{renderArrayValues}</Stack>
-            </Stack>
+                </ListItem>
+                <ListItem>
+                    <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={1}
+                        alignItems="center"
+                    >
+                        {screenSm && (
+                            <Typography variant="body2">
+                                Specialties:
+                            </Typography>
+                        )}
+                        <Stack spacing={2}>{renderArrayValues}</Stack>
+                    </Stack>
+                </ListItem>
+            </List>
         </Stack>
     );
 
@@ -172,7 +184,7 @@ const SearchedProfileCard: React.FC<Props> = ({
             {screenMd && (
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar alt="avatar" src={data.user.image} />
+                        <Avatar alt="avatar" src={data.user.image || ""} />
                     </ListItemAvatar>
                     <ListItemText primary={data.user.name} secondary="Owner" />
                 </ListItem>
@@ -235,8 +247,7 @@ const SearchedProfileCard: React.FC<Props> = ({
                             justifyContent: { md: "center" },
                         }}
                     >
-                        {!screenMd && renderDataMobile}
-                        {screenMd && renderData}
+                        {renderData}
                     </Grid>
                     <Grid
                         container
@@ -263,11 +274,6 @@ const SearchedProfileCard: React.FC<Props> = ({
                         </Grid>
                     </Grid>
                 </Grid>
-                {screenMd && (
-                    <Stack spacing={2}>
-                        <EditorView content={data.introduction.slice(0, 150)} />
-                    </Stack>
-                )}
             </CustomDashboardCard>
         )
     );

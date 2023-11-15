@@ -34,6 +34,7 @@ export async function GET() {
                 },
             },
         });
+
         return NextResponse.json(user);
     } catch (error) {
         return errorHandler(error);
