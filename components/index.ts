@@ -31,6 +31,7 @@ export { default as SignUpCTACard } from "./cards/SignUpCTACard";
 export { default as DashProjectServiceCard } from "./cards/DashProjectServiceCard";
 export { default as WelcomeCard } from "./cards/WelcomeCard";
 export { default as StatsCard } from "./cards/StatsCard";
+export { default as UserProfileBanner } from "./cards/UserProfileBanner"
 
 // Containers
 export { default as DashboardContainer } from "./container/DashboardContainer";
