@@ -83,7 +83,7 @@ const ViewDashLead: FC<Props> = ({ ...props }) => {
                         approved={props.approved}
                         user={props.user}
                         onProceedToUserProfile={() =>
-                            alert("Need To create Page for User Profile")
+                            router.push(`/users/${props.user.id}`)
                         }
                         onInterest={() => handleInterest(props.id)}
                         onInprogress={() => handleInprogress(props.id)}

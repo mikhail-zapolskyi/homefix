@@ -38,7 +38,7 @@ export type FullProjectType = Project & {
     interested?: ServiceProfile[];
     approved?: ServiceProfile[];
     interest?: string | null;
-    user?: User;
+    user: User;
 };
 
 export type FullPost = Post & {
@@ -53,6 +53,7 @@ export type FullContactType = Contact & {
     contactRequest: ContactRequest[];
     user: UserWithServiceProfileOrNull[];
 };
+
 
 type ReviewWithUser = Review & {
     user: User;
